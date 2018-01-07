@@ -1,7 +1,6 @@
 package org.usfirst.frc2783.robot;
 
 import org.usfirst.frc2783.loops.Looper;
-import org.usfirst.frc2783.subystems.SwerveDriveBase;
 
 import com.kauailabs.navx.frc.AHRS;
 
@@ -18,8 +17,6 @@ public class Robot extends IterativeRobot {
     public static Looper looper = new Looper();
     
     private static AHRS navSensor;
-    
-    public static SwerveDriveBase swerveBase = new SwerveDriveBase();
     
     public void robotInit() {
         oi = new OI();
