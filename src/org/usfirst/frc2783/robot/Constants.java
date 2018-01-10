@@ -6,6 +6,31 @@ package org.usfirst.frc2783.robot;
  *
  */
 public class Constants {
+	
+	public static final int AbuttonID = 1;
+	public static final int BbuttonID = 2;
+	public static final int XbuttonID = 3;
+	public static final int YbuttonID = 4;
+	public static final int LBbuttonID = 5;
+	public static final int RBbuttonID = 6;
+	public static final int BackButtonID = 7;
+	public static final int StartButtonID = 8;
+	
+	public static final int LeftJoyLeftRightID = 0;
+	public static final int LeftJoyUpDownID = 1;
+	public static final int RightJoyLeftRightID = 4;
+	public static final int RIghtJoyUpDownID = 5;
+	
+	public static final int LeftTriggerID = 2;
+	public static final int RightTriggerID = 3;
+	
+	
+	public static final int kLeftSide1ID = 0;
+	public static final int kLeftSide2ID = 1;
+	public static final int kRightSide1ID = 2;
+	public static final int kRightSide2ID = 3;
+	
+	public static final int driverID = 0;
 
 	public static final double kPeriod = 0.01; 
 
