@@ -2,7 +2,7 @@ package org.usfirst.frc2783.util;
 
 import org.usfirst.frc2783.robot.Constants;
 
-import edu.wpi.first.wpilibj.Utility;
+import edu.wpi.first.wpilibj.RobotController;
 
 /**
  * Abstract class which executes code when the abstract method event() returns true.
@@ -23,9 +23,9 @@ public abstract class EventLogger {
 	public abstract boolean event();
 	
 	public void handleEvent() {
-		if(event() && ((Utility.getFPGATime()-timeLast) > Constants.kEventDelay*1000000)) {
+		if(event() && ((RobotController.getFPGATime()-timeLast) > Constants.kEventDelay*1000000)) {
 			Logger.log(lvl, msg);
-			timeLast = Utility.getFPGATime();
+			timeLast = RobotController.getFPGATime();
 		}
 	}
 	

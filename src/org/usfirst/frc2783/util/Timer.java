@@ -1,6 +1,6 @@
 package org.usfirst.frc2783.util;
 
-import edu.wpi.first.wpilibj.Utility;
+import edu.wpi.first.wpilibj.RobotController;
 
 public class Timer {
 
@@ -15,12 +15,12 @@ public class Timer {
 	}
 	
 	public void start(){
-		startTime = Utility.getFPGATime();
+		startTime = RobotController.getFPGATime();
 		endTime = startTime + (1000000 * time);
 	}
 	
 	public boolean ring() {
-		return Utility.getFPGATime() >= endTime;
+		return RobotController.getFPGATime() >= endTime;
 	}
 	
 }

@@ -1,6 +1,6 @@
 package org.usfirst.frc2783.util;
 
-import edu.wpi.first.wpilibj.Utility;
+import edu.wpi.first.wpilibj.RobotController;
 
 public class Timestamp implements Comparable<Timestamp>{
 
@@ -11,7 +11,7 @@ public class Timestamp implements Comparable<Timestamp>{
 	}
 	
 	public static Timestamp setNewTime() {
-		return new Timestamp(Utility.getFPGATime()*10E-7);
+		return new Timestamp(RobotController.getFPGATime()*10E-7);
 	}
 	
 	public Double getTime() {
@@ -19,7 +19,7 @@ public class Timestamp implements Comparable<Timestamp>{
 	}
 	
 	public Double getAge() {
-		return Utility.getFPGATime()*10E-7 - t;
+		return RobotController.getFPGATime()*10E-7 - t;
 	}
 
 	@Override

@@ -9,8 +9,8 @@ import org.usfirst.frc2783.robot.Constants;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.Utility;
 
 /**
  * Singleton class for getting the angle read by the gyro sensor mounted on the roborio,
@@ -59,7 +59,7 @@ public class NavSensor {
 		history.put(Timestamp.setNewTime().getTime(), new Bearing(getAngle(false)));
 		ArrayList<Double> toRemove = new ArrayList<Double>();
 		for(Double t : history.keySet()) {
-			double age = Utility.getFPGATime()*10E-7 - t;
+			double age = RobotController.getFPGATime()*10E-7 - t;
 			if(age > Constants.kGyroMaxAge) {
 				toRemove.add(t);
 			}
