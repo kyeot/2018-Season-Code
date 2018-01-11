@@ -106,6 +106,16 @@ public class TankDriveBase extends Subsystem {
 		rightPIDCont.setSetpoint(rightAngle);
 		
 	}
+	
+	public void moveSideByDistance(double leftDistance, double rightDistance){
+		
+		currentLeftAng = leftSide1.getSelectedSensorPosition(0)/11.377777777778;
+		currentRightAng = rightSide1.getSelectedSensorPosition(0)/11.377777777778;
+		
+		leftDegrees = ((leftDistance/(Constants.wheelDiameterByInches*(Math.PI))/4096)/11.377777777778);
+		rightDegrees = ((rightDistance/(Constants.wheelDiameterByInches*(Math.PI))/4096)/11.377777777778);
+		
+		setSideAngle(currentLeftAng + leftDegrees, currentRightAng + rightDegrees);
 		
 	}
 
