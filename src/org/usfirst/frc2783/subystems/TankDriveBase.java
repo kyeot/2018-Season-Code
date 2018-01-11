@@ -2,7 +2,6 @@ package org.usfirst.frc2783.subystems;
 
 import org.usfirst.frc2783.commands.TankDrive;
 import org.usfirst.frc2783.robot.Constants;
-import org.usfirst.frc2783.robot.Robot;
 import org.usfirst.frc2783.util.MagEncoderSource;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -11,7 +10,6 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
-import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**

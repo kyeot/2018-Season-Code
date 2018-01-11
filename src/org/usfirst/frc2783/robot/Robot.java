@@ -17,8 +17,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
@@ -29,29 +28,32 @@ public class Robot extends IterativeRobot {
     
     public static Command autoCommand;
     
-    private static AHRS navSensor;
+    @SuppressWarnings("unused")
+	private static AHRS navSensor;
     
     public static TankDriveBase tankDriveBase = new TankDriveBase();
     
     public static String gameData;
     public static String autoSides;
     
-	public static NetworkTable smartDashTable;
+	@SuppressWarnings("rawtypes")
+	public static SendableChooser chooser;
     
-    public void robotInit() {
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public void robotInit() {
         oi = new OI();
         looper.startLoops();
         
-        String[] autonomousList = {
-        		"Left Side Scale Pref",
-				"Left Side Switch Pref",
-				"Right Side Scale Pref",
-				"Right Side Switch Pref",
-				"Scale From Middle",
-				"Switch From Middle",
-				"Double Power Up"};
+        chooser = new SendableChooser();
+        chooser.addObject("Left Side Scale Pref", new LeftSideScalePref());
+        chooser.addObject("Left Side Switch Pref", new LeftSideSwitchPref());
+        chooser.addObject("Right Side Scale Pref", new RightSideScalePref());
+        chooser.addObject("Right Side Switch Pref", new RightSideSwitchPref());
+        chooser.addObject("Scale From Middle", new MiddleScaleOnly());
+        chooser.addObject("Switch From Middle", new MiddleSwitchOnly());
+        chooser.addObject("Double Power Up", new MiddleDoublePower());
         
-        this.smartDashTable.putStringArray("Auto List", autonomousList);
+        SmartDashboard.putData("Autonomous Mode Chooser", chooser);
         
         gameData = DriverStation.getInstance().getGameSpecificMessage();
         
@@ -73,36 +75,38 @@ public class Robot extends IterativeRobot {
 
     public void autonomousInit() {
     	//Gets the autonomous selector value from the dashboard
-    	String autoSelected = SmartDashboard.getString("Auto Selector", "None");
+//    	String autoSelected = SmartDashboard.getString("Auto Selector", "None");
+    	
+    	autoCommand = (Command) chooser.getSelected();
     	
     	//Switches the autonomous mode based on the value from the SmartDashboard
-		switch(autoSelected) {
-			case "Left Side Scale Pref":
-				autoCommand = new LeftSideScalePref();
-				break;
-			case "Left Side Switch Pref":
-				autoCommand = new LeftSideSwitchPref();
-				break;
-			case "Right Side Scale Pref":
-				autoCommand = new RightSideScalePref();
-				break;
-			case "Right Side Switch Pref":
-				autoCommand = new RightSideSwitchPref();
-				break;
-			case "Scale From Middle":
-				autoCommand = new MiddleScaleOnly();
-				break;
-			case "Switch From Middle":
-				autoCommand = new MiddleSwitchOnly();
-				break;
-			case "Double Power Up":
-				autoCommand = new MiddleDoublePower();
-				break;
-			case "None":
-			default:
-				autoCommand = null;
-				break;
-		} 
+//		switch(autoSelected) {
+//			case "Left Side Scale Pref":
+//				autoCommand = new LeftSideScalePref();
+//				break;
+//			case "Left Side Switch Pref":
+//				autoCommand = new LeftSideSwitchPref();
+//				break;
+//			case "Right Side Scale Pref":
+//				autoCommand = new RightSideScalePref();
+//				break;
+//			case "Right Side Switch Pref":
+//				autoCommand = new RightSideSwitchPref();
+//				break;
+//			case "Scale From Middle":
+//				autoCommand = new MiddleScaleOnly();
+//				break;
+//			case "Switch From Middle":
+//				autoCommand = new MiddleSwitchOnly();
+//				break;
+//			case "Double Power Up":
+//				autoCommand = new MiddleDoublePower();
+//				break;
+//			case "None":
+//			default:
+//				autoCommand = null;
+//				break;
+//		} 
 		
     	if(autoCommand != null) {
     		autoCommand.start();
@@ -120,8 +124,7 @@ public class Robot extends IterativeRobot {
         Scheduler.getInstance().run();
     }
 
-    public void testPeriodic() {
-        LiveWindow.run();
+	public void testPeriodic() {
     }
     
     public static String parseMatchTime() {
