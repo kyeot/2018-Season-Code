@@ -12,7 +12,7 @@ public class LeftSideScalePref extends CommandGroup {
     public LeftSideScalePref() {
     	
     	switch (Robot.autoSides) {
-        case "LL":  
+        case "LL": 
         	//Code to place left switch, pick up crate, place left scale
              break;
         case "LR":  

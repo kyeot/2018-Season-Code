@@ -44,6 +44,7 @@ public class Robot extends IterativeRobot {
         oi = new OI();
         looper.startLoops();
         
+        //Instantiates the autonomous chooser and adds all of the autonomous Modes to it
         chooser = new SendableChooser();
         chooser.addObject("Left Side Scale Pref", new LeftSideScalePref());
         chooser.addObject("Left Side Switch Pref", new LeftSideSwitchPref());
@@ -53,10 +54,11 @@ public class Robot extends IterativeRobot {
         chooser.addObject("Switch From Middle", new MiddleSwitchOnly());
         chooser.addObject("Double Power Up", new MiddleDoublePower());
         
+        //Puts the autonomous modes selector into the dashboard
         SmartDashboard.putData("Autonomous Mode Chooser", chooser);
         
+        //Gets the Switch/Scale sides from the Driver Station and stores it as a variable
         gameData = DriverStation.getInstance().getGameSpecificMessage();
-        
         autoSides = gameData.substring(0, 1);
         
         try {
@@ -77,6 +79,7 @@ public class Robot extends IterativeRobot {
     	//Gets the autonomous selector value from the dashboard
 //    	String autoSelected = SmartDashboard.getString("Auto Selector", "None");
     	
+    	//Sets the autonomous Command to the one selected from Driver Station
     	autoCommand = (Command) chooser.getSelected();
     	
     	//Switches the autonomous mode based on the value from the SmartDashboard
@@ -108,6 +111,7 @@ public class Robot extends IterativeRobot {
 //				break;
 //		} 
 		
+    	//Makes it so the autonomous command does not run if it does not exist
     	if(autoCommand != null) {
     		autoCommand.start();
     	}

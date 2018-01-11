@@ -1,6 +1,6 @@
 package org.usfirst.frc2783.util;
 
-import org.usfirst.frc2783.subystems.TankDriveBase;
+import org.usfirst.frc2783.robot.Robot;
 
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
@@ -25,13 +25,14 @@ public class MagEncoderSource implements PIDSource {
 		
 	}
 
+	@SuppressWarnings("static-access")
 	@Override
 	public double pidGet() {
 		if(side == "left"){
-			return TankDriveBase.leftSide1.getSelectedSensorPosition(0)/11.37777777777778;
+			return Robot.tankDriveBase.leftSide1.getSelectedSensorPosition(0)/11.37777777777778;
 		}
 		else{
-			return TankDriveBase.rightSide1.getSelectedSensorPosition(0)/11.37777777777778;
+			return Robot.tankDriveBase.rightSide1.getSelectedSensorPosition(0)/11.37777777777778;
 		}
 			
 	}
