@@ -7,6 +7,14 @@ package org.usfirst.frc2783.robot;
  */
 public class Constants {
 	
+	public static final double kLeftTankP = 0.1;
+	public static final double kLeftTankI = 0;
+	public static final double kLeftTankD = 0;
+	
+	public static final double kRightTankP = 0.1;
+	public static final double kRightTankI = 0;
+	public static final double kRightTankD = 0;
+	
 	public static final int AbuttonID = 1;
 	public static final int BbuttonID = 2;
 	public static final int XbuttonID = 3;
@@ -24,6 +32,7 @@ public class Constants {
 	public static final int LeftTriggerID = 2;
 	public static final int RightTriggerID = 3;
 	
+	public static final double wheelDiameterByInches = 3;
 	
 	public static final int kLeftSide1ID = 0;
 	public static final int kLeftSide2ID = 1;

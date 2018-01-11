@@ -2,10 +2,16 @@ package org.usfirst.frc2783.subystems;
 
 import org.usfirst.frc2783.commands.TankDrive;
 import org.usfirst.frc2783.robot.Constants;
+import org.usfirst.frc2783.robot.Robot;
+import org.usfirst.frc2783.util.MagEncoderSource;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -13,13 +19,52 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class TankDriveBase extends Subsystem {
 	
+	PIDController leftPIDCont;
+	PIDController rightPIDCont;
+	PIDOutputClass leftPIDOut;
+	PIDOutputClass rightPIDOut;
+	
+	double leftEncVal;
+	double rightEncVal;
+	
+	double leftDegrees;
+	double rightDegrees;
+	
+	double currentLeftAng;
+	double currentRightAng;
+	
 	//Creates the motor controller objects
-	TalonSRX leftSide1;
-	TalonSRX leftSide2;
-	TalonSRX rightSide1;
-	TalonSRX rightSide2;
+	public static TalonSRX leftSide1;
+	public static TalonSRX leftSide2;
+	public static TalonSRX rightSide1;
+	public static TalonSRX rightSide2;
+	
+	MagEncoderSource leftMagEnc;
+	MagEncoderSource rightMagEnc;
+	
+//	SensorCollection leftSideMagEnc;
+//	SensorCollection rightSideMagEnc;
+	
+	public class PIDOutputClass implements PIDOutput {
+		private TalonSRX motor;
+		
+		public PIDOutputClass(TalonSRX motor) {
+			this.motor = motor;
+		}
+		
+		@Override
+		public void pidWrite(double output) {
+			motor.set(ControlMode.PercentOutput, output);
+		}
+	}
 	
 	public TankDriveBase(){
+		
+		leftMagEnc = new MagEncoderSource("left");
+		rightMagEnc = new MagEncoderSource("right");
+		
+		leftSide1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 0);
+		rightSide1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 0);
 		
 		//Instantiates the motor controllers with ID's
 		leftSide1 = new TalonSRX(Constants.kLeftSide1ID);
@@ -29,7 +74,38 @@ public class TankDriveBase extends Subsystem {
 		
 		//Sets the secondary controllers to follow the primary ones
 		leftSide2.follow(leftSide1);
-		rightSide2.follow(rightSide1);
+		rightSide2.follow(rightSide1);	
+		
+//		leftSideMagEnc = new SensorCollection(leftSide1);
+//		rightSideMagEnc = new SensorCollection(rightSide2);
+		
+		leftPIDOut = new PIDOutputClass(leftSide1);
+		rightPIDOut = new PIDOutputClass(rightSide1);
+		
+		leftPIDCont = new PIDController(
+							Constants.kLeftTankP, 
+							Constants.kLeftTankI, 
+							Constants.kLeftTankD,
+							leftMagEnc,
+							leftPIDOut);
+
+		leftPIDCont = new PIDController(
+							Constants.kRightTankP, 
+							Constants.kRightTankI, 
+							Constants.kRightTankD,
+							rightMagEnc,
+							rightPIDOut);
+		
+	}
+	
+	public void setSideAngle(double leftAngle, double rightAngle){
+		leftPIDCont.enable();
+		leftPIDCont.setSetpoint(leftAngle);
+			
+		rightPIDCont.enable();
+		rightPIDCont.setSetpoint(rightAngle);
+		
+	}
 		
 	}
 
