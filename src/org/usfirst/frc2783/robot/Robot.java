@@ -1,5 +1,7 @@
 package org.usfirst.frc2783.robot;
 
+import java.util.Random;
+
 import org.usfirst.frc2783.commands.autonomous.modes.LeftSideScalePref;
 import org.usfirst.frc2783.commands.autonomous.modes.LeftSideSwitchPref;
 import org.usfirst.frc2783.commands.autonomous.modes.MiddleDoublePower;
@@ -17,6 +19,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -26,9 +29,10 @@ public class Robot extends IterativeRobot {
     public static OI oi;
     public static Looper looper = new Looper();
     
+    public static Random rand = new Random();
+    
     public static Command autoCommand;
     
-    @SuppressWarnings("unused")
 	private static AHRS navSensor;
     
     public static TankDriveBase tankDriveBase = new TankDriveBase();
@@ -36,15 +40,18 @@ public class Robot extends IterativeRobot {
     public static String gameData;
     public static String autoSides;
     
-	@SuppressWarnings("rawtypes")
 	public static SendableChooser chooser;
     
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings("unchecked")
 	public void robotInit() {
         oi = new OI();
         looper.startLoops();
+
+//      gameData = DriverStation.getInstance().getGameSpecificMessage();
+        gameData = getPracticeData(true, null);
+        autoSides = gameData.substring(0, 1);
         
-        //Instantiates the autonomous chooser and adds all of the autonomous Modes to it
+//      Instantiates the autonomous chooser and adds all of the autonomous Modes to it
         chooser = new SendableChooser();
         chooser.addObject("Left Side Scale Pref", new LeftSideScalePref());
         chooser.addObject("Left Side Switch Pref", new LeftSideSwitchPref());
@@ -58,8 +65,6 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putData("Autonomous Mode Chooser", chooser);
         
         //Gets the Switch/Scale sides from the Driver Station and stores it as a variable
-        gameData = DriverStation.getInstance().getGameSpecificMessage();
-        autoSides = gameData.substring(0, 1);
         
         try {
 	         navSensor = new AHRS(SPI.Port.kMXP);
@@ -126,11 +131,54 @@ public class Robot extends IterativeRobot {
 
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
+        System.out.println(gameData);
     }
 
 	public void testPeriodic() {
+		LiveWindow.run();
     }
-    
+	
+	public static String getPracticeData(boolean random, String testValue) {
+		
+		if(random){
+			String closeString;
+			String scaleString;
+			String farString;
+		
+			int close = rand.nextInt(2) + 1;
+			int scale = rand.nextInt(2) + 1;
+			int far = rand.nextInt(2) + 1;
+		
+			if(close == 1){
+				closeString = "L";
+			}
+			else{
+				closeString = "R";
+			}
+		
+			if(scale == 1){
+				scaleString = "L";
+			}
+			else{
+				scaleString = "R";
+			}
+		
+			if(far == 1){
+				farString = "L";
+			}
+			else{
+				farString = "R";
+			}
+		
+			return closeString + scaleString + farString;
+		}
+		
+		else{
+			return testValue;
+		}
+		
+	}
+	
     public static String parseMatchTime() {
     	double s = DriverStation.getInstance().getMatchTime();
     	

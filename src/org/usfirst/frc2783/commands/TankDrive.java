@@ -27,8 +27,8 @@ public class TankDrive extends Command {
     protected void execute() {
     	
     	//Sets variables to equal inputs from the controller
-    	lMot = OI.driver.getRawAxis(Constants.LeftJoyUpDownID);
-    	rMot = OI.driver.getRawAxis(Constants.RIghtJoyUpDownID);
+    	lMot = OI.driver.getRawAxis(1);
+    	rMot = OI.driver.getRawAxis(5);
     	
     	//Drives the robot with previously gained inputs from the controller
     	Robot.tankDriveBase.tankDrive(lMot, rMot);

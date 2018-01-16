@@ -65,8 +65,8 @@ public class TankDriveBase extends Subsystem {
 		rightMagEncSource = new MagEncoderSource("right");
 		
 		//Configures the magnetic encoders from the Talons
-		leftSide1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 0);
-		rightSide1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 0);
+//		leftSide1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 0);
+//		rightSide1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 0);
 		
 		//Instantiates the motor controllers with ID's
 		leftSide1 = new TalonSRX(Constants.kLeftSide1ID);
