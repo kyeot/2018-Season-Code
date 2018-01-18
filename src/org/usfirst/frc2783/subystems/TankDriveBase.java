@@ -2,16 +2,15 @@ package org.usfirst.frc2783.subystems;
 
 import org.usfirst.frc2783.commands.TankDrive;
 import org.usfirst.frc2783.robot.Constants;
-import org.usfirst.frc2783.robot.OI;
 import org.usfirst.frc2783.util.MagEncoderSource;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -126,7 +125,7 @@ public class TankDriveBase extends Subsystem {
 	public void tankDrive(double lSpeed, double rSpeed){
 		leftSide1.set(ControlMode.PercentOutput, lSpeed);
 		rightSide1.set(ControlMode.PercentOutput, rSpeed);
-	
+		
 	}
 	
 	//Initiates TankDrive as the default command of this subsystem
