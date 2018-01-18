@@ -2,6 +2,7 @@ package org.usfirst.frc2783.subystems;
 
 import org.usfirst.frc2783.commands.TankDrive;
 import org.usfirst.frc2783.robot.Constants;
+import org.usfirst.frc2783.robot.OI;
 import org.usfirst.frc2783.util.MagEncoderSource;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -123,17 +124,9 @@ public class TankDriveBase extends Subsystem {
 
 	//Basic tank drive method
 	public void tankDrive(double lSpeed, double rSpeed){
-
-		//Sets the left motors to given speed if it's above 0.2
-		if(Math.abs(lSpeed) > 0.2){
-			leftSide1.set(ControlMode.PercentOutput, lSpeed);
-		}
-		
-		//Sets the right motors to given speed if it's above 0.2
-		if(Math.abs(rSpeed) > 0.2){
-			rightSide1.set(ControlMode.PercentOutput, rSpeed);
-		}
-		
+		leftSide1.set(ControlMode.PercentOutput, lSpeed);
+		rightSide1.set(ControlMode.PercentOutput, rSpeed);
+	
 	}
 	
 	//Initiates TankDrive as the default command of this subsystem

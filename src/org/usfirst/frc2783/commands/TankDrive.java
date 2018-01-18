@@ -13,6 +13,7 @@ public class TankDrive extends Command {
 
 	double lMot;
 	double rMot;
+	double deadBand = 0.2;
 	
     public TankDrive() {
     	//Sets the main subsystem used by this command
@@ -26,11 +27,27 @@ public class TankDrive extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	
-    	//Sets variables to equal inputs from the controller
-    	lMot = OI.driver.getRawAxis(1);
-    	rMot = OI.driver.getRawAxis(5);
+    	lMot = OI.driver.getRawAxis(1)/2;
+    	rMot = OI.driver.getRawAxis(5)/2;
     	
-    	//Drives the robot with previously gained inputs from the controller
+    	if(OI.driver.getRawButton(5)){
+    		lMot = lMot*0.5;
+    		rMot = rMot*0.5;
+    		deadBand = 0.1;
+    	}
+    	else if(OI.driver.getRawButton(6)){
+    		lMot = lMot*2;
+    		rMot = rMot*2;
+    	}
+   
+    	if(Math.abs(lMot) < deadBand){
+    		lMot = 0;
+    	}
+    	
+    	if(Math.abs(rMot) < deadBand){
+    		rMot = 0;
+    	}
+    	
     	Robot.tankDriveBase.tankDrive(lMot, rMot);
     	
     }
