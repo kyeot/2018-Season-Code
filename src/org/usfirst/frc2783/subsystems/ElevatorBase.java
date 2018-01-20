@@ -22,7 +22,7 @@ public class ElevatorBase extends Subsystem {
 	// moves elevator using left stick
 	//forward up, backwards down
 	public void elevator(double speed) {
-		if (OI.manipulator.getRawAxis(1) > 0.15) {
+		if (Math.abs(OI.manipulator.getRawAxis(1)) > 0.15) {
 			elevatorMot.set(ControlMode.PercentOutput, speed);
 		}
 		else {
