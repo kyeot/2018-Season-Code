@@ -5,11 +5,11 @@ import org.usfirst.frc2783.robot.Robot;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 
-public class MagEncoderSource implements PIDSource {
+public class AbsoluteEncoderSource implements PIDSource {
 	
 	String side;
 	
-	public MagEncoderSource(String side){
+	public AbsoluteEncoderSource(String side){
 		this.side = side;
 		
 	}
@@ -25,14 +25,13 @@ public class MagEncoderSource implements PIDSource {
 		
 	}
 
-	@SuppressWarnings("static-access")
 	@Override
 	public double pidGet() {
 		if(side == "left"){
-			return Robot.tankDriveBase.leftSide1.getSelectedSensorPosition(0)/11.37777777777778;
+			return Robot.leftAbsEnc.getValue();
 		}
 		else{
-			return Robot.tankDriveBase.rightSide1.getSelectedSensorPosition(0)/11.37777777777778;
+			return Robot.rightAbsEnc.getValue();
 		}
 			
 	}

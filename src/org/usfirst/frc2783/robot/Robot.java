@@ -14,6 +14,7 @@ import org.usfirst.frc2783.subystems.TankDriveBase;
 
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.SPI;
@@ -28,6 +29,9 @@ public class Robot extends IterativeRobot {
 
     public static OI oi;
     public static Looper looper = new Looper();
+    
+    public static AnalogInput leftAbsEnc = new AnalogInput(0);
+    public static AnalogInput rightAbsEnc = new AnalogInput(1);
     
     public static Random rand = new Random();
     

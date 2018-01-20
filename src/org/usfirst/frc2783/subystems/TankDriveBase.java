@@ -2,10 +2,10 @@ package org.usfirst.frc2783.subystems;
 
 import org.usfirst.frc2783.commands.TankDrive;
 import org.usfirst.frc2783.robot.Constants;
-import org.usfirst.frc2783.util.MagEncoderSource;
+import org.usfirst.frc2783.robot.Robot;
+import org.usfirst.frc2783.util.AbsoluteEncoderSource;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.PIDController;
@@ -39,8 +39,8 @@ public class TankDriveBase extends Subsystem {
 	public static VictorSPX rightSide2;
 	
 	//Creates the Magnetic Encoder PID sources
-	MagEncoderSource leftMagEncSource;
-	MagEncoderSource rightMagEncSource;
+	AbsoluteEncoderSource leftEncSource;
+	AbsoluteEncoderSource rightEncSource;
 	
 //	SensorCollection leftSideMagEnc;
 //	SensorCollection rightSideMagEnc;
@@ -61,8 +61,8 @@ public class TankDriveBase extends Subsystem {
 	
 	public TankDriveBase(){
 		
-		leftMagEncSource = new MagEncoderSource("left");
-		rightMagEncSource = new MagEncoderSource("right");
+		leftEncSource = new AbsoluteEncoderSource("left");
+		rightEncSource = new AbsoluteEncoderSource("right");
 		
 		//Configures the magnetic encoders from the Talons
 //		leftSide1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 0);
@@ -78,9 +78,6 @@ public class TankDriveBase extends Subsystem {
 		leftSide2.follow(leftSide1);
 		rightSide2.follow(rightSide1);	
 		
-//		leftSideMagEnc = new SensorCollection(leftSide1);
-//		rightSideMagEnc = new SensorCollection(rightSide2);
-		
 		//Identifies the Motor that each PID Output uses
 		leftPIDOut = new PIDOutputClass(leftSide1);
 		rightPIDOut = new PIDOutputClass(rightSide1);
@@ -88,10 +85,10 @@ public class TankDriveBase extends Subsystem {
 		//Identifies the PID values as well as the magnetic encoder and the PID output that each PID Controller uses
 		leftPIDCont = new PIDController(
 				Constants.kLeftTankP, Constants.kLeftTankI, Constants.kLeftTankD,
-				leftMagEncSource, leftPIDOut);
+				leftEncSource, leftPIDOut);
 		leftPIDCont = new PIDController(
 				Constants.kRightTankP, Constants.kRightTankI, Constants.kRightTankD,
-				rightMagEncSource, rightPIDOut);
+				rightEncSource, rightPIDOut);
 		
 	}
 	
@@ -109,8 +106,8 @@ public class TankDriveBase extends Subsystem {
 	public void moveSideByDistance(double leftDistance, double rightDistance){
 		
 		//Sets the angles of each sides encoders before moving as variables
-		currentLeftAng = leftSide1.getSelectedSensorPosition(0)/11.377777777778;
-		currentRightAng = rightSide1.getSelectedSensorPosition(0)/11.377777777778;
+		currentLeftAng = Robot.leftAbsEnc.getValue();
+		currentRightAng = Robot.rightAbsEnc.getValue();
 		
 		//Puts the amount of degrees to move to go the wanted distance in variables
 		leftDegrees = ((leftDistance/(Constants.wheelDiameterByInches*(Math.PI))/4096)/11.377777777778);
