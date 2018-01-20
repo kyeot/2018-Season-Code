@@ -7,7 +7,6 @@
 	<classpathentry kind="var" path="opencv" sourcepath="opencv.sources"/>
 	<classpathentry kind="var" path="cscore" sourcepath="cscore.sources"/>
 	<classpathentry kind="var" path="USERLIBS_DIR/navx_frc.jar"/>
-	<classpathentry kind="lib" path="C:/Users/owena/Documents/GitHub/2017-Off-Season-Code/lib/json-simple-1.1.1.jar"/>
 	<classpathentry kind="var" path="USERLIBS_DIR/CTRE_Phoenix-sources.jar"/>
 	<classpathentry kind="var" path="USERLIBS_DIR/CTRE_Phoenix.jar"/>
 	<classpathentry kind="var" path="wpiutil" sourcepath="wpiutil.sources"/>
