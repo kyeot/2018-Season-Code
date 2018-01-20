@@ -8,12 +8,14 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class TankDriveBase extends Subsystem {
+		// adds driving motors
 		
 		VictorSPX right1 = new VictorSPX(14);
 		VictorSPX right2 = new VictorSPX(15);
 		VictorSPX left1 = new VictorSPX(12);
 		VictorSPX left2 = new VictorSPX(13);
 	
+	// moves robot with left and right drive sticks
 	public void tankDrive(double leftSpeed, double rightSpeed) {
 		
 		if (OI.driver.getRawAxis(1) > 0.15) {
