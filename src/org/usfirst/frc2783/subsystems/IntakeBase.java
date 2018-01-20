@@ -1,5 +1,7 @@
 package org.usfirst.frc2783.subsystems;
 
+import org.usfirst.frc2783.robot.Constants;
+
 /**
  * @purpose: The base for the Intake manipulator
  * @author Adam Ma
@@ -16,8 +18,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class IntakeBase extends Subsystem {
 	
 	//Creates 2 Victor objects
-	VictorSPX right = new VictorSPX(10);
-	VictorSPX left = new VictorSPX(11);
+	VictorSPX right = new VictorSPX(Constants.kIntakeRight);
+	VictorSPX left = new VictorSPX(Constants.kIntakeLeft);
 	
 	//Method to use intake base
 	public void intake(double speed) {

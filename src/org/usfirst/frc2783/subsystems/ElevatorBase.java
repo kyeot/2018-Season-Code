@@ -1,5 +1,6 @@
 package org.usfirst.frc2783.subsystems;
 
+import org.usfirst.frc2783.robot.Constants;
 import org.usfirst.frc2783.robot.OI;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -16,7 +17,7 @@ public class ElevatorBase extends Subsystem {
     // here. Call these from Commands.
 	
 	// adds Victor
-	VictorSPX elevatorMot = new VictorSPX(9);
+	VictorSPX elevatorMot = new VictorSPX(Constants.kElevator);
 	
 	// moves elevator using left stick
 	//forward up, backwards down
