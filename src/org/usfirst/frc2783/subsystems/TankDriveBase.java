@@ -16,7 +16,7 @@ public class TankDriveBase extends Subsystem {
 	
 	public void tankDrive(double leftSpeed, double rightSpeed) {
 		
-		if (OI.controller.getRawAxis(1) > 0.15) {
+		if (OI.driver.getRawAxis(1) > 0.15) {
 			
 			right1.set(ControlMode.PercentOutput, rightSpeed);
 			right2.set(ControlMode.PercentOutput, rightSpeed);
@@ -29,7 +29,7 @@ public class TankDriveBase extends Subsystem {
 			
 		}
 		
-		if (OI.controller.getRawAxis(1) > 0.15) {
+		if (OI.driver.getRawAxis(1) > 0.15) {
 			
 			left1.set(ControlMode.PercentOutput, rightSpeed);
 			left2.set(ControlMode.PercentOutput, rightSpeed);
