@@ -20,7 +20,7 @@ public class TankDrive extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.tankDrive.tankDrive(OI.controller.getRawAxis(1), OI.controller.getRawAxis(5));
+    	Robot.tankDrive.tankDrive(OI.driver.getRawAxis(1), OI.driver.getRawAxis(5));
     }
 
     // Make this return true when this Command no longer needs to run execute()

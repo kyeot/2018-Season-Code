@@ -1,7 +1,7 @@
 package org.usfirst.frc2783.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
+
 
 /**
  * 
@@ -10,7 +10,8 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
  */
 public class OI {
 	
-	public static Joystick controller = new Joystick(0);
+	public static Joystick driver = new Joystick(0);
+	public static Joystick manipulator = new Joystick(1);
 
 //	public static JoystickButton dad = new JoystickButton(controller, 1);
 	

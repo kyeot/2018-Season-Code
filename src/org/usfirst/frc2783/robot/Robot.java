@@ -1,6 +1,7 @@
 package org.usfirst.frc2783.robot;
 
 import org.usfirst.frc2783.loops.Looper;
+import org.usfirst.frc2783.subsystems.IntakeBase;
 import org.usfirst.frc2783.subsystems.TankDriveBase;
 
 import com.kauailabs.navx.frc.AHRS;
@@ -9,7 +10,6 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 
 public class Robot extends IterativeRobot {
@@ -20,6 +20,7 @@ public class Robot extends IterativeRobot {
     private static AHRS navSensor;
     
     public static TankDriveBase tankDrive = new TankDriveBase();
+    public static IntakeBase intake = new IntakeBase();
     
     public void robotInit() {
         oi = new OI();
