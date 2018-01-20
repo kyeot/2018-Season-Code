@@ -17,10 +17,10 @@ public class Constants {
 	
 	public static final double wheelDiameterByInches = 3;
 	
-	public static final int kLeftSide1ID = 0;
-	public static final int kLeftSide2ID = 1;
-	public static final int kRightSide1ID = 2;
-	public static final int kRightSide2ID = 3;
+	public static final int kLeftSide1ID = 12;
+	public static final int kLeftSide2ID = 13;
+	public static final int kRightSide1ID = 14;
+	public static final int kRightSide2ID = 15;
 	
 	public static final int driverID = 0;
 

@@ -6,11 +6,11 @@ import org.usfirst.frc2783.util.MagEncoderSource;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -33,10 +33,10 @@ public class TankDriveBase extends Subsystem {
 	double currentRightAng;
 	
 	//Creates the motor controller objects
-	public static TalonSRX leftSide1;
-	public static TalonSRX leftSide2;
-	public static TalonSRX rightSide1;
-	public static TalonSRX rightSide2;
+	public static VictorSPX leftSide1;
+	public static VictorSPX leftSide2;
+	public static VictorSPX rightSide1;
+	public static VictorSPX rightSide2;
 	
 	//Creates the Magnetic Encoder PID sources
 	MagEncoderSource leftMagEncSource;
@@ -47,9 +47,9 @@ public class TankDriveBase extends Subsystem {
 	
 	
 	public class PIDOutputClass implements PIDOutput {
-		private TalonSRX motor;
+		private VictorSPX motor;
 		
-		public PIDOutputClass(TalonSRX motor) {
+		public PIDOutputClass(VictorSPX motor) {
 			this.motor = motor;
 		}
 		
@@ -69,10 +69,10 @@ public class TankDriveBase extends Subsystem {
 //		rightSide1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 0);
 		
 		//Instantiates the motor controllers with ID's
-		leftSide1 = new TalonSRX(Constants.kLeftSide1ID);
-		leftSide2 = new TalonSRX(Constants.kLeftSide2ID);
-		rightSide1 = new TalonSRX(Constants.kRightSide1ID);
-		rightSide2 = new TalonSRX(Constants.kRightSide2ID);
+		leftSide1 = new VictorSPX(Constants.kLeftSide1ID);
+		leftSide2 = new VictorSPX(Constants.kLeftSide2ID);
+		rightSide1 = new VictorSPX(Constants.kRightSide1ID);
+		rightSide2 = new VictorSPX(Constants.kRightSide2ID);
 		
 		//Sets the secondary controllers to follow the primary ones
 		leftSide2.follow(leftSide1);
@@ -132,5 +132,6 @@ public class TankDriveBase extends Subsystem {
     public void initDefaultCommand() {
     	setDefaultCommand(new TankDrive());
     }
+    
 }
 
