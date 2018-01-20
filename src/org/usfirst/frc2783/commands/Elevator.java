@@ -6,16 +6,14 @@ import org.usfirst.frc2783.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * @purpose Command class for intake
- * @author Adam Ma
- * @version 1/20/2017
+ *
  */
-public class Intake extends Command {
+public class Elevator extends Command {
 
-	int dir = 2;
-	
-    public Intake() {
-        requires(Robot.intake);
+    public Elevator() {
+        // Use requires() here to declare subsystem dependencies
+        // eg. requires(chassis);
+    	requires(Robot.elevatorBase);
     }
 
     // Called just before this Command runs the first time
@@ -24,15 +22,7 @@ public class Intake extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	
-    	if(OI.manipulator.getRawAxis(3) > 0.15){
-    		dir = 3;
-    	}
-    	else if(OI.manipulator.getRawAxis(2) > 0.15){
-    		dir = 2;
-    	}
-    	
-    	Robot.intake.intake(OI.manipulator.getRawAxis(dir));
+    	Robot.elevatorBase.elevator(OI.manipulator.getRawAxis(1));
     }
 
     // Make this return true when this Command no longer needs to run execute()

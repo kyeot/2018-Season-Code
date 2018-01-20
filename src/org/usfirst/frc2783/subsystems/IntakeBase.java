@@ -20,33 +20,23 @@ public class IntakeBase extends Subsystem {
 	VictorSPX left = new VictorSPX(11);
 	
 	//Method to use intake base
-	public void intake(double leftSpeed, double rightSpeed) {
+	public void intake(double speed) {
 		
 		//If-Else statement to fix dead band on right trigger
 		//Right trigger is in
-		if (OI.manipulator.getRawAxis(3) > 0.1) {
+		if (OI.manipulator.getRawAxis(3) > 0.15) {
 			
-			right.set(ControlMode.PercentOutput, rightSpeed);
-			left.set(ControlMode.PercentOutput, -leftSpeed);
+			right.set(ControlMode.PercentOutput, speed);
+			left.set(ControlMode.PercentOutput, -speed);
+			
+		}
+		if (OI.manipulator.getRawAxis(2) > 0.15) {
+			
+			right.set(ControlMode.PercentOutput, -speed);
+			left.set(ControlMode.PercentOutput, speed);
 			
 		}
 		else {
-			
-			right.set(ControlMode.PercentOutput, 0);
-			left.set(ControlMode.PercentOutput, 0);
-			
-		}
-		
-		//If-Else statement to fix dead band on left trigger
-		//Left trigger is out
-		//Speeds are inverted to invert direction
-		if (OI.manipulator.getRawAxis(2) > 0.1) {
-			
-			right.set(ControlMode.PercentOutput, -rightSpeed);
-			left.set(ControlMode.PercentOutput, leftSpeed);
-			
-		}
-		else { 
 			
 			right.set(ControlMode.PercentOutput, 0);
 			left.set(ControlMode.PercentOutput, 0);

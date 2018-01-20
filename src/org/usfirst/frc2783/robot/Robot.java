@@ -1,6 +1,7 @@
 package org.usfirst.frc2783.robot;
 
 import org.usfirst.frc2783.loops.Looper;
+import org.usfirst.frc2783.subsystems.ElevatorBase;
 import org.usfirst.frc2783.subsystems.IntakeBase;
 import org.usfirst.frc2783.subsystems.TankDriveBase;
 
@@ -21,6 +22,7 @@ public class Robot extends IterativeRobot {
     
     public static TankDriveBase tankDrive = new TankDriveBase();
     public static IntakeBase intake = new IntakeBase();
+    public static ElevatorBase elevatorBase = new ElevatorBase();
     
     public void robotInit() {
         oi = new OI();
