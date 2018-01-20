@@ -23,10 +23,12 @@ public abstract class EventLogger {
 	public abstract boolean event();
 	
 	public void handleEvent() {
-		if(event() && ((RobotController.getFPGATime()-timeLast) > Constants.kEventDelay*1000000)) {
+		
+		if(event() && ((RobotController.getFPGATime() - timeLast) > Constants.kEventDelay * 1000000)) {
 			Logger.log(lvl, msg);
 			timeLast = RobotController.getFPGATime();
 		}
+		
 	}
 	
 }

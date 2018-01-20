@@ -36,6 +36,7 @@ public class Logger {
 	}
 	
 	public static void log(String level, String msg) {
+		
 		try (PrintWriter writer = new PrintWriter(new FileWriter("/home/lvuser/log.txt", true))) {
 			writer.print("[" + level + "]");
 			writer.print(" ");
@@ -47,9 +48,11 @@ public class Logger {
             writer.println();
             
             System.out.println("[" + level + "] " + msg);
-        } catch (IOException e) {
+        }
+		catch (IOException e) {
             e.printStackTrace();
         }
+		
 	}
 
 }

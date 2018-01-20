@@ -28,7 +28,8 @@ public class Vector {
 	}
 	
 	public Vector rotateBy(Bearing r) {
-		return new Vector((a*r.cos())-(b*r.sin()), (a*r.sin())+(b*r.cos()));
+		return new Vector((a * r.cos()) - (b * r.sin()),
+						  (a * r.sin()) + (b * r.cos()));
 				
 	}
 	
@@ -37,7 +38,7 @@ public class Vector {
 	}
 	
 	public Bearing dir() {
-		return new Bearing(Math.toDegrees(Math.atan2(b,a)));
+		return new Bearing(Math.toDegrees(Math.atan2(b, a)));
 	}
 	
 	public double getA() {

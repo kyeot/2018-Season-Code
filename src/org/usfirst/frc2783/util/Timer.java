@@ -14,7 +14,7 @@ public class Timer {
 		endTime = 0;
 	}
 	
-	public void start(){
+	public void start() {
 		startTime = RobotController.getFPGATime();
 		endTime = startTime + (1000000 * time);
 	}
