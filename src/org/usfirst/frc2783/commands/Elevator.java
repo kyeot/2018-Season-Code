@@ -13,6 +13,7 @@ public class Elevator extends Command {
     public Elevator() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+    	//sets the requires subsystem
     	requires(Robot.elevatorBase);
     }
 
@@ -22,6 +23,7 @@ public class Elevator extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	//Sets the elevator speed to the left toggle axis on the manipulator
     	Robot.elevatorBase.elevator(OI.manipulator.getRawAxis(1));
     }
 

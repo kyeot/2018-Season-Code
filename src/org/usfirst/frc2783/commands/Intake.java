@@ -15,6 +15,7 @@ public class Intake extends Command {
 	int dir = 2;
 	
     public Intake() {
+    	//Sets the required Subsystem
         requires(Robot.intake);
     }
 
@@ -25,6 +26,7 @@ public class Intake extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	
+    	//Stops it from trying to run both directions at once
     	if(OI.manipulator.getRawAxis(3) > 0.15){
     		dir = 3;
     	}
@@ -32,6 +34,7 @@ public class Intake extends Command {
     		dir = 2;
     	}
     	
+    	//Sets intake wheels based on direction
     	Robot.intake.intake(OI.manipulator.getRawAxis(dir));
     }
 

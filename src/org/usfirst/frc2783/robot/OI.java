@@ -10,13 +10,11 @@ import edu.wpi.first.wpilibj.Joystick;
  */
 public class OI {
 	
+	//Creates the joystick objects for Driver and Manipulator
 	public static Joystick driver = new Joystick(0);
 	public static Joystick manipulator = new Joystick(1);
-
-//	public static JoystickButton dad = new JoystickButton(controller, 1);
 	
     public OI() {
-//    	dad.whenActive(new TankDrive());
     	
     }
 
