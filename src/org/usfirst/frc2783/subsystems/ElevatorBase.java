@@ -9,7 +9,9 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
- *
+ * @purpose: Sets base system for raising the robot
+ * @author Maddie Lanham
+ * @version 1/20/2017
  */
 public class ElevatorBase extends Subsystem {
 

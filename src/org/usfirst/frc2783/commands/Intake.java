@@ -27,10 +27,10 @@ public class Intake extends Command {
     protected void execute() {
     	
     	//Stops it from trying to run both directions at once
-    	if(OI.manipulator.getRawAxis(3) > 0.15){
+    	if(OI.manipulator.getRawAxis(3) > 0.15) {
     		dir = 3;
     	}
-    	else if(OI.manipulator.getRawAxis(2) > 0.15){
+    	else if(OI.manipulator.getRawAxis(2) > 0.15) {
     		dir = 2;
     	}
     	

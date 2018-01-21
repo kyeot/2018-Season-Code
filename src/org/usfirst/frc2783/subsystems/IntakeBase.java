@@ -1,5 +1,9 @@
 package org.usfirst.frc2783.subsystems;
-
+/**
+ * @purpose: Sets base for intake of cubes
+ * @author Adam Ma
+ * @version 1/20/2017
+ */
 import org.usfirst.frc2783.robot.Constants;
 
 /**
