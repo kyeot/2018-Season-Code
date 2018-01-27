@@ -1,5 +1,7 @@
 package org.usfirst.frc2783.robot;
 
+import org.usfirst.frc2783.commands.autonomous.TestAuto;
+import org.usfirst.frc2783.commands.autonomous.actions.ActionScheduler;
 import org.usfirst.frc2783.loops.Looper;
 import org.usfirst.frc2783.subsystems.ElevatorBase;
 import org.usfirst.frc2783.subsystems.IntakeBase;
@@ -11,6 +13,8 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class Robot extends IterativeRobot {
@@ -18,15 +22,25 @@ public class Robot extends IterativeRobot {
     public static OI oi;
     public static Looper looper = new Looper();
     
+    public static ActionScheduler autoScheduler = new ActionScheduler();
+    
     private static AHRS navSensor;
     
     public static TankDriveBase tankDrive = new TankDriveBase();
     public static IntakeBase intake = new IntakeBase();
     public static ElevatorBase elevatorBase = new ElevatorBase();
+   
+    public static NetworkTable smartDashTable;
     
     public void robotInit() {
         oi = new OI();
         looper.startLoops();
+        
+    	this.smartDashTable = NetworkTable.getTable("SmartDashboard");
+    	
+		String[] autonomousList = {"Test"};
+    	this.smartDashTable.putStringArray("Auto List", autonomousList);
+
         
         try {
 	         navSensor = new AHRS(SPI.Port.kMXP);
@@ -43,6 +57,17 @@ public class Robot extends IterativeRobot {
     }
 
     public void autonomousInit() {
+    	String autoSelected = SmartDashboard.getString("Auto Selector", "None");
+
+    	switch(autoSelected) {
+		case "Test":
+			autoScheduler.setGroup(new TestAuto());
+			break;
+		default:
+			
+    	} 
+    	
+    	autoScheduler.start();
     }
     
     public void autonomousPeriodic() {
@@ -50,6 +75,7 @@ public class Robot extends IterativeRobot {
     }
 
     public void teleopInit() {
+    	autoScheduler.stop();
     }
 
     public void teleopPeriodic() {
