@@ -10,10 +10,10 @@ public class Constants {
 	public static final int kElevator = 9;
 	public static final int kIntakeRight = 10;
 	public static final int kIntakeLeft = 11;
-	public static final int kLeftDrive1 = 12;
-	public static final int kLeftDrive2 = 13;
-	public static final int kRightDrive1 = 14;
-	public static final int kRightDrive2 = 15;
+	public static final int kLeftDrive1 = 4;
+	public static final int kLeftDrive2 = 5;
+	public static final int kRightDrive1 = 11;
+	public static final int kRightDrive2 = 9;
 
 	public static final double kPeriod = 0.01; 
 
