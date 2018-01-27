@@ -21,8 +21,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class TankDriveBase extends Subsystem {
 	
 	//Creates the PID controllers for each side
-	PIDController leftPIDCont;
-	PIDController rightPIDCont;
+	public static PIDController leftPIDCont;
+	public static PIDController rightPIDCont;
 	
 	//Creates the PID Outut classes for each side
 	PIDOutputClass leftPIDOut;
@@ -64,12 +64,10 @@ public class TankDriveBase extends Subsystem {
 		rightSide1 = new VictorSPX(Constants.kRightSide1ID);
 		rightSide2 = new VictorSPX(Constants.kRightSide2ID);
 		
-		leftSide1.configSelectedFeedbackSensor(FeedbackDevice.Analog, 0, 0);
-		
 		//Sets the secondary controllers to follow the primary ones
 		leftSide2.follow(leftSide1);
 		rightSide2.follow(rightSide1);	
-		
+				
 		//Identifies the Motor that each PID Output uses
 		leftPIDOut = new PIDOutputClass(leftSide1);
 		rightPIDOut = new PIDOutputClass(rightSide1);
@@ -82,14 +80,8 @@ public class TankDriveBase extends Subsystem {
 				Constants.kTankP, Constants.kTankI, Constants.kTankD,
 				Robot.rightAbsEnc, rightPIDOut);
 		
-		leftPIDCont.setInputRange(-360, 360);
-		leftPIDCont.setContinuous();
-		
-		rightPIDCont.setInputRange(-360, 360);
-		rightPIDCont.setContinuous();
-		
 	}
-
+	
 	//Basic tank drive method
 	public void tankDrive(double lSpeed, double rSpeed){
 		leftSide1.set(ControlMode.PercentOutput, lSpeed);
