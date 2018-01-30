@@ -49,26 +49,7 @@ public class TensorFlowYoloDetector implements Classifier {
   };
 
   private static final String[] LABELS = {
-    "aeroplane",
-    "bicycle",
-    "bird",
-    "boat",
-    "bottle",
-    "bus",
-    "car",
-    "cat",
-    "chair",
-    "cow",
-    "diningtable",
-    "dog",
-    "horse",
-    "motorbike",
-    "person",
-    "pottedplant",
-    "sheep",
-    "sofa",
-    "train",
-    "tvmonitor"
+    "powerup_cube"
   };
 
   // Config values.

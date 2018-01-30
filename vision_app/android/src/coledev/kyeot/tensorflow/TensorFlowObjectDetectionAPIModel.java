@@ -18,7 +18,10 @@ package coledev.kyeot.tensorflow;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.RectF;
+import android.nfc.Tag;
 import android.os.Trace;
+import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -172,7 +175,7 @@ public class TensorFlowObjectDetectionAPIModel implements Classifier {
 
     // Find the best detections.
     final PriorityQueue<Recognition> pq =
-        new PriorityQueue<Recognition>(
+            new PriorityQueue<Recognition>(
             1,
             new Comparator<Recognition>() {
               @Override
@@ -190,8 +193,7 @@ public class TensorFlowObjectDetectionAPIModel implements Classifier {
               outputLocations[4 * i] * inputSize,
               outputLocations[4 * i + 3] * inputSize,
               outputLocations[4 * i + 2] * inputSize);
-      pq.add(
-          new Recognition("" + i, labels.get((int) outputClasses[i]), outputScores[i], detection));
+        pq.add(new Recognition("" + i, labels.get(1), outputScores[i], detection));  //labels.get(1) is hardcoded to return powerup_cube string, other way would cause exception
     }
 
     final ArrayList<Recognition> recognitions = new ArrayList<Recognition>();
