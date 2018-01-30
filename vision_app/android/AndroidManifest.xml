@@ -34,6 +34,7 @@
         android:icon="@drawable/ic_launcher"
         android:theme="@style/MaterialTheme">
 
+        <!--
         <activity android:name="coledev.kyeot.tensorflow.ClassifierActivity"
                   android:screenOrientation="portrait"
                   android:label="@string/activity_name_classification">
@@ -42,6 +43,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        -->
 
         <activity android:name="coledev.kyeot.tensorflow.DetectorActivity"
                   android:screenOrientation="portrait"
@@ -52,6 +54,7 @@
             </intent-filter>
         </activity>
 
+        <!--
         <activity android:name="coledev.kyeot.tensorflow.StylizeActivity"
                   android:screenOrientation="portrait"
                   android:label="@string/activity_name_stylize">
@@ -69,6 +72,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        -->
     </application>
 
 </manifest>
