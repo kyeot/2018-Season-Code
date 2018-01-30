@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.tensorflow.demo;
+package coledev.kyeot.tensorflow;
 
 import android.content.Context;
 import android.content.res.AssetManager;
@@ -50,11 +50,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Vector;
 import org.tensorflow.contrib.android.TensorFlowInferenceInterface;
-import org.tensorflow.demo.OverlayView.DrawCallback;
-import org.tensorflow.demo.env.BorderedText;
-import org.tensorflow.demo.env.ImageUtils;
-import org.tensorflow.demo.env.Logger;
-import org.tensorflow.demo.R; // Explicit import needed for internal Google builds.
+
+import coledev.kyeot.tensorflow.env.BorderedText;
+import coledev.kyeot.tensorflow.env.ImageUtils;
+import coledev.kyeot.tensorflow.env.Logger;
 
 /**
  * Sample activity that stylizes the camera preview according to "A Learned Representation For
@@ -370,7 +369,7 @@ public class StylizeActivity extends CameraActivity implements OnImageAvailableL
     sensorOrientation = rotation + screenOrientation;
 
     addCallback(
-        new DrawCallback() {
+        new OverlayView.DrawCallback() {
           @Override
           public void drawCallback(final Canvas canvas) {
             renderDebug(canvas);

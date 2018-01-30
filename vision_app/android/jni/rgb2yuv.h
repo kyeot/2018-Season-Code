@@ -13,8 +13,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================*/
 
-#ifndef ORG_TENSORFLOW_JNI_IMAGEUTILS_RGB2YUV_H_
-#define ORG_TENSORFLOW_JNI_IMAGEUTILS_RGB2YUV_H_
+#ifndef COLEDEV_KYEOT_JNI_IMAGEUTILS_RGB2YUV_H_
+#define COLEDEV_KYEOT_JNI_IMAGEUTILS_RGB2YUV_H_
 
 #include <stdint.h>
 
@@ -32,4 +32,4 @@ void ConvertRGB565ToYUV420SP(const uint16_t* const input, uint8_t* const output,
 }
 #endif
 
-#endif  // ORG_TENSORFLOW_JNI_IMAGEUTILS_RGB2YUV_H_
+#endif  // COLEDEV_KYEOT_JNI_IMAGEUTILS_RGB2YUV_H_
