@@ -5,6 +5,8 @@ import org.usfirst.frc2783.robot.Robot;
 import org.usfirst.frc2783.subystems.TankDriveBase;
 import org.usfirst.frc2783.util.EncoderCounter;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -12,7 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class autoTankDrive extends Command {
+public class AutoTankDrive extends Command {
 
 	double lSpeed;
 	double rSpeed;
@@ -27,6 +29,9 @@ public class autoTankDrive extends Command {
 	double leftDistance;
 	double rightDistance;
 	
+	double leftAngleOnStart;
+	double rightAngleOnStart;
+	
 	double wantedLeftRotations;
 	double wantedRightRotations;
 	
@@ -38,9 +43,12 @@ public class autoTankDrive extends Command {
 	
 	String direction;
 	
-	boolean isRotationsDone = false;
+	boolean isLeftRotationsDone = false;
+	boolean isLeftDegreesDone = false;
+	boolean isRightRotationsDone = false;
+	boolean isRightDegreesDone = false;
 	
-    public autoTankDrive(double speedScaler, double leftDistance, double rightDistance, String direction){
+    public AutoTankDrive(double speedScaler, double leftDistance, double rightDistance, String direction){
     	requires(Robot.tankDriveBase);
     	
     	this.speedScaler = speedScaler;
@@ -48,8 +56,11 @@ public class autoTankDrive extends Command {
     	this.rightDistance = rightDistance;
     	this.direction = direction;
     	
-    	leftDistanceInAngles = leftDistance/Constants.inchPerDegree;
-    	rightDistanceInAngles = rightDistance/Constants.inchPerDegree;
+    	leftAngleOnStart = Robot.leftAbsEnc.getValue();
+    	rightAngleOnStart = Robot.rightAbsEnc.getValue();
+    	
+    	leftDistanceInAngles = leftDistance/Constants.inchPerDegree-leftAngleOnStart;
+    	rightDistanceInAngles = rightDistance/Constants.inchPerDegree-rightAngleOnStart;
     	
     	leftRotationOnStart = EncoderCounter.leftRotationCounter;
     	rightRotationOnStart = EncoderCounter.rightRotationCounter;
@@ -77,53 +88,59 @@ public class autoTankDrive extends Command {
     // Called just before this Command runs the first time
 	protected void initialize() {
     	
-    	wantedLeftRotations = leftDistanceInAngles/4096;
-    	wantedRightRotations = rightDistanceInAngles/4096;
+    	wantedLeftRotations = Math.floor(leftDistanceInAngles/4096);
+    	wantedRightRotations = Math.floor(rightDistanceInAngles/4096);
     	
-    	wantedLeftAdditionalDegrees = leftDistanceInAngles - (wantedLeftRotations*4096);
-    	wantedRightAdditionalDegrees = rightDistanceInAngles - (wantedRightRotations*4096);
+    	wantedLeftAdditionalDegrees = leftDistanceInAngles - (wantedLeftRotations * 4096);
+    	wantedRightAdditionalDegrees = rightDistanceInAngles - (wantedRightRotations * 4096);
     	
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	
-    	SmartDashboard.putString("DB/String 0", "" + leftDistanceInAngles);
-    	SmartDashboard.putString("DB/String 1", "" + wantedLeftAdditionalDegrees);
-    	SmartDashboard.putString("DB/String 2", "" + wantedLeftRotations);
     	                                                                                                                             
-    	if(EncoderCounter.leftRotationCounter >= (leftRotationOnStart + wantedLeftRotations)
-    			&& EncoderCounter.rightRotationCounter >= (rightRotationOnStart + wantedRightRotations)){
-    		isRotationsDone = true;
+    	if(EncoderCounter.leftRotationCounter >= (leftRotationOnStart + wantedLeftRotations)){
+    		isLeftRotationsDone = true;
     	}
     	
-    	if(!isRotationsDone){
-    		Robot.tankDriveBase.tankDrive(leftSpeed, -rightSpeed);
+    	if(EncoderCounter.rightRotationCounter >= (rightRotationOnStart + wantedRightRotations)){
+    		isRightRotationsDone = true;
     	}
     	
-    	if(isRotationsDone){
-    		Robot.tankDriveBase.tankDrive(0, 0);
-    		
-    		Robot.tankDriveBase.leftPIDCont.enable();
-    		Robot.tankDriveBase.rightPIDCont.enable();
-    		
-    		Robot.tankDriveBase.leftPIDCont.setSetpoint(wantedLeftAdditionalDegrees);
-    		Robot.tankDriveBase.rightPIDCont.setSetpoint(wantedRightAdditionalDegrees);
-    		
+    	if(isLeftRotationsDone){
+    		if(Robot.leftAbsEnc.getValue() < wantedLeftAdditionalDegrees + 50 && Robot.leftAbsEnc.getValue() > wantedLeftAdditionalDegrees - 50){
+        		isLeftDegreesDone = true;
+        	}
     	}
+    	
+    	if(isRightRotationsDone){
+    		if(Robot.rightAbsEnc.getValue() < wantedRightAdditionalDegrees + 50 && Robot.rightAbsEnc.getValue() > wantedRightAdditionalDegrees - 50){
+        		isRightDegreesDone = true;
+        	}
+    	}
+    	
+    	if(isLeftDegreesDone){
+    		leftSpeed = 0;
+    	}
+    	
+    	if(isRightDegreesDone){
+    		rightSpeed = 0;
+    	}
+    	
+    	Robot.tankDriveBase.tankDrive(leftSpeed, -rightSpeed);
     	
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return (Robot.leftAbsEnc.getValue() > leftDistanceInAngles-5 
-        		&& Robot.leftAbsEnc.getValue() < leftDistanceInAngles+5) 
-        		&& (Robot.rightAbsEnc.getValue() > rightDistanceInAngles-5 
-        		&& Robot.rightAbsEnc.getValue() < rightDistanceInAngles+5);
+        return isLeftDegreesDone && isRightDegreesDone;
     }
 
     // Called once after isFinished returns true
     protected void end() {
+    	Robot.tankDriveBase.tankDrive(0, 0);
+    	Robot.tankDriveBase.leftSide1.setNeutralMode(NeutralMode.Brake);
+    	Robot.tankDriveBase.rightSide1.setNeutralMode(NeutralMode.Brake);
     }
 
     // Called when another command which requires one or more of the same

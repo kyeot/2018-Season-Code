@@ -141,6 +141,8 @@ public class Robot extends IterativeRobot {
 
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
+        SmartDashboard.putString("DB/String 5", "" + Robot.leftAbsEnc.getValue());
+        SmartDashboard.putString("DB/String 6", "" + Robot.rightAbsEnc.getValue());
     }
 
 	public void testPeriodic() {

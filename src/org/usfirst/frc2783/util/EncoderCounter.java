@@ -47,7 +47,7 @@ public class EncoderCounter implements Loop{
 		leftEncVal = Robot.leftAbsEnc.getValue();  
 		rightEncVal = Robot.rightAbsEnc.getValue();
 		
-		if(Robot.isLeftForward = true){
+		if(Robot.isLeftForward){
 			leftEncoderLastVal = leftEncVal+50;
 		}
 		else{
