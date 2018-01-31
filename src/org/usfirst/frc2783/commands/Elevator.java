@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 /**
  * @purpose: Command class for Elevator
- * @author Owen Atkins
+ * @author Liam Shearin
  * @version 1/20/2017
  */
 public class Elevator extends Command {
