@@ -13,6 +13,7 @@ import org.usfirst.frc2783.robot.Robot;
  * 
  * @author 2783
  */
+// 
 public class Logger {
 	
 	public static void debug(String msg) {
