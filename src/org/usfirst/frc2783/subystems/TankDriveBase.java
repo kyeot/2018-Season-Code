@@ -3,6 +3,7 @@ package org.usfirst.frc2783.subystems;
 import org.usfirst.frc2783.commands.TankDrive;
 import org.usfirst.frc2783.robot.Constants;
 import org.usfirst.frc2783.util.MagEncoderSource;
+import org.usfirst.frc2783.util.NavSensor;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -132,6 +133,4 @@ public class TankDriveBase extends Subsystem {
     public void initDefaultCommand() {
     	setDefaultCommand(new TankDrive());
     }
-    
 }
-
