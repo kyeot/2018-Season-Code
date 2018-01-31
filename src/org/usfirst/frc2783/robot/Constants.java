@@ -12,7 +12,7 @@ public class Constants {
 	public static final int kIntakeLeft = 11;
 	public static final int kLeftDrive1 = 4;
 	public static final int kLeftDrive2 = 5;
-	public static final int kRightDrive1 = 11;
+	public static final int kRightDrive1 = 12;
 	public static final int kRightDrive2 = 9;
 
 	public static final double kPeriod = 0.01; 

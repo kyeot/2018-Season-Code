@@ -4,17 +4,17 @@ import org.usfirst.frc2783.robot.Constants;
 import org.usfirst.frc2783.robot.OI;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class TankDriveBase extends Subsystem {
 		// adds driving motors
 		
-		TalonSRX right1 = new TalonSRX(Constants.kRightDrive1);
-		TalonSRX right2 = new TalonSRX(Constants.kRightDrive2);
-		TalonSRX left1 = new TalonSRX(Constants.kLeftDrive1);
-		TalonSRX left2 = new TalonSRX(Constants.kLeftDrive2);
+		VictorSPX right1 = new VictorSPX(Constants.kRightDrive1);
+		VictorSPX right2 = new VictorSPX(Constants.kRightDrive2);
+		VictorSPX left1 = new VictorSPX(Constants.kLeftDrive1);
+		VictorSPX left2 = new VictorSPX(Constants.kLeftDrive2);
 	
 	// moves robot with left and right drive sticks
 	public void tankDrive(double leftSpeed, double rightSpeed) {
@@ -24,7 +24,7 @@ public class TankDriveBase extends Subsystem {
 			right1.set(ControlMode.PercentOutput, rightSpeed);
 			right2.set(ControlMode.PercentOutput, rightSpeed);
 			
-		}		
+		}	
 		else {
 			
 			right1.set(ControlMode.PercentOutput, 0);
