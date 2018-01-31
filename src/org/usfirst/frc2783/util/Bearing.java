@@ -18,6 +18,12 @@ public class Bearing {
 		theta = v.dir().getTheta();
 	}
 	
+	/**
+	 * rotates bearing by adding passed bearing to current bearing
+	 * and then modding 360 if its over 2PI.
+	 * @param Bearing b
+	 * @return Bearing(Added bearings mod 360)
+	 */
 	public Bearing rotate(Bearing b) {
 		return new Bearing((this.theta + b.getTheta()) % 360);
 	}
