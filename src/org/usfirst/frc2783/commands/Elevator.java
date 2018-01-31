@@ -27,6 +27,7 @@ public class Elevator extends Command {
     protected void execute() {
     	//Sets the elevator speed to the left toggle axis on the manipulator
     	Robot.elevatorBase.elevator(OI.manipulator.getRawAxis(1));
+    	Robot.elevatorBase.elevator(OI.manipulator.getRawAxis(2));
     }
 
     // Make this return true when this Command no longer needs to run execute()

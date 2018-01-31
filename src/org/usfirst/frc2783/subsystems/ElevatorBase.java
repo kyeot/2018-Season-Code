@@ -19,18 +19,22 @@ public class ElevatorBase extends Subsystem {
     // here. Call these from Commands.
 	
 	// adds Victor
-	VictorSPX elevatorMot = new VictorSPX(Constants.kElevator);
+	VictorSPX elevatorMot = new VictorSPX(Constants.kElevator1);
+	VictorSPX elevatorMot2 = new VictorSPX(Constants.kElevator2);
 	
 	// moves elevator using left stick
 	//forward up, backwards down
 	public void elevator(double speed) {
 		if (Math.abs(OI.manipulator.getRawAxis(1)) > 0.15) {
 			elevatorMot.set(ControlMode.PercentOutput, speed);
+			elevatorMot2.set(ControlMode.PercentOutput, -speed);
 		}
 		else {
 			elevatorMot.set(ControlMode.PercentOutput, 0);
-		}
+			elevatorMot2.set(ControlMode.PercentOutput, 0);
+		}-
 	}
+	
 
 
     public void initDefaultCommand() {
