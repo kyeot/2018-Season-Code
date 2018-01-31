@@ -18,7 +18,8 @@ public class Robot extends IterativeRobot {
     public static OI oi;
     public static Looper looper = new Looper();
     
-    private static AHRS navSensor;
+    @SuppressWarnings("unused")
+	private static AHRS navSensor;
     
     public static TankDriveBase tankDrive = new TankDriveBase();
     public static IntakeBase intake = new IntakeBase();
