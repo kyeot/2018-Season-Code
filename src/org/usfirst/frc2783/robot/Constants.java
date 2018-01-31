@@ -7,6 +7,7 @@ package org.usfirst.frc2783.robot;
  */
 public class Constants {
 	
+// IDs for motor controllers correspond to their matching points on the PDP(Power Distribution Panel)
 
 	public static final int kElevator1 = 2;
 	public static final int kElevator2 = 11;
