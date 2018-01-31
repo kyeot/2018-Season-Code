@@ -8,8 +8,8 @@ package org.usfirst.frc2783.robot;
 public class Constants {
 	
 	public static final int kElevator = 9;
-	public static final int kIntakeRight = 10;
-	public static final int kIntakeLeft = 11;
+	public static final int kIntakeRight = 15;
+	public static final int kIntakeLeft = 0;
 	public static final int kLeftDrive1 = 4;
 	public static final int kLeftDrive2 = 5;
 	public static final int kRightDrive1 = 12;
