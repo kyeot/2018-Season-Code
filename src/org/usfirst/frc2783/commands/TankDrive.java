@@ -12,7 +12,6 @@ public class TankDrive extends Command {
 
 	double lMot;
 	double rMot;
-	double deadBand = 0.2;
 	
     public TankDrive() {
     	//Sets the main subsystem used by this command
@@ -32,18 +31,17 @@ public class TankDrive extends Command {
     	if(OI.driver.getRawButton(5)){
     		lMot = lMot*0.5;
     		rMot = rMot*0.5;
-    		deadBand = 0.1;
     	}
     	else if(OI.driver.getRawButton(6)){
     		lMot = lMot*2;
     		rMot = rMot*2;
     	}
    
-    	if(Math.abs(lMot) < deadBand){
+    	if(Math.abs(lMot) < 0.2){
     		lMot = 0;
     	}
     	
-    	if(Math.abs(rMot) < deadBand){
+    	if(Math.abs(rMot) < 0.2){
     		rMot = 0;
     	}
     	

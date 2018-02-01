@@ -17,10 +17,10 @@ public class Constants {
 	public static final double wheelCircumferenceByInches = wheelDiameterByInches * Math.PI;
 	public static final double inchPerDegree = wheelDiameterByInches/4096;
 	
-	public static final int kLeftSide1ID = 12;
-	public static final int kLeftSide2ID = 13;
-	public static final int kRightSide1ID = 14;
-	public static final int kRightSide2ID = 15;
+	public static final int kLeftSide1ID = 4;
+	public static final int kLeftSide2ID = 7;
+	public static final int kRightSide1ID = 11;
+	public static final int kRightSide2ID = 8;
 	
 	public static final int driverID = 0;
 
