@@ -32,7 +32,7 @@ public class ElevatorBase extends Subsystem {
 		else {
 			elevatorMot.set(ControlMode.PercentOutput, 0);
 			elevatorMot2.set(ControlMode.PercentOutput, 0);
-		}-
+		}
 	}
 	
 
