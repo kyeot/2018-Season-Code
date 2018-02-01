@@ -1,3 +1,5 @@
+package org.usfirst.frc2783.util;
+
 import javax.swing.*;
 
 import java.awt.event.*;
@@ -9,6 +11,8 @@ import java.util.*;
 public class AutonGUI extends JFrame {
 	
 		JButton addButton, deleteButton;
+		
+		
 		
 		// Going to be used to monitor what shape to draw next
 		
