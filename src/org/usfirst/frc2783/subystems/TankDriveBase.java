@@ -4,11 +4,7 @@ import org.usfirst.frc2783.commands.TankDrive;
 import org.usfirst.frc2783.robot.Constants;
 import org.usfirst.frc2783.robot.Robot;
 
-import com.ctre.phoenix.ParamEnum;
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.PIDController;
@@ -97,6 +93,4 @@ public class TankDriveBase extends Subsystem {
     public void initDefaultCommand() {
     	setDefaultCommand(new TankDrive());
     }
-    
 }
-

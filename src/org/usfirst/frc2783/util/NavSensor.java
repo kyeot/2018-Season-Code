@@ -35,10 +35,10 @@ public class NavSensor {
 	     }
 	}
 	
-	AHRS navSensor;
+	static AHRS navSensor;
 	double offset = 0;
 	
-	public double getAngle(boolean reversed) {
+	public static double getAngle(boolean reversed) {
     	if(reversed) {
     		return 360-((((navSensor.getAngle()+180.0)%360)+360)%360); //deals with negative angles, java 8 simply keeps the sign when modulating negative values.
     	} else {
