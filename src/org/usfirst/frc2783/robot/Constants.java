@@ -7,15 +7,15 @@ package org.usfirst.frc2783.robot;
  */
 public class Constants {
 	
-	public static final double kLeftTankP = 0.1;
-	public static final double kLeftTankI = 0;
-	public static final double kLeftTankD = 0;
+	public static final double kTankP = 0.001;
+	public static final double kTankI = 0.0;
+	public static final double kTankD = 0.0;
 	
-	public static final double kRightTankP = 0.1;
-	public static final double kRightTankI = 0;
-	public static final double kRightTankD = 0;
+	public static final double encoderScaler = 11.3777777777777777777777777777778;
 	
-	public static final double wheelDiameterByInches = 3;
+	public static final double wheelDiameterByInches = 6;
+	public static final double wheelCircumferenceByInches = wheelDiameterByInches * Math.PI;
+	public static final double inchPerDegree = wheelDiameterByInches/4096;
 	
 	public static final int kLeftSide1ID = 12;
 	public static final int kLeftSide2ID = 13;
@@ -24,7 +24,7 @@ public class Constants {
 	
 	public static final int driverID = 0;
 
-	public static final double kPeriod = 0.01; 
+	public static final double kPeriod = 0.0005; 
 
 	public static final double kAutoPeriod = 0.01;
 	

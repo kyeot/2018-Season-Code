@@ -11,15 +11,16 @@ import org.usfirst.frc2783.commands.autonomous.modes.RightSideScalePref;
 import org.usfirst.frc2783.commands.autonomous.modes.RightSideSwitchPref;
 import org.usfirst.frc2783.loops.Looper;
 import org.usfirst.frc2783.subystems.TankDriveBase;
+import org.usfirst.frc2783.util.EncoderCounter;
 
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -28,6 +29,12 @@ public class Robot extends IterativeRobot {
 
     public static OI oi;
     public static Looper looper = new Looper();
+    
+    public static AnalogInput leftAbsEnc = new AnalogInput(0);
+    public static AnalogInput rightAbsEnc = new AnalogInput(1);
+    
+    public static boolean isLeftForward;
+    public static boolean isRightForward;
     
     public static Random rand = new Random();
     
@@ -41,10 +48,13 @@ public class Robot extends IterativeRobot {
     public static String autoSides;
     
 	public static SendableChooser chooser;
+	
+	EncoderCounter counter = new EncoderCounter();
     
 	@SuppressWarnings("unchecked")
 	public void robotInit() {
         oi = new OI();
+        looper.addLoop(counter);
         looper.startLoops();
 
 //      gameData = DriverStation.getInstance().getGameSpecificMessage();
@@ -131,11 +141,9 @@ public class Robot extends IterativeRobot {
 
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
-        System.out.println(gameData);
     }
 
 	public void testPeriodic() {
-		LiveWindow.run();
     }
 	
 	public static String getPracticeData(boolean random, String testValue) {
