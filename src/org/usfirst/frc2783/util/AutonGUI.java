@@ -11,12 +11,10 @@ import java.util.*;
 public class AutonGUI extends JFrame {
 	
 		JButton addButton, deleteButton;
-		
-		
-		
+
 		// Going to be used to monitor what shape to draw next
 		
-		int actionNumber = 1;
+		int actionNumber = 2;
 		
 		// Default stroke and fill colors
 		
@@ -29,7 +27,7 @@ public class AutonGUI extends JFrame {
         public AutonGUI() {
         	// Define the defaults for the JFrame
         	
-            this.setSize(1000, 700);
+            this.setSize(500, 700);
             this.setTitle("Autonomus Mapping");
             this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             
@@ -37,12 +35,13 @@ public class AutonGUI extends JFrame {
             
             // Swing box that will hold all the buttons
             
-            Box theBox = Box.createHorizontalBox();
+            Box menu = Box.createHorizontalBox();
             
             // Make all the buttons in makeMeButtons by passing the
             // button icon. 
             
-            addButton = makeMeButtons("./src/blackbox.png", 1);
+            addButton = createButton("./src/blackbox.png", 2);
+            deleteButton = createButton("./src/delete.png", 1);
             
             
             // Make all the buttons in makeMeColorButton by passing the
@@ -51,11 +50,12 @@ public class AutonGUI extends JFrame {
             
             // Add the buttons to the box
             
-            theBox.add(addButton);
+            menu.add(addButton);
+            menu.add(deleteButton);
             
             // Add the box of buttons to the panel
             
-            buttonPanel.add(theBox);
+            buttonPanel.add(menu);
 
             // Position the buttons in the bottom of the frame
             
@@ -73,7 +73,7 @@ public class AutonGUI extends JFrame {
         // Spits out buttons based on the image supplied
         // actionNum represents each shape to be drawn
         
-        public JButton makeMeButtons(String iconFile, int actionNum) {
+        public JButton createButton(String iconFile, int actionNum) {
         	JButton newButton = new JButton();
             Icon buttonIcon = new ImageIcon(iconFile);
             newButton.setIcon(buttonIcon);
@@ -107,36 +107,55 @@ public class AutonGUI extends JFrame {
                 // Monitors events on the drawing area of the frame
                 
                 public DrawingBoard() {
-                	if (actionNumber == 1) {
+                	
                         this.addMouseListener(new MouseAdapter() {
                             public void mousePressed(MouseEvent e) {
-                            	
-                            	// When the mouse is pressed get x & y position
-                            	
-                            	drawStart = new Point(e.getX(), e.getY());
-                                repaint();
+                            	if (actionNumber != 1) {
+                            		
+                            		// When the mouse is pressed get x & y position
+                            		drawStart = new Point(e.getX(), e.getY());
+                            		repaint();
+                            		
                                 }
+                            	
+                            	else if (actionNumber == 1) {
+                            		
+                            		
+                            		
+                            	}
+                            	
+                            }
 
                             public void mouseReleased(MouseEvent e) {
                             	
-                            	  // Create a shape using the starting x & y
-                            	  // and finishing x & y positions
+                            	if (actionNumber != 1) {
+                            		
+                            		if (actionNumber == 2) {
                             	
-                                  Shape aShape = drawRectangle(drawStart.x, drawStart.y, drawStart.x - 5, drawStart.y - 5);
+                            			// Create a shape using the starting x & y
+                            			// and finishing x & y positions
+                            			Shape aShape = drawRectangle(drawStart.x + 2, drawStart.y + 2, drawStart.x - 2, drawStart.y - 2);
                                   
-                                  // Add shapes, fills and colors to there ArrayLists
-                                  
-                                  shapes.add(aShape);
-                                  shapeFill.add(fillColor);
-                                  shapeStroke.add(strokeColor);
-                                  
-                                  drawStart = null;
-                                  
-                                  // repaint the drawing area
-                                  
-                                  repaint();
-                                }
-                          } );
+                            			// Add shapes, fills and colors to their ArrayLists
+                            			shapes.add(aShape);
+                            			shapeFill.add(fillColor);
+                            			shapeStroke.add(strokeColor);
+                            			System.out.println(drawStart.getX() + ", " + drawStart.getY());
+                                
+                            			drawStart = null;
+                            			
+                                 
+                            			// repaint the drawing area
+                            			repaint();
+                            			
+                            		}
+                            		
+                            	}
+                            	else if (actionNumber == 1){
+                            		
+                            	}
+                            }
+                        });
 
                         this.addMouseMotionListener(new MouseMotionAdapter() {
                           public void mouseDragged(MouseEvent e) {
@@ -144,7 +163,7 @@ public class AutonGUI extends JFrame {
                         	  repaint();
                           }
                         });
-                	}
+                	
                 }
                 
                 public void paint(Graphics g) {
@@ -193,7 +212,7 @@ public class AutonGUI extends JFrame {
                         	
                         	// Create a new rectangle using x & y coordinates
                         	
-                                Shape aShape = drawRectangle(drawStart.x, drawStart.y, drawStart.x - 5, drawStart.y - 5);
+                                Shape aShape = drawRectangle(drawStart.x + 2, drawStart.y + 2, drawStart.x - 2, drawStart.y - 2);
                                 graphSettings.draw(aShape);
                         }
                 }
