@@ -2,6 +2,8 @@ package org.usfirst.frc2783.robot;
 
 import java.util.Random;
 
+import org.usfirst.frc2783.commands.autonomous.TestAuto;
+import org.usfirst.frc2783.commands.autonomous.actions.ActionScheduler;
 import org.usfirst.frc2783.commands.autonomous.modes.LeftSideScalePref;
 import org.usfirst.frc2783.commands.autonomous.modes.LeftSideSwitchPref;
 import org.usfirst.frc2783.commands.autonomous.modes.MiddleDoublePower;
@@ -47,7 +49,7 @@ public class Robot extends IterativeRobot {
     public static String gameData;
     public static String autoSides;
     
-	public static SendableChooser chooser;
+	public static ActionScheduler autoScheduler = new ActionScheduler();
 	
 	EncoderCounter counter = new EncoderCounter();
     
@@ -61,18 +63,10 @@ public class Robot extends IterativeRobot {
         gameData = getPracticeData(true, null);
         autoSides = gameData.substring(0, 1);
         
-//      Instantiates the autonomous chooser and adds all of the autonomous Modes to it
-        chooser = new SendableChooser();
-        chooser.addObject("Left Side Scale Pref", new LeftSideScalePref());
-        chooser.addObject("Left Side Switch Pref", new LeftSideSwitchPref());
-        chooser.addObject("Right Side Scale Pref", new RightSideScalePref());
-        chooser.addObject("Right Side Switch Pref", new RightSideSwitchPref());
-        chooser.addObject("Scale From Middle", new MiddleScaleOnly());
-        chooser.addObject("Switch From Middle", new MiddleSwitchOnly());
-        chooser.addObject("Double Power Up", new MiddleDoublePower());
+        String[] autonomousList = {"Test"};
         
         //Puts the autonomous modes selector into the dashboard
-        SmartDashboard.putData("Autonomous Mode Chooser", chooser);
+        SmartDashboard.putStringArray("Autonomous Mode Chooser", autonomousList);
         
         //Gets the Switch/Scale sides from the Driver Station and stores it as a variable
         
@@ -91,45 +85,18 @@ public class Robot extends IterativeRobot {
     }
 
     public void autonomousInit() {
-    	//Gets the autonomous selector value from the dashboard
-//    	String autoSelected = SmartDashboard.getString("Auto Selector", "None");
+    	String autoSelected = SmartDashboard.getString("Auto Selector", "None");
+
+    	switch(autoSelected) {
+		case "Test":
+			autoScheduler.setGroup(new TestAuto());
+			break;
+		default:
+			
+    	} 
     	
-    	//Sets the autonomous Command to the one selected from Driver Station
-    	autoCommand = (Command) chooser.getSelected();
+    	autoScheduler.start();
     	
-    	//Switches the autonomous mode based on the value from the SmartDashboard
-//		switch(autoSelected) {
-//			case "Left Side Scale Pref":
-//				autoCommand = new LeftSideScalePref();
-//				break;
-//			case "Left Side Switch Pref":
-//				autoCommand = new LeftSideSwitchPref();
-//				break;
-//			case "Right Side Scale Pref":
-//				autoCommand = new RightSideScalePref();
-//				break;
-//			case "Right Side Switch Pref":
-//				autoCommand = new RightSideSwitchPref();
-//				break;
-//			case "Scale From Middle":
-//				autoCommand = new MiddleScaleOnly();
-//				break;
-//			case "Switch From Middle":
-//				autoCommand = new MiddleSwitchOnly();
-//				break;
-//			case "Double Power Up":
-//				autoCommand = new MiddleDoublePower();
-//				break;
-//			case "None":
-//			default:
-//				autoCommand = null;
-//				break;
-//		} 
-		
-    	//Makes it so the autonomous command does not run if it does not exist
-    	if(autoCommand != null) {
-    		autoCommand.start();
-    	}
     }
     
     public void autonomousPeriodic() {

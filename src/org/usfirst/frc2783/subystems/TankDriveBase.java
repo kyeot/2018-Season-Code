@@ -5,6 +5,7 @@ import org.usfirst.frc2783.robot.Constants;
 import org.usfirst.frc2783.robot.Robot;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.PIDController;
@@ -84,7 +85,7 @@ public class TankDriveBase extends Subsystem {
 		leftSide1.setNeutralMode(NeutralMode.Brake);
 		leftSide1.setNeutralMode(NeutralMode.Brake);
 		
-		leftSide1.set(ControlMode.PercentOutput, lSpeed);
+		leftSide1.set(ControlMode.PercentOutput, -lSpeed);
 		rightSide1.set(ControlMode.PercentOutput, rSpeed);
 		
 	}
