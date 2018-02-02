@@ -134,10 +134,10 @@ public class AutonGUI extends JFrame {
                             	
                             			// Create a shape using the starting x & y
                             			// and finishing x & y positions
-                            			Shape aShape = drawRectangle(drawStart.x + 2, drawStart.y + 2, drawStart.x - 2, drawStart.y - 2);
+                            			Shape marker = drawRectangle(drawStart.x + 2, drawStart.y + 2, drawStart.x - 2, drawStart.y - 2);
                                   
                             			// Add shapes, fills and colors to their ArrayLists
-                            			shapes.add(aShape);
+                            			shapes.add(marker);
                             			shapeFill.add(fillColor);
                             			shapeStroke.add(strokeColor);
                             			System.out.println(drawStart.getX() + ", " + drawStart.getY());
