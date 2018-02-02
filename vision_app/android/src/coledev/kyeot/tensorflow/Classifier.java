@@ -46,13 +46,25 @@ public interface Classifier {
     /** Optional location within the source image for the location of the recognized object. */
     private RectF location;
 
-    public Recognition(
-        final String id, final String title, final Float confidence, final RectF location) {
+    /** Timestamp for when object was created, allows latency compensation. */
+    private long timestamp;
+
+    /*public Recognition(final String id, final String title, final Float confidence, final RectF location) {
       this.id = id;
       this.title = title;
       this.confidence = confidence;
       this.location = location;
+    }*/
+
+    public Recognition(final String id, final String title, final Float confidence, final RectF location, final long timestamp) {
+      this.id = id;
+      this.title = title;
+      this.confidence = confidence;
+      this.location = location;
+      this.timestamp = timestamp;
     }
+
+
 
     public String getId() {
       return id;
@@ -68,6 +80,10 @@ public interface Classifier {
 
     public RectF getLocation() {
       return new RectF(location);
+    }
+
+    public long getTimestamp() {
+      return timestamp;
     }
 
     public void setLocation(RectF location) {

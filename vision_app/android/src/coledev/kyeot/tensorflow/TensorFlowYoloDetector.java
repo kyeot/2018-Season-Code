@@ -207,7 +207,7 @@ public class TensorFlowYoloDetector implements Classifier {
           if (confidenceInClass > 0.01) {
             LOGGER.i(
                 "%s (%d) %f %s", LABELS[detectedClass], detectedClass, confidenceInClass, rect);
-            pq.add(new Recognition("" + offset, LABELS[detectedClass], confidenceInClass, rect));
+            pq.add(new Recognition("" + offset, LABELS[detectedClass], confidenceInClass, rect, System.currentTimeMillis()));
           }
         }
       }

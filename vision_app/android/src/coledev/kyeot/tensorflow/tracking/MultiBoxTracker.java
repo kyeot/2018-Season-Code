@@ -25,6 +25,7 @@ import android.graphics.Paint.Join;
 import android.graphics.Paint.Style;
 import android.graphics.RectF;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Pair;
 import android.util.TypedValue;
 import android.widget.Toast;
@@ -32,6 +33,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
+import coledev.kyeot.tensorflow.AppContext;
+import coledev.kyeot.tensorflow.CameraConnectionFragment;
+import coledev.kyeot.tensorflow.DetectorActivity;
+import coledev.kyeot.tensorflow.comm.CameraTargetInfo;
+import coledev.kyeot.tensorflow.comm.RobotConnection;
+import coledev.kyeot.tensorflow.comm.VisionUpdate;
+import coledev.kyeot.tensorflow.comm.messages.TargetUpdateMessage;
 import coledev.kyeot.tensorflow.env.BorderedText;
 import coledev.kyeot.tensorflow.env.ImageUtils;
 import coledev.kyeot.tensorflow.env.Logger;
@@ -95,6 +103,8 @@ public class MultiBoxTracker {
   private int sensorOrientation;
   private Context context;
 
+  public static boolean robotConnected = false;
+
   public MultiBoxTracker(final Context context) {
     this.context = context;
     for (final int color : COLORS) {
@@ -145,6 +155,7 @@ public class MultiBoxTracker {
 
       final RectF trackedPos = trackedObject.getTrackedPositionInPreviewFrame();
 
+
       if (getFrameToCanvasMatrix().mapRect(trackedPos)) {
         final String labelString = String.format("%.2f", trackedObject.getCurrentCorrelation());
         borderedText.drawText(canvas, trackedPos.right, trackedPos.bottom, labelString);
@@ -155,8 +166,8 @@ public class MultiBoxTracker {
     objectTracker.drawDebug(canvas, matrix);
   }
 
-  public synchronized void trackResults(
-          final List<Classifier.Recognition> results, final byte[] frame, final long timestamp) {
+  public synchronized void trackResults(final List<Classifier.Recognition> results, final byte[] frame, final long timestamp) {
+
     logger.i("Processing %d results from %d", results.size(), timestamp);
     processResults(timestamp, results, frame);
   }
@@ -200,17 +211,18 @@ public class MultiBoxTracker {
       final int w,
       final int h,
       final int rowStride,
-      final int sensorOrienation,
+      final int sensorOrientation,
       final byte[] frame,
       final long timestamp) {
     if (objectTracker == null && !initialized) {
       ObjectTracker.clearInstance();
 
       logger.i("Initializing ObjectTracker: %dx%d", w, h);
+
       objectTracker = ObjectTracker.getInstance(w, h, rowStride, true);
       frameWidth = w;
       frameHeight = h;
-      this.sensorOrientation = sensorOrienation;
+      this.sensorOrientation = sensorOrientation;
       initialized = true;
 
       if (objectTracker == null) {
@@ -244,8 +256,7 @@ public class MultiBoxTracker {
     }
   }
 
-  private void processResults(
-          final long timestamp, final List<Classifier.Recognition> results, final byte[] originalFrame) {
+  private void processResults(final long timestamp, final List<Classifier.Recognition> results, final byte[] originalFrame) {
     final List<Pair<Float, Classifier.Recognition>> rectsToTrack = new LinkedList<Pair<Float, Classifier.Recognition>>();
 
     screenRects.clear();
@@ -255,6 +266,23 @@ public class MultiBoxTracker {
       if (result.getLocation() == null) {
         continue;
       }
+
+      //#TODO: Calculate 3D vector and send to robot
+      VisionUpdate visionUpdate = new VisionUpdate(result.getTimestamp());
+      float centroidX = result.getLocation().centerX();
+      float centroidY = result.getLocation().centerY();
+      Log.d("Object at (x, y)", centroidX + ", " + centroidY);
+      final double y = -(centroidX - DetectorActivity.kCenterCol) / CameraConnectionFragment.focal_length_pixels;
+      final double z = (centroidY - DetectorActivity.kCenterRow) / CameraConnectionFragment.focal_length_pixels;
+      Log.d("MultiBoxTracker", "Object vector (y, z): " + y + ", " + z);
+      visionUpdate.addCameraTargetInfo(new CameraTargetInfo(y, z));
+      if (robotConnected) {
+        RobotConnection mRobotConnection = AppContext.getRobotConnection();
+        TargetUpdateMessage update = new TargetUpdateMessage(visionUpdate, System.nanoTime());
+        mRobotConnection.send(update);
+      }
+
+
       final RectF detectionFrameRect = new RectF(result.getLocation());
 
       final RectF detectionScreenRect = new RectF();
@@ -419,4 +447,6 @@ public class MultiBoxTracker {
         recogToReplace != null ? recogToReplace.color : availableColors.poll();
     trackedObjects.add(trackedRecognition);
   }
+
+
 }

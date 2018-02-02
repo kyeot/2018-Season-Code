@@ -19,6 +19,8 @@ import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.RectF;
 import android.os.Trace;
+import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -251,13 +253,13 @@ public class TensorFlowMultiBoxDetector implements Classifier {
 
     // Scale them back to the input size.
     for (int i = 0; i < outputScores.length; ++i) {
-      final RectF detection =
-          new RectF(
+
+      final RectF detection = new RectF(
               outputLocations[4 * i] * inputSize,
               outputLocations[4 * i + 1] * inputSize,
               outputLocations[4 * i + 2] * inputSize,
               outputLocations[4 * i + 3] * inputSize);
-      pq.add(new Recognition("" + i, null, outputScores[i], detection));
+      pq.add(new Recognition("" + i, null, outputScores[i], detection, System.currentTimeMillis()));
     }
 
     final ArrayList<Recognition> recognitions = new ArrayList<Recognition>();

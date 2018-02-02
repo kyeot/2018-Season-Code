@@ -43,7 +43,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Size;
+import android.util.SizeF;
 import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.Surface;
@@ -59,8 +61,12 @@ import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 import coledev.kyeot.tensorflow.env.Logger;
+import coledev.kyeot.tensorflow.tracking.MultiBoxTracker;
+
+import static coledev.kyeot.tensorflow.DetectorActivity.kWidth;
 
 public class CameraConnectionFragment extends Fragment {
+
   private static final Logger LOGGER = new Logger();
 
   /**
@@ -151,13 +157,36 @@ public class CameraConnectionFragment extends Fragment {
    * {@link android.hardware.camera2.CameraDevice.StateCallback}
    * is called when {@link CameraDevice} changes its state.
    */
+  public static double focal_length_pixels;
+
   private final CameraDevice.StateCallback stateCallback =
       new CameraDevice.StateCallback() {
+
+
         @Override
         public void onOpened(final CameraDevice cd) {
           // This method is called when the camera is opened.  We start camera preview here.
           cameraOpenCloseLock.release();
           cameraDevice = cd;
+          //code Cole added
+          CameraManager manager = (CameraManager) getActivity().getSystemService(Context.CAMERA_SERVICE);
+          try {
+            CameraCharacteristics characteristics = manager.getCameraCharacteristics(cameraId);
+            float[] focal_lengths = characteristics.get(CameraCharacteristics.LENS_INFO_AVAILABLE_FOCAL_LENGTHS);
+            if (focal_lengths.length != 1) {
+              Log.e("CameraConnection", "Error: more than one focal length supported");
+            }
+            SizeF sensor_size = characteristics.get(CameraCharacteristics.SENSOR_INFO_PHYSICAL_SIZE);
+            Log.d("CameraConnection", "Sensor size: " + sensor_size);
+            double width_dim = sensor_size.getWidth();
+            double height_dim = sensor_size.getHeight();
+            focal_length_pixels = kWidth * focal_lengths[0] / width_dim;
+          } catch (CameraAccessException e){
+            Log.e("CameraConnection", "Camera not accessible!");
+          }
+
+
+
           createCameraPreviewSession();
         }
 

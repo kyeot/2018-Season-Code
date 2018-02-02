@@ -134,6 +134,8 @@ public class TensorFlowObjectDetectionAPIModel implements Classifier {
 
   private TensorFlowObjectDetectionAPIModel() {}
 
+
+
   @Override
   public List<Recognition> recognizeImage(final Bitmap bitmap) {
     // Log this method so that it can be analyzed with systrace.
@@ -174,8 +176,7 @@ public class TensorFlowObjectDetectionAPIModel implements Classifier {
     Trace.endSection();
 
     // Find the best detections.
-    final PriorityQueue<Recognition> pq =
-            new PriorityQueue<Recognition>(
+    final PriorityQueue<Recognition> pq = new PriorityQueue<Recognition>(
             1,
             new Comparator<Recognition>() {
               @Override
@@ -188,12 +189,12 @@ public class TensorFlowObjectDetectionAPIModel implements Classifier {
     // Scale them back to the input size.
     for (int i = 0; i < outputScores.length; ++i) {
       final RectF detection =
-          new RectF(
+              new RectF(
               outputLocations[4 * i + 1] * inputSize,
               outputLocations[4 * i] * inputSize,
               outputLocations[4 * i + 3] * inputSize,
               outputLocations[4 * i + 2] * inputSize);
-        pq.add(new Recognition("" + i, labels.get(1), outputScores[i], detection));  //labels.get(1) is hardcoded to return powerup_cube string, other way would cause exception
+        pq.add(new Recognition("" + i, labels.get(1), outputScores[i], detection, System.currentTimeMillis()));  //labels.get(1) is hardcoded to return powerup_cube string, other way would cause exception
     }
 
     final ArrayList<Recognition> recognitions = new ArrayList<Recognition>();
