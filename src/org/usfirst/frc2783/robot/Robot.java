@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
-
+//adds classes to the code
 public class Robot extends IterativeRobot {
 
     public static OI oi;

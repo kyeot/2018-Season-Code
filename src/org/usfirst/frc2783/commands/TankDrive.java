@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class TankDrive extends Command {
 
     public TankDrive() {
+    	//sets requirement system
         requires(Robot.tankDrive);
     }
 
@@ -20,6 +21,7 @@ public class TankDrive extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	//sets tank drive speed to the drive sticks
     	Robot.tankDrive.tankDrive(OI.driver.getRawAxis(1), OI.driver.getRawAxis(5));
     }
 
