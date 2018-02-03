@@ -28,22 +28,28 @@ public class NavSensor {
 	Map<Double, Bearing> history = new TreeMap<Double, Bearing>();
 	
 	NavSensor() {
+		
 		try {
 	         navSensor = new AHRS(SPI.Port.kMXP);
 	     } catch (RuntimeException ex ) {
 	         DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
 	     }
+		
 	}
 	
 	AHRS navSensor;
 	double offset = 0;
 	
 	public double getAngle(boolean reversed) {
+		
     	if(reversed) {
-    		return 360-((((navSensor.getAngle()+180.0)%360)+360)%360); //deals with negative angles, java 8 simply keeps the sign when modulating negative values.
-    	} else {
-    		return 360-(((navSensor.getAngle()%360)+360)%360);
+    		//deals with negative angles, java 8 simply keeps the sign when modulating negative values.
+    		return 360 - ((((navSensor.getAngle() + 180.0) % 360) + 360) % 360); 
     	}
+    	else {
+    		return 360 - (((navSensor.getAngle() % 360) + 360) % 360);
+    	}
+    	
     }
 	
 	public double getRawAngle() {
@@ -56,6 +62,7 @@ public class NavSensor {
     }
 	
 	public void updateHistory() {
+		
 		history.put(Timestamp.setNewTime().getTime(), new Bearing(getAngle(false)));
 		ArrayList<Double> toRemove = new ArrayList<Double>();
 		for(Double t : history.keySet()) {
@@ -65,15 +72,17 @@ public class NavSensor {
 			}
 		}
 		history.keySet().removeAll(toRemove);
+		
 	}
 	
 	public Bearing getAngleAtTime(Timestamp time) {
+		
 		if(history.get(time.getTime()) != null) {
 			return history.get(time.getTime());
 		} else {
 			boolean comparison = false;
 			for(Double t : history.keySet()) {
-				comparison = t-time.getTime() > 0;
+				comparison = t - time.getTime() > 0;
 				if(comparison) {
 					return history.get(t);
 				}
