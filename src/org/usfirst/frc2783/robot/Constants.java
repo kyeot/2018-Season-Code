@@ -12,7 +12,7 @@ public class Constants {
 	public static final int kElevator1 = 2;
 	public static final int kElevator2 = 12;
 	public static final int kIntakeRight = 15;
-	public static final int kIntakeLeft = 0;
+	public static final int kIntakeLeft = 1;
 
 	public static final int kLeftDrive1 = 4;
 	public static final int kLeftDrive2 = 7;
