@@ -275,6 +275,7 @@ public class MultiBoxTracker {
       final double y = -(centroidX - DetectorActivity.kCenterCol) / CameraConnectionFragment.focal_length_pixels;
       final double z = (centroidY - DetectorActivity.kCenterRow) / CameraConnectionFragment.focal_length_pixels;
       Log.d("MultiBoxTracker", "Object vector (y, z): " + y + ", " + z);
+      Log.d("MultiBoxTracker", "Object timestamp: " + result.getTimestamp());
       visionUpdate.addCameraTargetInfo(new CameraTargetInfo(y, z));
       if (robotConnected) {
         RobotConnection mRobotConnection = AppContext.getRobotConnection();

@@ -46,7 +46,7 @@
         -->
 
         <activity android:name="coledev.kyeot.tensorflow.DetectorActivity"
-                  android:screenOrientation="landscape"
+                  android:screenOrientation="reverseLandscape"
                   android:label="@string/activity_name_detection">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
