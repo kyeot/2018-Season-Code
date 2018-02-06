@@ -8,65 +8,43 @@ package org.usfirst.frc2783.util;
  * @see Bearing
  */
 public class Vector {
+	double a;
+	double b;
 	
-	double x;
-	double y;
-	
-	/**
-	 * This constructor defines the vector by giving the x and y lengths of the vector.
-	 * @param x
-	 * @param y
-	 */
-	public Vector(double x, double y) {
-		this.x = x;
-		this.y = y;
+	public Vector(double a, double b) {
+		this.a = a;
+		this.b = b;
 	}
 	
-	/**
-	 * This constructor defines the vector by giving the direction and .
-	 * @param dir
-	 * @param mag
-	 * @param a
-	 */
 	public Vector(double dir, double mag, boolean a) { 
-		this.x = Math.cos(Math.toRadians(dir)) * mag;
-		this.y = Math.sin(Math.toRadians(dir)) * mag;
+		this.a = Math.cos(Math.toRadians(dir)) * mag;
+		this.b = Math.sin(Math.toRadians(dir)) * mag;
 	}
 	
-	/**
-	 * This method takes a vector and and adds it to the passed vector and returns a new vector.
-	 * @param v
-	 * @return Vector(c, d)
-	 */
-	public Vector addVector(Vector v) {
-		double c = x + v.getX();
-		double d = y + v.getY();
-		return new Vector(c, d);
+	public Vector translate(Vector v) {
+		double c = a + v.getA();
+		double d = b + v.getB();
+		return new Vector(c,d);
 	}
 	
-	/**
-	 * Rotates vector by Bearing r.
-	 * @param r
-	 * @return Vector(rotated coordinates)
-	 */
 	public Vector rotateBy(Bearing r) {
-		return new Vector((x * r.cos()) - (y * r.sin()),
-						  (x * r.sin()) + (y * r.cos()));
+		return new Vector((a*r.cos())-(b*r.sin()), (a*r.sin())+(b*r.cos()));
+				
 	}
 	
 	public double mag() {
-		return Math.hypot(x, y);
+		return Math.hypot(a, b);
 	}
 	
 	public Bearing dir() {
-		return new Bearing(Math.toDegrees(Math.atan2(y, x)));
+		return new Bearing(Math.toDegrees(Math.atan2(b,a)));
 	}
 	
-	public double getX() {
-		return x;
+	public double getA() {
+		return a;
 	}
 	
-	public double getY() {
-		return y;
+	public double getB() {
+		return b;
 	}
 }

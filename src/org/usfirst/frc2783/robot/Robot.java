@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-//adds classes to the code
+
 public class Robot extends IterativeRobot {
 
     public static OI oi;
@@ -53,12 +53,18 @@ public class Robot extends IterativeRobot {
         looper.addLoop(leftCounter);
         looper.addLoop(rightCounter);
         looper.startLoops();
-        
-        //Gets the Switch/Scale sides from the Driver Station and stores it as a variable
+
 //      gameData = DriverStation.getInstance().getGameSpecificMessage();
         gameData = getPracticeData(true, null);
         autoSides = gameData.substring(0, 1);
-   
+        
+        String[] autonomousList = {"Test"};
+        
+        //Puts the autonomous modes selector into the dashboard
+        SmartDashboard.putStringArray("Autonomous Mode Chooser", autonomousList);
+        
+        //Gets the Switch/Scale sides from the Driver Station and stores it as a variable
+        
         try {
 	         navSensor = new AHRS(SPI.Port.kMXP);
 	     } catch (RuntimeException ex ) {

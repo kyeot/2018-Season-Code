@@ -11,11 +11,8 @@
 	<classpathentry kind="var" path="USERLIBS_DIR/CTRE_Phoenix-sources.jar"/>
 	<classpathentry kind="var" path="USERLIBS_DIR/CTRE_Phoenix.jar"/>
 	<classpathentry kind="var" path="wpiutil" sourcepath="wpiutil.sources"/>
-<<<<<<< HEAD
 	<classpathentry kind="lib" path="C:/Users/owena/Documents/GitHub/2017-Off-Season-Code/lib/json-simple-1.1.1.jar"/>
 	<classpathentry kind="var" path="USERLIBS_DIR/CTRLib.jar"/>
 	<classpathentry kind="var" path="USERLIBS_DIR/java-json.jar"/>
-=======
->>>>>>> master
 	<classpathentry kind="output" path="bin"/>
 </classpath>

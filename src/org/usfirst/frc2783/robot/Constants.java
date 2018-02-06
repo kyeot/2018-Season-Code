@@ -22,18 +22,7 @@ public class Constants {
 	public static final int kRightSide1ID = 8;
 	public static final int kRightSide2ID = 11;
 	
-	public static final int manipulatorID = 1;
 	public static final int driverID = 0;
-	
-	public static final int kElevator1 = 2;
-	public static final int kElevator2 = 12;
-	public static final int kIntakeRight = 15;
-	public static final int kIntakeLeft = 1;
-
-	public static final int kLeftDrive1 = 4;
-	public static final int kLeftDrive2 = 7;
-	public static final int kRightDrive1 = 11;
-	public static final int kRightDrive2 = 8;
 
 	public static final double kPeriod = 0.0005; 
 
