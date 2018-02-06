@@ -1,47 +1,53 @@
-package org.usfirst.frc2783.util;
+package org.usfirst.frc2783.autonomus;
 
 import javax.swing.*;
 
 import java.awt.event.*;
 import java.awt.*;
-import java.awt.geom.*;
 import java.util.*;
 
 @SuppressWarnings("serial")
 public class AutonGUI extends JFrame {
 	
-		JButton addButton, deleteButton;
+		JButton addButton, deleteButton, manipulateButton;
+		JTextField coordinates, coord;
+		JTextField coordText = new JTextField();
 
 		// Going to be used to monitor what shape to draw next
 		
-		int actionNumber = 2;
+		int actionNumber = 1;
+		boolean isSelected = true;
 		
 		// Default stroke and fill colors
 		
 		Color strokeColor = Color.BLACK, fillColor = Color.GREEN;
 	
-        public static void main(String [] args) {
+        public static void main(String[] args) {
                 new AutonGUI();
         }
 
         public AutonGUI() {
         	// Define the defaults for the JFrame
         	
-            this.setSize(500, 700);
+            this.setSize(1000, 700);
             this.setTitle("Autonomus Mapping");
             this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             
             JPanel buttonPanel = new JPanel();
             
+            JPanel textPanel = new JPanel();
+            
             // Swing box that will hold all the buttons
             
             Box menu = Box.createHorizontalBox();
+            Box textArea = Box.createVerticalBox();
             
             // Make all the buttons in makeMeButtons by passing the
             // button icon. 
             
-            addButton = createButton("./src/blackbox.png", 2);
-            deleteButton = createButton("./src/delete.png", 1);
+            addButton = createButton("./src/greenbox.png", 1);
+            deleteButton = createButton("./src/delete.png", 2);
+            manipulateButton = createButton("./src/manip.png", 3);
             
             
             // Make all the buttons in makeMeColorButton by passing the
@@ -52,26 +58,39 @@ public class AutonGUI extends JFrame {
             
             menu.add(addButton);
             menu.add(deleteButton);
+            menu.add(manipulateButton);
+            
             
             // Add the box of buttons to the panel
             
             buttonPanel.add(menu);
+            textPanel.add(textArea);
 
             // Position the buttons in the bottom of the frame
             
-            this.add(buttonPanel, BorderLayout.SOUTH);
+            getContentPane().add(buttonPanel, BorderLayout.SOUTH);
             
             // Make the drawing area take up the rest of the frame
             
-            this.add(new DrawingBoard(), BorderLayout.CENTER);
+            getContentPane().add(new DrawingBoard(), BorderLayout.CENTER);
             
-            // Show the frame
+            if (isSelected) {
+            	
+            	getContentPane().add(textPanel, BorderLayout.WEST);
+                
+                textArea.add(coordText);
+                coordText.setColumns(10);
+            	
+            } else {
+            	
+            	getContentPane().remove(textPanel);
+            	
+            }
             
             this.setVisible(true);
         }
         
-        // Spits out buttons based on the image supplied
-        // actionNum represents each shape to be drawn
+        // Spits out buttons based on the image supplied  // actionNum represents each shape to be drawn
         
         public JButton createButton(String iconFile, int actionNum) {
         	JButton newButton = new JButton();
@@ -92,78 +111,107 @@ public class AutonGUI extends JFrame {
             
             return newButton;  
         }
-
-        @SuppressWarnings("serial")
+        
+        
+        
 		private class DrawingBoard extends JComponent {
         	
         	// ArrayLists that contain each shape drawn along with
         	// that shapes stroke and fill
         	
-                ArrayList<Shape> shapes = new ArrayList<Shape>();
+                ArrayList<Rectangles> markers = new ArrayList<Rectangles>();
                 ArrayList<Color> shapeFill = new ArrayList<Color>();
                 ArrayList<Color> shapeStroke = new ArrayList<Color>();
-                Point drawStart;
-
+                Point pointClicked;
+                
                 // Monitors events on the drawing area of the frame
                 
                 public DrawingBoard() {
                 	
                         this.addMouseListener(new MouseAdapter() {
+                        	
+                        	
+                        	
                             public void mousePressed(MouseEvent e) {
-                            	if (actionNumber != 1) {
+                            	
+                            	pointClicked = new Point(e.getX(), e.getY());
+                            	
+                            		// When the mouse is pressed get x & y position
+                            	if (actionNumber == 1) {
                             		
                             		// When the mouse is pressed get x & y position
-                            		drawStart = new Point(e.getX(), e.getY());
+                            		
+                            		
+                            		Rectangles marker = drawMarker(pointClicked.x + 3, pointClicked.y + 3, pointClicked.x - 3, pointClicked.y - 3);
+                                    
+                        			// Add shapes, fills and colors to their ArrayLists
+                            		markers.add(marker);
+                            		shapeFill.add(fillColor);
+                            		shapeStroke.add(strokeColor);
+                            		coordText.setText((char) (markers.indexOf(marker) + 65) + " (" + (int) marker.getLocation().getX() + ", " + (int) marker.getLocation().getY() + ")");
                             		repaint();
                             		
-                                }
-                            	
-                            	else if (actionNumber == 1) {
+                            	} else if (actionNumber == 2) {
                             		
                             		
                             		
-                            	}
-                            	
-                            }
-
-                            public void mouseReleased(MouseEvent e) {
-                            	
-                            	if (actionNumber != 1) {
+                            	} else if (actionNumber == 3) {
                             		
-                            		if (actionNumber == 2) {
-                            	
-                            			// Create a shape using the starting x & y
-                            			// and finishing x & y positions
-                            			Shape marker = drawRectangle(drawStart.x + 2, drawStart.y + 2, drawStart.x - 2, drawStart.y - 2);
-                                  
-                            			// Add shapes, fills and colors to their ArrayLists
-                            			shapes.add(marker);
-                            			shapeFill.add(fillColor);
-                            			shapeStroke.add(strokeColor);
-                            			System.out.println(drawStart.getX() + ", " + drawStart.getY());
-                                
-                            			drawStart = null;
+                            		for (Rectangles m : markers) {
                             			
-                                 
-                            			// repaint the drawing area
-                            			repaint();
+                            			if (m.contains(pointClicked)) {
+                            				
+                            				coordText.setText((char) (markers.indexOf(m) + 65) + " (" + (int) m.getLocation().getX() + ", " + (int) m.getLocation().getY() + ")");
+                            				m.setSelected(true);
+                            				
+                            			} else {
+                            				
+                            				m.setSelected(false);
+                            				
+                            			}
                             			
                             		}
                             		
                             	}
-                            	else if (actionNumber == 1){
-                            		
-                            	}
+                        		
+                        		pointClicked = null;
+                        			
+                             
+                        			// repaint the drawing area
+                        		repaint();
+                            }
+                            	
+                            	
+                        }); //end of mouse listener
+                        
+                        this.addMouseMotionListener(new MouseMotionAdapter() {
+                        	
+                        	
+                        	
+                        	public void mouseDragged(MouseEvent e) {
+                        		Point currentPoint = new Point(e.getX(), e.getY());
+                        		if (actionNumber == 3) {
+                        			
+                        			//Cycles through each marker and sees which one was cicked on
+                        			for (Rectangles m : markers) {
+                        				if (m.isSelected) {
+                        					
+                        					m.setLocation(currentPoint);
+                        				} else {
+                        					isSelected = false;
+                          				
+                          			    }
+                          			
+                          		    }
+                        	  	
+                        	  	
+                        	  	
+                        	  
+                        	  	  repaint();
+                        	    }
                             }
                         });
-
-                        this.addMouseMotionListener(new MouseMotionAdapter() {
-                          public void mouseDragged(MouseEvent e) {
-                        	  
-                        	  repaint();
-                          }
-                        });
-                	
+               	
                 }
                 
                 public void paint(Graphics g) {
@@ -187,7 +235,7 @@ public class AutonGUI extends JFrame {
                         
                         graphSettings.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
                         
-                        for (Shape s : shapes) {
+                        for (Rectangles s : markers) {
                         	// Grabs the next stroke from the color arraylist
                         	graphSettings.setPaint(strokeCounter.next());
                         	
@@ -200,7 +248,7 @@ public class AutonGUI extends JFrame {
                         }
 
                         // Guide shape used for drawing
-                        if (drawStart != null) {
+                        if (pointClicked != null) {
                         	// Makes the guide shape transparent
                             
                             graphSettings.setComposite(AlphaComposite.getInstance(
@@ -212,26 +260,33 @@ public class AutonGUI extends JFrame {
                         	
                         	// Create a new rectangle using x & y coordinates
                         	
-                                Shape aShape = drawRectangle(drawStart.x + 2, drawStart.y + 2, drawStart.x - 2, drawStart.y - 2);
+                                Rectangles aShape = drawMarker(pointClicked.x + 2, pointClicked.y + 2, pointClicked.x - 2, pointClicked.y - 2);
                                 graphSettings.draw(aShape);
                         }
                 }
 
-                private Rectangle2D.Float drawRectangle(int x1, int y1, int x2, int y2) {
+                private Rectangles drawMarker(int x1, int y1, int x2, int y2) {
+                	
+                	boolean selected;
+                	
                 	// Get the top left hand corner for the shape
                 	// Math.min returns the points closest to 0
                 	
-                        int x = Math.min(x1, x2);
-                        int y = Math.min(y1, y2);
+                    int x = Math.min(x1, x2);
+                    int y = Math.min(y1, y2);
                         
-                        // Gets the difference between the coordinates and 
+                    // Gets the difference between the coordinates and 
                         
-                        int width = Math.abs(x1 - x2);
-                        int height = Math.abs(y1 - y2);
+                    int width = Math.abs(x1 - x2);
+                    int height = Math.abs(y1 - y2);
+                    
+                    Rectangles newRect = new Rectangles(x, y, width, height);
+                        
+                    
 
-                        return new Rectangle2D.Float(x, y, width, height);
-                        
+                    return newRect;
                 }
+                
                 
         }
         

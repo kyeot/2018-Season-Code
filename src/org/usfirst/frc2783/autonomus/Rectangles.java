@@ -1,3 +1,4 @@
+package org.usfirst.frc2783.autonomus;
 /*
  * Copyright 1995-2006 Sun Microsystems, Inc.  All Rights Reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -23,73 +24,70 @@
  * have any questions.
  */
 
-package org.usfirst.frc2783.util;
 
-import java.awt.Component;
+
 import java.awt.Dimension;
-import java.awt.GraphicsEnvironment;
 import java.awt.Point;
 import java.awt.Shape;
-import java.awt.Toolkit;
 import java.awt.geom.Rectangle2D;
 
 /**
- * A <code>Rectangle</code> specifies an area in a coordinate space that is
- * enclosed by the <code>Rectangle</code> object's upper-left point
+ * A <code>Marker</code> specifies an area in a coordinate space that is
+ * enclosed by the <code>Marker</code> object's upper-left point
  * {@code (x,y)}
  * in the coordinate space, its width, and its height.
  * <p>
- * A <code>Rectangle</code> object's <code>width</code> and
+ * A <code>Marker</code> object's <code>width</code> and
  * <code>height</code> are <code>public</code> fields. The constructors
- * that create a <code>Rectangle</code>, and the methods that can modify
+ * that create a <code>Marker</code>, and the methods that can modify
  * one, do not prevent setting a negative value for width or height.
  * <p>
  * <a name="Empty">
- * A {@code Rectangle} whose width or height is exactly zero has location
+ * A {@code Marker} whose width or height is exactly zero has location
  * along those axes with zero dimension, but is otherwise considered empty.
- * The {@link #isEmpty} method will return true for such a {@code Rectangle}.
- * Methods which test if an empty {@code Rectangle} contains or intersects
- * a point or rectangle will always return false if either dimension is zero.
- * Methods which combine such a {@code Rectangle} with a point or rectangle
- * will include the location of the {@code Rectangle} on that axis in the
+ * The {@link #isEmpty} method will return true for such a {@code Marker}.
+ * Methods which test if an empty {@code Marker} contains or intersects
+ * a point or Marker will always return false if either dimension is zero.
+ * Methods which combine such a {@code Marker} with a point or Marker
+ * will include the location of the {@code Marker} on that axis in the
  * result as if the {@link #add(Point)} method were being called.
  * </a>
  * <p>
  * <a name="NonExistant">
- * A {@code Rectangle} whose width or height is negative has neither
+ * A {@code Marker} whose width or height is negative has neither
  * location nor dimension along those axes with negative dimensions.
- * Such a {@code Rectangle} is treated as non-existant along those axes.
- * Such a {@code Rectangle} is also empty with respect to containment
+ * Such a {@code Marker} is treated as non-existant along those axes.
+ * Such a {@code Marker} is also empty with respect to containment
  * calculations and methods which test if it contains or intersects a
- * point or rectangle will always return false.
- * Methods which combine such a {@code Rectangle} with a point or rectangle
- * will ignore the {@code Rectangle} entirely in generating the result.
- * If two {@code Rectangle} objects are combined and each has a negative
+ * point or Marker will always return false.
+ * Methods which combine such a {@code Marker} with a point or Marker
+ * will ignore the {@code Marker} entirely in generating the result.
+ * If two {@code Marker} objects are combined and each has a negative
  * dimension, the result will have at least one negative dimension.
  * </a>
  * <p>
- * Methods which affect only the location of a {@code Rectangle} will
+ * Methods which affect only the location of a {@code Marker} will
  * operate on its location regardless of whether or not it has a negative
  * or zero dimension along either axis.
  * <p>
- * Note that a {@code Rectangle} constructed with the default no-argument
+ * Note that a {@code Marker} constructed with the default no-argument
  * constructor will have dimensions of {@code 0x0} and therefore be empty.
- * That {@code Rectangle} will still have a location of {@code (0,0)} and
+ * That {@code Marker} will still have a location of {@code (0,0)} and
  * will contribute that location to the union and add operations.
  * Code attempting to accumulate the bounds of a set of points should
- * therefore initially construct the {@code Rectangle} with a specifically
+ * therefore initially construct the {@code Marker} with a specifically
  * negative width and height or it should use the first point in the set
- * to construct the {@code Rectangle}.
+ * to construct the {@code Marker}.
  * For example:
  * <pre>
- *     Rectangle bounds = new Rectangle(0, 0, -1, -1);
+ *     Marker bounds = new Marker(0, 0, -1, -1);
  *     for (int i = 0; i < points.length; i++) {
  *         bounds.add(points[i]);
  *     }
  * </pre>
  * or if we know that the points array contains at least one point:
  * <pre>
- *     Rectangle bounds = new Rectangle(points[0]);
+ *     Marker bounds = new Marker(points[0]);
  *     for (int i = 1; i < points.length; i++) {
  *         bounds.add(points[i]);
  *     }
@@ -126,7 +124,7 @@ public class Rectangles extends Rectangle2D
 {
 
     /**
-     * The X coordinate of the upper-left corner of the <code>Rectangle</code>.
+     * The X coordinate of the upper-left corner of the <code>Marker</code>.
      *
      * @serial
      * @see #setLocation(int, int)
@@ -136,7 +134,7 @@ public class Rectangles extends Rectangle2D
     public int x;
 
     /**
-     * The Y coordinate of the upper-left corner of the <code>Rectangle</code>.
+     * The Y coordinate of the upper-left corner of the <code>Marker</code>.
      *
      * @serial
      * @see #setLocation(int, int)
@@ -146,7 +144,7 @@ public class Rectangles extends Rectangle2D
     public int y;
 
     /**
-     * The width of the <code>Rectangle</code>.
+     * The width of the <code>Marker</code>.
      * @serial
      * @see #setSize(int, int)
      * @see #getSize()
@@ -155,7 +153,7 @@ public class Rectangles extends Rectangle2D
     public int width;
 
     /**
-     * The height of the <code>Rectangle</code>.
+     * The height of the <code>Marker</code>.
      *
      * @serial
      * @see #setSize(int, int)
@@ -163,6 +161,8 @@ public class Rectangles extends Rectangle2D
      * @since 1.0
      */
     public int height;
+    
+    public boolean isSelected;
 
     /*
      * JDK 1.1 serialVersionUID
@@ -173,8 +173,9 @@ public class Rectangles extends Rectangle2D
      * Initialize JNI field and method IDs
      */
     
+
     /**
-     * Constructs a new <code>Rectangle</code> whose upper-left corner
+     * Constructs a new <code>Marker</code> whose upper-left corner
      * is at (0,&nbsp;0) in the coordinate space, and whose width and
      * height are both zero.
      */
@@ -183,10 +184,10 @@ public class Rectangles extends Rectangle2D
     }
 
     /**
-     * Constructs a new <code>Rectangle</code>, initialized to match
-     * the values of the specified <code>Rectangle</code>.
-     * @param r  the <code>Rectangle</code> from which to copy initial values
-     *           to a newly constructed <code>Rectangle</code>
+     * Constructs a new <code>Marker</code>, initialized to match
+     * the values of the specified <code>Marker</code>.
+     * @param r  the <code>Marker</code> from which to copy initial values
+     *           to a newly constructed <code>Marker</code>
      * @since 1.1
      */
     public Rectangles(Rectangles r) {
@@ -194,60 +195,72 @@ public class Rectangles extends Rectangle2D
     }
 
     /**
-     * Constructs a new <code>Rectangle</code> whose upper-left corner is
+     * Constructs a new <code>Marker</code> whose upper-left corner is
      * specified as
      * {@code (x,y)} and whose width and height
      * are specified by the arguments of the same name.
      * @param     x the specified X coordinate
      * @param     y the specified Y coordinate
-     * @param     width    the width of the <code>Rectangle</code>
-     * @param     height   the height of the <code>Rectangle</code>
+     * @param     width    the width of the <code>Marker</code>
+     * @param     height   the height of the <code>Marker</code>
      * @since 1.0
      */
     public Rectangles(int x, int y, int width, int height) {
-        this.x = x;
-        this.y = y;
+        this.x = x + (width / 2);
+        this.y = y + (height / 2);
         this.width = width;
         this.height = height;
+        
+        
+        
+    }
+    public Rectangles(int x, int y, int width, int height, boolean isSelected) {
+        this.x = x + (width / 2);
+        this.y = y + (height / 2);
+        this.width = width;
+        this.height = height;
+        
+        
+        
     }
 
     /**
-     * Constructs a new <code>Rectangle</code> whose upper-left corner
+     * Constructs a new <code>Marker</code> whose upper-left corner
      * is at (0,&nbsp;0) in the coordinate space, and whose width and
      * height are specified by the arguments of the same name.
-     * @param width the width of the <code>Rectangle</code>
-     * @param height the height of the <code>Rectangle</code>
+     * @param width the width of the <code>Marker</code>
+     * @param height the height of the <code>Marker</code>
      */
     public Rectangles(int width, int height) {
         this(0, 0, width, height);
     }
 
     /**
-     * Constructs a new <code>Rectangle</code> whose upper-left corner is
+     * Constructs a new <code>Marker</code> whose upper-left corner is
      * specified by the {@link Point} argument, and
      * whose width and height are specified by the
      * {@link Dimension} argument.
      * @param p a <code>Point</code> that is the upper-left corner of
-     * the <code>Rectangle</code>
+     * the <code>Marker</code>
      * @param d a <code>Dimension</code>, representing the
-     * width and height of the <code>Rectangle</code>
+     * width and height of the <code>Marker</code>
      */
     public Rectangles(Point p, Dimension d) {
         this(p.x, p.y, d.width, d.height);
     }
 
     /**
-     * Constructs a new <code>Rectangle</code> whose upper-left corner is the
+     * Constructs a new <code>Marker</code> whose upper-left corner is the
      * specified <code>Point</code>, and whose width and height are both zero.
      * @param p a <code>Point</code> that is the top left corner
-     * of the <code>Rectangle</code>
+     * of the <code>Marker</code>
      */
     public Rectangles(Point p) {
         this(p.x, p.y, 0, 0);
     }
 
     /**
-     * Constructs a new <code>Rectangle</code> whose top left corner is
+     * Constructs a new <code>Marker</code> whose top left corner is
      * (0,&nbsp;0) and whose width and height are specified
      * by the <code>Dimension</code> argument.
      * @param d a <code>Dimension</code>, specifying width and height
@@ -257,72 +270,66 @@ public class Rectangles extends Rectangle2D
     }
 
     /**
-     * Returns the X coordinate of the bounding <code>Rectangle</code> in
+     * Returns the X coordinate of the bounding <code>Marker</code> in
      * <code>double</code> precision.
-     * @return the X coordinate of the bounding <code>Rectangle</code>.
+     * @return the X coordinate of the bounding <code>Marker</code>.
      */
     public double getX() {
         return x;
     }
 
     /**
-     * Returns the Y coordinate of the bounding <code>Rectangle</code> in
+     * Returns the Y coordinate of the bounding <code>Marker</code> in
      * <code>double</code> precision.
-     * @return the Y coordinate of the bounding <code>Rectangle</code>.
+     * @return the Y coordinate of the bounding <code>Marker</code>.
      */
     public double getY() {
         return y;
     }
 
     /**
-     * Returns the width of the bounding <code>Rectangle</code> in
+     * Returns the width of the bounding <code>Marker</code> in
      * <code>double</code> precision.
-     * @return the width of the bounding <code>Rectangle</code>.
+     * @return the width of the bounding <code>Marker</code>.
      */
     public double getWidth() {
         return width;
     }
 
     /**
-     * Returns the height of the bounding <code>Rectangle</code> in
+     * Returns the height of the bounding <code>Marker</code> in
      * <code>double</code> precision.
-     * @return the height of the bounding <code>Rectangle</code>.
+     * @return the height of the bounding <code>Marker</code>.
      */
     public double getHeight() {
         return height;
     }
 
-    /**
-     * Gets the bounding <code>Rectangle</code> of this <code>Rectangle</code>.
-     * <p>
-     * This method is included for completeness, to parallel the
-     * <code>getBounds</code> method of
-     * {@link Component}.
-     * @return    a new <code>Rectangle</code>, equal to the
-     * bounding <code>Rectangle</code> for this <code>Rectangle</code>.
-     * @see       java.awt.Component#getBounds
-     * @see       #setBounds(Rectangles)
-     * @see       #setBounds(int, int, int, int)
-     * @since     1.1
-     */
+    public boolean getSelected() {
+    	return isSelected;
+    }
+    
+    public void setSelected(boolean selected) {
+    	isSelected = selected;
+    }
     
     /**
      * {@inheritDoc}
      * @since 1.2
      */
-    public Rectangle2D getBounds2D() {
+    public Rectangle2D getBounds2D1() {
         return new Rectangles(x, y, width, height);
     }
 
     /**
-     * Sets the bounding <code>Rectangle</code> of this <code>Rectangle</code>
-     * to match the specified <code>Rectangle</code>.
+     * Sets the bounding <code>Marker</code> of this <code>Marker</code>
+     * to match the specified <code>Marker</code>.
      * <p>
      * This method is included for completeness, to parallel the
      * <code>setBounds</code> method of <code>Component</code>.
-     * @param r the specified <code>Rectangle</code>
+     * @param r the specified <code>Marker</code>
      * @see       #getBounds
-     * @see       java.awt.Component#setBounds(java.awt.Rectangle)
+     * @see       java.awt.Component#setBounds(java.awt.Marker)
      * @since     1.1
      */
     public void setBounds(Rectangles r) {
@@ -330,19 +337,19 @@ public class Rectangles extends Rectangle2D
     }
 
     /**
-     * Sets the bounding <code>Rectangle</code> of this
-     * <code>Rectangle</code> to the specified
+     * Sets the bounding <code>Marker</code> of this
+     * <code>Marker</code> to the specified
      * <code>x</code>, <code>y</code>, <code>width</code>,
      * and <code>height</code>.
      * <p>
      * This method is included for completeness, to parallel the
      * <code>setBounds</code> method of <code>Component</code>.
      * @param x the new X coordinate for the upper-left
-     *                    corner of this <code>Rectangle</code>
+     *                    corner of this <code>Marker</code>
      * @param y the new Y coordinate for the upper-left
-     *                    corner of this <code>Rectangle</code>
-     * @param width the new width for this <code>Rectangle</code>
-     * @param height the new height for this <code>Rectangle</code>
+     *                    corner of this <code>Marker</code>
+     * @param width the new width for this <code>Marker</code>
+     * @param height the new height for this <code>Marker</code>
      * @see       #getBounds
      * @see       java.awt.Component#setBounds(int, int, int, int)
      * @since     1.1
@@ -352,19 +359,19 @@ public class Rectangles extends Rectangle2D
     }
 
     /**
-     * Sets the bounds of this {@code Rectangle} to the integer bounds
+     * Sets the bounds of this {@code Marker} to the integer bounds
      * which encompass the specified {@code x}, {@code y}, {@code width},
      * and {@code height}.
-     * If the parameters specify a {@code Rectangle} that exceeds the
+     * If the parameters specify a {@code Marker} that exceeds the
      * maximum range of integers, the result will be the best
-     * representation of the specified {@code Rectangle} intersected
+     * representation of the specified {@code Marker} intersected
      * with the maximum integer bounds.
      * @param x the X coordinate of the upper-left corner of
-     *                  the specified rectangle
+     *                  the specified Marker
      * @param y the Y coordinate of the upper-left corner of
-     *                  the specified rectangle
-     * @param width the width of the specified rectangle
-     * @param height the new height of the specified rectangle
+     *                  the specified Marker
+     * @param width the width of the specified Marker
+     * @param height the new height of the specified Marker
      */
     public void setRect(double x, double y, double width, double height) {
         int newx, newy, neww, newh;
@@ -372,8 +379,8 @@ public class Rectangles extends Rectangle2D
         if (x > 2.0 * Integer.MAX_VALUE) {
             // Too far in positive X direction to represent...
             // We cannot even reach the left side of the specified
-            // rectangle even with both x & width set to MAX_VALUE.
-            // The intersection with the "maximal integer rectangle"
+            // Marker even with both x & width set to MAX_VALUE.
+            // The intersection with the "maximal integer Marker"
             // is non-existant so we should use a width < 0.
             // REMIND: Should we try to determine a more "meaningful"
             // adjusted value for neww than just "-1"?
@@ -410,17 +417,17 @@ public class Rectangles extends Rectangle2D
     }
 
     /**
-     * Sets the bounding <code>Rectangle</code> of this
-     * <code>Rectangle</code> to the specified
+     * Sets the bounding <code>Marker</code> of this
+     * <code>Marker</code> to the specified
      * <code>x</code>, <code>y</code>, <code>width</code>,
      * and <code>height</code>.
      * <p>
      * @param x the new X coordinate for the upper-left
-     *                    corner of this <code>Rectangle</code>
+     *                    corner of this <code>Marker</code>
      * @param y the new Y coordinate for the upper-left
-     *                    corner of this <code>Rectangle</code>
-     * @param width the new width for this <code>Rectangle</code>
-     * @param height the new height for this <code>Rectangle</code>
+     *                    corner of this <code>Marker</code>
+     * @param width the new width for this <code>Marker</code>
+     * @param height the new height for this <code>Marker</code>
      * @deprecated As of JDK version 1.1,
      * replaced by <code>setBounds(int, int, int, int)</code>.
      */
@@ -433,38 +440,37 @@ public class Rectangles extends Rectangle2D
     }
 
     /**
-     * Returns the location of this <code>Rectangle</code>.
+     * Returns the location of this <code>Marker</code>.
      * <p>
      * This method is included for completeness, to parallel the
      * <code>getLocation</code> method of <code>Component</code>.
-     * @return the <code>Point</code> that is the upper-left corner of
-     *                  this <code>Rectangle</code>.
+     * @return center of the Marker
      * @see       java.awt.Component#getLocation
      * @see       #setLocation(Point)
      * @see       #setLocation(int, int)
      * @since     1.1
      */
     public Point getLocation() {
-        return new Point(x, y);
+        return new Point(x - (width / 2), y - (width / 2));
     }
 
     /**
-     * Moves this <code>Rectangle</code> to the specified location.
+     * Moves this <code>Marker</code> to the specified location.
      * <p>
      * This method is included for completeness, to parallel the
      * <code>setLocation</code> method of <code>Component</code>.
      * @param p the <code>Point</code> specifying the new location
-     *                for this <code>Rectangle</code>
+     *                for this <code>Marker</code>
      * @see       java.awt.Component#setLocation(java.awt.Point)
      * @see       #getLocation
      * @since     1.1
      */
     public void setLocation(Point p) {
-        setLocation(p.x, p.y);
+        setLocation(p.x - (width / 2), p.y - (height / 2));
     }
 
     /**
-     * Moves this <code>Rectangle</code> to the specified location.
+     * Moves this <code>Marker</code> to the specified location.
      * <p>
      * This method is included for completeness, to parallel the
      * <code>setLocation</code> method of <code>Component</code>.
@@ -479,7 +485,7 @@ public class Rectangles extends Rectangle2D
     }
 
     /**
-     * Moves this <code>Rectangle</code> to the specified location.
+     * Moves this <code>Marker</code> to the specified location.
      * <p>
      * @param x the X coordinate of the new location
      * @param y the Y coordinate of the new location
@@ -493,15 +499,15 @@ public class Rectangles extends Rectangle2D
     }
 
     /**
-     * Translates this <code>Rectangle</code> the indicated distance,
+     * Translates this <code>Marker</code> the indicated distance,
      * to the right along the X coordinate axis, and
      * downward along the Y coordinate axis.
-     * @param dx the distance to move this <code>Rectangle</code>
+     * @param dx the distance to move this <code>Marker</code>
      *                 along the X axis
-     * @param dy the distance to move this <code>Rectangle</code>
+     * @param dy the distance to move this <code>Marker</code>
      *                 along the Y axis
-     * @see       java.awt.Rectangle#setLocation(int, int)
-     * @see       java.awt.Rectangle#setLocation(java.awt.Point)
+     * @see       java.awt.Marker#setLocation(int, int)
+     * @see       java.awt.Marker#setLocation(java.awt.Point)
      */
     public void translate(int dx, int dy) {
         int oldv = this.x;
@@ -571,13 +577,13 @@ public class Rectangles extends Rectangle2D
     }
 
     /**
-     * Gets the size of this <code>Rectangle</code>, represented by
+     * Gets the size of this <code>Marker</code>, represented by
      * the returned <code>Dimension</code>.
      * <p>
      * This method is included for completeness, to parallel the
      * <code>getSize</code> method of <code>Component</code>.
      * @return a <code>Dimension</code>, representing the size of
-     *            this <code>Rectangle</code>.
+     *            this <code>Marker</code>.
      * @see       java.awt.Component#getSize
      * @see       #setSize(Dimension)
      * @see       #setSize(int, int)
@@ -588,7 +594,7 @@ public class Rectangles extends Rectangle2D
     }
 
     /**
-     * Sets the size of this <code>Rectangle</code> to match the
+     * Sets the size of this <code>Marker</code> to match the
      * specified <code>Dimension</code>.
      * <p>
      * This method is included for completeness, to parallel the
@@ -603,13 +609,13 @@ public class Rectangles extends Rectangle2D
     }
 
     /**
-     * Sets the size of this <code>Rectangle</code> to the specified
+     * Sets the size of this <code>Marker</code> to the specified
      * width and height.
      * <p>
      * This method is included for completeness, to parallel the
      * <code>setSize</code> method of <code>Component</code>.
-     * @param width the new width for this <code>Rectangle</code>
-     * @param height the new height for this <code>Rectangle</code>
+     * @param width the new width for this <code>Marker</code>
+     * @param height the new height for this <code>Marker</code>
      * @see       java.awt.Component#setSize(int, int)
      * @see       #getSize
      * @since     1.1
@@ -619,11 +625,11 @@ public class Rectangles extends Rectangle2D
     }
 
     /**
-     * Sets the size of this <code>Rectangle</code> to the specified
+     * Sets the size of this <code>Marker</code> to the specified
      * width and height.
      * <p>
-     * @param width the new width for this <code>Rectangle</code>
-     * @param height the new height for this <code>Rectangle</code>
+     * @param width the new width for this <code>Marker</code>
+     * @param height the new height for this <code>Marker</code>
      * @deprecated As of JDK version 1.1,
      * replaced by <code>setSize(int, int)</code>.
      */
@@ -634,11 +640,11 @@ public class Rectangles extends Rectangle2D
     }
 
     /**
-     * Checks whether or not this <code>Rectangle</code> contains the
+     * Checks whether or not this <code>Marker</code> contains the
      * specified <code>Point</code>.
      * @param p the <code>Point</code> to test
      * @return    <code>true</code> if the specified <code>Point</code>
-     *            is inside this <code>Rectangle</code>;
+     *            is inside this <code>Marker</code>;
      *            <code>false</code> otherwise.
      * @since     1.1
      */
@@ -647,14 +653,14 @@ public class Rectangles extends Rectangle2D
     }
 
     /**
-     * Checks whether or not this <code>Rectangle</code> contains the
+     * Checks whether or not this <code>Marker</code> contains the
      * point at the specified location {@code (x,y)}.
      *
      * @param  x the specified X coordinate
      * @param  y the specified Y coordinate
      * @return    <code>true</code> if the point
      *            {@code (x,y)} is inside this
-     *            <code>Rectangle</code>;
+     *            <code>Marker</code>;
      *            <code>false</code> otherwise.
      * @since     1.1
      */
@@ -663,12 +669,12 @@ public class Rectangles extends Rectangle2D
     }
 
     /**
-     * Checks whether or not this <code>Rectangle</code> entirely contains
-     * the specified <code>Rectangle</code>.
+     * Checks whether or not this <code>Marker</code> entirely contains
+     * the specified <code>Marker</code>.
      *
-     * @param     r   the specified <code>Rectangle</code>
-     * @return    <code>true</code> if the <code>Rectangle</code>
-     *            is contained entirely inside this <code>Rectangle</code>;
+     * @param     r   the specified <code>Marker</code>
+     * @return    <code>true</code> if the <code>Marker</code>
+     *            is contained entirely inside this <code>Marker</code>;
      *            <code>false</code> otherwise
      * @since     1.2
      */
@@ -677,17 +683,17 @@ public class Rectangles extends Rectangle2D
     }
 
     /**
-     * Checks whether this <code>Rectangle</code> entirely contains
-     * the <code>Rectangle</code>
+     * Checks whether this <code>Marker</code> entirely contains
+     * the <code>Marker</code>
      * at the specified location {@code (X,Y)} with the
      * specified dimensions {@code (W,H)}.
      * @param     X the specified X coordinate
      * @param     Y the specified Y coordinate
-     * @param     W   the width of the <code>Rectangle</code>
-     * @param     H   the height of the <code>Rectangle</code>
-     * @return    <code>true</code> if the <code>Rectangle</code> specified by
+     * @param     W   the width of the <code>Marker</code>
+     * @param     H   the height of the <code>Marker</code>
+     * @return    <code>true</code> if the <code>Marker</code> specified by
      *            {@code (X, Y, W, H)}
-     *            is entirely enclosed inside this <code>Rectangle</code>;
+     *            is entirely enclosed inside this <code>Marker</code>;
      *            <code>false</code> otherwise.
      * @since     1.1
      */
@@ -729,14 +735,14 @@ public class Rectangles extends Rectangle2D
     }
 
     /**
-     * Checks whether or not this <code>Rectangle</code> contains the
+     * Checks whether or not this <code>Marker</code> contains the
      * point at the specified location {@code (X,Y)}.
      *
      * @param  X the specified X coordinate
      * @param  Y the specified Y coordinate
      * @return    <code>true</code> if the point
      *            {@code (X,Y)} is inside this
-     *            <code>Rectangle</code>;
+     *            <code>Marker</code>;
      *            <code>false</code> otherwise.
      * @deprecated As of JDK version 1.1,
      * replaced by <code>contains(int, int)</code>.
@@ -763,13 +769,13 @@ public class Rectangles extends Rectangle2D
     }
 
     /**
-     * Determines whether or not this <code>Rectangle</code> and the specified
-     * <code>Rectangle</code> intersect. Two rectangles intersect if
+     * Determines whether or not this <code>Marker</code> and the specified
+     * <code>Marker</code> intersect. Two Rectangles intersect if
      * their intersection is nonempty.
      *
-     * @param r the specified <code>Rectangle</code>
-     * @return    <code>true</code> if the specified <code>Rectangle</code>
-     *            and this <code>Rectangle</code> intersect;
+     * @param r the specified <code>Marker</code>
+     * @return    <code>true</code> if the specified <code>Marker</code>
+     *            and this <code>Marker</code> intersect;
      *            <code>false</code> otherwise.
      */
     public boolean intersects(Rectangles r) {
@@ -796,17 +802,17 @@ public class Rectangles extends Rectangle2D
     }
 
     /**
-     * Computes the intersection of this <code>Rectangle</code> with the
-     * specified <code>Rectangle</code>. Returns a new <code>Rectangle</code>
-     * that represents the intersection of the two rectangles.
-     * If the two rectangles do not intersect, the result will be
-     * an empty rectangle.
+     * Computes the intersection of this <code>Marker</code> with the
+     * specified <code>Marker</code>. Returns a new <code>Marker</code>
+     * that represents the intersection of the two Rectangles.
+     * If the two Rectangles do not intersect, the result will be
+     * an empty Marker.
      *
-     * @param     r   the specified <code>Rectangle</code>
-     * @return    the largest <code>Rectangle</code> contained in both the
-     *            specified <code>Rectangle</code> and in
-     *            this <code>Rectangle</code>; or if the rectangles
-     *            do not intersect, an empty rectangle.
+     * @param     r   the specified <code>Marker</code>
+     * @return    the largest <code>Marker</code> contained in both the
+     *            specified <code>Marker</code> and in
+     *            this <code>Marker</code>; or if the Rectangles
+     *            do not intersect, an empty Marker.
      */
     public Rectangles intersection(Rectangles r) {
         int tx1 = this.x;
@@ -832,36 +838,36 @@ public class Rectangles extends Rectangle2D
     }
 
     /**
-     * Computes the union of this <code>Rectangle</code> with the
-     * specified <code>Rectangle</code>. Returns a new
-     * <code>Rectangle</code> that
-     * represents the union of the two rectangles.
+     * Computes the union of this <code>Marker</code> with the
+     * specified <code>Marker</code>. Returns a new
+     * <code>Marker</code> that
+     * represents the union of the two Rectangles.
      * <p>
-     * If either {@code Rectangle} has any dimension less than zero
-     * the rules for <a href=#NonExistant>non-existant</a> rectangles
+     * If either {@code Marker} has any dimension less than zero
+     * the rules for <a href=#NonExistant>non-existant</a> Rectangles
      * apply.
      * If only one has a dimension less than zero, then the result
-     * will be a copy of the other {@code Rectangle}.
+     * will be a copy of the other {@code Marker}.
      * If both have dimension less than zero, then the result will
      * have at least one dimension less than zero.
      * <p>
-     * If the resulting {@code Rectangle} would have a dimension
+     * If the resulting {@code Marker} would have a dimension
      * too large to be expressed as an {@code int}, the result
      * will have a dimension of {@code Integer.MAX_VALUE} along
      * that dimension.
-     * @param r the specified <code>Rectangle</code>
-     * @return    the smallest <code>Rectangle</code> containing both
-     *            the specified <code>Rectangle</code> and this
-     *            <code>Rectangle</code>.
+     * @param r the specified <code>Marker</code>
+     * @return    the smallest <code>Marker</code> containing both
+     *            the specified <code>Marker</code> and this
+     *            <code>Marker</code>.
      */
     public Rectangles union(Rectangles r) {
         long tx2 = this.width;
         long ty2 = this.height;
         if ((tx2 | ty2) < 0) {
-            // This rectangle has negative dimensions...
+            // This Marker has negative dimensions...
             // If r has non-negative dimensions then it is the answer.
             // If r is non-existant (has a negative dimension), then both
-            // are non-existant and we can return any non-existant rectangle
+            // are non-existant and we can return any non-existant Marker
             // as an answer.  Thus, returning r meets that criterion.
             // Either way, r is our answer.
             return new Rectangles(r);
@@ -885,7 +891,7 @@ public class Rectangles extends Rectangle2D
         if (ty2 < ry2) ty2 = ry2;
         tx2 -= tx1;
         ty2 -= ty1;
-        // tx2,ty2 will never underflow since both original rectangles
+        // tx2,ty2 will never underflow since both original Rectangles
         // were already proven to be non-empty
         // they might overflow, though...
         if (tx2 > Integer.MAX_VALUE) tx2 = Integer.MAX_VALUE;
@@ -895,12 +901,12 @@ public class Rectangles extends Rectangle2D
 
     /**
      * Adds a point, specified by the integer arguments {@code newx,newy}
-     * to the bounds of this {@code Rectangle}.
+     * to the bounds of this {@code Marker}.
      * <p>
-     * If this {@code Rectangle} has any dimension less than zero,
+     * If this {@code Marker} has any dimension less than zero,
      * the rules for <a href=#NonExistant>non-existant</a>
-     * rectangles apply.
-     * In that case, the new bounds of this {@code Rectangle} will
+     * Rectangles apply.
+     * In that case, the new bounds of this {@code Marker} will
      * have a location equal to the specified coordinates and
      * width and height equal to zero.
      * <p>
@@ -908,12 +914,12 @@ public class Rectangles extends Rectangle2D
      * added point as an argument does not necessarily return
      * <code>true</code>. The <code>contains</code> method does not
      * return <code>true</code> for points on the right or bottom
-     * edges of a <code>Rectangle</code>. Therefore, if the added point
+     * edges of a <code>Marker</code>. Therefore, if the added point
      * falls on the right or bottom edge of the enlarged
-     * <code>Rectangle</code>, <code>contains</code> returns
+     * <code>Marker</code>, <code>contains</code> returns
      * <code>false</code> for that point.
      * If the specified point must be contained within the new
-     * {@code Rectangle}, a 1x1 rectangle should be added instead:
+     * {@code Marker}, a 1x1 Marker should be added instead:
      * <pre>
      *     r.add(newx, newy, 1, 1);
      * </pre>
@@ -946,12 +952,12 @@ public class Rectangles extends Rectangle2D
 
     /**
      * Adds the specified {@code Point} to the bounds of this
-     * {@code Rectangle}.
+     * {@code Marker}.
      * <p>
-     * If this {@code Rectangle} has any dimension less than zero,
+     * If this {@code Marker} has any dimension less than zero,
      * the rules for <a href=#NonExistant>non-existant</a>
-     * rectangles apply.
-     * In that case, the new bounds of this {@code Rectangle} will
+     * Rectangles apply.
+     * In that case, the new bounds of this {@code Marker} will
      * have a location equal to the coordinates of the specified
      * {@code Point} and width and height equal to zero.
      * <p>
@@ -959,44 +965,44 @@ public class Rectangles extends Rectangle2D
      * with the added <code>Point</code> as an argument does not
      * necessarily return <code>true</code>. The <code>contains</code>
      * method does not return <code>true</code> for points on the right
-     * or bottom edges of a <code>Rectangle</code>. Therefore if the added
+     * or bottom edges of a <code>Marker</code>. Therefore if the added
      * <code>Point</code> falls on the right or bottom edge of the
-     * enlarged <code>Rectangle</code>, <code>contains</code> returns
+     * enlarged <code>Marker</code>, <code>contains</code> returns
      * <code>false</code> for that <code>Point</code>.
      * If the specified point must be contained within the new
-     * {@code Rectangle}, a 1x1 rectangle should be added instead:
+     * {@code Marker}, a 1x1 Marker should be added instead:
      * <pre>
      *     r.add(pt.x, pt.y, 1, 1);
      * </pre>
      * @param pt the new <code>Point</code> to add to this
-     *           <code>Rectangle</code>
+     *           <code>Marker</code>
      */
     public void add(Point pt) {
         add(pt.x, pt.y);
     }
 
     /**
-     * Adds a <code>Rectangle</code> to this <code>Rectangle</code>.
-     * The resulting <code>Rectangle</code> is the union of the two
-     * rectangles.
+     * Adds a <code>Marker</code> to this <code>Marker</code>.
+     * The resulting <code>Marker</code> is the union of the two
+     * Rectangles.
      * <p>
-     * If either {@code Rectangle} has any dimension less than 0, the
-     * result will have the dimensions of the other {@code Rectangle}.
-     * If both {@code Rectangle}s have at least one dimension less
+     * If either {@code Marker} has any dimension less than 0, the
+     * result will have the dimensions of the other {@code Marker}.
+     * If both {@code Marker}s have at least one dimension less
      * than 0, the result will have at least one dimension less than 0.
      * <p>
-     * If either {@code Rectangle} has one or both dimensions equal
+     * If either {@code Marker} has one or both dimensions equal
      * to 0, the result along those axes with 0 dimensions will be
      * equivalent to the results obtained by adding the corresponding
-     * origin coordinate to the result rectangle along that axis,
+     * origin coordinate to the result Marker along that axis,
      * similar to the operation of the {@link #add(Point)} method,
      * but contribute no further dimension beyond that.
      * <p>
-     * If the resulting {@code Rectangle} would have a dimension
+     * If the resulting {@code Marker} would have a dimension
      * too large to be expressed as an {@code int}, the result
      * will have a dimension of {@code Integer.MAX_VALUE} along
      * that dimension.
-     * @param  r the specified <code>Rectangle</code>
+     * @param  r the specified <code>Marker</code>
      */
     public void add(Rectangles r) {
         long tx2 = this.width;
@@ -1024,7 +1030,7 @@ public class Rectangles extends Rectangle2D
         tx2 -= tx1;
         ty2 -= ty1;
         // tx2,ty2 will never underflow since both original
-        // rectangles were non-empty
+        // Rectangles were non-empty
         // they might overflow, though...
         if (tx2 > Integer.MAX_VALUE) tx2 = Integer.MAX_VALUE;
         if (ty2 > Integer.MAX_VALUE) ty2 = Integer.MAX_VALUE;
@@ -1032,19 +1038,19 @@ public class Rectangles extends Rectangle2D
     }
 
     /**
-     * Resizes the <code>Rectangle</code> both horizontally and vertically.
+     * Resizes the <code>Marker</code> both horizontally and vertically.
      * <p>
-     * This method modifies the <code>Rectangle</code> so that it is
+     * This method modifies the <code>Marker</code> so that it is
      * <code>h</code> units larger on both the left and right side,
      * and <code>v</code> units larger at both the top and bottom.
      * <p>
-     * The new <code>Rectangle</code> has {@code (x - h, y - v)}
+     * The new <code>Marker</code> has {@code (x - h, y - v)}
      * as its upper-left corner,
      * width of {@code (width + 2h)},
      * and a height of {@code (height + 2v)}.
      * <p>
      * If negative values are supplied for <code>h</code> and
-     * <code>v</code>, the size of the <code>Rectangle</code>
+     * <code>v</code>, the size of the <code>Marker</code>
      * decreases accordingly.
      * The {@code grow} method will check for integer overflow
      * and underflow, but does not check whether the resulting
@@ -1078,7 +1084,7 @@ public class Rectangles extends Rectangle2D
             else if (x0 > Integer.MAX_VALUE) x0 = Integer.MAX_VALUE;
         } else { // (x1 >= x0)
             // Clip x0 before we subtract it from x1 in case the clipping
-            // affects the representable area of the rectangle.
+            // affects the representable area of the Marker.
             if (x0 < Integer.MIN_VALUE) x0 = Integer.MIN_VALUE;
             else if (x0 > Integer.MAX_VALUE) x0 = Integer.MAX_VALUE;
             x1 -= x0;
@@ -1151,37 +1157,23 @@ public class Rectangles extends Rectangle2D
      * {@inheritDoc}
      * @since 1.2
      */
-    public Rectangle2D createIntersection(Rectangle2D r) {
-        if (r instanceof Rectangles) {
-            return intersection((Rectangles) r);
-        }
-        Rectangle2D dest = new Rectangle2D.Double();
-        Rectangle2D.intersect(this, r, dest);
-        return dest;
-    }
+    
 
     /**
      * {@inheritDoc}
      * @since 1.2
      */
-    public Rectangle2D createUnion(Rectangle2D r) {
-        if (r instanceof Rectangles) {
-            return union((Rectangles) r);
-        }
-        Rectangle2D dest = new Rectangle2D.Double();
-        Rectangle2D.union(this, r, dest);
-        return dest;
-    }
+    
 
     /**
-     * Checks whether two rectangles are equal.
+     * Checks whether two Rectangles are equal.
      * <p>
      * The result is <code>true</code> if and only if the argument is not
-     * <code>null</code> and is a <code>Rectangle</code> object that has the
+     * <code>null</code> and is a <code>Marker</code> object that has the
      * same upper-left corner, width, and height as
-     * this <code>Rectangle</code>.
+     * this <code>Marker</code>.
      * @param obj the <code>Object</code> to compare with
-     *                this <code>Rectangle</code>
+     *                this <code>Marker</code>
      * @return    <code>true</code> if the objects are equal;
      *            <code>false</code> otherwise.
      */
@@ -1198,11 +1190,32 @@ public class Rectangles extends Rectangle2D
 
     /**
      * Returns a <code>String</code> representing this
-     * <code>Rectangle</code> and its values.
+     * <code>Marker</code> and its values.
      * @return a <code>String</code> representing this
-     *               <code>Rectangle</code> object's coordinate and size values.
+     *               <code>Marker</code> object's coordinate and size values.
      */
     public String toString() {
         return getClass().getName() + "[x=" + x + ",y=" + y + ",width=" + width + ",height=" + height + "]";
     }
+
+	@Override
+	public Rectangle2D getBounds2D() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Rectangle2D createIntersection(Rectangle2D r) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Rectangle2D createUnion(Rectangle2D r) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+    
+    
+    
 }
