@@ -230,6 +230,7 @@ public class AutonGUI extends JFrame {
                         int height = Math.abs(y1 - y2);
 
                         return new Rectangle2D.Float(x, y, width, height);
+                        
                 }
                 
         }
