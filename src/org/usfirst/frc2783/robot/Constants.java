@@ -24,7 +24,7 @@ public class Constants {
 	
 	public static final double kPeriod = 0.0005; 
 
-	public static final double kAutoPeriod = 0.01;
+	public static final double kAutoPeriod = 0.0005;
 	
 	public static final double kTurretStowedAngle = 0;
 	public static final double kTurretAngleTolerance = 0;
