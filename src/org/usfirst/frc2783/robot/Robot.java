@@ -4,16 +4,10 @@ import java.util.Random;
 
 import org.usfirst.frc2783.commands.autonomous.TestAuto;
 import org.usfirst.frc2783.commands.autonomous.actions.ActionScheduler;
-import org.usfirst.frc2783.commands.autonomous.modes.LeftSideScalePref;
-import org.usfirst.frc2783.commands.autonomous.modes.LeftSideSwitchPref;
-import org.usfirst.frc2783.commands.autonomous.modes.MiddleDoublePower;
-import org.usfirst.frc2783.commands.autonomous.modes.MiddleScaleOnly;
-import org.usfirst.frc2783.commands.autonomous.modes.MiddleSwitchOnly;
-import org.usfirst.frc2783.commands.autonomous.modes.RightSideScalePref;
-import org.usfirst.frc2783.commands.autonomous.modes.RightSideSwitchPref;
 import org.usfirst.frc2783.loops.Looper;
 import org.usfirst.frc2783.subystems.TankDriveBase;
-import org.usfirst.frc2783.util.EncoderCounter;
+import org.usfirst.frc2783.util.LeftEncoderCounter;
+import org.usfirst.frc2783.util.RightEncoderCounter;
 
 import com.kauailabs.navx.frc.AHRS;
 
@@ -23,7 +17,6 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
@@ -51,12 +44,14 @@ public class Robot extends IterativeRobot {
     
 	public static ActionScheduler autoScheduler = new ActionScheduler();
 	
-	EncoderCounter counter = new EncoderCounter();
+	public static LeftEncoderCounter leftCounter = new LeftEncoderCounter();
+
+	public static RightEncoderCounter rightCounter = new RightEncoderCounter();
     
-	@SuppressWarnings("unchecked")
 	public void robotInit() {
         oi = new OI();
-        looper.addLoop(counter);
+        looper.addLoop(leftCounter);
+        looper.addLoop(rightCounter);
         looper.startLoops();
 
 //      gameData = DriverStation.getInstance().getGameSpecificMessage();
@@ -110,7 +105,16 @@ public class Robot extends IterativeRobot {
         Scheduler.getInstance().run();
         SmartDashboard.putString("DB/String 0", "" + Robot.leftAbsEnc.getValue());
         SmartDashboard.putString("DB/String 1", "" + Robot.rightAbsEnc.getValue());
-        System.out.println(Robot.leftAbsEnc.getValue());
+        
+        SmartDashboard.putString("DB/String 5", "left: " + Robot.tankDriveBase.leftSide1.getMotorOutputPercent());
+        SmartDashboard.putString("DB/String 6", "right: " + Robot.tankDriveBase.rightSide1.getMotorOutputPercent());
+
+		SmartDashboard.putString("DB/String 8", "left: " + Robot.leftCounter.leftRotationCounter);
+		SmartDashboard.putString("DB/String 9", "right: " + Robot.rightCounter.rightRotationCounter);
+        
+        SmartDashboard.putString("DB/String 3", "left: " + Robot.isLeftForward);
+        SmartDashboard.putString("DB/String 4", "right: " + Robot.isRightForward);
+        
     }
 
 	public void testPeriodic() {

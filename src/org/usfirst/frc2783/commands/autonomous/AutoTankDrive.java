@@ -2,14 +2,10 @@ package org.usfirst.frc2783.commands.autonomous;
 
 import org.usfirst.frc2783.robot.Constants;
 import org.usfirst.frc2783.robot.Robot;
-import org.usfirst.frc2783.subystems.TankDriveBase;
-import org.usfirst.frc2783.util.EncoderCounter;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
-import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -62,8 +58,8 @@ public class AutoTankDrive extends Command {
     	leftDistanceInAngles = leftDistance/Constants.inchPerDegree-leftAngleOnStart;
     	rightDistanceInAngles = rightDistance/Constants.inchPerDegree-rightAngleOnStart;
     	
-    	leftRotationOnStart = EncoderCounter.leftRotationCounter;
-    	rightRotationOnStart = EncoderCounter.rightRotationCounter;
+    	leftRotationOnStart = Robot.leftCounter.leftRotationCounter;
+    	rightRotationOnStart = Robot.rightCounter.rightRotationCounter;
     	
     	if(leftDistanceInAngles > rightDistanceInAngles){
     		rightSpeed = rightDistanceInAngles/leftDistanceInAngles*speedScaler;
@@ -99,11 +95,11 @@ public class AutoTankDrive extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	                                                                                                                             
-    	if(EncoderCounter.leftRotationCounter >= (leftRotationOnStart + wantedLeftRotations)){
+    	if(Robot.leftCounter.leftRotationCounter >= (leftRotationOnStart + wantedLeftRotations)){
     		isLeftRotationsDone = true;
     	}
     	
-    	if(EncoderCounter.rightRotationCounter >= (rightRotationOnStart + wantedRightRotations)){
+    	if(Robot.rightCounter.rightRotationCounter >= (rightRotationOnStart + wantedRightRotations)){
     		isRightRotationsDone = true;
     	}
     	
@@ -127,7 +123,7 @@ public class AutoTankDrive extends Command {
     		rightSpeed = 0;
     	}
     	
-    	Robot.tankDriveBase.tankDrive(leftSpeed, -rightSpeed);
+    	Robot.tankDriveBase.tankDrive(-leftSpeed, rightSpeed);
     	
     }
 

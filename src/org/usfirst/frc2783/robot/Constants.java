@@ -19,8 +19,8 @@ public class Constants {
 	
 	public static final int kLeftSide1ID = 4;
 	public static final int kLeftSide2ID = 7;
-	public static final int kRightSide1ID = 11;
-	public static final int kRightSide2ID = 8;
+	public static final int kRightSide1ID = 8;
+	public static final int kRightSide2ID = 11;
 	
 	public static final int driverID = 0;
 

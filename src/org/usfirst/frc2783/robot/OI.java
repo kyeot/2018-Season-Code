@@ -1,7 +1,5 @@
 package org.usfirst.frc2783.robot;
 
-import org.usfirst.frc2783.commands.autonomous.AutoTankDrive;
-
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
@@ -13,11 +11,13 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 public class OI {
 
 	public static Joystick driver = new Joystick(Constants.driverID);
-	public static JoystickButton test = new JoystickButton(driver, 1);
+	
+	public static Joystick leftJoy = new Joystick(3);
+	public static Joystick rightJoy = new Joystick(4);
+	
+	public static JoystickButton mm = new JoystickButton(driver, 1);
 	
     public OI() {
-    	test.whenActive(new AutoTankDrive(0.5, 20, 20, "Forward"));
-    	
     }
 
 }
