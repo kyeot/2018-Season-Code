@@ -54,7 +54,7 @@ public class Robot extends IterativeRobot {
         looper.addLoop(rightCounter);
         looper.startLoops();
 
-//      gameData = DriverStation.getInstance().getGameSpecificMessage();
+        //gameData = DriverStation.getInstance().getGameSpecificMessage();
         gameData = getPracticeData(true, null);
         autoSides = gameData.substring(0, 1);
         
@@ -105,9 +105,6 @@ public class Robot extends IterativeRobot {
         Scheduler.getInstance().run();
         SmartDashboard.putString("DB/String 0", "" + Robot.leftAbsEnc.getValue());
         SmartDashboard.putString("DB/String 1", "" + Robot.rightAbsEnc.getValue());
-        
-        SmartDashboard.putString("DB/String 5", "left: " + Robot.tankDriveBase.leftSide1.getMotorOutputPercent());
-        SmartDashboard.putString("DB/String 6", "right: " + Robot.tankDriveBase.rightSide1.getMotorOutputPercent());
 
 		SmartDashboard.putString("DB/String 8", "left: " + Robot.leftCounter.leftRotationCounter);
 		SmartDashboard.putString("DB/String 9", "right: " + Robot.rightCounter.rightRotationCounter);

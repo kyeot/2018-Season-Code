@@ -10,12 +10,11 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
  */
 public class OI {
 
-	public static Joystick driver = new Joystick(Constants.driverID);
+	public static Joystick driver = new Joystick(Constants.kDriverControllerId);
+	public static Joystick manipulator = new Joystick(Constants.kManipulatorControllerId);
 	
 	public static Joystick leftJoy = new Joystick(3);
 	public static Joystick rightJoy = new Joystick(4);
-	
-	public static JoystickButton mm = new JoystickButton(driver, 1);
 	
     public OI() {
     }

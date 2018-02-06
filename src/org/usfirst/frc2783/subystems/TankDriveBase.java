@@ -24,15 +24,6 @@ public class TankDriveBase extends Subsystem {
 	//Creates the PID Outut classes for each side
 	PIDOutputClass leftPIDOut;
 	PIDOutputClass rightPIDOut;
-
-	double leftEncVal;
-	double rightEncVal;
-	double leftDegreesForwards;
-	double rightDegreesForwards;
-	double currentLeftAng;
-	double currentRightAng;
-	double desiredLeftAng;
-	double desiredRightAng;
 	
 	//Creates the motor controller objects
 	public static VictorSPX leftSide1;
@@ -81,9 +72,6 @@ public class TankDriveBase extends Subsystem {
 	
 	//Basic tank drive method
 	public void tankDrive(double lSpeed, double rSpeed){
-		
-		leftSide1.setNeutralMode(NeutralMode.Brake);
-		leftSide1.setNeutralMode(NeutralMode.Brake);
 		
 		leftSide1.set(ControlMode.PercentOutput, -lSpeed);
 		rightSide1.set(ControlMode.PercentOutput, rSpeed);

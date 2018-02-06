@@ -22,8 +22,6 @@ public class Constants {
 	public static final int kRightSide1ID = 8;
 	public static final int kRightSide2ID = 11;
 	
-	public static final int driverID = 0;
-
 	public static final double kPeriod = 0.0005; 
 
 	public static final double kAutoPeriod = 0.01;
@@ -53,6 +51,6 @@ public class Constants {
 	public static final double kArmCurrentLoweredThreshold = 0.1;
 	
 	public static final int kDriverControllerId = 0;
-	public static final int kGunnerControllerId = 1;
+	public static final int kManipulatorControllerId = 1;
 	
 }
