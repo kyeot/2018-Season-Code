@@ -9,8 +9,8 @@ package org.usfirst.frc2783.util;
  */
 public class Vector {
 	
-	double x;
-	double y;
+	double width;
+	double height;
 	
 	/**
 	 * This constructor defines the vector by giving the x and y lengths of the vector.
@@ -18,8 +18,8 @@ public class Vector {
 	 * @param y
 	 */
 	public Vector(double x, double y) {
-		this.x = x;
-		this.y = y;
+		this.width = x;
+		this.height = y;
 	}
 	
 	/**
@@ -29,8 +29,8 @@ public class Vector {
 	 * @param a
 	 */
 	public Vector(double dir, double mag, boolean a) { 
-		this.x = Math.cos(Math.toRadians(dir)) * mag;
-		this.y = Math.sin(Math.toRadians(dir)) * mag;
+		this.width = Math.cos(Math.toRadians(dir)) * mag;
+		this.height = Math.sin(Math.toRadians(dir)) * mag;
 	}
 	
 	/**
@@ -39,8 +39,8 @@ public class Vector {
 	 * @return Vector(c, d)
 	 */
 	public Vector addVector(Vector v) {
-		double c = x + v.getX();
-		double d = y + v.getY();
+		double c = width + v.getX();
+		double d = height + v.getY();
 		return new Vector(c, d);
 	}
 	
@@ -50,24 +50,24 @@ public class Vector {
 	 * @return Vector(rotated coordinates)
 	 */
 	public Vector rotateBy(Bearing r) {
-		return new Vector((x * r.cos()) - (y * r.sin()),
-						  (x * r.sin()) + (y * r.cos()));
+		return new Vector((width * r.cos()) - (height * r.sin()),
+						  (width * r.sin()) + (height * r.cos()));
 				
 	}
 	
 	public double mag() {
-		return Math.hypot(x, y);
+		return Math.hypot(width, height);
 	}
 	
 	public Bearing dir() {
-		return new Bearing(Math.toDegrees(Math.atan2(y, x)));
+		return new Bearing(Math.toDegrees(Math.atan2(height, width)));
 	}
 	
 	public double getX() {
-		return x;
+		return width;
 	}
 	
 	public double getY() {
-		return y;
+		return height;
 	}
 }

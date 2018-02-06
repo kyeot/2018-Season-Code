@@ -1,5 +1,6 @@
 package org.usfirst.frc2783.util;
 
+
 /**
  * 2D Rotation, used in tandem with Vector
  * 
