@@ -5,8 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.util.Log;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import coledev.kyeot.tensorflow.AppContext;
+import coledev.kyeot.tensorflow.R;
 import coledev.kyeot.tensorflow.tracking.MultiBoxTracker;
 
 public class RobotConnectionStatusBroadcastReceiver extends BroadcastReceiver {

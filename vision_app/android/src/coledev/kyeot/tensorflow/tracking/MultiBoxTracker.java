@@ -28,6 +28,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.util.Pair;
 import android.util.TypedValue;
+import android.widget.TextView;
 import android.widget.Toast;
 import java.util.LinkedList;
 import java.util.List;
@@ -280,6 +281,10 @@ public class MultiBoxTracker {
         RobotConnection mRobotConnection = AppContext.getRobotConnection();
         TargetUpdateMessage update = new TargetUpdateMessage(visionUpdate, System.nanoTime());
         mRobotConnection.send(update);
+        
+        int duration = Toast.LENGTH_SHORT;
+        Toast toast = Toast.makeText(context, "Robot connected", duration);
+        toast.show();
       }
 
 

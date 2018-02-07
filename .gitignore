@@ -11,3 +11,5 @@ android/assets/*
 *.o
 vision_app/android/.externalNativeBuild/cmake/release/armeabi-v7a/.ninja_deps
 vision_app/android/.externalNativeBuild/cmake/release/armeabi-v7a/.ninja_log
+*.ninja
+*.ninja
