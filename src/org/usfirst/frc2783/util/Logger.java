@@ -13,6 +13,7 @@ import org.usfirst.frc2783.robot.Robot;
  * 
  * @author 2783
  */
+// 
 public class Logger {
 	
 	public static void debug(String msg) {
@@ -36,6 +37,7 @@ public class Logger {
 	}
 	
 	public static void log(String level, String msg) {
+		
 		try (PrintWriter writer = new PrintWriter(new FileWriter("/home/lvuser/log.txt", true))) {
 			writer.print("[" + level + "]");
 			writer.print(" ");
@@ -47,9 +49,11 @@ public class Logger {
             writer.println();
             
             System.out.println("[" + level + "] " + msg);
-        } catch (IOException e) {
+        }
+		catch (IOException e) {
             e.printStackTrace();
         }
+		
 	}
 
 }

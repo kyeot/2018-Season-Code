@@ -8,9 +8,14 @@ import edu.wpi.first.wpilibj.Joystick;
  *
  */
 public class OI {
+	
+	//adds controllers
+	public static Joystick driver = new Joystick(Constants.kDriverControllerId);
+	public static Joystick manipulator = new Joystick(Constants.kManipulatorControllerId);
 
     public OI() {
-    }
+   
 
 }
 
+}
