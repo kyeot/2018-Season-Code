@@ -50,3 +50,6 @@ build/jars/opencv.jar
 build/jars/WPILib.jar
 build/jars/wpiutil.jar
 dist/FRCUserProgram.jar
+build/jars/navx_frc.jar
+dist/FRCUserProgram.jar
+build/jars/CTRE_Phoenix.jar
