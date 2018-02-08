@@ -1,7 +1,13 @@
 # 2018-Season-Code
 
-	To Properly Import the json jar you need to:
+	Install the plugins by
 
-1: Copy the file titled "json-simple-1.1.1.jar" from C:\Users\ Your User \Documents\GitHub\2018-Season-Code\libs
-2: Paste said file into C:\Users\ Your user \wpilib\user\java\lib
-3: Restart Eclipse
+1: Go to Help - Install New Software - Add
+2: Put in "FRC Plugins" for the name
+3: Put in http://first.wpi.edu/FRC/roborio/release/eclipse/ for the Location
+4: Select Okay
+5: Select Finish
+6: Restart Eclipse
+
+7: Follow the Instructions in easy_install - README.md
+	
