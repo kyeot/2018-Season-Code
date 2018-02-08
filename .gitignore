@@ -40,4 +40,3 @@ build/jars/CTRLib.jar
 build/jars/WPILib.jar
 dist/FRCUserProgram.jar
 build/jars/java-json.jar
-*.jar
