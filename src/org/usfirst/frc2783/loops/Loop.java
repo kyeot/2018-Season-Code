@@ -1,9 +1,9 @@
 package org.usfirst.frc2783.loops;
 
 /**
- * Simple interface for defining a Loop
  * 
- * @author 2783
+ * Simple interface for defining a Loop
+ *
  */
 
 public interface Loop {
