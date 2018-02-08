@@ -41,3 +41,12 @@ build/jars/CTRLib.jar
 build/jars/WPILib.jar
 dist/FRCUserProgram.jar
 build/jars/java-json.jar
+build/jars/ntcore.jar
+build/jars/navx_frc.jar
+build/jars/json-simple-1.1.1.jar
+build/jars/CTRE_Phoenix.jar
+build/jars/cscore.jar
+build/jars/opencv.jar
+build/jars/WPILib.jar
+build/jars/wpiutil.jar
+dist/FRCUserProgram.jar
