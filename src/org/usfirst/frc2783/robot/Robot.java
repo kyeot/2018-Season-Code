@@ -1,9 +1,17 @@
 package org.usfirst.frc2783.robot;
 
+import java.io.File;
+import java.io.IOException;
+
+import org.usfirst.frc2783.loops.LogData;
 import org.usfirst.frc2783.loops.Looper;
+import org.usfirst.frc2783.loops.VisionProcessor;
 import org.usfirst.frc2783.subsystems.ElevatorBase;
 import org.usfirst.frc2783.subsystems.IntakeBase;
 import org.usfirst.frc2783.subsystems.TankDriveBase;
+import org.usfirst.frc2783.util.Logger;
+import org.usfirst.frc2783.util.NavSensor;
+import org.usfirst.frc2783.vision.server.VisionServer;
 
 import com.kauailabs.navx.frc.AHRS;
 
@@ -28,11 +36,28 @@ public class Robot extends IterativeRobot {
     public static IntakeBase intake = new IntakeBase();
     public static ElevatorBase elevatorBase = new ElevatorBase();
     
+    VisionServer mVisionServer = VisionServer.getInstance();
+    
     public static PowerDistributionPanel pdp = new PowerDistributionPanel();
     
     public void robotInit() {
         oi = new OI();
+        
+        mVisionServer.addVisionUpdateReceiver(VisionProcessor.getInstance());
+        
+        looper.addLoop(new LogData());
+        looper.addLoop(VisionProcessor.getInstance());
+        Logger.info("Starting Loops");
         looper.startLoops();
+        
+        NavSensor.getInstance().updateHistory();
+        
+        File logFile = new File("/home/lvuser/log.txt");
+        try {
+			logFile.createNewFile();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
         
         try {
 	         navSensor = new AHRS(SPI.Port.kMXP);

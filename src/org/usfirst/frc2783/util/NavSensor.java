@@ -25,7 +25,7 @@ public class NavSensor {
 		return gyro;
 	}
 	
-	Map<Double, Bearing> history = new TreeMap<Double, Bearing>();
+	public Map<Double, Bearing> history = new TreeMap<Double, Bearing>();
 	
 	NavSensor() {
 		

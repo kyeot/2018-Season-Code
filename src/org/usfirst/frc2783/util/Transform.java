@@ -13,25 +13,19 @@ public class Transform {
 	Bearing rotation;
 	
 	public Transform(double x, double y, double theta) {
-		
 		this.translation = new Vector(x, y);
 		this.rotation = new Bearing(theta);
-		
 	}
-
+	
 	public Transform(Vector translation, Bearing rotation) {
-		
 		this.translation = translation;
 		this.rotation = rotation;
-		
 	}
 	
 	public Transform transform(Transform t) {
-		
-		Vector tr = this.translation.addVector(t.getTranslation());
+		Vector tr = this.translation.translate(t.getTranslation());
 		Bearing be = this.rotation.rotate(t.getRotation()); 
 		return new Transform(tr, be);
-		
 	}
 	
 	public Vector getTranslation() {
