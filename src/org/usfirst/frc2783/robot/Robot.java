@@ -9,8 +9,11 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 //adds classes to the code
 public class Robot extends IterativeRobot {
@@ -24,6 +27,8 @@ public class Robot extends IterativeRobot {
     public static TankDriveBase tankDrive = new TankDriveBase();
     public static IntakeBase intake = new IntakeBase();
     public static ElevatorBase elevatorBase = new ElevatorBase();
+    
+    public static PowerDistributionPanel pdp = new PowerDistributionPanel();
     
     public void robotInit() {
         oi = new OI();
