@@ -1,3 +1,20 @@
+<<<<<<< HEAD
+**/*.pyc
+tf_files
+.idea/
+**/*~
+gradle*
+libs/
+local.properties
+android.iml
+.gradle/
+android/assets/*
+*.o
+vision_app/android/.externalNativeBuild/cmake/release/armeabi-v7a/.ninja_deps
+vision_app/android/.externalNativeBuild/cmake/release/armeabi-v7a/.ninja_log
+*.ninja
+*.ninja
+=======
 # Compiled class file
 *.class
 
@@ -20,3 +37,4 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 /bin/
+>>>>>>> master
