@@ -2,7 +2,6 @@ package org.usfirst.frc2783.subsystems;
 
 import org.usfirst.frc2783.commands.TankDrive;
 import org.usfirst.frc2783.robot.Constants;
-import org.usfirst.frc2783.robot.OI;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;

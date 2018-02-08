@@ -8,7 +8,7 @@ import org.usfirst.frc2783.robot.Constants;
 import org.usfirst.frc2783.util.Timestamp;
 import org.usfirst.frc2783.util.Vector;
 
-import edu.wpi.first.wpilibj.Utility;
+import edu.wpi.first.wpilibj.RobotController;
 
 public class TargetTracker {
 
@@ -31,7 +31,7 @@ public class TargetTracker {
 		if(isAlive()) {
 			ArrayList<Double> toRemove = new ArrayList<Double>();
 			for(Double t : history.keySet()) {
-				double age = Utility.getFPGATime()*10E-7 - t;
+				double age = RobotController.getFPGATime()*10E-7 - t;
 				if(age > Constants.kTargetMaxAge) {
 					toRemove.add(t);
 				}
