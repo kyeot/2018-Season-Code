@@ -10,7 +10,7 @@ This script allows for easy installation of all needed 3rd party libraries in ou
 # Linux/MacOS Instructions
 
 - Make sure that the wpilib plugin is installed
-- Open the "auto_install" folder in your terminal
+- Open the "easy_install" folder in your terminal
 - Run the following two commands in your terminal: 
 ```
 chmod 777 setupLinux.sh
