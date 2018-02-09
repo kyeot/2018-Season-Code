@@ -19,5 +19,5 @@ Setting up the development environment for this repository is relatively simple.
 6. Restart Eclipse
 
 ## Installing required libraries
-Follow the Instructions in the easy_install folder in this repository
+Follow the instructions in the easy_install folder in this repository
 	
