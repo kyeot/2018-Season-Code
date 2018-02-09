@@ -11,7 +11,7 @@ Setting up the development environment for this repository is relatively simple.
 
 
 ## Installing wpilib
-1. Go to Help - Install New Software - Add
+1. Click Help>Install New Software>Add
 2. Put in "FRC Plugins" for the name
 3. Put in http://first.wpi.edu/FRC/roborio/release/eclipse/ for the Location
 4. Select Okay
