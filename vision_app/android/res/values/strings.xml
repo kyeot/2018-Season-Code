@@ -16,5 +16,8 @@
 <resources>
     <string name="description_info">Info</string>
     <string name="request_permission">This sample needs camera permission.</string>
-    <string name="camera_error">This device doesn\'t support Camera2 API.</string>
+    <string name="camera_error">This device doesn\'t support Camera2 API.</string>\
+    <string name="device_admin_label">2783 Vision</string>
+    <string name="device_admin_description">Enable device administration capabilities for safe UI during matches.</string>
+
 </resources>
