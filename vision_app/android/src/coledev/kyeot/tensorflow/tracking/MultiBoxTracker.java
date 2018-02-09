@@ -268,7 +268,7 @@ public class MultiBoxTracker {
         continue;
       }
 
-      //#TODO: Calculate 3D vector and send to robot
+      //Calculate 3D vector and send to robot
       VisionUpdate visionUpdate = new VisionUpdate(result.getTimestamp());
       float centroidX = result.getLocation().centerX();
       float centroidY = result.getLocation().centerY();
@@ -282,7 +282,6 @@ public class MultiBoxTracker {
         RobotConnection mRobotConnection = AppContext.getRobotConnection();
         TargetUpdateMessage update = new TargetUpdateMessage(visionUpdate, System.nanoTime());
         mRobotConnection.send(update);
-        
         int duration = Toast.LENGTH_SHORT;
         Toast toast = Toast.makeText(context, "Robot connected", duration);
         toast.show();
