@@ -31,10 +31,8 @@ public class RobotConnectionStatusBroadcastReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         if (ACTION_ROBOT_CONNECTED.equals(intent.getAction())) {
             m_listener.robotConnected();
-            MultiBoxTracker.robotConnected = true;
         } else if (ACTION_ROBOT_DISCONNECTED.equals(intent.getAction())) {
             m_listener.robotDisconnected();
-            MultiBoxTracker.robotConnected = false;
         }
     }
 }
