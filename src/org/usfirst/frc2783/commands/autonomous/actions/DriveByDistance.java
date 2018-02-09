@@ -20,6 +20,9 @@ public class DriveByDistance extends Action {
 	double leftAngleOnStart;
 	double rightAngleOnStart;
 	
+	double wantedLeftTotalDegrees;
+	double wantedRightTotalDegrees;
+	
 	double wantedLeftRotations;
 	double wantedRightRotations;
 	
@@ -28,6 +31,9 @@ public class DriveByDistance extends Action {
     
 	double leftSpeed;
 	double rightSpeed;
+	
+	double leftSpeedOnStart;
+	double rightSpeedOnStart;
 	
 	boolean isLeftRotationsDone = false;
 	boolean isLeftDegreesDone = false;
@@ -47,6 +53,9 @@ public class DriveByDistance extends Action {
     	leftDistanceInDegrees = leftDistance/Constants.inchPerDegree-leftAngleOnStart;
     	rightDistanceInDegrees = rightDistance/Constants.inchPerDegree-rightAngleOnStart;
     	
+    	wantedLeftTotalDegrees = leftAngleOnStart + leftDistanceInDegrees;
+    	wantedRightTotalDegrees = rightAngleOnStart + rightDistanceInDegrees;
+    	
     	leftRotationOnStart = Robot.leftCounter.leftRotationCounter;
     	rightRotationOnStart = Robot.rightCounter.rightRotationCounter;
     	
@@ -63,16 +72,19 @@ public class DriveByDistance extends Action {
     		leftSpeed = speedScaler;
     	}
     	
+    	leftSpeedOnStart = leftSpeed;
+    	rightSpeedOnStart = rightSpeed;
+    	
+    	wantedLeftRotations = Math.floor(wantedLeftTotalDegrees/4096);
+    	wantedRightRotations = Math.floor(wantedRightTotalDegrees/4096);
+    	
+    	wantedLeftAdditionalDegrees = wantedLeftTotalDegrees%4096;
+    	wantedRightAdditionalDegrees = wantedRightTotalDegrees%4096;
+    	
 	}
 	
 	@Override
 	public void start(){
-
-    	wantedLeftRotations = Math.floor(leftDistanceInDegrees/4096);
-    	wantedRightRotations = Math.floor(rightDistanceInDegrees/4096);
-    	
-    	wantedLeftAdditionalDegrees = leftDistanceInDegrees - (wantedLeftRotations * 4096);
-    	wantedRightAdditionalDegrees = rightDistanceInDegrees - (wantedRightRotations * 4096);
 		
 	}
 	
@@ -87,12 +99,14 @@ public class DriveByDistance extends Action {
     	}
     	
     	if(isLeftRotationsDone){
+    		leftSpeed = leftSpeedOnStart/2;
     		if(Robot.leftAbsEnc.getValue() < wantedLeftAdditionalDegrees + 50 && Robot.leftAbsEnc.getValue() > wantedLeftAdditionalDegrees - 50){
         		isLeftDegreesDone = true;
         	}
     	}
     	
     	if(isRightRotationsDone){
+    		rightSpeed = rightSpeedOnStart/2;
     		if(Robot.rightAbsEnc.getValue() < wantedRightAdditionalDegrees + 50 && Robot.rightAbsEnc.getValue() > wantedRightAdditionalDegrees - 50){
         		isRightDegreesDone = true;
         	}
