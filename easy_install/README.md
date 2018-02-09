@@ -4,7 +4,7 @@ This script allows for easy installation of all needed 3rd party libraries in ou
 
 # Windows Instructions
 
-- Make sure the the wpilib plugin is installed
+- Make sure that the wpilib plugin is installed
 - Double click the "setupWindows.bat" file
 
 # Linux/MacOS Instructions
