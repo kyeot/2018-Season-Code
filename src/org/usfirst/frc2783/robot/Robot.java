@@ -13,6 +13,8 @@ import org.usfirst.frc2783.util.Logger;
 import org.usfirst.frc2783.util.NavSensor;
 import org.usfirst.frc2783.vision.server.VisionServer;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.DriverStation;

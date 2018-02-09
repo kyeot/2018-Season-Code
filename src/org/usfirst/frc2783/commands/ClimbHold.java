@@ -1,41 +1,32 @@
 package org.usfirst.frc2783.commands;
 
-import org.usfirst.frc2783.robot.OI;
 import org.usfirst.frc2783.robot.Robot;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * @purpose: Command class for Elevator
- * @author Owen Atkins
- * @version 1/20/2017
+ *
  */
-public class Elevator extends Command {
+public class ClimbHold extends Command {
 
-	double speed;
-	
-    public Elevator() {
+    public ClimbHold() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	//sets the requires subsystem
     	requires(Robot.elevatorBase);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	
+    	Robot.elevatorBase.elevator(0.2);
+    	
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(Math.abs(OI.manipulator.getRawAxis(1)) > 0.15){
-    		speed = OI.manipulator.getRawAxis(1);
-    	}
-    	
-    	else{
-    		speed = 0;
-    	}
-    	
-    	Robot.elevatorBase.elevator(speed);
     }
 
     // Make this return true when this Command no longer needs to run execute()
