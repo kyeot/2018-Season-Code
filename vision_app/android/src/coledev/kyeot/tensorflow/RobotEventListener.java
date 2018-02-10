@@ -1,4 +1,4 @@
-package coledev.kyeot.tensorflow.comm;
+package coledev.kyeot.tensorflow;
 
 public interface RobotEventListener {
     public void shotTaken();

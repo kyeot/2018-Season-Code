@@ -1,10 +1,12 @@
-package coledev.kyeot.tensorflow.comm;
+package coledev.kyeot.tensorflow;
 
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+
+import coledev.kyeot.tensorflow.RobotEventListener;
 
 
 public class RobotEventBroadcastReceiver extends BroadcastReceiver {
