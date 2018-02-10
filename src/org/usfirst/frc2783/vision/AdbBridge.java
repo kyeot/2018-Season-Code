@@ -1,4 +1,4 @@
-package org.usfirst.frc2783.vision.server;
+package org.usfirst.frc2783.vision;
 
 import java.io.IOException;
 import java.nio.file.Path;

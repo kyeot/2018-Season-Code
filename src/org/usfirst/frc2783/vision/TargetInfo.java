@@ -1,4 +1,4 @@
-package org.usfirst.frc2783.vision.server;
+package org.usfirst.frc2783.vision;
 
 /**
  * A container class for Targets detected by the vision system, containing the

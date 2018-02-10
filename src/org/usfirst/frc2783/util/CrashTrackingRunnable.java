@@ -14,12 +14,13 @@ public abstract class CrashTrackingRunnable implements Runnable {
 		try {
 			runCrashTracked();
 		} catch(Throwable t) {
-			Logger.error("Exception caught in Loops");
-			t.printStackTrace();
+			logCrash();
 			throw(t);
 		}
 	}
 	
 	public abstract void runCrashTracked();
+	
+	public abstract void logCrash();
 
 }
