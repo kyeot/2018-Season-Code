@@ -1,7 +1,9 @@
 package org.usfirst.frc2783.commands;
 
+import org.usfirst.frc2783.robot.FieldTransform;
 import org.usfirst.frc2783.robot.OI;
 import org.usfirst.frc2783.robot.Robot;
+import org.usfirst.frc2783.util.Bearing;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -11,16 +13,17 @@ import edu.wpi.first.wpilibj.command.Command;
 public class TankDrive extends Command {
 
 	public enum ControlType {
-		XBOX_CONTROLLER(1, 5, 5, 6),
-		JOYSTICKS(1, 4, 1, 11);
+		XBOX_CONTROLLER(1, 5, 5, 6, 1),
+		JOYSTICKS(1, 4, 1, 11, 2);
 		
 		int leftAxis;
 		int rightAxis;
 		
 		int fastButton;
 		int slowButton;
+		int visionButton;
 		
-		private ControlType(int leftAxis, int rightAxis, int fastButton, int slowButton) {
+		private ControlType(int leftAxis, int rightAxis, int fastButton, int slowButton, int visionButton) {
 			
 			this.leftAxis = leftAxis;
 			this.rightAxis = rightAxis;
@@ -42,9 +45,18 @@ public class TankDrive extends Command {
 			return OI.driver.getRawButton(slowButton);
 		}
 		
+		public boolean getVisionButton() {
+			return OI.driver.getRawButton(visionButton);
+		}
+		
 	}
 	
 	private ControlType controlType;
+	
+	FieldTransform fieldTransform = FieldTransform.getInstance();
+	
+	double lastLeftSpeed;
+	double lastRightSpeed;
 	
     public TankDrive(ControlType controlType) {
     	//sets requirement system
@@ -79,8 +91,13 @@ public class TankDrive extends Command {
     		rightSpeed = 0;
     	}
     	
-    	Robot.tankDrive.tankDrive(leftSpeed, rightSpeed);
-    	
+    	if(controlType.getVisionButton()) {
+    		if(!FieldTransform.fieldTransform.getFieldToTargets().isEmpty()){
+    			Robot.tankDrive.setRobotPose(new Bearing(FieldTransform.fieldTransform.getFieldToTargets().get(0).dir().getTheta()));
+    		}
+    	} else {
+            Robot.tankDrive.tankDrive(leftSpeed, rightSpeed);
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
