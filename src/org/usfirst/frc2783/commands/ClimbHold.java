@@ -2,9 +2,6 @@ package org.usfirst.frc2783.commands;
 
 import org.usfirst.frc2783.robot.Robot;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
