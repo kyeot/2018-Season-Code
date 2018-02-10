@@ -4,17 +4,21 @@ import org.usfirst.frc2783.robot.Constants;
 
 import edu.wpi.first.wpilibj.Joystick;
 
-public class TwoJoysticks {
+public class TankJoysticks {
 	
-	private static TwoJoysticks instance = new TwoJoysticks();
+	private static TankJoysticks instance = new TankJoysticks();
 
 	Joystick left = new Joystick(Constants.kJoyTankLeftID);
 	Joystick right = new Joystick(Constants.kJoyTankRightID);
 	
-	public static TwoJoysticks getInstance(){
+	public static TankJoysticks getInstance(){
 		return instance;
 	}
+
 	
+/**
+ * 0 -> 2 = 0 -> 2 on left Joystick, 10 -> 12 = 0 -> 2 on right Joystick
+ */
 	public double getRawAxis(int id){
 		
 		double ret;
@@ -30,13 +34,13 @@ public class TwoJoysticks {
 				ret = left.getRawAxis(2);
 				break;
 			case 3:
-				ret = right.getRawAxis(0);
+				ret = right.getRawAxis(10);
 				break;
 			case 4:
-				ret = right.getRawAxis(1);
+				ret = right.getRawAxis(11);
 				break;
 			case 5:
-				ret = right.getRawAxis(2);
+				ret = right.getRawAxis(12);
 				break;
 			default:
 				ret = 0;
@@ -47,6 +51,9 @@ public class TwoJoysticks {
 		
 	}
 	
+/**
+ * 0 -> 9 = 0 -> 9 on the left Joystick, 10 -> 19 = 0 -> 9 on the right Joystick
+ */
 	public boolean getRawButton(int id){
 		
 		boolean ret;
