@@ -9,6 +9,7 @@ import org.usfirst.frc2783.subystems.TankDriveBase;
 import org.usfirst.frc2783.util.LeftEncoderCounter;
 import org.usfirst.frc2783.util.RightEncoderCounter;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.AnalogInput;
@@ -53,8 +54,13 @@ public class Robot extends IterativeRobot {
         looper.addLoop(leftCounter);
         looper.addLoop(rightCounter);
         looper.startLoops();
+        
+        tankDriveBase.leftSide1.setNeutralMode(NeutralMode.Brake);
+        tankDriveBase.rightSide1.setNeutralMode(NeutralMode.Brake);
+        tankDriveBase.leftSide2.setNeutralMode(NeutralMode.Brake);
+        tankDriveBase.rightSide2.setNeutralMode(NeutralMode.Brake);
 
-        //gameData = DriverStation.getInstance().getGameSpecificMessage();
+        //gameData = DriverStation.getInstance().getGameSpecific/Message();
         gameData = getPracticeData(true, null);
         autoSides = gameData.substring(0, 1);
         
@@ -105,12 +111,12 @@ public class Robot extends IterativeRobot {
         Scheduler.getInstance().run();
         SmartDashboard.putString("DB/String 0", "" + Robot.leftAbsEnc.getValue());
         SmartDashboard.putString("DB/String 1", "" + Robot.rightAbsEnc.getValue());
-
+        
+        SmartDashboard.putString("DB/String 3", "" + Robot.isLeftForward);
+        SmartDashboard.putString("DB/String 4", "" + Robot.isRightForward);
+        
 		SmartDashboard.putString("DB/String 8", "left: " + Robot.leftCounter.leftRotationCounter);
 		SmartDashboard.putString("DB/String 9", "right: " + Robot.rightCounter.rightRotationCounter);
-        
-        SmartDashboard.putString("DB/String 3", "left: " + Robot.isLeftForward);
-        SmartDashboard.putString("DB/String 4", "right: " + Robot.isRightForward);
         
     }
 
