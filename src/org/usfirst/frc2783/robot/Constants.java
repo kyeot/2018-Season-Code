@@ -49,6 +49,9 @@ public class Constants {
 	public static final int kDriverControllerId = 0;
 	public static final int kManipulatorControllerId = 1;
 	
+	public static final int kJoyTankLeftID = 3;
+	public static final int kJoyTankRightID = 4;
+	
 	public static final int kLowGearID = 2;
 	public static final int kHighGearID = 3;
 	
