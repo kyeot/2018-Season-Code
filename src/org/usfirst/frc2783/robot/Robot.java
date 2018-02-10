@@ -13,13 +13,10 @@ import org.usfirst.frc2783.util.Logger;
 import org.usfirst.frc2783.util.NavSensor;
 import org.usfirst.frc2783.vision.server.VisionServer;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
@@ -38,9 +35,7 @@ public class Robot extends IterativeRobot {
     
     VisionServer mVisionServer = VisionServer.getInstance();
     
-    public static PowerDistributionPanel pdp = new PowerDistributionPanel();
-    
-    public void robotInit() {
+        public void robotInit() {
         oi = new OI();
         
         mVisionServer.addVisionUpdateReceiver(VisionProcessor.getInstance());
