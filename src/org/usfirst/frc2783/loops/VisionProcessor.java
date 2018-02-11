@@ -1,9 +1,9 @@
 package org.usfirst.frc2783.loops;
 
+import org.usfirst.frc2783.util.Logger;
 import org.usfirst.frc2783.robot.FieldTransform;
-import org.usfirst.frc2783.util.NavSensor;
-import org.usfirst.frc2783.vision.server.VisionUpdate;
-import org.usfirst.frc2783.vision.server.VisionUpdateReceiver;
+import org.usfirst.frc2783.vision.VisionUpdate;
+import org.usfirst.frc2783.vision.VisionUpdateReceiver;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -41,14 +41,10 @@ public class VisionProcessor implements Loop, VisionUpdateReceiver {
             update = update_;
             update_ = null;
         }
+        fieldTransform.addVisionTargets(update.getTargets());
+        fieldTransform.getFieldToTargets();
         
-        NavSensor.getInstance().updateHistory();
-        
-        fieldTransform.addVisionTargets(update.getTargets(), update.getCapturedAtTimestamp());
-        fieldTransform.trackLatestTarget();
-        
-        SmartDashboard.putString("DB/String 9", "Gyro Angle: " + Math.floor(NavSensor.getInstance().getAngle(false)));
-        SmartDashboard.putString("DB/String 5", "Raw Gyro Angle: " + Math.floor(NavSensor.getInstance().getRawAngle()));
+        SmartDashboard.putString("DB/String 0", "mmmmMMMMM JUICE");
     }
 
     @Override
@@ -58,6 +54,7 @@ public class VisionProcessor implements Loop, VisionUpdateReceiver {
 
     @Override
     public synchronized void gotUpdate(VisionUpdate update) {
+    	Logger.log("INFO", "gotUpdate");
         update_ = update;
     }
 

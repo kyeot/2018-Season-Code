@@ -12,9 +12,11 @@ import java.net.Socket;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
+import coledev.kyeot.tensorflow.RobotEventBroadcastReceiver;
 import coledev.kyeot.tensorflow.comm.messages.HeartbeatMessage;
 import coledev.kyeot.tensorflow.comm.messages.OffWireMessage;
 import coledev.kyeot.tensorflow.comm.messages.VisionMessage;
+import coledev.kyeot.tensorflow.tracking.MultiBoxTracker;
 
 public class RobotConnection {
     public static final int K_ROBOT_PORT = 8254;
@@ -162,9 +164,12 @@ public class RobotConnection {
             try {
                 m_socket = new Socket(m_host, m_port);
                 m_socket.setSoTimeout(100);
+                Log.w("RobotConnector", "Robot connected");
+                MultiBoxTracker.robotConnected = true;
             } catch (IOException e) {
                 Log.w("RobotConnector", "Could not connect");
                 m_socket = null;
+                MultiBoxTracker.robotConnected = false;
             }
         }
     }

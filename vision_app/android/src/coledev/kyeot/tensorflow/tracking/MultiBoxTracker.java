@@ -37,6 +37,7 @@ import java.util.Queue;
 import coledev.kyeot.tensorflow.AppContext;
 import coledev.kyeot.tensorflow.CameraConnectionFragment;
 import coledev.kyeot.tensorflow.DetectorActivity;
+import coledev.kyeot.tensorflow.R;
 import coledev.kyeot.tensorflow.comm.CameraTargetInfo;
 import coledev.kyeot.tensorflow.comm.RobotConnection;
 import coledev.kyeot.tensorflow.comm.VisionUpdate;
@@ -279,12 +280,14 @@ public class MultiBoxTracker {
       Log.d("MultiBoxTracker", "Object timestamp: " + result.getTimestamp());
       visionUpdate.addCameraTargetInfo(new CameraTargetInfo(y, z));
       if (robotConnected) {
+        Log.w("MultiBoxTracker", "Robot is connected, sending visionUpdate");
+        //#TODO Remove reference to AppContext here.
+        //#TODO Initialize the connection once and check if it is null on every run. If so, initialize it again.
         RobotConnection mRobotConnection = AppContext.getRobotConnection();
         TargetUpdateMessage update = new TargetUpdateMessage(visionUpdate, System.nanoTime());
         mRobotConnection.send(update);
-        int duration = Toast.LENGTH_SHORT;
-        Toast toast = Toast.makeText(context, "Robot connected", duration);
-        toast.show();
+      } else {
+        Log.w("MultiBoxTracker", "Robot is not connected, visionUpdate not sent");
       }
 
 

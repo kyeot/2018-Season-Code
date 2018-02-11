@@ -238,7 +238,7 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
             lines.add("View: " + canvas.getWidth() + "x" + canvas.getHeight());
             lines.add("Rotation: " + sensorOrientation);
             lines.add("Inference time: " + lastProcessingTimeMs + "ms");
-
+            lines.add("Robot connected: " + MultiBoxTracker.robotConnected);
             borderedText.drawLines(canvas, 10, canvas.getHeight() - 10, lines);
           }
         });

@@ -18,9 +18,13 @@ public class Constants {
 	public static final int kRightDrive1 = 11;
 	public static final int kRightDrive2 = 8;
 	
-	public static final double kPeriod = 0.01; 
+	public static final double kTankPoseP = 0.01;
+	public static final double kTankPoseI = 0.00;
+	public static final double kTankPoseD = 0.00;
+	
+	public static final double kPeriod = 0.005; 
 
-	public static final double kAutoPeriod = 0.01;
+	public static final double kAutoPeriod = 0.005;
 	
 	public static final double kTurretStowedAngle = 0;
 	public static final double kTurretAngleTolerance = 0;
@@ -49,7 +53,10 @@ public class Constants {
 	public static final int kDriverControllerId = 0;
 	public static final int kManipulatorControllerId = 1;
 	
-	public static final int kLowGearID = 1;
-	public static final int kHighGearID = 2;
+	public static final int kJoyTankLeftID = 3;
+	public static final int kJoyTankRightID = 4;
+	
+	public static final int kLowGearID = 2;
+	public static final int kHighGearID = 3;
 	
 }
