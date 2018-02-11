@@ -11,8 +11,6 @@ import edu.wpi.first.wpilibj.command.Command;
  * @version 1/20/2017
  */
 public class Intake extends Command {
-
-	int dir = 2;
 	
     public Intake() {
     	//Sets the required Subsystem
@@ -24,18 +22,24 @@ public class Intake extends Command {
     }
 
     // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
+    protected void execute() {    	
     	
-    	//Stops it from trying to run both directions at once
-    	if(OI.manipulator.getRawAxis(3) > 0.15) {
-    		dir = 3;
-    	}
-    	else if(OI.manipulator.getRawAxis(2) > 0.15) {
-    		dir = 2;
+    	double speed = OI.manipulator.getRawAxis(5);
+    	
+    	if(OI.manipulator.getRawAxis(2) > 0.15){
+    		speed = OI.manipulator.getRawAxis(2);
     	}
     	
-    	//Sets intake wheels based on direction
-    	Robot.intake.intake(OI.manipulator.getRawAxis(dir));
+    	else if(OI.manipulator.getRawAxis(3) > 0.15){
+    		speed = -OI.manipulator.getRawAxis(3);
+    	}
+    	
+    	else{
+    		speed = 0;
+    	}
+    	
+    	Robot.intake.intake(speed);
+    	
     }
 
     // Make this return true when this Command no longer needs to run execute()

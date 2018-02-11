@@ -17,8 +17,8 @@ public class ClimbHold extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	
-    	Robot.elevatorBase.elevator(0.2);
+
+    	Robot.isClimb = true;
     	
     }
 

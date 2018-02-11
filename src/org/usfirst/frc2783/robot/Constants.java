@@ -22,9 +22,9 @@ public class Constants {
 	public static final double kTankPoseI = 0.00;
 	public static final double kTankPoseD = 0.00;
 	
-	public static final double kPeriod = 0.01; 
+	public static final double kPeriod = 0.005; 
 
-	public static final double kAutoPeriod = 0.01;
+	public static final double kAutoPeriod = 0.005;
 	
 	public static final double kTurretStowedAngle = 0;
 	public static final double kTurretAngleTolerance = 0;

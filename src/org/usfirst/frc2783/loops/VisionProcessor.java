@@ -5,6 +5,8 @@ import org.usfirst.frc2783.robot.FieldTransform;
 import org.usfirst.frc2783.vision.VisionUpdate;
 import org.usfirst.frc2783.vision.VisionUpdateReceiver;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 /**
  * This function adds vision updates (from the Nexus smartphone) to a list in
  * RobotState. This helps keep track of goals detected by the vision system. The
@@ -41,6 +43,8 @@ public class VisionProcessor implements Loop, VisionUpdateReceiver {
         }
         fieldTransform.addVisionTargets(update.getTargets());
         fieldTransform.getFieldToTargets();
+        
+        SmartDashboard.putString("DB/String 0", "mmmmMMMMM JUICE");
     }
 
     @Override

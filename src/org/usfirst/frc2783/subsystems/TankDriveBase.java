@@ -1,7 +1,6 @@
 package org.usfirst.frc2783.subsystems;
 
 import org.usfirst.frc2783.commands.TankDrive;
-import org.usfirst.frc2783.commands.TankDrive.ControlType;
 import org.usfirst.frc2783.robot.Constants;
 import org.usfirst.frc2783.util.Bearing;
 import org.usfirst.frc2783.util.NavSensor;
@@ -106,7 +105,7 @@ public class TankDriveBase extends Subsystem {
 	
 	@Override
 	protected void initDefaultCommand() {
-		setDefaultCommand(new TankDrive(ControlType.XBOX_CONTROLLER));
+		setDefaultCommand(new TankDrive());
 		
 	}
 

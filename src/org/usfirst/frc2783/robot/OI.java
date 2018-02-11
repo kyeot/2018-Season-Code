@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
  */
 public class OI {
 	
-//	public static TwoJoysticks driver = TwoJoysticks.getInstance();
 	public static Joystick driver = new Joystick(Constants.kDriverControllerId);
 	public static Joystick manipulator = new Joystick(Constants.kManipulatorControllerId);
 	

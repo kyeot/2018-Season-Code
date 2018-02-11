@@ -33,6 +33,8 @@ public class Robot extends IterativeRobot {
     public static IntakeBase intake = new IntakeBase();
     public static ElevatorBase elevatorBase = new ElevatorBase();
     
+    public static boolean isClimb;
+    
     VisionServer mVisionServer = VisionServer.getInstance();
     
         public void robotInit() {

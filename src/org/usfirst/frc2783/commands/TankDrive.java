@@ -6,62 +6,21 @@ import org.usfirst.frc2783.robot.Robot;
 import org.usfirst.frc2783.util.Bearing;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
 public class TankDrive extends Command {
-
-	public enum ControlType {
-		XBOX_CONTROLLER(1, 5, 5, 6, 1),
-		JOYSTICKS(1, 4, 1, 11, 2);
-		
-		int leftAxis;
-		int rightAxis;
-		
-		int fastButton;
-		int slowButton;
-		int visionButton;
-		
-		private ControlType(int leftAxis, int rightAxis, int fastButton, int slowButton, int visionButton) {
-			
-			this.leftAxis = leftAxis;
-			this.rightAxis = rightAxis;
-		}
-		
-		public double getLeftAxis() {
-			return OI.driver.getRawAxis(leftAxis);
-		}
-		
-		public double getRightAxis() {
-			return OI.driver.getRawAxis(rightAxis);
-		}
-		
-		public boolean getFastButton() {
-			return OI.driver.getRawButton(fastButton);
-		}
-		
-		public boolean getSlowButton() {
-			return OI.driver.getRawButton(slowButton);
-		}
-		
-		public boolean getVisionButton() {
-			return OI.driver.getRawButton(visionButton);
-		}
-		
-	}
-	
-	private ControlType controlType;
 	
 	FieldTransform fieldTransform = FieldTransform.getInstance();
 	
 	double lastLeftSpeed;
 	double lastRightSpeed;
 	
-    public TankDrive(ControlType controlType) {
+    public TankDrive() {
     	//sets requirement system
         requires(Robot.tankDrive);
-        this.controlType = controlType;
     }
 
     // Called just before this Command runs the first time
@@ -70,15 +29,15 @@ public class TankDrive extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double leftSpeed = controlType.getLeftAxis();
-    	double rightSpeed = controlType.getRightAxis();
+    	double leftSpeed = OI.driver.getRawAxis(1);
+    	double rightSpeed = OI.driver.getRawAxis(5);
     	
-    	if(controlType.getSlowButton()){
+    	if(OI.driver.getRawButton(5)){
     		leftSpeed = leftSpeed/2;
     		rightSpeed = rightSpeed/2;
     	}
     	
-    	else if(controlType.getFastButton()){
+    	else if(OI.driver.getRawButton(6)){
     		leftSpeed = leftSpeed*2;
     		rightSpeed = rightSpeed*2;
     	}
@@ -91,7 +50,7 @@ public class TankDrive extends Command {
     		rightSpeed = 0;
     	}
     	
-    	if(controlType.getVisionButton()) {
+    	if(OI.driver.getRawButton(1)) {
     		if(!FieldTransform.fieldTransform.getFieldToTargets().isEmpty()){
     			Robot.tankDrive.setRobotPose(new Bearing(FieldTransform.fieldTransform.getFieldToTargets().get(0).dir().getTheta()));
     		}
