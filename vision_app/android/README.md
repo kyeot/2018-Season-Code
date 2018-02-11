@@ -7,6 +7,9 @@ https://github.com/Team254/FRC-2017-Public
  
 The most important part of this app is the frozen inference graph which can be found under the "assets" folder. This essentially is a set of weighted values that tell Tensorflow what a Power Up cube actually is, allowing it to be recognized.
 
+The neural network was trained using a methodology that can be found here:
+https://github.com/CorvetteCole/Image-Net-Training
+
 # To do
 - Remove reference to AppContext in MultiBoxTracker (or at least reduce it). This is used far too often (every vision update) and shouldn't be.
 - Optimize inference graph for lower latency. This will involve generating a new inference graph from the raw output of the neural training and then quantizing it. 
