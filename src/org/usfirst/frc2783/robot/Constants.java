@@ -38,14 +38,15 @@ public class Constants {
 	
 	public static final double kGyroMaxAge = 0.4;
 	
-	public static final double kCameraXOffset = 13;
-	public static final double kCameraYOffset = 0.25;
-	public static final double kCameraZOffset = 3;
+	// Offsets for vision in inches
+	public static final double kCameraXOffset = 13;     // distance forward of camera from center of robot
+	public static final double kCameraYOffset = 0;   	// distance left or right of camera from center of robot	
+	public static final double kCameraZOffset = 3;		// distance of camera from ground
 	public static final double kCameraPitchOffset = 0.0;
 	public static final double kCameraRollOffset = 0.0;
 	public static final double kCameraYawOffset = 0.0;
 	
-	public static final double kGoalHeight = 8;
+	public static final double kGoalHeight = 6.5;	    // height to center of target in inches
 	
 	public static final int kArmPdpPortId = 0;
 	public static final double kArmCurrentLoweredThreshold = 0.1;
