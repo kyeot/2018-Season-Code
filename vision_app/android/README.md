@@ -11,7 +11,13 @@ The neural network was trained using a methodology that can be found here:
 https://github.com/CorvetteCole/Image-Net-Training
 
 # To do
-- Install firmware on the Nexus 5's Hexagon DSP to accelerate neural processing drastically. See here: https://github.com/tensorflow/tensorflow/tree/master/tensorflow/contrib/hvx
+- Drastically reduce latency by doing things in the Firmware development header
 - Remove reference to AppContext in MultiBoxTracker (or at least reduce it). This is used far too often (every vision update) and shouldn't be.
 - Optimize inference graph for lower latency. This will involve generating a new inference graph from the raw output of the neural training and then quantizing it. 
 - Confirm that timestamps are being applied to targets accurately. This is very important for latency compensation and I have no idea if the method I used to apply timestamps is anywhere near accurate. I hope it is but this is an important test.
+
+# Firmware development
+Install firmware on the Nexus 5's Hexagon DSP to accelerate neural processing drastically. 
+See here: https://github.com/tensorflow/tensorflow/tree/master/tensorflow/contrib/hvx
+
+Use bazel instead of CMake as app build method and import new Tensorflow libraries built with Hexagon DSP support (stock library used by cmake does not)
