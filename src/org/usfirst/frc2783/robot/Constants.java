@@ -46,7 +46,7 @@ public class Constants {
 	public static final double kCameraRollOffset = 0.0;
 	public static final double kCameraYawOffset = 0.0;
 	
-	public static final double kGoalHeight = 13;	    // vision target height in inches
+	public static final double kGoalHeight = 6.5;	    // height to center of target in inches
 	
 	public static final int kArmPdpPortId = 0;
 	public static final double kArmCurrentLoweredThreshold = 0.1;
