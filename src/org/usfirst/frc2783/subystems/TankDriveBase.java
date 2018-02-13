@@ -73,7 +73,7 @@ public class TankDriveBase extends Subsystem {
 	//Basic tank drive method
 	public void tankDrive(double lSpeed, double rSpeed){
 		
-		leftSide1.set(ControlMode.PercentOutput, -lSpeed);
+		leftSide1.set(ControlMode.PercentOutput, lSpeed);
 		rightSide1.set(ControlMode.PercentOutput, rSpeed);
 		
 	}

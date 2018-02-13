@@ -67,7 +67,7 @@ public class Robot extends IterativeRobot {
         String[] autonomousList = {"Test"};
         
         //Puts the autonomous modes selector into the dashboard
-        SmartDashboard.putStringArray("Autonomous Mode Chooser", autonomousList);
+        SmartDashboard.putStringArray("Auto List", autonomousList);
         
         //Gets the Switch/Scale sides from the Driver Station and stores it as a variable
         
@@ -102,6 +102,14 @@ public class Robot extends IterativeRobot {
     
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
+        SmartDashboard.putString("DB/String 0", "" + Robot.leftAbsEnc.getValue());
+        SmartDashboard.putString("DB/String 1", "" + Robot.rightAbsEnc.getValue());
+        
+        SmartDashboard.putString("DB/String 3", "" + Robot.isLeftForward);
+        SmartDashboard.putString("DB/String 4", "" + Robot.isRightForward);
+        
+		SmartDashboard.putString("DB/String 8", "left: " + Robot.leftCounter.leftRotationCounter);
+		SmartDashboard.putString("DB/String 9", "right: " + Robot.rightCounter.rightRotationCounter);
     }
 
     public void teleopInit() {
@@ -117,7 +125,7 @@ public class Robot extends IterativeRobot {
         
 		SmartDashboard.putString("DB/String 8", "left: " + Robot.leftCounter.leftRotationCounter);
 		SmartDashboard.putString("DB/String 9", "right: " + Robot.rightCounter.rightRotationCounter);
-        
+		
     }
 
 	public void testPeriodic() {

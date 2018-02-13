@@ -25,22 +25,6 @@ public class TankDrive extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	
-    	if(OI.driver.getRawAxis(1) > 0.15){
-    		Robot.isLeftForward = true;
-    	}
-    	
-    	else if(OI.driver.getRawAxis(1) < -0.15){
-    		Robot.isLeftForward = false;
-    	}
-    	
-    	if(OI.driver.getRawAxis(5) > 0.15){
-    		Robot.isRightForward = true;
-    	}
-    	
-    	else if(OI.driver.getRawAxis(5) < -0.15){
-    		Robot.isRightForward = false;
-    	}
-    	
     	lMot = OI.leftJoy.getRawAxis(1)/2;
     	rMot = OI.rightJoy.getRawAxis(1)/2;
     	
@@ -64,7 +48,7 @@ public class TankDrive extends Command {
     		rMot = 0;
     	}
     	
-    	Robot.tankDriveBase.tankDrive(lMot, rMot);
+    	Robot.tankDriveBase.tankDrive(-lMot, rMot);
     	
     }
 

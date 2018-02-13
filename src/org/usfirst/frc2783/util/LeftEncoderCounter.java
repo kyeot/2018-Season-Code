@@ -1,6 +1,7 @@
 package org.usfirst.frc2783.util;
 
 import org.usfirst.frc2783.loops.Loop;
+import org.usfirst.frc2783.robot.OI;
 import org.usfirst.frc2783.robot.Robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -38,6 +39,14 @@ public class LeftEncoderCounter implements Loop{
 
 	@Override
 	public void onLoop() {
+
+    	if(Robot.tankDriveBase.leftSide1.getMotorOutputPercent() > 0.1){
+    		Robot.isLeftForward = false;
+    	}
+    	
+    	else if(Robot.tankDriveBase.leftSide1.getMotorOutputPercent() < -0.1){
+    		Robot.isLeftForward = true;
+    	}
 		
 		leftEncVal = Robot.leftAbsEnc.getValue();  
 		

@@ -34,6 +34,14 @@ public class RightEncoderCounter implements Loop{
 
 	@Override
 	public void onLoop() {
+		
+    	if(Robot.tankDriveBase.rightSide1.getMotorOutputPercent() > 0.1){
+    		Robot.isRightForward = true;
+    	}
+    	
+    	else if(Robot.tankDriveBase.rightSide1.getMotorOutputPercent() < -0.1){
+    		Robot.isRightForward = false;
+    	}
 
 		rightEncVal = Robot.rightAbsEnc.getValue();
 		
