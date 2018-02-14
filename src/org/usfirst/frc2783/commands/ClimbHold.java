@@ -2,9 +2,6 @@ package org.usfirst.frc2783.commands;
 
 import org.usfirst.frc2783.robot.Robot;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -20,8 +17,8 @@ public class ClimbHold extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	
-    	Robot.elevatorBase.elevator(0.2);
+
+    	Robot.isClimb = true;
     	
     }
 

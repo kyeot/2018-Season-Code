@@ -1,17 +1,22 @@
 package org.usfirst.frc2783.commands;
 
+import org.usfirst.frc2783.robot.FieldTransform;
 import org.usfirst.frc2783.robot.OI;
 import org.usfirst.frc2783.robot.Robot;
+import org.usfirst.frc2783.util.Bearing;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
 public class TankDrive extends Command {
-
-	double leftSpeed;
-	double rightSpeed;
+	
+	FieldTransform fieldTransform = FieldTransform.getInstance();
+	
+	double lastLeftSpeed;
+	double lastRightSpeed;
 	
     public TankDrive() {
     	//sets requirement system
@@ -24,8 +29,8 @@ public class TankDrive extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	leftSpeed = OI.driver.getRawAxis(1)/2;
-    	rightSpeed = OI.driver.getRawAxis(5)/2;
+    	double leftSpeed = OI.driver.getRawAxis(1);
+    	double rightSpeed = OI.driver.getRawAxis(5);
     	
     	if(OI.driver.getRawButton(5)){
     		leftSpeed = leftSpeed/2;
@@ -45,8 +50,13 @@ public class TankDrive extends Command {
     		rightSpeed = 0;
     	}
     	
-    	Robot.tankDrive.tankDrive(leftSpeed, rightSpeed);
-    	
+    	if(OI.driver.getRawButton(1)) {
+    		if(!FieldTransform.fieldTransform.getFieldToTargets().isEmpty()){
+    			Robot.tankDrive.setRobotPose(new Bearing(FieldTransform.fieldTransform.getFieldToTargets().get(0).dir().getTheta()));
+    		}
+    	} else {
+            Robot.tankDrive.tankDrive(leftSpeed, rightSpeed);
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()

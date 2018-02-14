@@ -18,9 +18,13 @@ public class Constants {
 	public static final int kRightDrive1 = 11;
 	public static final int kRightDrive2 = 8;
 	
-	public static final double kPeriod = 0.01; 
+	public static final double kTankPoseP = 0.01;
+	public static final double kTankPoseI = 0.00;
+	public static final double kTankPoseD = 0.00;
+	
+	public static final double kPeriod = 0.005; 
 
-	public static final double kAutoPeriod = 0.01;
+	public static final double kAutoPeriod = 0.005;
 	
 	public static final double kTurretStowedAngle = 0;
 	public static final double kTurretAngleTolerance = 0;
@@ -34,20 +38,24 @@ public class Constants {
 	
 	public static final double kGyroMaxAge = 0.4;
 	
-	public static final double kCameraXOffset = 13;
-	public static final double kCameraYOffset = 0.25;
-	public static final double kCameraZOffset = 3;
+	// Offsets for vision in inches
+	public static final double kCameraXOffset = 13;     // distance forward of camera from center of robot
+	public static final double kCameraYOffset = 0;   	// distance left or right of camera from center of robot	
+	public static final double kCameraZOffset = 3;		// distance of camera from ground
 	public static final double kCameraPitchOffset = 0.0;
 	public static final double kCameraRollOffset = 0.0;
 	public static final double kCameraYawOffset = 0.0;
 	
-	public static final double kGoalHeight = 8;
+	public static final double kGoalHeight = 6.5;	    // height to center of target in inches
 	
 	public static final int kArmPdpPortId = 0;
 	public static final double kArmCurrentLoweredThreshold = 0.1;
 	
 	public static final int kDriverControllerId = 0;
 	public static final int kManipulatorControllerId = 1;
+	
+	public static final int kJoyTankLeftID = 3;
+	public static final int kJoyTankRightID = 4;
 	
 	public static final int kLowGearID = 2;
 	public static final int kHighGearID = 3;

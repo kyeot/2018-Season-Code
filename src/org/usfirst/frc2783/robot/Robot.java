@@ -11,7 +11,7 @@ import org.usfirst.frc2783.subsystems.IntakeBase;
 import org.usfirst.frc2783.subsystems.TankDriveBase;
 import org.usfirst.frc2783.util.Logger;
 import org.usfirst.frc2783.util.NavSensor;
-import org.usfirst.frc2783.vision.server.VisionServer;
+import org.usfirst.frc2783.vision.VisionServer;
 
 import com.kauailabs.navx.frc.AHRS;
 
@@ -33,12 +33,16 @@ public class Robot extends IterativeRobot {
     public static IntakeBase intake = new IntakeBase();
     public static ElevatorBase elevatorBase = new ElevatorBase();
     
+    public static boolean isClimb;
+    
     VisionServer mVisionServer = VisionServer.getInstance();
     
         public void robotInit() {
         oi = new OI();
         
         mVisionServer.addVisionUpdateReceiver(VisionProcessor.getInstance());
+        
+        NavSensor.getInstance().resetGyroNorth(180, 0);
         
         looper.addLoop(new LogData());
         looper.addLoop(VisionProcessor.getInstance());
@@ -69,6 +73,7 @@ public class Robot extends IterativeRobot {
     }
 
     public void autonomousInit() {
+    	Logger.info("Starting Autonomous");
     }
     
     public void autonomousPeriodic() {
@@ -76,6 +81,7 @@ public class Robot extends IterativeRobot {
     }
 
     public void teleopInit() {
+    	Logger.info("Starting Teleop");
     }
 
     public void teleopPeriodic() {

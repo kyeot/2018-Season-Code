@@ -1,6 +1,7 @@
 package org.usfirst.frc2783.robot;
 
 import org.usfirst.frc2783.commands.ServoShift;
+import org.usfirst.frc2783.util.TankJoysticks;
 import org.usfirst.frc2783.commands.ClimbHold;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -13,7 +14,6 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
  */
 public class OI {
 	
-	//adds controllers
 	public static Joystick driver = new Joystick(Constants.kDriverControllerId);
 	public static Joystick manipulator = new Joystick(Constants.kManipulatorControllerId);
 	
