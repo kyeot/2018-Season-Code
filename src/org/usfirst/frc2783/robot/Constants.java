@@ -9,18 +9,18 @@ public class Constants {
 	
 	// IDs for motor controllers correspond to their matching points on the PDP(Power Distribution Panel)
 	public static final int kElevator1 = 2;
-	public static final int kElevator2 = 12;
+	public static final int kElevator2 = 7;
 	public static final int kIntakeRight = 15;
 	public static final int kIntakeLeft = 1;
 
 	public static final int kLeftDrive1 = 4;
-	public static final int kLeftDrive2 = 7;
+	public static final int kLeftDrive2 = 12;
 	public static final int kRightDrive1 = 11;
 	public static final int kRightDrive2 = 8;
 	
-	public static final double kTankPoseP = 0.01;
-	public static final double kTankPoseI = 0.00;
-	public static final double kTankPoseD = 0.00;
+	public static final double kTankPoseP = 0.015;
+	public static final double kTankPoseI = 0.0005;
+	public static final double kTankPoseD = 0.001;
 	
 	public static final double kPeriod = 0.005; 
 
@@ -39,14 +39,14 @@ public class Constants {
 	public static final double kGyroMaxAge = 0.4;
 	
 	// Offsets for vision in inches
-	public static final double kCameraXOffset = 13;     // distance forward of camera from center of robot
+	public static final double kCameraXOffset = 6;     // distance forward of camera from center of robot
 	public static final double kCameraYOffset = 0;   	// distance left or right of camera from center of robot	
-	public static final double kCameraZOffset = 3;		// distance of camera from ground
+	public static final double kCameraZOffset = 14;		// distance of camera from ground
 	public static final double kCameraPitchOffset = 0.0;
 	public static final double kCameraRollOffset = 0.0;
 	public static final double kCameraYawOffset = 0.0;
 	
-	public static final double kGoalHeight = 6.5;	    // height to center of target in inches
+	public static final double kGoalHeight = 6;	    // height to center of target in inches
 	
 	public static final int kArmPdpPortId = 0;
 	public static final double kArmCurrentLoweredThreshold = 0.1;

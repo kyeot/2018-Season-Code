@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 //adds classes to the code
 public class Robot extends IterativeRobot {
@@ -33,7 +34,12 @@ public class Robot extends IterativeRobot {
     public static IntakeBase intake = new IntakeBase();
     public static ElevatorBase elevatorBase = new ElevatorBase();
     
+    public static FieldTransform fieldTransform = FieldTransform.getInstance();
+    
     public static boolean isClimb;
+    
+    boolean isBrownOut = false;
+    boolean wasBrownOut = false;
     
     VisionServer mVisionServer = VisionServer.getInstance();
     
@@ -77,15 +83,19 @@ public class Robot extends IterativeRobot {
     }
     
     public void autonomousPeriodic() {
+    	
         Scheduler.getInstance().run();
     }
 
     public void teleopInit() {
     	Logger.info("Starting Teleop");
     }
-
+    
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
+        
+        SmartDashboard.putString("DB/String 7", "robot angle: " + Math.floor(NavSensor.getInstance().getAngle(false)));
+     
     }
 
     public void testPeriodic() {

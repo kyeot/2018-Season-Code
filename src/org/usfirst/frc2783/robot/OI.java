@@ -1,8 +1,7 @@
 package org.usfirst.frc2783.robot;
 
-import org.usfirst.frc2783.commands.ServoShift;
-import org.usfirst.frc2783.util.TankJoysticks;
 import org.usfirst.frc2783.commands.ClimbHold;
+import org.usfirst.frc2783.commands.ServoShift;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;

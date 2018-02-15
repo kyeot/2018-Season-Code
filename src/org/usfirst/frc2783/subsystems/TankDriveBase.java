@@ -20,7 +20,7 @@ public class TankDriveBase extends Subsystem {
 	class TankPoseOut implements PIDOutput {
 		@Override
 		public void pidWrite(double output) {
-			rot = output;
+			rot = -output;
 		}
 	}
 	
@@ -98,6 +98,9 @@ public class TankDriveBase extends Subsystem {
 	
 	// moves robot with left and right drive sticks
 	public void tankDrive(double leftSpeed, double rightSpeed) {
+		if(left1.getOutputCurrent() > 2){
+			
+		}
 		left1.set(ControlMode.PercentOutput, -leftSpeed);
 		right1.set(ControlMode.PercentOutput, rightSpeed);
 		
