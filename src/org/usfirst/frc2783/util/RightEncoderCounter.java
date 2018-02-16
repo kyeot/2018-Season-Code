@@ -3,8 +3,6 @@ package org.usfirst.frc2783.util;
 import org.usfirst.frc2783.loops.Loop;
 import org.usfirst.frc2783.robot.Robot;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 public class RightEncoderCounter implements Loop{
 	
 	double rightEncValSub1;

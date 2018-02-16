@@ -27,6 +27,8 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 //adds classes to the code
+
+@SuppressWarnings("static-access")
 public class Robot extends IterativeRobot {
 
     public static OI oi;
@@ -117,7 +119,7 @@ public class Robot extends IterativeRobot {
     	autoScheduler.start();
     }
     
-    public void autonomousPeriodic() {
+	public void autonomousPeriodic() {
 
         SmartDashboard.putString("DB/String 1", "" + Robot.leftAbsEnc.getValue());
         SmartDashboard.putString("DB/String 2", "" + Robot.rightAbsEnc.getValue());

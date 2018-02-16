@@ -73,7 +73,7 @@ public class TankDriveBase extends Subsystem {
 		
 	}
 	
-	// moves robot with left and right drive sticks
+	//Moves tank drive by left and right speeds
 	public void tankDrive(double leftSpeed, double rightSpeed) {
 		left1.set(ControlMode.PercentOutput, -leftSpeed);
 		right1.set(ControlMode.PercentOutput, rightSpeed);
