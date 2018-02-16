@@ -22,6 +22,10 @@ public class Constants {
 	public static final double kTankPoseI = 0.0005;
 	public static final double kTankPoseD = 0.001;
 	
+	public static final double kGyroDriveP = 0.01;
+	public static final double kGyroDriveI = 0.0;
+	public static final double kGyroDriveD = 0.0;
+	
 	public static final double kPeriod = 0.005; 
 
 	public static final double kAutoPeriod = 0.005;
@@ -32,6 +36,10 @@ public class Constants {
 	public static final double kEventDelay = 4;
 	
 	public static final int kAndroidAppTcpPort = 8254;
+
+	public static final double wheelDiameterByInches = 6;
+	public static final double wheelCircumferenceByInches = wheelDiameterByInches * Math.PI;
+	public static final double inchPerDegree = wheelCircumferenceByInches/4096;
 	
 	public static final double kCameraFrameRate = 30;
 	public static final double kTargetMaxAge = 0.3; 

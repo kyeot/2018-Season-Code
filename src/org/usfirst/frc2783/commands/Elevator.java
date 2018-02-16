@@ -12,8 +12,6 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class Elevator extends Command {
 
-	public static int dir = 0;
-	
 	double speed;
 
 	public Elevator() {
@@ -29,7 +27,7 @@ public class Elevator extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-
+		
 		speed = OI.manipulator.getRawAxis(1);
 
 		if (Math.abs(OI.manipulator.getRawAxis(1)) < 0.15) {
@@ -42,20 +40,9 @@ public class Elevator extends Command {
 			}
 			
 		}
+		
+		Robot.elevatorBase.elevator(speed);
 
-		if(OI.manipulator.getRawAxis(1) > 0.15){
-			dir = 1;
-		}
-		else if(OI.manipulator.getRawAxis(1) < -0.15){
-			dir = 0;
-		}
-
-		if(dir == 0){
-			Robot.elevatorBase.elevator(speed);
-		}
-		else if(dir == 1){
-			Robot.elevatorBase.elevator(speed*0.4);
-		}
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

@@ -57,10 +57,10 @@ public class TankDrive extends Command {
     	}
     	
     	if(OI.driver.getRawButton(1)) {
-//    		Robot.tankDrive.setRobotPose(new Bearing(0));
-    		if(fieldTransform.targetHistory.getLatestTarget() != null){
-    			Robot.tankDrive.setRobotPose(fieldTransform.targetHistory.getSmoothTarget().dir());
-    		}
+    		Robot.tankDrive.setRobotPose(new Bearing(0));
+//    		if(fieldTransform.targetHistory.getLatestTarget() != null){
+//    			Robot.tankDrive.setRobotPose(fieldTransform.targetHistory.getSmoothTarget().dir());
+//    		}
     	} else {
             Robot.tankDrive.tankDrive(leftSpeed, rightSpeed);
     	}

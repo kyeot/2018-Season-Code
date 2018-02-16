@@ -1,4 +1,4 @@
-package org.usfirst.frc2783.autonomus;
+package org.usfirst.frc2783.autonomous;
 /*
  * Copyright 1995-2006 Sun Microsystems, Inc.  All Rights Reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
