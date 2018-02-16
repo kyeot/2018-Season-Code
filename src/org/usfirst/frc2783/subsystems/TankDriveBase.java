@@ -3,6 +3,7 @@ package org.usfirst.frc2783.subsystems;
 import org.usfirst.frc2783.commands.TankDrive;
 import org.usfirst.frc2783.robot.Constants;
 import org.usfirst.frc2783.util.Bearing;
+import org.usfirst.frc2783.util.GyroSource;
 import org.usfirst.frc2783.util.NavSensor;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -23,35 +24,11 @@ public class TankDriveBase extends Subsystem {
 			rot = -output;
 		}
 	}
-	
-	class GyroSource implements PIDSource {
-		PIDSourceType sourceType;
 		
-		public GyroSource() {
-			setPIDSourceType(PIDSourceType.kDisplacement);
-		}
-
-		@Override
-		public void setPIDSourceType(PIDSourceType pidSource) {
-			sourceType = pidSource;
-		}
-
-		@Override
-		public PIDSourceType getPIDSourceType() {
-			return sourceType;
-		}
-
-		@Override
-		public double pidGet() {
-			return gyro.getAngle(false);
-		}
-		
-	}
-		
-	VictorSPX right1 = new VictorSPX(Constants.kRightDrive1);
+	public VictorSPX right1 = new VictorSPX(Constants.kRightDrive1);
 	VictorSPX right2 = new VictorSPX(Constants.kRightDrive2);
 	
-	VictorSPX left1 = new VictorSPX(Constants.kLeftDrive1);
+	public VictorSPX left1 = new VictorSPX(Constants.kLeftDrive1);
 	VictorSPX left2 = new VictorSPX(Constants.kLeftDrive2);
 	
 	NavSensor gyro = NavSensor.getInstance();
@@ -98,9 +75,6 @@ public class TankDriveBase extends Subsystem {
 	
 	// moves robot with left and right drive sticks
 	public void tankDrive(double leftSpeed, double rightSpeed) {
-		if(left1.getOutputCurrent() > 2){
-			
-		}
 		left1.set(ControlMode.PercentOutput, -leftSpeed);
 		right1.set(ControlMode.PercentOutput, rightSpeed);
 		
