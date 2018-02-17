@@ -4,21 +4,16 @@ import org.usfirst.frc2783.robot.Robot;
 import org.usfirst.frc2783.util.Bearing;
 import org.usfirst.frc2783.util.NavSensor;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class RotateTankAction extends Action{
 
 	Bearing b;
 	
-	public RotateTankAction(Bearing b) {
-		super("RotateTankAction");
+	public RotateTankAction(Bearing b, double time) {
+		super("RotateTankAction", time);
 		
 		this.b = b;
-	}
-	
-	public double startAngle;
-	
-	@Override
-	public void start(){
-		
 	}
 	
 	@Override
@@ -27,10 +22,5 @@ public class RotateTankAction extends Action{
 		
 	}
 	
-	@Override
-	public boolean done(){
-		return NavSensor.getInstance().getAngle(false) - 1 < b.getTheta() && NavSensor.getInstance().getAngle(false) + 1 > b.getTheta();
-		
-	}
 
 }

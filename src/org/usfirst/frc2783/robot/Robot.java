@@ -3,6 +3,7 @@ package org.usfirst.frc2783.robot;
 import java.io.File;
 import java.io.IOException;
 
+import org.usfirst.frc2783.autonomous.DriveGyroTest;
 import org.usfirst.frc2783.autonomous.TestAuto;
 import org.usfirst.frc2783.autonomous.actions.ActionScheduler;
 import org.usfirst.frc2783.loops.LogData;
@@ -36,6 +37,8 @@ public class Robot extends IterativeRobot {
     
     @SuppressWarnings("unused")
 	private static AHRS navSensor;
+    
+    public static double angle = 0;
     
     public static AnalogInput leftAbsEnc = new AnalogInput(0);
     public static AnalogInput rightAbsEnc = new AnalogInput(1);
@@ -75,7 +78,7 @@ public class Robot extends IterativeRobot {
         Logger.info("Starting Loops");
         looper.startLoops();
 
-        String[] autonomousList = {"Test"};
+        String[] autonomousList = {"Test", "DriveGyroTest"};
         
         //Puts the autonomous modes selector into the dashboard
         SmartDashboard.putStringArray("Auto List", autonomousList);
@@ -112,6 +115,9 @@ public class Robot extends IterativeRobot {
 		case "Test":
 			autoScheduler.setGroup(new TestAuto());
 			break;
+		case "DriveGyroTest":
+			autoScheduler.setGroup(new DriveGyroTest());
+			break;
 		default:
 			
     	} 
@@ -125,6 +131,7 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putString("DB/String 2", "" + Robot.rightAbsEnc.getValue());
         SmartDashboard.putString("DB/String 3", "" + Robot.leftCounter.leftRotationCounter);
         SmartDashboard.putString("DB/String 4", "" + Robot.rightCounter.rightRotationCounter);
+        SmartDashboard.putString("DB/String 7", "robot angle: " + Math.floor(NavSensor.getInstance().getAngle(false)));
         
         Scheduler.getInstance().run();
     }

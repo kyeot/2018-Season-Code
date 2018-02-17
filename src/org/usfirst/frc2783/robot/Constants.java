@@ -19,12 +19,12 @@ public class Constants {
 	public static final int kRightDrive2 = 8;
 	
 	public static final double kTankPoseP = 0.015;
-	public static final double kTankPoseI = 0.0005;
-	public static final double kTankPoseD = 0.001;
+	public static final double kTankPoseI = 0.001;
+	public static final double kTankPoseD = 0.008;
 	
 	public static final double kGyroDriveP = 0.01;
-	public static final double kGyroDriveI = 0.0;
-	public static final double kGyroDriveD = 0.0;
+	public static final double kGyroDriveI = 0.001;
+	public static final double kGyroDriveD = 0.09;
 	
 	public static final double kPeriod = 0.005; 
 

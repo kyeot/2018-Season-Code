@@ -2,22 +2,26 @@ package org.usfirst.frc2783.autonomous.actions;
 
 import org.usfirst.frc2783.robot.Constants;
 import org.usfirst.frc2783.robot.Robot;
+import org.usfirst.frc2783.util.Bearing;
 import org.usfirst.frc2783.util.GyroSource;
 import org.usfirst.frc2783.util.NavSensor;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveWithGyro extends Action {
 	
 	class GyroDriveOut implements PIDOutput {
 		@Override
 		public void pidWrite(double output) {
-			rot = output;
+			rot = -output;
 		}
 	}
 	
 	NavSensor gyro = NavSensor.getInstance();
+	
+	double d = 0;
 	
 	GyroSource gyroSource;
 	GyroDriveOut gyroDriveOut;
@@ -26,30 +30,33 @@ public class DriveWithGyro extends Action {
 	
 	double rot;
 	
-	double angle;
 	double speed;
 
-	public DriveWithGyro(double angle, double speed, double time) {
+	public DriveWithGyro(double speed, double time) {
 		super("DriveWithGyro", time);
-
-		this.angle = angle;
+		
 		this.speed = speed;
+		
+		Robot.angle = gyro.getAngle(false);
 		
 		gyroDriveOut = new GyroDriveOut();
 		gyroSource = new GyroSource();
 		gyroDrivePid = new PIDController(Constants.kGyroDriveP, Constants.kGyroDriveI, Constants.kGyroDriveD, gyroSource, gyroDriveOut);
 		
-		gyroDrivePid.setInputRange(-0.15, 0.15);
-		gyroDrivePid.setContinuous(false);
+		gyroDrivePid.setInputRange(0, 360);
+		gyroDrivePid.setContinuous();
 	}
 	
 	@Override
 	public void perform(){
-		gyroDrivePid.setSetpoint(angle);
+		
+		SmartDashboard.putString("DB/String 0", "" + Math.floor(Robot.angle));
+		
+		gyroDrivePid.setSetpoint(Robot.angle);
 		gyroDrivePid.enable();
-		
-		Robot.tankDrive.tankDrive((0.5*speed), (0.5*speed)+rot);
-		
+
+		Robot.tankDrive.tankDrive(-speed, -speed+rot);
+
 	}
 
 }
