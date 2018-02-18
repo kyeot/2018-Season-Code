@@ -19,7 +19,7 @@ public class RotateTankAction extends Action{
 	@Override
 	public void perform(){
 		Robot.tankDrive.setRobotPose(b);
-		
+		SmartDashboard.putString("DB/String 0", "" + Math.floor(b.getTheta()));
 	}
 	
 

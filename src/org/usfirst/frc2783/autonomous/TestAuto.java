@@ -7,7 +7,7 @@ public class TestAuto extends ActionGroup {
 	
 	public TestAuto() {
 		super();
-
+		
 		addAction(new AutoDrive(0.5, 0.5, 2));
 		
 //		addAction(new DriveByDistance(-0.5, (21*12)+6, (21*12)+6));
