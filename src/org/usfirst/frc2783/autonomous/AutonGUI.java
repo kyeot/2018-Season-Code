@@ -1,4 +1,4 @@
-package org.usfirst.frc2783.autonomus;
+package org.usfirst.frc2783.autonomous;
 
 import javax.swing.*;
 
