@@ -37,11 +37,11 @@ public class LeftEncoderCounter implements Loop{
 	@Override
 	public void onLoop() {
 
-    	if(Robot.tankDrive.left1.getMotorOutputPercent() > 0.1){
+    	if(Robot.tankDriveBase.mLeftMaster.getMotorOutputPercent() > 0.1){
     		Robot.isLeftForward = false;
     	}
     	
-    	else if(Robot.tankDrive.left1.getMotorOutputPercent() < -0.1){
+    	else if(Robot.tankDriveBase.mLeftMaster.getMotorOutputPercent() < -0.1){
     		Robot.isLeftForward = true;
     	}
 		

@@ -2,12 +2,34 @@ package org.usfirst.frc2783.autonomous.actions;
 
 import org.usfirst.frc2783.robot.Constants;
 import org.usfirst.frc2783.robot.Robot;
+import org.usfirst.frc2783.util.GyroSource;
 import org.usfirst.frc2783.util.LeftEncoderCounter;
+import org.usfirst.frc2783.util.NavSensor;
 import org.usfirst.frc2783.util.RightEncoderCounter;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
-public class DriveByDistance extends Action {
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+public class DriveWithGyroAndByDistance extends Action {
+	
+	class GyroDriveOut implements PIDOutput {
+		@Override
+		public void pidWrite(double output) {
+			rot = -output;
+		}
+	}
+	
+	NavSensor gyro = NavSensor.getInstance();
+	
+	GyroSource gyroSource;
+	GyroDriveOut gyroDriveOut;
+	
+	PIDController gyroDrivePid;
+	
+	double rot;
 
 	public static double leftDistanceInDegrees;
 	public static double rightDistanceInDegrees;
@@ -42,9 +64,18 @@ public class DriveByDistance extends Action {
 	boolean isRightRotationsDone = false;
 	boolean isRightDegreesDone = false;
 	
-	public DriveByDistance(double speedScaler, double leftDistance, double rightDistance) {
+	public DriveWithGyroAndByDistance(double speedScaler, double leftDistance, double rightDistance) {
 		super("DriveByDistance");
 
+		Robot.angle = gyro.getAngle(false);
+		
+		gyroDriveOut = new GyroDriveOut();
+		gyroSource = new GyroSource();
+		gyroDrivePid = new PIDController(Constants.kGyroDriveP, Constants.kGyroDriveI, Constants.kGyroDriveD, gyroSource, gyroDriveOut);
+		
+		gyroDrivePid.setInputRange(0, 360);
+		gyroDrivePid.setContinuous();
+		
     	this.speedScaler = speedScaler;
     	this.leftDistance = leftDistance;
     	this.rightDistance = rightDistance;
@@ -87,7 +118,7 @@ public class DriveByDistance extends Action {
 	
 	@Override
 	public void start(){
-		
+		SmartDashboard.putString("DB/String 5", "not done");
 	}
 	
 	@Override
@@ -104,9 +135,9 @@ public class DriveByDistance extends Action {
     		leftSpeed = leftSpeedOnStart/2;
     		
 <<<<<<< HEAD
-    		Robot.tankDriveBase.setLeftSidePose(wantedLeftAdditionalDegrees/11.3777777777778);
+    		Robot.tankDriveBase.setLeftSidePose(wantedLeftAdditionalDegrees);
 =======
-    		Robot.tankDrive.setLeftSidePose(wantedLeftAdditionalDegrees/11.3777777777778);
+    		Robot.tankDrive.setLeftSidePose(wantedLeftAdditionalDegrees);
 >>>>>>> eec6a3416388300c7828cdec2354e14acf17a54a
     		
     		if(Robot.leftAbsEnc.getValue() < wantedLeftAdditionalDegrees + 25 && Robot.leftAbsEnc.getValue() > wantedLeftAdditionalDegrees - 25){
@@ -116,13 +147,6 @@ public class DriveByDistance extends Action {
     	
     	if(isRightRotationsDone){
     		rightSpeed = rightSpeedOnStart/2;
-    		
-<<<<<<< HEAD
-    		Robot.tankDriveBase.setRightSidePose(wantedRightAdditionalDegrees/11.37777777777778);
-=======
-    		Robot.tankDrive.setRightSidePose(wantedRightAdditionalDegrees/11.37777777777778);
->>>>>>> eec6a3416388300c7828cdec2354e14acf17a54a
-    		
     		if(Robot.rightAbsEnc.getValue() < wantedRightAdditionalDegrees + 25 && Robot.rightAbsEnc.getValue() > wantedRightAdditionalDegrees - 25){
         		isRightDegreesDone = true;
         	}
@@ -136,8 +160,19 @@ public class DriveByDistance extends Action {
     		rightSpeed = 0;
     	}
     	
-    	Robot.tankDriveBase.tankDrive(leftSpeed, rightSpeed);
+    	ddaso(leftSpeed);
 		
+	}
+	
+	public void ddaso(double speed){
+		gyroDrivePid.setSetpoint(Robot.angle);
+		gyroDrivePid.enable();
+
+<<<<<<< HEAD
+		Robot.tankDriveBase.tankDrive(-speed, -speed+rot);
+=======
+		Robot.tankDrive.tankDrive(-speed, -speed+rot);
+>>>>>>> eec6a3416388300c7828cdec2354e14acf17a54a
 	}
 	
 	@Override
@@ -145,10 +180,18 @@ public class DriveByDistance extends Action {
 		return isLeftDegreesDone && isRightDegreesDone;
 	}
 
+	@Override
 	public void finish() {
+<<<<<<< HEAD
     	Robot.tankDriveBase.tankDrive(0, 0);
     	Robot.tankDriveBase.mLeftMaster.setNeutralMode(NeutralMode.Brake);
     	Robot.tankDriveBase.mRightMaster.setNeutralMode(NeutralMode.Brake);
+=======
+    	Robot.tankDrive.tankDrive(0, 0);
+    	Robot.tankDrive.left1.setNeutralMode(NeutralMode.Brake);
+    	Robot.tankDrive.right1.setNeutralMode(NeutralMode.Brake);
+>>>>>>> eec6a3416388300c7828cdec2354e14acf17a54a
+    	SmartDashboard.putString("DB/String 5", "done");
 	}
 
 }

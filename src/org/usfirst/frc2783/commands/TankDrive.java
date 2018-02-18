@@ -18,11 +18,14 @@ public class TankDrive extends Command {
 	double lastLeftSpeed;
 	double lastRightSpeed;
 	
+	double leftSpeed;
+	double rightSpeed;
+	
 	NavSensor navSensor = NavSensor.getInstance();
 	
     public TankDrive() {
     	//sets requirement system
-        requires(Robot.tankDrive);
+        requires(Robot.tankDriveBase);
     }
 
     // Called just before this Command runs the first time
@@ -31,8 +34,8 @@ public class TankDrive extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double leftSpeed = OI.driver.getRawAxis(1);
-    	double rightSpeed = OI.driver.getRawAxis(5);
+    	leftSpeed = OI.driver.getRawAxis(1)/2;
+    	rightSpeed = OI.driver.getRawAxis(5)/2;
     	
     	if(OI.driver.getRawButton(5)){
     		leftSpeed = leftSpeed/2;
@@ -57,12 +60,12 @@ public class TankDrive extends Command {
     	}
     	
     	if(OI.driver.getRawButton(1)) {
-    		Robot.tankDrive.setRobotPose(new Bearing(0));
+    		Robot.tankDriveBase.setRobotPose(new Bearing(0));
 //    		if(fieldTransform.targetHistory.getLatestTarget() != null){
 //    			Robot.tankDrive.setRobotPose(fieldTransform.targetHistory.getSmoothTarget().dir());
 //    		}
     	} else {
-            Robot.tankDrive.tankDrive(leftSpeed, rightSpeed);
+            Robot.tankDriveBase.tankDrive(leftSpeed, rightSpeed);
     	}
     }
 
