@@ -20,10 +20,12 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class TankDriveBase extends Subsystem {
 	
-	class RightTankSideSource implements PIDSource {
+	class TankSideSource implements PIDSource {
+		AnalogInput encoder;
 		PIDSourceType sourceType;
-		public RightTankSideSource() {
+		public TankSideSource(AnalogInput encoder) {
 			setPIDSourceType(PIDSourceType.kDisplacement);
+			this.encoder = encoder;
 		}
 		@Override
 		public void setPIDSourceType(PIDSourceType pidSource) {
@@ -35,40 +37,18 @@ public class TankDriveBase extends Subsystem {
 		}
 		@Override
 		public double pidGet() {
-			return Robot.rightAbsEnc.getValue()/11.377777777777777778;
+			return encoder.getValue()/11.377777777777777778;
 		}	
 	}
 	
-	class LeftTankSideSource implements PIDSource {
-		PIDSourceType sourceType;
-		public LeftTankSideSource() {
-			setPIDSourceType(PIDSourceType.kDisplacement);
+	class TankSideOut implements PIDOutput {
+		double outputVar;
+		public TankSideOut(double outputVar){
+			this.outputVar = outputVar;
 		}
-		@Override
-		public void setPIDSourceType(PIDSourceType pidSource) {
-			sourceType = pidSource;
-		}
-		@Override
-		public PIDSourceType getPIDSourceType() {
-			return sourceType;
-		}
-		@Override
-		public double pidGet() {
-			return Robot.leftAbsEnc.getValue()/11.377777777777777778;
-		}	
-	}
-	
-	class LeftTankSideOut implements PIDOutput {
 		@Override
 		public void pidWrite(double output){
-			leftOut = output;
-		}
-	}
-	
-	class RightTankSideOut implements PIDOutput {
-		@Override
-		public void pidWrite(double output){
-			rightOut = output;
+			outputVar = output;
 		}
 	}
 	
@@ -96,10 +76,10 @@ public class TankDriveBase extends Subsystem {
 	TankPoseOut posePidOut;
 	GyroSource posePidSource;
 	
-	LeftTankSideSource leftPidSource;
-	RightTankSideSource rightPidSource;
-	LeftTankSideOut leftSideOut;
-	RightTankSideOut rightSideOut;
+	TankSideSource leftPidSource;
+	TankSideSource rightPidSource;
+	TankSideOut leftSideOut;
+	TankSideOut rightSideOut;
 	PIDController leftSideController;
 	PIDController rightSideController;
 		
@@ -121,11 +101,11 @@ public class TankDriveBase extends Subsystem {
 		posePid.setInputRange(0, 360);
 		posePid.setContinuous();
 		
-		leftPidSource = new LeftTankSideSource();
-		rightPidSource = new RightTankSideSource();
+		leftPidSource = new TankSideSource(Robot.leftAbsEnc);
+		rightPidSource = new TankSideSource(Robot.rightAbsEnc);
 		
-		leftSideOut = new LeftTankSideOut();
-		rightSideOut = new RightTankSideOut();
+		leftSideOut = new TankSideOut(leftOut);
+		rightSideOut = new TankSideOut(rightOut);
 		
 		leftSideController = new PIDController(Constants.kTankSideP, Constants.kTankSideI, Constants.kTankSideD,
 												leftPidSource, leftSideOut);
