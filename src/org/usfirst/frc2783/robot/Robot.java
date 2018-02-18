@@ -3,18 +3,15 @@ package org.usfirst.frc2783.robot;
 import java.io.File;
 import java.io.IOException;
 
-import org.usfirst.frc2783.autonomous.ScaleFromLeft;
-import org.usfirst.frc2783.autonomous.SwitchFromLeft;
+import org.usfirst.frc2783.autonomous.DriveGyroTest;
 import org.usfirst.frc2783.autonomous.TestAuto;
 import org.usfirst.frc2783.autonomous.actions.ActionScheduler;
 import org.usfirst.frc2783.loops.LogData;
 import org.usfirst.frc2783.loops.Looper;
-import org.usfirst.frc2783.loops.PowerLoop;
 import org.usfirst.frc2783.loops.VisionProcessor;
 import org.usfirst.frc2783.subsystems.ElevatorBase;
 import org.usfirst.frc2783.subsystems.IntakeBase;
 import org.usfirst.frc2783.subsystems.TankDriveBase;
-import org.usfirst.frc2783.util.ElevatorEncoderCounter;
 import org.usfirst.frc2783.util.LeftEncoderCounter;
 import org.usfirst.frc2783.util.Logger;
 import org.usfirst.frc2783.util.NavSensor;
@@ -26,8 +23,6 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
-import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -38,26 +33,17 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
 
     public static OI oi;
-    public static Looper looper = new Looper(Constants.kPeriod);
-    public static Looper slowLoop = new Looper(0.1);
+    public static Looper looper = new Looper();
     
     @SuppressWarnings("unused")
 	private static AHRS navSensor;
     
     public static double angle = 0;
     
-    double counter = 0;
-    
     public static AnalogInput leftAbsEnc = new AnalogInput(0);
     public static AnalogInput rightAbsEnc = new AnalogInput(1);
     
-    public static AnalogInput elevatorAbsEnc = new AnalogInput(2);
-    
-<<<<<<< HEAD
-    public static TankDriveBase tankDriveBase = new TankDriveBase();
-=======
     public static TankDriveBase tankDrive = new TankDriveBase();
->>>>>>> eec6a3416388300c7828cdec2354e14acf17a54a
     public static IntakeBase intake = new IntakeBase();
     public static ElevatorBase elevatorBase = new ElevatorBase();
     
@@ -67,15 +53,11 @@ public class Robot extends IterativeRobot {
     
     public static boolean isLeftForward = false;
     public static boolean isRightForward = false;
-    public static boolean isElevatorForward = false;
-    
-    PowerDistributionPanel pdp = new PowerDistributionPanel();
     
     public static ActionScheduler autoScheduler = new ActionScheduler();
     
     public static LeftEncoderCounter leftCounter = new LeftEncoderCounter();
     public static RightEncoderCounter rightCounter = new RightEncoderCounter();
-    public static ElevatorEncoderCounter elEncCounter = new ElevatorEncoderCounter();
     
     boolean isBrownOut = false;
     boolean wasBrownOut = false;
@@ -89,18 +71,14 @@ public class Robot extends IterativeRobot {
         
         NavSensor.getInstance().resetGyroNorth(180, 0);
         
-        slowLoop.addLoop(new PowerLoop());
-        slowLoop.startLoops();
-        
         looper.addLoop(new LogData());
         looper.addLoop(VisionProcessor.getInstance());
         looper.addLoop(leftCounter);
         looper.addLoop(rightCounter);
-        looper.addLoop(elEncCounter);
         Logger.info("Starting Loops");
         looper.startLoops();
 
-        String[] autonomousList = {"Test", "SwitchFromLeft", "ScaleFromLeft"};
+        String[] autonomousList = {"Test", "DriveGyroTest"};
         
         //Puts the autonomous modes selector into the dashboard
         SmartDashboard.putStringArray("Auto List", autonomousList);
@@ -113,7 +91,7 @@ public class Robot extends IterativeRobot {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-                
+        
         try {
 	         navSensor = new AHRS(SPI.Port.kMXP);
 	     } catch (RuntimeException ex) {
@@ -137,11 +115,8 @@ public class Robot extends IterativeRobot {
 		case "Test":
 			autoScheduler.setGroup(new TestAuto());
 			break;
-		case "SwitchFromLeft":
-			autoScheduler.setGroup(new SwitchFromLeft());
-			break;
-		case "ScaleFromLeft":
-			autoScheduler.setGroup(new ScaleFromLeft());
+		case "DriveGyroTest":
+			autoScheduler.setGroup(new DriveGyroTest());
 			break;
 		default:
 			
@@ -151,6 +126,13 @@ public class Robot extends IterativeRobot {
     }
     
 	public void autonomousPeriodic() {
+
+        SmartDashboard.putString("DB/String 1", "" + Robot.leftAbsEnc.getValue());
+        SmartDashboard.putString("DB/String 2", "" + Robot.rightAbsEnc.getValue());
+        SmartDashboard.putString("DB/String 3", "" + Robot.leftCounter.leftRotationCounter);
+        SmartDashboard.putString("DB/String 4", "" + Robot.rightCounter.rightRotationCounter);
+        SmartDashboard.putString("DB/String 7", "robot angle: " + Math.floor(NavSensor.getInstance().getAngle(false)));
+        
         Scheduler.getInstance().run();
     }
 
@@ -161,18 +143,13 @@ public class Robot extends IterativeRobot {
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
         
-        double leftSideCurrent = pdp.getCurrent(12) + pdp.getCurrent(13);
+        SmartDashboard.putString("DB/String 1", "" + Robot.leftAbsEnc.getValue());
+        SmartDashboard.putString("DB/String 2", "" + Robot.rightAbsEnc.getValue());
+        SmartDashboard.putString("DB/String 3", "" + Robot.leftCounter.leftRotationCounter);
+        SmartDashboard.putString("DB/String 4", "" + Robot.rightCounter.rightRotationCounter);
         
-        SmartDashboard.putString("DB/String 4", "Left side current: " + leftSideCurrent);
-        
-        SmartDashboard.putString("DB/String 5", "robot angle: " + Math.floor(NavSensor.getInstance().getAngle(false)));
-       
-        SmartDashboard.putString("DB/String 6", "" + leftAbsEnc.getValue());
-        SmartDashboard.putString("DB/String 7", "" + rightAbsEnc.getValue());
-        
-        SmartDashboard.putString("DB/String 8", "" + elevatorAbsEnc.getValue());
-        SmartDashboard.putString("DB/String 9", "" + Robot.elEncCounter.elevatorRotationCounter);
-        
+        SmartDashboard.putString("DB/String 7", "robot angle: " + Math.floor(NavSensor.getInstance().getAngle(false)));
+     
     }
 
     public void testPeriodic() {

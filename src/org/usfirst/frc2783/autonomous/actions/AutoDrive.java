@@ -16,7 +16,7 @@ public class AutoDrive extends Action {
 	
 	@Override
 	public void perform() {
-		Robot.tankDriveBase.tankDrive(-left, -right);
+		Robot.tankDrive.tankDrive(-left, -right);
 	}
 	
 }

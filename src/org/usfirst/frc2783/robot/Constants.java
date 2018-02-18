@@ -8,32 +8,27 @@ package org.usfirst.frc2783.robot;
 public class Constants {
 	
 	// IDs for motor controllers correspond to their matching points on the PDP(Power Distribution Panel)
-	// On Practice robot the ID for 1 is 0 on the Competition robot
 	public static final int kElevator1 = 2;
-	public static final int kElevator2 = 0;
+	public static final int kElevator2 = 7;
 	public static final int kIntakeRight = 15;
-	public static final int kIntakeLeft = 12;
+	public static final int kIntakeLeft = 1;
 
 	public static final int kLeftDrive1 = 4;
-	public static final int kLeftDrive2 = 7;
+	public static final int kLeftDrive2 = 12;
 	public static final int kRightDrive1 = 11;
 	public static final int kRightDrive2 = 8;
 	
-	public static final double kTankPoseP = 0.0075;
-	public static final double kTankPoseI = 0.0003;
+	public static final double kTankPoseP = 0.015;
+	public static final double kTankPoseI = 0.001;
 	public static final double kTankPoseD = 0.008;
 	
 	public static final double kGyroDriveP = 0.01;
 	public static final double kGyroDriveI = 0.001;
 	public static final double kGyroDriveD = 0.09;
 	
-	public static final double kTankSideP = 0.0075;
-	public static final double kTankSideI = 0.0003;
-	public static final double kTankSideD = 0.008;
-	
 	public static final double kPeriod = 0.005; 
 
-	public static final double kAutoPeriod = 0.0005;
+	public static final double kAutoPeriod = 0.005;
 	
 	public static final double kTurretStowedAngle = 0;
 	public static final double kTurretAngleTolerance = 0;
@@ -72,10 +67,5 @@ public class Constants {
 	
 	public static final int kLowGearID = 2;
 	public static final int kHighGearID = 3;
-	
-	public static final double kPathFollowingMaxAccel = 120.0;
-	public static final double kSegmentCompletionTolerance = 0.1;
-	public static final double kDriveWheelDiameterInches = 6.0;
-	public static double kDriveHighGearMaxSetpoint = 17 * 12;
 	
 }

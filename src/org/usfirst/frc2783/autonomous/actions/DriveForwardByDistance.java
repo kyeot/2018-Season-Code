@@ -2,8 +2,6 @@ package org.usfirst.frc2783.autonomous.actions;
 
 import org.usfirst.frc2783.robot.Constants;
 import org.usfirst.frc2783.robot.Robot;
-import org.usfirst.frc2783.util.LeftEncoderCounter;
-import org.usfirst.frc2783.util.RightEncoderCounter;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
@@ -43,7 +41,7 @@ public class DriveForwardByDistance extends Action {
     	
     	wantedTotalDegrees = angleOnStart + distanceInDegrees;
     	
-    	rotationOnStart = LeftEncoderCounter.leftRotationCounter;
+    	rotationOnStart = Robot.leftCounter.leftRotationCounter;
     	
     	speed = speedScaler;
     	
@@ -65,7 +63,7 @@ public class DriveForwardByDistance extends Action {
 	
 	@Override
 	public void perform(){                                                                                 
-    	if(RightEncoderCounter.rightRotationCounter >= (rotationOnStart + wantedRotations)){
+    	if(Robot.rightCounter.rightRotationCounter >= (rotationOnStart + wantedRotations)){
     		isRotationsDone = true;
     	}
     	
@@ -80,7 +78,7 @@ public class DriveForwardByDistance extends Action {
     		speed = 0;
     	}
     	
-    	Robot.tankDriveBase.tankDrive(-speed, speed);
+    	Robot.tankDrive.tankDrive(-speed, speed);
 		
 	}
 	
@@ -90,9 +88,9 @@ public class DriveForwardByDistance extends Action {
 	}
 
 	public void finish() {
-    	Robot.tankDriveBase.tankDrive(0, 0);
-    	Robot.tankDriveBase.mLeftMaster.setNeutralMode(NeutralMode.Brake);
-    	Robot.tankDriveBase.mRightMaster.setNeutralMode(NeutralMode.Brake);
+    	Robot.tankDrive.tankDrive(0, 0);
+    	Robot.tankDrive.left1.setNeutralMode(NeutralMode.Brake);
+    	Robot.tankDrive.right1.setNeutralMode(NeutralMode.Brake);
 	}
 
 }

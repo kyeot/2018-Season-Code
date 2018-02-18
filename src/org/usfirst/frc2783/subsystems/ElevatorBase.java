@@ -2,7 +2,6 @@ package org.usfirst.frc2783.subsystems;
 
 import org.usfirst.frc2783.commands.Elevator;
 import org.usfirst.frc2783.robot.Constants;
-import org.usfirst.frc2783.robot.Robot;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -25,15 +24,11 @@ public class ElevatorBase extends Subsystem {
 	public static VictorSPX elevator1Mot;
 	public static VictorSPX elevator2Mot;
 	
-	double dir = 0;
-	
 	Servo shifter;
 	
 	public ElevatorBase(){
 		elevator1Mot = new VictorSPX(Constants.kElevator1);
 		elevator2Mot = new VictorSPX(Constants.kElevator2);
-		
-		elevator2Mot.follow(elevator1Mot);
 		
 		shifter = new Servo(0);
 		
@@ -45,29 +40,8 @@ public class ElevatorBase extends Subsystem {
 	// moves elevator using left stick
 	//forward up, backwards down
 	public void elevator(double speed) {
-		if(speed == 0){
-			if (Robot.isClimb) {
-				speed = 0.1;
-			}
-			
-			else {
-				speed = -0.1;
-			}
-		}
-		
-		if(speed > 0.1){
-			dir = 1;
-		}
-		else if(speed < -0.1){
-			dir = 0;
-		}
-		
-		if(dir == 1){
-			elevator1Mot.set(ControlMode.PercentOutput, speed*0.3);
-		}
-		else{
-			elevator1Mot.set(ControlMode.PercentOutput, speed);
-		}
+		elevator1Mot.set(ControlMode.PercentOutput, speed);
+		elevator2Mot.set(ControlMode.PercentOutput, speed);
 			
 	}
 	

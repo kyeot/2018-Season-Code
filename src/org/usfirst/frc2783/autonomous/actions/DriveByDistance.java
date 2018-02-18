@@ -2,8 +2,6 @@ package org.usfirst.frc2783.autonomous.actions;
 
 import org.usfirst.frc2783.robot.Constants;
 import org.usfirst.frc2783.robot.Robot;
-import org.usfirst.frc2783.util.LeftEncoderCounter;
-import org.usfirst.frc2783.util.RightEncoderCounter;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
@@ -58,8 +56,8 @@ public class DriveByDistance extends Action {
     	wantedLeftTotalDegrees = leftAngleOnStart + leftDistanceInDegrees;
     	wantedRightTotalDegrees = rightAngleOnStart + rightDistanceInDegrees;
     	
-    	leftRotationOnStart = LeftEncoderCounter.leftRotationCounter;
-    	rightRotationOnStart = RightEncoderCounter.rightRotationCounter;
+    	leftRotationOnStart = Robot.leftCounter.leftRotationCounter;
+    	rightRotationOnStart = Robot.rightCounter.rightRotationCounter;
     	
     	if(leftDistanceInDegrees > rightDistanceInDegrees){
     		rightSpeed = rightDistanceInDegrees/leftDistanceInDegrees*speedScaler;
@@ -92,38 +90,24 @@ public class DriveByDistance extends Action {
 	
 	@Override
 	public void perform(){                                                                                 
-    	if(LeftEncoderCounter.leftRotationCounter >= (leftRotationOnStart + wantedLeftRotations)){
+    	if(Robot.leftCounter.leftRotationCounter >= (leftRotationOnStart + wantedLeftRotations)){
     		isLeftRotationsDone = true;
     	}
     	
-    	if(RightEncoderCounter.rightRotationCounter >= (rightRotationOnStart + wantedRightRotations)){
+    	if(Robot.rightCounter.rightRotationCounter >= (rightRotationOnStart + wantedRightRotations)){
     		isRightRotationsDone = true;
     	}
     	
     	if(isLeftRotationsDone){
     		leftSpeed = leftSpeedOnStart/2;
-    		
-<<<<<<< HEAD
-    		Robot.tankDriveBase.setLeftSidePose(wantedLeftAdditionalDegrees/11.3777777777778);
-=======
-    		Robot.tankDrive.setLeftSidePose(wantedLeftAdditionalDegrees/11.3777777777778);
->>>>>>> eec6a3416388300c7828cdec2354e14acf17a54a
-    		
-    		if(Robot.leftAbsEnc.getValue() < wantedLeftAdditionalDegrees + 25 && Robot.leftAbsEnc.getValue() > wantedLeftAdditionalDegrees - 25){
+    		if(Robot.leftAbsEnc.getValue() < wantedLeftAdditionalDegrees + 50 && Robot.leftAbsEnc.getValue() > wantedLeftAdditionalDegrees - 50){
         		isLeftDegreesDone = true;
         	}
     	}
     	
     	if(isRightRotationsDone){
     		rightSpeed = rightSpeedOnStart/2;
-    		
-<<<<<<< HEAD
-    		Robot.tankDriveBase.setRightSidePose(wantedRightAdditionalDegrees/11.37777777777778);
-=======
-    		Robot.tankDrive.setRightSidePose(wantedRightAdditionalDegrees/11.37777777777778);
->>>>>>> eec6a3416388300c7828cdec2354e14acf17a54a
-    		
-    		if(Robot.rightAbsEnc.getValue() < wantedRightAdditionalDegrees + 25 && Robot.rightAbsEnc.getValue() > wantedRightAdditionalDegrees - 25){
+    		if(Robot.rightAbsEnc.getValue() < wantedRightAdditionalDegrees + 50 && Robot.rightAbsEnc.getValue() > wantedRightAdditionalDegrees - 50){
         		isRightDegreesDone = true;
         	}
     	}
@@ -136,7 +120,7 @@ public class DriveByDistance extends Action {
     		rightSpeed = 0;
     	}
     	
-    	Robot.tankDriveBase.tankDrive(leftSpeed, rightSpeed);
+    	Robot.tankDrive.tankDrive(leftSpeed, rightSpeed);
 		
 	}
 	
@@ -146,9 +130,9 @@ public class DriveByDistance extends Action {
 	}
 
 	public void finish() {
-    	Robot.tankDriveBase.tankDrive(0, 0);
-    	Robot.tankDriveBase.mLeftMaster.setNeutralMode(NeutralMode.Brake);
-    	Robot.tankDriveBase.mRightMaster.setNeutralMode(NeutralMode.Brake);
+    	Robot.tankDrive.tankDrive(0, 0);
+    	Robot.tankDrive.left1.setNeutralMode(NeutralMode.Brake);
+    	Robot.tankDrive.right1.setNeutralMode(NeutralMode.Brake);
 	}
 
 }

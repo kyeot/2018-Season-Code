@@ -14,8 +14,6 @@ public class Elevator extends Command {
 
 	double speed;
 
-	double dir = 0;
-	
 	public Elevator() {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
@@ -33,7 +31,14 @@ public class Elevator extends Command {
 		speed = OI.manipulator.getRawAxis(1);
 
 		if (Math.abs(OI.manipulator.getRawAxis(1)) < 0.15) {
-			speed = 0;
+			if (Robot.isClimb) {
+				speed = 0.1;
+			}
+			
+			else {
+				speed = -0.1;
+			}
+			
 		}
 		
 		Robot.elevatorBase.elevator(speed);

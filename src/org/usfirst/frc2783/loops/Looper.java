@@ -1,8 +1,9 @@
 package org.usfirst.frc2783.loops;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
+import org.usfirst.frc2783.robot.Constants;
 import org.usfirst.frc2783.util.CrashTrackingRunnable;
 import org.usfirst.frc2783.util.Logger;
 
@@ -15,8 +16,6 @@ import edu.wpi.first.wpilibj.Notifier;
  * @author 2783
  */
 public class Looper {
-	
-	double period;
 	
 	CrashTrackingRunnable runnable = new CrashTrackingRunnable() {
 		@Override
@@ -35,18 +34,16 @@ public class Looper {
 	List<Loop> loops;
 	Notifier notifier;
 	
-	public Looper(double period) {
+	public Looper() {
 		loops = new ArrayList<Loop>();
 		notifier = new Notifier(runnable);
-		
-		this.period = period;
 	}
 	
 	public void startLoops() {
 		for(Loop l : loops) {
 			l.onStart();
 		}
-		notifier.startPeriodic(period);
+		notifier.startPeriodic(Constants.kPeriod);
 		
 	}
 	
