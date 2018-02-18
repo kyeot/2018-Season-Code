@@ -26,6 +26,8 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -62,6 +64,8 @@ public class Robot extends IterativeRobot {
     public static boolean isLeftForward = false;
     public static boolean isRightForward = false;
     public static boolean isElevatorForward = false;
+    
+    PowerDistributionPanel pdp = new PowerDistributionPanel();
     
     public static ActionScheduler autoScheduler = new ActionScheduler();
     
@@ -143,9 +147,6 @@ public class Robot extends IterativeRobot {
     }
     
 	public void autonomousPeriodic() {
-
-        SmartDashboard.putString("DB/String 7", "robot angle: " + Math.floor(NavSensor.getInstance().getAngle(false)));
-        
         Scheduler.getInstance().run();
     }
 
@@ -156,8 +157,15 @@ public class Robot extends IterativeRobot {
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
         
-        SmartDashboard.putString("DB/String 7", "robot angle: " + Math.floor(NavSensor.getInstance().getAngle(false)));
-     
+        double leftSideCurrent = pdp.getCurrent(12) + pdp.getCurrent(13);
+        
+        SmartDashboard.putString("DB/String 4", "Left side current: " + leftSideCurrent);
+        
+        SmartDashboard.putString("DB/String 5", "robot angle: " + Math.floor(NavSensor.getInstance().getAngle(false)));
+       
+        SmartDashboard.putString("DB/String 6", "" + leftAbsEnc.getValue());
+        SmartDashboard.putString("DB/String 7", "" + rightAbsEnc.getValue());
+        
         SmartDashboard.putString("DB/String 8", "" + elevatorAbsEnc.getValue());
         SmartDashboard.putString("DB/String 9", "" + Robot.elEncCounter.elevatorRotationCounter);
         

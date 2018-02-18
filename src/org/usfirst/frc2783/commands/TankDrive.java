@@ -18,6 +18,9 @@ public class TankDrive extends Command {
 	double lastLeftSpeed;
 	double lastRightSpeed;
 	
+	double leftSpeed;
+	double rightSpeed;
+	
 	NavSensor navSensor = NavSensor.getInstance();
 	
     public TankDrive() {
@@ -31,8 +34,8 @@ public class TankDrive extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double leftSpeed = OI.driver.getRawAxis(1);
-    	double rightSpeed = OI.driver.getRawAxis(5);
+    	leftSpeed = OI.driver.getRawAxis(1)/2;
+    	rightSpeed = OI.driver.getRawAxis(5)/2;
     	
     	if(OI.driver.getRawButton(5)){
     		leftSpeed = leftSpeed/2;

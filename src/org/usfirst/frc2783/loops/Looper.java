@@ -1,9 +1,8 @@
 package org.usfirst.frc2783.loops;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
-import org.usfirst.frc2783.robot.Constants;
 import org.usfirst.frc2783.util.CrashTrackingRunnable;
 import org.usfirst.frc2783.util.Logger;
 

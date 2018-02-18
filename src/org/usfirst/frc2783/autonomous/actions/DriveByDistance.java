@@ -102,14 +102,20 @@ public class DriveByDistance extends Action {
     	
     	if(isLeftRotationsDone){
     		leftSpeed = leftSpeedOnStart/2;
-    		if(Robot.leftAbsEnc.getValue() < wantedLeftAdditionalDegrees + 50 && Robot.leftAbsEnc.getValue() > wantedLeftAdditionalDegrees - 50){
+    		
+    		Robot.tankDrive.setLeftSidePose(wantedLeftAdditionalDegrees/11.3777777777778);
+    		
+    		if(Robot.leftAbsEnc.getValue() < wantedLeftAdditionalDegrees + 25 && Robot.leftAbsEnc.getValue() > wantedLeftAdditionalDegrees - 25){
         		isLeftDegreesDone = true;
         	}
     	}
     	
     	if(isRightRotationsDone){
     		rightSpeed = rightSpeedOnStart/2;
-    		if(Robot.rightAbsEnc.getValue() < wantedRightAdditionalDegrees + 50 && Robot.rightAbsEnc.getValue() > wantedRightAdditionalDegrees - 50){
+    		
+    		Robot.tankDrive.setRightSidePose(wantedRightAdditionalDegrees/11.37777777777778);
+    		
+    		if(Robot.rightAbsEnc.getValue() < wantedRightAdditionalDegrees + 25 && Robot.rightAbsEnc.getValue() > wantedRightAdditionalDegrees - 25){
         		isRightDegreesDone = true;
         	}
     	}
