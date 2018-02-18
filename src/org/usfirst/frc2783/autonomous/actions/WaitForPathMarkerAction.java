@@ -14,8 +14,6 @@ import org.usfirst.frc2783.robot.Robot;
  */
 public class WaitForPathMarkerAction extends Action {
 
-	//this has to be here
-	
     private String mMarker;
 
     public WaitForPathMarkerAction(String marker) {
