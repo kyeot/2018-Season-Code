@@ -2,6 +2,7 @@ package org.usfirst.frc2783.subsystems;
 
 import org.usfirst.frc2783.commands.TankDrive;
 import org.usfirst.frc2783.robot.Constants;
+import org.usfirst.frc2783.robot.Robot;
 import org.usfirst.frc2783.util.Bearing;
 import org.usfirst.frc2783.util.GyroSource;
 import org.usfirst.frc2783.util.NavSensor;
@@ -10,11 +11,66 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class TankDriveBase extends Subsystem {
+	
+	class RightTankSideSource implements PIDSource {
+		PIDSourceType sourceType;
+		public RightTankSideSource() {
+			setPIDSourceType(PIDSourceType.kDisplacement);
+		}
+		@Override
+		public void setPIDSourceType(PIDSourceType pidSource) {
+			sourceType = pidSource;
+		}
+		@Override
+		public PIDSourceType getPIDSourceType() {
+			return sourceType;
+		}
+		@Override
+		public double pidGet() {
+			return Robot.rightAbsEnc.getValue()/11.377777777777777778;
+		}	
+	}
+	
+	class LeftTankSideSource implements PIDSource {
+		PIDSourceType sourceType;
+		public LeftTankSideSource() {
+			setPIDSourceType(PIDSourceType.kDisplacement);
+		}
+		@Override
+		public void setPIDSourceType(PIDSourceType pidSource) {
+			sourceType = pidSource;
+		}
+		@Override
+		public PIDSourceType getPIDSourceType() {
+			return sourceType;
+		}
+		@Override
+		public double pidGet() {
+			return Robot.leftAbsEnc.getValue()/11.377777777777777778;
+		}	
+	}
+	
+	class LeftTankSideOut implements PIDOutput {
+		@Override
+		public void pidWrite(double output){
+			leftOut = output;
+		}
+	}
+	
+	class RightTankSideOut implements PIDOutput {
+		@Override
+		public void pidWrite(double output){
+			rightOut = output;
+		}
+	}
 	
 	class TankPoseOut implements PIDOutput {
 		@Override
@@ -33,9 +89,19 @@ public class TankDriveBase extends Subsystem {
 	
 	double rot;
 
+	double leftOut;
+	double rightOut;
+	
 	PIDController posePid;
 	TankPoseOut posePidOut;
 	GyroSource posePidSource;
+	
+	LeftTankSideSource leftPidSource;
+	RightTankSideSource rightPidSource;
+	LeftTankSideOut leftSideOut;
+	RightTankSideOut rightSideOut;
+	PIDController leftSideController;
+	PIDController rightSideController;
 		
 	public TankDriveBase(){
 		right2.follow(right1);
@@ -55,6 +121,21 @@ public class TankDriveBase extends Subsystem {
 		posePid.setInputRange(0, 360);
 		posePid.setContinuous();
 		
+		leftPidSource = new LeftTankSideSource();
+		rightPidSource = new RightTankSideSource();
+		
+		leftSideOut = new LeftTankSideOut();
+		rightSideOut = new RightTankSideOut();
+		
+		leftSideController = new PIDController(Constants.kTankSideP, Constants.kTankSideI, Constants.kTankSideD,
+												leftPidSource, leftSideOut);
+		leftSideController.setInputRange(0, 360);
+		leftSideController.setContinuous();
+		
+		rightSideController = new PIDController(Constants.kTankSideP, Constants.kTankSideI, Constants.kTankSideD,
+												rightPidSource, rightSideOut);
+		leftSideController.setInputRange(0, 360);
+		leftSideController.setContinuous();
 	}
 	
 	public void setRobotPose(Bearing b){
@@ -62,6 +143,22 @@ public class TankDriveBase extends Subsystem {
 		posePid.enable();
 		
 		rotate(rot);
+		
+	}
+	
+	public void setLeftSidePose(double angle){
+		leftSideController.setSetpoint(angle);
+		leftSideController.enable();
+		
+		left1.set(ControlMode.PercentOutput, leftOut);
+		
+	}
+	
+	public void setRightSidePose(double angle){
+		rightSideController.setSetpoint(angle);
+		rightSideController.enable();
+		
+		right1.set(ControlMode.PercentOutput, rightOut);
 		
 	}
 	
