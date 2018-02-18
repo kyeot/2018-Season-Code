@@ -2,6 +2,7 @@ package org.usfirst.frc2783.util;
 
 import org.usfirst.frc2783.loops.Loop;
 import org.usfirst.frc2783.robot.Robot;
+import org.usfirst.frc2783.subsystems.ElevatorBase;
 
 public class ElevatorEncoderCounter implements Loop{
 	
@@ -37,11 +38,11 @@ public class ElevatorEncoderCounter implements Loop{
 	@Override
 	public void onLoop() {
 
-    	if(Robot.elevatorBase.elevator1Mot.getMotorOutputPercent() > 0.1){
+    	if(ElevatorBase.elevator1Mot.getMotorOutputPercent() > 0.1){
     		Robot.isElevatorForward = false;
     	}
     	
-    	else if(Robot.elevatorBase.elevator1Mot.getMotorOutputPercent() < -0.1){
+    	else if(ElevatorBase.elevator1Mot.getMotorOutputPercent() < -0.1){
     		Robot.isElevatorForward = true;
     	}
 		

@@ -3,7 +3,9 @@ package org.usfirst.frc2783.autonomous.actions;
 import org.usfirst.frc2783.robot.Constants;
 import org.usfirst.frc2783.robot.Robot;
 import org.usfirst.frc2783.util.GyroSource;
+import org.usfirst.frc2783.util.LeftEncoderCounter;
 import org.usfirst.frc2783.util.NavSensor;
+import org.usfirst.frc2783.util.RightEncoderCounter;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
@@ -87,8 +89,8 @@ public class DriveWithGyroAndByDistance extends Action {
     	wantedLeftTotalDegrees = leftAngleOnStart + leftDistanceInDegrees;
     	wantedRightTotalDegrees = rightAngleOnStart + rightDistanceInDegrees;
     	
-    	leftRotationOnStart = Robot.leftCounter.leftRotationCounter;
-    	rightRotationOnStart = Robot.rightCounter.rightRotationCounter;
+    	leftRotationOnStart = LeftEncoderCounter.leftRotationCounter;
+    	rightRotationOnStart = RightEncoderCounter.rightRotationCounter;
     	
     	if(leftDistanceInDegrees > rightDistanceInDegrees){
     		rightSpeed = rightDistanceInDegrees/leftDistanceInDegrees*speedScaler;
@@ -121,11 +123,11 @@ public class DriveWithGyroAndByDistance extends Action {
 	
 	@Override
 	public void perform(){                                                                                 
-    	if(Robot.leftCounter.leftRotationCounter >= (leftRotationOnStart + wantedLeftRotations)){
+    	if(LeftEncoderCounter.leftRotationCounter >= (leftRotationOnStart + wantedLeftRotations)){
     		isLeftRotationsDone = true;
     	}
     	
-    	if(Robot.rightCounter.rightRotationCounter >= (rightRotationOnStart + wantedRightRotations)){
+    	if(RightEncoderCounter.rightRotationCounter >= (rightRotationOnStart + wantedRightRotations)){
     		isRightRotationsDone = true;
     	}
     	
