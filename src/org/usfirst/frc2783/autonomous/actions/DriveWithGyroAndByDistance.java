@@ -144,7 +144,7 @@ public class DriveWithGyroAndByDistance extends Action {
     	if(isRightRotationsDone){
     		rightSpeed = rightSpeedOnStart/2;
     		
-    		Robot.tankDrive.setLeftPose(wantedRightAdditionalDegrees);
+    		Robot.tankDrive.setRightPose(wantedRightAdditionalDegrees);
     		
     		if(Robot.rightAbsEnc.getValue() < wantedRightAdditionalDegrees + 25 && Robot.rightAbsEnc.getValue() > wantedRightAdditionalDegrees - 25){
         		isRightDegreesDone = true;
