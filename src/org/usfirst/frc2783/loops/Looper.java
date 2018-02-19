@@ -17,6 +17,8 @@ import edu.wpi.first.wpilibj.Notifier;
  */
 public class Looper {
 	
+	double period;
+	
 	CrashTrackingRunnable runnable = new CrashTrackingRunnable() {
 		@Override
 		public void runCrashTracked() {
@@ -34,7 +36,8 @@ public class Looper {
 	List<Loop> loops;
 	Notifier notifier;
 	
-	public Looper() {
+	public Looper(double period) {
+		this.period = period;
 		loops = new ArrayList<Loop>();
 		notifier = new Notifier(runnable);
 	}
@@ -43,7 +46,7 @@ public class Looper {
 		for(Loop l : loops) {
 			l.onStart();
 		}
-		notifier.startPeriodic(Constants.kPeriod);
+		notifier.startPeriodic(period);
 		
 	}
 	

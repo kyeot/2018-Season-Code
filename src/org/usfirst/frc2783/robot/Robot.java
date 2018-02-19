@@ -11,6 +11,7 @@ import org.usfirst.frc2783.autonomous.actions.ActionScheduler;
 import org.usfirst.frc2783.loops.LogData;
 import org.usfirst.frc2783.loops.Looper;
 import org.usfirst.frc2783.loops.VisionProcessor;
+import org.usfirst.frc2783.loops.VoltageLogger;
 import org.usfirst.frc2783.subsystems.ElevatorBase;
 import org.usfirst.frc2783.subsystems.IntakeBase;
 import org.usfirst.frc2783.subsystems.TankDriveBase;
@@ -36,7 +37,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
 
     public static OI oi;
-    public static Looper looper = new Looper();
+    public static Looper looper = new Looper(Constants.kPeriod);
+    public static Looper slowLoop = new Looper(0.1);
     
     @SuppressWarnings("unused")
 	private static AHRS navSensor;
@@ -83,6 +85,9 @@ public class Robot extends IterativeRobot {
         looper.addLoop(rightCounter);
         Logger.info("Starting Loops");
         looper.startLoops();
+        
+        slowLoop.addLoop(new VoltageLogger());
+        slowLoop.startLoops();
 
         String[] autonomousList = {"Test", "DriveGyroTest", "ScaleFromLeft", "SwitchFromLeft"};
         
