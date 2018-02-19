@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 
 import org.usfirst.frc2783.autonomous.DriveGyroTest;
+import org.usfirst.frc2783.autonomous.ScaleFromLeft;
+import org.usfirst.frc2783.autonomous.SwitchFromLeft;
 import org.usfirst.frc2783.autonomous.TestAuto;
 import org.usfirst.frc2783.autonomous.actions.ActionScheduler;
 import org.usfirst.frc2783.loops.LogData;
@@ -12,6 +14,7 @@ import org.usfirst.frc2783.loops.VisionProcessor;
 import org.usfirst.frc2783.subsystems.ElevatorBase;
 import org.usfirst.frc2783.subsystems.IntakeBase;
 import org.usfirst.frc2783.subsystems.TankDriveBase;
+import org.usfirst.frc2783.util.ElevatorEncoderCounter;
 import org.usfirst.frc2783.util.LeftEncoderCounter;
 import org.usfirst.frc2783.util.Logger;
 import org.usfirst.frc2783.util.NavSensor;
@@ -42,6 +45,7 @@ public class Robot extends IterativeRobot {
     
     public static AnalogInput leftAbsEnc = new AnalogInput(0);
     public static AnalogInput rightAbsEnc = new AnalogInput(1);
+    public static AnalogInput elevatorAbsEnc = new AnalogInput(2);
     
     public static TankDriveBase tankDrive = new TankDriveBase();
     public static IntakeBase intake = new IntakeBase();
@@ -53,11 +57,13 @@ public class Robot extends IterativeRobot {
     
     public static boolean isLeftForward = false;
     public static boolean isRightForward = false;
+    public static boolean isElevatorForward = false;
     
     public static ActionScheduler autoScheduler = new ActionScheduler();
     
     public static LeftEncoderCounter leftCounter = new LeftEncoderCounter();
     public static RightEncoderCounter rightCounter = new RightEncoderCounter();
+    public static ElevatorEncoderCounter elEncCounter = new ElevatorEncoderCounter();
     
     boolean isBrownOut = false;
     boolean wasBrownOut = false;
@@ -78,7 +84,7 @@ public class Robot extends IterativeRobot {
         Logger.info("Starting Loops");
         looper.startLoops();
 
-        String[] autonomousList = {"Test", "DriveGyroTest"};
+        String[] autonomousList = {"Test", "DriveGyroTest", "ScaleFromLeft", "SwitchFromLeft"};
         
         //Puts the autonomous modes selector into the dashboard
         SmartDashboard.putStringArray("Auto List", autonomousList);
@@ -118,6 +124,12 @@ public class Robot extends IterativeRobot {
 		case "DriveGyroTest":
 			autoScheduler.setGroup(new DriveGyroTest());
 			break;
+		case "ScaleFromleft":
+			autoScheduler.setGroup(new ScaleFromLeft());
+			break;
+		case "SwitchFromLeft":
+			autoScheduler.setGroup(new SwitchFromLeft());
+			break;
 		default:
 			
     	} 
@@ -127,10 +139,6 @@ public class Robot extends IterativeRobot {
     
 	public void autonomousPeriodic() {
 
-        SmartDashboard.putString("DB/String 1", "" + Robot.leftAbsEnc.getValue());
-        SmartDashboard.putString("DB/String 2", "" + Robot.rightAbsEnc.getValue());
-        SmartDashboard.putString("DB/String 3", "" + Robot.leftCounter.leftRotationCounter);
-        SmartDashboard.putString("DB/String 4", "" + Robot.rightCounter.rightRotationCounter);
         SmartDashboard.putString("DB/String 7", "robot angle: " + Math.floor(NavSensor.getInstance().getAngle(false)));
         
         Scheduler.getInstance().run();

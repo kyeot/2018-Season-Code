@@ -2,6 +2,7 @@ package org.usfirst.frc2783.subsystems;
 
 import org.usfirst.frc2783.commands.TankDrive;
 import org.usfirst.frc2783.robot.Constants;
+import org.usfirst.frc2783.robot.Robot;
 import org.usfirst.frc2783.util.Bearing;
 import org.usfirst.frc2783.util.GyroSource;
 import org.usfirst.frc2783.util.NavSensor;
@@ -12,12 +13,12 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class TankDriveBase extends Subsystem {
 	
-<<<<<<< HEAD
-=======
 	class RightTankSideSource implements PIDSource {
 		PIDSourceType sourceType;
 		public RightTankSideSource() {
@@ -59,7 +60,7 @@ public class TankDriveBase extends Subsystem {
 	class LeftTankSideOut implements PIDOutput {
 		@Override
 		public void pidWrite(double output){
-			leftOut = output;
+			leftOut = -output;
 		}
 	}
 	
@@ -70,7 +71,6 @@ public class TankDriveBase extends Subsystem {
 		}
 	}
 	
->>>>>>> parent of 74ce0b5... Simplified TankDrive Stuff
 	class TankPoseOut implements PIDOutput {
 		@Override
 		public void pidWrite(double output) {
@@ -88,11 +88,12 @@ public class TankDriveBase extends Subsystem {
 	
 	double rot;
 
+	double leftOut;
+	double rightOut;
+	
 	PIDController posePid;
 	TankPoseOut posePidOut;
 	GyroSource posePidSource;
-<<<<<<< HEAD
-=======
 	
 	LeftTankSideSource leftPidSource;
 	RightTankSideSource rightPidSource;
@@ -100,8 +101,7 @@ public class TankDriveBase extends Subsystem {
 	RightTankSideOut rightSideOut;
 	PIDController leftSideController;
 	PIDController rightSideController;
->>>>>>> parent of 74ce0b5... Simplified TankDrive Stuff
-		
+
 	public TankDriveBase(){
 		right2.follow(right1);
 		left2.follow(left1);
@@ -120,8 +120,6 @@ public class TankDriveBase extends Subsystem {
 		posePid.setInputRange(0, 360);
 		posePid.setContinuous();
 		
-<<<<<<< HEAD
-=======
 		leftPidSource = new LeftTankSideSource();
 		rightPidSource = new RightTankSideSource();
 		
@@ -137,7 +135,6 @@ public class TankDriveBase extends Subsystem {
 												rightPidSource, rightSideOut);
 		leftSideController.setInputRange(0, 360);
 		leftSideController.setContinuous();
->>>>>>> parent of 74ce0b5... Simplified TankDrive Stuff
 	}
 	
 	public void setRobotPose(Bearing b){
@@ -148,9 +145,34 @@ public class TankDriveBase extends Subsystem {
 		
 	}
 	
+	public void setLeftPose(double angle){
+		leftSideController.setSetpoint(angle);
+		rightSideController.enable();
+		
+		setLeftSide(leftOut);
+		
+	}
+	
+	public void setRightPose(double angle){
+		rightSideController.setSetpoint(angle);
+		rightSideController.enable();
+		
+		setRightSide(rightOut);
+		
+	}
+	
 	private void rotate(double rotMot){
 		left1.set(ControlMode.PercentOutput, rotMot);
 		right1.set(ControlMode.PercentOutput, rotMot);
+		
+	}
+	
+	public void setLeftSide(double speed){
+		left1.set(ControlMode.PercentOutput, speed);
+	}
+
+	public void setRightSide(double speed){
+		right1.set(ControlMode.PercentOutput, speed);
 		
 	}
 	

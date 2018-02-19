@@ -26,6 +26,10 @@ public class Constants {
 	public static final double kGyroDriveI = 0.001;
 	public static final double kGyroDriveD = 0.09;
 	
+	public static final double kTankSideP = 0.0075;
+	public static final double kTankSideI = 0.0003;
+	public static final double kTankSideD = 0.005;
+	
 	public static final double kPeriod = 0.005; 
 
 	public static final double kAutoPeriod = 0.005;
