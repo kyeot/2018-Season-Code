@@ -5,10 +5,12 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.usfirst.frc2783.robot.Constants;
+import org.usfirst.frc2783.util.Logger;
 import org.usfirst.frc2783.util.Timestamp;
 import org.usfirst.frc2783.util.Vector;
 
 import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class TargetTracker {
 
@@ -45,7 +47,12 @@ public class TargetTracker {
 	 */
 	public Vector getLatestTarget() {
 		if(!history.isEmpty()) {
+			try {
 			return history.get(history.keySet().toArray()[history.size()-1]);
+			} catch (Exception e){
+				Logger.info("History Exception: " + e);
+				return null;
+			}
 		} else {
 			return null;
 		}
@@ -63,7 +70,9 @@ public class TargetTracker {
 		}
 		x /= history.size();
 		y /= history.size();
+		
 		return new Vector(x, y);
+		
 	}
 	
 	/**

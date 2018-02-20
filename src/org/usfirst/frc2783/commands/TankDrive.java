@@ -18,6 +18,8 @@ public class TankDrive extends Command {
 	double lastLeftSpeed;
 	double lastRightSpeed;
 	
+	Bearing angle;
+	
 	NavSensor navSensor = NavSensor.getInstance();
 	
     public TankDrive() {
@@ -56,12 +58,17 @@ public class TankDrive extends Command {
     		navSensor.resetGyroNorth(0, 0);
     	}
     	
+    	if(OI.driver.getRawButton(2)){
+    		if(fieldTransform.targetHistory.getLatestTarget() != null){
+    			angle = fieldTransform.targetHistory.getSmoothTarget().dir();
+    		}
+    	}
+    	
     	if(OI.driver.getRawButton(1)) {
     		Robot.tankDrive.setRobotPose(new Bearing(0));
-//    		if(fieldTransform.targetHistory.getLatestTarget() != null){
-//    			Robot.tankDrive.setRobotPose(fieldTransform.targetHistory.getSmoothTarget().dir());
-//    		}
-    	} else {
+//    		Robot.tankDrive.setRobotPose(angle);
+    	} 
+    	else {
             Robot.tankDrive.tankDrive(leftSpeed, rightSpeed);
     	}
     }

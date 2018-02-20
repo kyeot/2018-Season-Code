@@ -65,13 +65,14 @@ public class FieldTransform {
 			double x = t.getX();
 			double y = t.getY();
 			double z = t.getZ();
-			
+
 			//Rotate target direction to compensate for camera pitch (rotation matrix)
 			double xr = z * camPitch.sin() + x * camPitch.cos();
             double yr = y;
             double zr = z * camPitch.cos() - x * camPitch.sin();
             
-            if(zr > 0) {
+//            if(zr > 0) {
+            	
             	double s = camToGoal / zr;
             	double dist = Math.hypot(xr, yr) * s;
             	Bearing angle = new Bearing(new Vector(xr, yr));
@@ -80,8 +81,8 @@ public class FieldTransform {
             	Timestamp time = new Timestamp(targetsTimestamp);
             	targetHistory.register(time, getFieldToCamera(time).getTranslation().translate(targetToCam.rotateBy(getFieldToCamera(time).getRotation())));
             	
-            	SmartDashboard.putString("DB/String 0", "Angle to Robot: " + Math.floor(targetHistory.getLatestTarget().dir().getTheta()));
-			}
+//            	SmartDashboard.putString("DB/String 0", "Angle to Robot: " + Math.floor(targetHistory.getLatestTarget().dir().getTheta()));
+//			}
 		}
 	}
 	

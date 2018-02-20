@@ -19,6 +19,8 @@ public class VisionProcessor implements Loop, VisionUpdateReceiver {
     static VisionProcessor instance_ = new VisionProcessor();
     VisionUpdate update_ = null;
     FieldTransform fieldTransform = FieldTransform.getInstance();
+    
+	double d = 0;
 
     public static VisionProcessor getInstance() {
         return instance_;
@@ -45,10 +47,16 @@ public class VisionProcessor implements Loop, VisionUpdateReceiver {
         NavSensor.getInstance().updateHistory();
         
         fieldTransform.addVisionTargets(update.getTargets(), update.getCapturedAtTimestamp());
+		
+    	d++;
+    	
+    	SmartDashboard.putString("DB/String 0", "" + d);
+		
         fieldTransform.trackLatestTarget();
         
-        SmartDashboard.putString("DB/String 9", "Gyro Angle: " + Math.floor(NavSensor.getInstance().getAngle(false)));
-        SmartDashboard.putString("DB/String 5", "Raw Gyro Angle: " + Math.floor(NavSensor.getInstance().getRawAngle()));
+		if(fieldTransform.targetHistory.getLatestTarget() != null){
+			SmartDashboard.putString("DB/String 8", "" + fieldTransform.targetHistory.getSmoothTarget().dir().getTheta());
+		}
     }
 
     @Override

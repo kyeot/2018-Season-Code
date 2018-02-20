@@ -9,6 +9,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 /**
  * VisionUpdate contains the various attributes outputted by the vision system,
  * namely a list of targets and the timestamp at which it was captured.
@@ -72,6 +74,7 @@ public class VisionUpdate {
                     return update;
                 }
                 targetInfos.add(new TargetInfo(y.get(), z.get()));
+                SmartDashboard.putString("DB/String 6", "" + z.get());
             }
             update.targets = targetInfos;
             update.valid = true;
