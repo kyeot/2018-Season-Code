@@ -104,6 +104,7 @@ public class MultiBoxTracker {
 
   private int sensorOrientation;
   private Context context;
+  private RobotConnection mRobotConnection;
 
   public static boolean robotConnected = false;
 
@@ -216,6 +217,7 @@ public class MultiBoxTracker {
       final int sensorOrientation,
       final byte[] frame,
       final long timestamp) {
+
     if (objectTracker == null && !initialized) {
       ObjectTracker.clearInstance();
 
@@ -264,13 +266,13 @@ public class MultiBoxTracker {
     screenRects.clear();
     final Matrix rgbFrameToScreen = new Matrix(getFrameToCanvasMatrix());
 
+    VisionUpdate visionUpdate = new VisionUpdate(System.nanoTime());
+
     for (final Classifier.Recognition result : results) {
       if (result.getLocation() == null) {
         continue;
       }
-
       //Calculate 3D vector and send to robot
-      VisionUpdate visionUpdate = new VisionUpdate(result.getTimestamp());
       float centroidX = result.getLocation().centerX();
       float centroidY = result.getLocation().centerY();
       Log.d("Object at (x, y)", centroidX + ", " + centroidY);
@@ -279,17 +281,6 @@ public class MultiBoxTracker {
       Log.d("MultiBoxTracker", "Object vector (y, z): " + y + ", " + z);
       Log.d("MultiBoxTracker", "Object timestamp: " + result.getTimestamp());
       visionUpdate.addCameraTargetInfo(new CameraTargetInfo(y, z));
-      if (robotConnected) {
-        Log.w("MultiBoxTracker", "Robot is connected, sending visionUpdate");
-        //#TODO Remove reference to AppContext here.
-        //#TODO Initialize the connection once and check if it is null on every run. If so, initialize it again.
-        RobotConnection mRobotConnection = AppContext.getRobotConnection();
-        TargetUpdateMessage update = new TargetUpdateMessage(visionUpdate, System.nanoTime());
-        mRobotConnection.send(update);
-      } else {
-        Log.w("MultiBoxTracker", "Robot is not connected, visionUpdate not sent");
-      }
-
 
       final RectF detectionFrameRect = new RectF(result.getLocation());
 
@@ -299,14 +290,27 @@ public class MultiBoxTracker {
       logger.v(
           "Result! Frame: " + result.getLocation() + " mapped to screen:" + detectionScreenRect);
 
-      screenRects.add(new Pair<Float, RectF>(result.getConfidence(), detectionScreenRect));
+      screenRects.add(new Pair<>(result.getConfidence(), detectionScreenRect));
 
       if (detectionFrameRect.width() < MIN_SIZE || detectionFrameRect.height() < MIN_SIZE) {
         logger.w("Degenerate rectangle! " + detectionFrameRect);
         continue;
       }
 
-      rectsToTrack.add(new Pair<Float, Classifier.Recognition>(result.getConfidence(), result));
+      rectsToTrack.add(new Pair<>(result.getConfidence(), result));
+    }
+
+    if (robotConnected) {
+      Log.w("MultiBoxTracker", "Robot is connected, sending visionUpdate");
+      //#TODO Remove reference to AppContext here.
+      //#TODO Initialize the connection once and check if it is null on every run. If so, initialize it again.
+      TargetUpdateMessage update = new TargetUpdateMessage(visionUpdate, System.nanoTime());
+      if (mRobotConnection == null){
+        mRobotConnection = AppContext.getRobotConnection();
+      }
+      mRobotConnection.send(update);
+    } else {
+      Log.w("MultiBoxTracker", "Robot is not connected, visionUpdate not sent");
     }
 
     if (rectsToTrack.isEmpty()) {
