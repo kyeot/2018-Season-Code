@@ -31,8 +31,8 @@ public class TankDrive extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double leftSpeed = OI.driver1.getRawAxis(1);
-    	double rightSpeed = OI.driver2.getRawAxis(1);
+    	double leftSpeed = OI.driver.getRawAxis(1);
+    	double rightSpeed = OI.driver.getRawAxis(5);
     	
    	if(OI.driver.getRawButton(5)){
     		leftSpeed = leftSpeed/2;
