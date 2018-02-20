@@ -36,7 +36,7 @@ public class TankDrive extends Command {
     	double leftSpeed = OI.driver.getRawAxis(1);
     	double rightSpeed = OI.driver.getRawAxis(5);
     	
-    	if(OI.driver.getRawButton(5)){
+   	if(OI.driver.getRawButton(5)){
     		leftSpeed = leftSpeed/2;
     		rightSpeed = rightSpeed/2;
     	}

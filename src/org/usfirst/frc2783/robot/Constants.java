@@ -1,5 +1,7 @@
 package org.usfirst.frc2783.robot;
 
+import edu.wpi.first.wpilibj.Solenoid;
+
 /**
  * 
  * Class used to set every constant variable
@@ -41,9 +43,32 @@ public class Constants {
 	
 	public static final int kAndroidAppTcpPort = 8254;
 
-	public static final double wheelDiameterByInches = 6;
-	public static final double wheelCircumferenceByInches = wheelDiameterByInches * Math.PI;
-	public static final double inchPerDegree = wheelCircumferenceByInches/4096;
+	public static final double kWheelDiameterByInches = 6;
+	public static final double kWheelCircumferenceByInches = kWheelDiameterByInches * Math.PI;
+	public static final double kInchPerDegree = kWheelCircumferenceByInches/4096;
+	
+	// Path following constants
+    public static double kMinLookAhead = 12.0; // inches
+    public static double kMinLookAheadSpeed = 9.0; // inches per second
+    public static double kMaxLookAhead = 24.0; // inches
+    public static double kMaxLookAheadSpeed = 120.0; // inches per second
+    public static double kDeltaLookAhead = kMaxLookAhead - kMinLookAhead;
+    public static double kDeltaLookAheadSpeed = kMaxLookAheadSpeed - kMinLookAheadSpeed;
+
+    public static double kInertiaSteeringGain = 0.0; // angular velocity command is multiplied by this gain *
+                                                     // our speed
+                                                     // in inches per sec
+    public static double kSegmentCompletionTolerance = 0.1; // inches
+    public static double kPathFollowingMaxAccel = 120.0; // inches per second^2
+    public static double kPathFollowingMaxVel = 120.0; // inches per second
+    public static double kPathFollowingProfileKp = 5.00;
+    public static double kPathFollowingProfileKi = 0.03;
+    public static double kPathFollowingProfileKv = 0.02;
+    public static double kPathFollowingProfileKffv = 1.0;
+    public static double kPathFollowingProfileKffa = 0.05;
+    public static double kPathFollowingGoalPosTolerance = 0.75;
+    public static double kPathFollowingGoalVelTolerance = 12.0;
+    public static double kPathStopSteeringDistance = 9.0;
 	
 	public static final double kCameraFrameRate = 30;
 	public static final double kTargetMaxAge = 0.3; 
@@ -71,5 +96,16 @@ public class Constants {
 	
 	public static final int kLowGearID = 2;
 	public static final int kHighGearID = 3;
+	public static final double kDriveHighGearMaxSetpoint = 17 * 12; //17 feet per second
+	
+	/**
+     * Make an {@link Solenoid} instance for the single-number ID of the solenoid
+     * 
+     * @param solenoidId
+     *            One of the kXyzSolenoidId constants
+     */
+    public static Solenoid makeSolenoidForId(int solenoidId) {
+        return new Solenoid(solenoidId / 8, solenoidId % 8);
+    }
 	
 }
