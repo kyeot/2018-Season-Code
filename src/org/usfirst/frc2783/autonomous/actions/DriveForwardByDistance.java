@@ -37,7 +37,7 @@ public class DriveForwardByDistance extends Action {
     	
     	angleOnStart = Robot.rightAbsEnc.getValue();
     	
-    	distanceInDegrees = distance/Constants.inchPerDegree-angleOnStart;
+    	distanceInDegrees = distance/Constants.kInchPerDegree-angleOnStart;
     	
     	wantedTotalDegrees = angleOnStart + distanceInDegrees;
     	
@@ -89,8 +89,8 @@ public class DriveForwardByDistance extends Action {
 
 	public void finish() {
     	Robot.tankDrive.tankDrive(0, 0);
-    	Robot.tankDrive.left1.setNeutralMode(NeutralMode.Brake);
-    	Robot.tankDrive.right1.setNeutralMode(NeutralMode.Brake);
+    	Robot.tankDrive.leftMaster.setNeutralMode(NeutralMode.Brake);
+    	Robot.tankDrive.rightMaster.setNeutralMode(NeutralMode.Brake);
 	}
 
 }

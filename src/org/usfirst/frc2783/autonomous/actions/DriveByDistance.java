@@ -50,8 +50,8 @@ public class DriveByDistance extends Action {
     	leftAngleOnStart = Robot.leftAbsEnc.getValue();
     	rightAngleOnStart = Robot.rightAbsEnc.getValue();
     	
-    	leftDistanceInDegrees = (leftDistance/Constants.inchPerDegree)-leftAngleOnStart;
-    	rightDistanceInDegrees = (rightDistance/Constants.inchPerDegree)-rightAngleOnStart;
+    	leftDistanceInDegrees = (leftDistance/Constants.kInchPerDegree)-leftAngleOnStart;
+    	rightDistanceInDegrees = (rightDistance/Constants.kInchPerDegree)-rightAngleOnStart;
     	
     	wantedLeftTotalDegrees = leftAngleOnStart + leftDistanceInDegrees;
     	wantedRightTotalDegrees = rightAngleOnStart + rightDistanceInDegrees;
@@ -131,8 +131,8 @@ public class DriveByDistance extends Action {
 
 	public void finish() {
     	Robot.tankDrive.tankDrive(0, 0);
-    	Robot.tankDrive.left1.setNeutralMode(NeutralMode.Brake);
-    	Robot.tankDrive.right1.setNeutralMode(NeutralMode.Brake);
+    	Robot.tankDrive.leftMaster.setNeutralMode(NeutralMode.Brake);
+    	Robot.tankDrive.rightMaster.setNeutralMode(NeutralMode.Brake);
 	}
 
 }
