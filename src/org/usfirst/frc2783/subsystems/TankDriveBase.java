@@ -1,5 +1,6 @@
 package org.usfirst.frc2783.subsystems;
 
+import org.usfirst.frc2783.autonomous.paths.PathFollower;
 import org.usfirst.frc2783.commands.TankDrive;
 import org.usfirst.frc2783.robot.Constants;
 import org.usfirst.frc2783.robot.Robot;
@@ -18,6 +19,14 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class TankDriveBase extends Subsystem {
+	
+	// The robot drivetrain's various states.
+    public enum DriveControlState {
+        OPEN_LOOP, // open loop voltage control
+        VELOCITY_SETPOINT, // velocity PID control
+        PATH_FOLLOWING, // used for autonomous driving
+        TURN_TO_HEADING, // turn in place
+    }
 	
 	class RightTankSideSource implements PIDSource {
 		PIDSourceType sourceType;
@@ -91,9 +100,13 @@ public class TankDriveBase extends Subsystem {
 	double leftOut;
 	double rightOut;
 	
+	DriveControlState mDriveControlState;
+	
 	PIDController posePid;
 	TankPoseOut posePidOut;
 	GyroSource posePidSource;
+	
+	PathFollower mPathFollower;
 	
 	LeftTankSideSource leftPidSource;
 	RightTankSideSource rightPidSource;
@@ -188,5 +201,14 @@ public class TankDriveBase extends Subsystem {
 		setDefaultCommand(new TankDrive());
 		
 	}
+
+	public synchronized boolean hasPassedMarker(String marker) {
+        if (mDriveControlState == DriveControlState.PATH_FOLLOWING && mPathFollower != null) {
+            return mPathFollower.hasPassedMarker(marker);
+        } else {
+            System.out.println("Robot is not in path following mode");
+            return false;
+        }
+    }
 
 }
