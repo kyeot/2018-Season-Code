@@ -28,6 +28,26 @@ public class TankDriveBase extends Subsystem {
         TURN_TO_HEADING, // turn in place
     }
 	
+    /**
+     * Check if the drive talons are configured for velocity control
+     */
+    protected static boolean usesTalonVelocityControl(DriveControlState state) {
+        if (state == DriveControlState.VELOCITY_SETPOINT || state == DriveControlState.PATH_FOLLOWING) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Check if the drive talons are configured for position control
+     */
+    protected static boolean usesTalonPositionControl(DriveControlState state) {
+        if (state == DriveControlState.TURN_TO_HEADING) {
+            return true;
+        }
+        return false;
+    }
+    
 	class RightTankSideSource implements PIDSource {
 		PIDSourceType sourceType;
 		public RightTankSideSource() {
@@ -87,11 +107,11 @@ public class TankDriveBase extends Subsystem {
 		}
 	}
 		
-	public VictorSPX right1 = new VictorSPX(Constants.kRightDrive1);
+	public VictorSPX rightMaster = new VictorSPX(Constants.kRightDrive1);
 	VictorSPX right2 = new VictorSPX(Constants.kRightDrive2);
 	
-	public VictorSPX left1 = new VictorSPX(Constants.kLeftDrive1);
-	VictorSPX left2 = new VictorSPX(Constants.kLeftDrive2);
+	public VictorSPX leftMaster = new VictorSPX(Constants.kLeftDrive1);
+	VictorSPX leftSlave = new VictorSPX(Constants.kLeftDrive2);
 	
 	NavSensor gyro = NavSensor.getInstance();
 	
@@ -116,14 +136,10 @@ public class TankDriveBase extends Subsystem {
 	PIDController rightSideController;
 
 	public TankDriveBase(){
-		right2.follow(right1);
-		left2.follow(left1);
+		right2.follow(rightMaster);
+		leftSlave.follow(leftMaster);
 		
-		right1.setNeutralMode(NeutralMode.Brake);
-		right2.setNeutralMode(NeutralMode.Brake);
-		
-		left1.setNeutralMode(NeutralMode.Brake);
-		left2.setNeutralMode(NeutralMode.Brake);
+		setBrakeMode(true);
 		
 		posePidOut = new TankPoseOut();
 		posePidSource = new GyroSource();
@@ -175,24 +191,24 @@ public class TankDriveBase extends Subsystem {
 	}
 	
 	private void rotate(double rotMot){
-		left1.set(ControlMode.PercentOutput, rotMot);
-		right1.set(ControlMode.PercentOutput, rotMot);
+		leftMaster.set(ControlMode.PercentOutput, rotMot);
+		rightMaster.set(ControlMode.PercentOutput, rotMot);
 		
 	}
 	
 	public void setLeftSide(double speed){
-		left1.set(ControlMode.PercentOutput, speed);
+		leftMaster.set(ControlMode.PercentOutput, speed);
 	}
 
 	public void setRightSide(double speed){
-		right1.set(ControlMode.PercentOutput, speed);
+		rightMaster.set(ControlMode.PercentOutput, speed);
 		
 	}
 	
 	//Moves tank drive by left and right speeds
 	public void tankDrive(double leftSpeed, double rightSpeed) {
-		left1.set(ControlMode.PercentOutput, -leftSpeed);
-		right1.set(ControlMode.PercentOutput, rightSpeed);
+		leftMaster.set(ControlMode.PercentOutput, -leftSpeed);
+		rightMaster.set(ControlMode.PercentOutput, rightSpeed);
 		
 	}
 	
@@ -200,6 +216,69 @@ public class TankDriveBase extends Subsystem {
 	protected void initDefaultCommand() {
 		setDefaultCommand(new TankDrive());
 		
+	}
+	
+    /**
+     * Adjust Velocity setpoint (if already in velocity mode)
+     * 
+     * @param left_inches_per_sec
+     * @param right_inches_per_sec
+     */
+    private synchronized void updateVelocitySetpoint(double left_inches_per_sec, double right_inches_per_sec) {
+        if (usesTalonVelocityControl(mDriveControlState)) {
+            final double max_desired = Math.max(Math.abs(left_inches_per_sec), Math.abs(right_inches_per_sec));
+            final double scale = max_desired > Constants.kDriveHighGearMaxSetpoint
+                    ? Constants.kDriveHighGearMaxSetpoint / max_desired : 1.0;
+            leftMaster.set(ControlMode.Velocity, inchesPerSecondToRpm(left_inches_per_sec * scale));
+            rightMaster.set(ControlMode.Velocity, inchesPerSecondToRpm(right_inches_per_sec * scale));
+        } else {
+            System.out.println("Hit a bad velocity control state");
+            leftMaster.set(ControlMode.Velocity, 0);
+            rightMaster.set(ControlMode.Velocity, 0);
+        }
+    }
+
+    /**
+     * Adjust position setpoint (if already in position mode)
+     * 
+     * @param left_inches_per_sec
+     * @param right_inches_per_sec
+     */
+    @SuppressWarnings("unused")
+	private synchronized void updatePositionSetpoint(double left_position_inches, double right_position_inches) {
+        if (usesTalonPositionControl(mDriveControlState)) {
+            leftMaster.set(ControlMode.Position, inchesToRotations(left_position_inches));
+            rightMaster.set(ControlMode.Position, inchesToRotations(right_position_inches));
+        } else {
+            System.out.println("Hit a bad position control state");
+            leftMaster.set(ControlMode.Position, 0);
+            rightMaster.set(ControlMode.Position, 0);
+        }
+    }
+	
+    private static double inchesPerSecondToRpm(double inches_per_second) {
+        return inchesToRotations(inches_per_second) * 60;
+    }
+    
+    private static double inchesToRotations(double inches) {
+        return inches / (Constants.kWheelDiameterByInches * Math.PI);
+    }
+    
+	public void setBrakeMode(boolean on) {
+		if (on) {
+			rightMaster.setNeutralMode(NeutralMode.Brake);
+			right2.setNeutralMode(NeutralMode.Brake);
+			
+			leftMaster.setNeutralMode(NeutralMode.Brake);
+			leftSlave.setNeutralMode(NeutralMode.Brake);
+		}
+		else {
+			rightMaster.setNeutralMode(NeutralMode.Coast);
+			right2.setNeutralMode(NeutralMode.Coast);
+			
+			leftMaster.setNeutralMode(NeutralMode.Coast);
+			leftSlave.setNeutralMode(NeutralMode.Coast);
+		}
 	}
 
 	public synchronized boolean hasPassedMarker(String marker) {

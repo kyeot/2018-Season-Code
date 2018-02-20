@@ -43,9 +43,9 @@ public class Constants {
 	
 	public static final int kAndroidAppTcpPort = 8254;
 
-	public static final double wheelDiameterByInches = 6;
-	public static final double wheelCircumferenceByInches = wheelDiameterByInches * Math.PI;
-	public static final double inchPerDegree = wheelCircumferenceByInches/4096;
+	public static final double kWheelDiameterByInches = 6;
+	public static final double kWheelCircumferenceByInches = kWheelDiameterByInches * Math.PI;
+	public static final double kInchPerDegree = kWheelCircumferenceByInches/4096;
 	
 	// Path following constants
     public static double kMinLookAhead = 12.0; // inches
@@ -96,6 +96,7 @@ public class Constants {
 	
 	public static final int kLowGearID = 2;
 	public static final int kHighGearID = 3;
+	public static final double kDriveHighGearMaxSetpoint = 17 * 12; //17 feet per second
 	
 	/**
      * Make an {@link Solenoid} instance for the single-number ID of the solenoid
