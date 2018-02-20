@@ -1,4 +1,4 @@
-package org.usfirst.frc2783.autonomous.paths;
+package org.usfirst.frc2783.paths.profiles;
 
 /**
  * Contains the measurements for the Daly field at St. Louis champs

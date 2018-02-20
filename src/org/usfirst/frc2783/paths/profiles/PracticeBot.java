@@ -1,4 +1,4 @@
-package org.usfirst.frc2783.autonomous.paths;
+package org.usfirst.frc2783.paths.profiles;
 
 /**
  * Contains the corrective values for Practice bot

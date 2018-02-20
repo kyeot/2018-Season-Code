@@ -1,4 +1,4 @@
-package org.usfirst.frc2783.autonomous.paths;
+package org.usfirst.frc2783.paths.profiles;
 
 /**
  * Interface that holds all the corrective values for how each robot actually drives.

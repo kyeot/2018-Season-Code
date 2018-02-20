@@ -1,6 +1,7 @@
-package org.usfirst.frc2783.autonomous.paths;
+package org.usfirst.frc2783.paths.profiles;
 
 import org.usfirst.frc2783.robot.Constants;
+import org.usfirst.frc2783.autonomous.paths.PathBuilder;
 import org.usfirst.frc2783.autonomous.paths.PathBuilder.Waypoint;
 import org.usfirst.frc2783.autonomous.paths.Path;
 import org.usfirst.frc2783.calculation.RigidTransform2d;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
  * @see RobotProfile
  * @see FieldProfile
  */
+@SuppressWarnings("unused")
 public class PathAdapter {
 
     static final RobotProfile kRobotProfile = new CompBot();
@@ -31,25 +33,18 @@ public class PathAdapter {
     static final double kPegOffsetX = 17.77; // center of airship to boiler peg
     static final double kPegOffsetY = 30.66; // front of airship to boiler
                                              // pegkRobotProfile.getBlueBoilerGearXCorrection()
+    
     static final Rotation2d kRedPegHeading = Rotation2d.fromDegrees(240);
     static final Rotation2d kBluePegHeading = Rotation2d.fromDegrees(125);
     static final Rotation2d kRedHopperHeading = Rotation2d.fromDegrees(45); // angle to hit the red hopper at
     static final Rotation2d kBlueHopperHeading = Rotation2d.fromDegrees(315); // angle to hit the blue hopper at
     static final Rotation2d kStartHeading = Rotation2d.fromDegrees(180); // start angle (backwards)
-    static final double kHopperOffsetX = 3.0; // How far from the closest edge of the hopper to aim
-    static final double kHopperSkew = 6.0; // How far into the wall to place the final point (to ensure we keep nudging
-                                           // into the wall)
     
-    static final double kHopperTurnDistance = 40; // how long the third segment in the hopper path should be
-    static final double kGearTurnDistance = 24; // how long the first segment in the hopper path should be
-    static final double kEndHopperPathX = 84.5; // X position we want the hopper path to end at
     static final double kFieldHeight = 324; // total height of the field in inches (doesn't really have to be accurate,
                                             // everything is relative)
 
-    
-
     public static void main(String[] args) {
-        
+    	
     }
 
 }
