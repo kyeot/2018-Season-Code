@@ -94,8 +94,9 @@ public class Constants {
 	public static final int kJoyTankLeftID = 3;
 	public static final int kJoyTankRightID = 4;
 	
-	public static final int kLowGearID = 2;
-	public static final int kHighGearID = 3;
+	public static final int kRaiseClimbID = 7;
+	public static final int kDeployClimbID = 8;
+	public static final int kGearShiftID = 10;
 	public static final double kDriveHighGearMaxSetpoint = 17 * 12; //17 feet per second
 	
 	/**

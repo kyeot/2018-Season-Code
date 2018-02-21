@@ -25,12 +25,16 @@ public class ElevatorBase extends Subsystem {
 	public static VictorSPX elevator2Mot;
 	
 	Servo shifter;
+	Servo climber1;
+	Servo climber2;
 	
 	public ElevatorBase(){
 		elevator1Mot = new VictorSPX(Constants.kElevator1);
 		elevator2Mot = new VictorSPX(Constants.kElevator2);
 		
 		shifter = new Servo(0);
+		climber1 = new Servo(1);
+		climber2 = new Servo(2);
 		
 		elevator1Mot.setNeutralMode(NeutralMode.Brake);
 		elevator2Mot.setNeutralMode(NeutralMode.Brake);
@@ -54,6 +58,17 @@ public class ElevatorBase extends Subsystem {
 		shifter.set(1);
 		
 	}
+	
+	public void climberIn(){
+		climber1.set(0);
+		climber2.set(0);
+	}
+	
+	public void climberOut(){
+		climber1.set(1);
+		climber2.set(1);
+	}
+	
 
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.

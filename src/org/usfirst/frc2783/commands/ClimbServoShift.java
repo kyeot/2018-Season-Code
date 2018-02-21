@@ -9,27 +9,21 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class ServoShift extends Command {
-	
-	boolean isHigh;
-	
-    public ServoShift() {
+public class ClimbServoShift extends Command {
+
+    public ClimbServoShift() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.elevatorBase);
-    	isHigh = true;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	isHigh = !isHigh;
-    	if(OI.manipulator.getRawButton(Constants.kGearShiftID)){
-    		if(isHigh){
-            	Robot.elevatorBase.lowGear();
-    		}
-    		else if(!isHigh){
-            	Robot.elevatorBase.highGear();
-    		}
+    	if(OI.manipulator.getRawButton(8)){
+        	Robot.elevatorBase.climberIn();
+    	}
+    	else if(OI.manipulator.getRawButton(7)){
+    		Robot.elevatorBase.highGear();
     	}
     }
 
