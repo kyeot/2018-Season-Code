@@ -40,7 +40,7 @@ allprojects {
 }
 
 // set to 'bazel', 'cmake', 'makefile', 'none'
-def nativeBuildSystem = 'cmake'
+def nativeBuildSystem = 'bazel'
 
 // Controls output directory in APK and CPU type for Bazel builds.
 // NOTE: Does not affect the Makefile build target API (yet), which currently
@@ -48,15 +48,16 @@ def nativeBuildSystem = 'cmake'
 // editing the Makefile as well.
 // The CMake build has only been tested with armeabi-v7a; others may not work.
 // Cole's note: arm64-v8a works perfectly fine and has a nice performance boost
-def cpuType = 'armeabi-v7a'
+def cpuType = 'arm64-v8a'
 
 // Output directory in the local directory for packaging into the APK.
 def nativeOutDir = 'libs/' + cpuType
 
 // Default to building with Bazel and override with make if requested.
 def nativeBuildRule = 'buildNativeBazel'
-def demoLibPath = '../../../bazel-bin/tensorflow/examples/android/libtensorflow_demo.so'
-def inferenceLibPath = '../../../bazel-bin/tensorflow/contrib/android/libtensorflow_inference.so'
+def demoLibPath = '/home/cole/tensorflow/bazel-bin/tensorflow/examples/android/libtensorflow_demo.so'
+def inferenceLibPath = '/home/cole/tensorflow/bazel-bin/tensorflow/contrib/android/libtensorflow_inference.so'
+
 if (nativeBuildSystem == 'makefile') {
     nativeBuildRule = 'buildNativeMake'
     demoLibPath = '../../../tensorflow/contrib/makefile/gen/lib/libtensorflow_demo.so'
@@ -66,7 +67,7 @@ if (nativeBuildSystem == 'makefile') {
 // If building with Bazel, this is the location of the bazel binary.
 // NOTE: Bazel does not yet support building for Android on Windows,
 // so in this case the Makefile build must be used as described above.
-def bazelLocation = '/usr/local/bin/bazel'
+def bazelLocation = '/usr/bin/bazel'
 
 // import DownloadModels task
 project.ext.ASSET_DIR = projectDir.toString() + '/assets'
@@ -84,8 +85,8 @@ android {
 
             minSdkVersion 21
             targetSdkVersion 27
-            versionCode 5
-            versionName "1.5"
+            versionCode 6
+            versionName "1.6"
             ndk {
                 abiFilters "${cpuType}"
             }
@@ -141,7 +142,7 @@ android {
 }
 
 task buildNativeBazel(type: Exec) {
-    workingDir '../../..'
+    workingDir '/home/cole/tensorflow'
     commandLine bazelLocation, 'build', '-c', 'opt',  \
          'tensorflow/examples/android:tensorflow_native_libs',  \
          '--crosstool_top=//external:android/crosstool',  \
@@ -192,5 +193,7 @@ tasks.whenTaskAdded { task ->
 dependencies {
     if (nativeBuildSystem == 'cmake' || nativeBuildSystem == 'none') {
         compile 'org.tensorflow:tensorflow-android:+'
+    } else {
+        compile files('libs/libtensorflow.jar')
     }
 }

@@ -16,23 +16,27 @@
 -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="coledev.kyeot.tensorflow_internal">
+    package="coledev.kyeot.tensorflow">
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <uses-sdk
         android:minSdkVersion="21"
-        android:targetSdkVersion="23" />
+        android:targetSdkVersion="27" />
 
-    <application android:allowBackup="true"
-        android:debuggable="true"
+    <application
+        android:name=".AppContext"
+        android:allowBackup="true"
         android:label="@string/app_name"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@mipmap/ic_launcher"
         android:theme="@style/MaterialTheme">
 
+        <!--
         <activity android:name="coledev.kyeot.tensorflow.ClassifierActivity"
                   android:screenOrientation="portrait"
                   android:label="@string/activity_name_classification">
@@ -41,9 +45,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        -->
 
         <activity android:name="coledev.kyeot.tensorflow.DetectorActivity"
-                  android:screenOrientation="portrait"
+                  android:screenOrientation="reverseLandscape"
                   android:label="@string/activity_name_detection">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -51,6 +56,22 @@
             </intent-filter>
         </activity>
 
+
+        <receiver
+            android:name="coledev.kyeot.tensorflow.VisionDeviceAdminReceiver"
+            android:description="@string/device_admin_description"
+            android:label="@string/device_admin_label"
+            android:permission="android.permission.BIND_DEVICE_ADMIN">
+            <meta-data
+                android:name="android.app.device_admin"
+                android:resource="@xml/device_admin_policies" />
+
+            <intent-filter>
+                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
+            </intent-filter>
+        </receiver>
+
+        <!--
         <activity android:name="coledev.kyeot.tensorflow.StylizeActivity"
                   android:screenOrientation="portrait"
                   android:label="@string/activity_name_stylize">
@@ -59,6 +80,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name="coledev.kyeot.tensorflow.SpeechActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/activity_name_speech">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        -->
     </application>
 
 </manifest>

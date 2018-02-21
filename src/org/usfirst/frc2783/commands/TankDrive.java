@@ -4,9 +4,9 @@ import org.usfirst.frc2783.robot.FieldTransform;
 import org.usfirst.frc2783.robot.OI;
 import org.usfirst.frc2783.robot.Robot;
 import org.usfirst.frc2783.util.Bearing;
+import org.usfirst.frc2783.util.NavSensor;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -17,6 +17,10 @@ public class TankDrive extends Command {
 	
 	double lastLeftSpeed;
 	double lastRightSpeed;
+	
+	Bearing angle;
+	
+	NavSensor navSensor = NavSensor.getInstance();
 	
     public TankDrive() {
     	//sets requirement system
@@ -32,7 +36,7 @@ public class TankDrive extends Command {
     	double leftSpeed = OI.driver.getRawAxis(1);
     	double rightSpeed = OI.driver.getRawAxis(5);
     	
-    	if(OI.driver.getRawButton(5)){
+   	if(OI.driver.getRawButton(5)){
     		leftSpeed = leftSpeed/2;
     		rightSpeed = rightSpeed/2;
     	}
@@ -50,11 +54,21 @@ public class TankDrive extends Command {
     		rightSpeed = 0;
     	}
     	
-    	if(OI.driver.getRawButton(1)) {
-    		if(!FieldTransform.fieldTransform.getFieldToTargets().isEmpty()){
-    			Robot.tankDrive.setRobotPose(new Bearing(FieldTransform.fieldTransform.getFieldToTargets().get(0).dir().getTheta()));
+    	if(OI.driver.getRawButton(4)){
+    		navSensor.resetGyroNorth(0, 0);
+    	}
+    	
+    	if(OI.driver.getRawButton(2)){
+    		if(fieldTransform.targetHistory.getLatestTarget() != null){
+    			angle = fieldTransform.targetHistory.getSmoothTarget().dir();
     		}
-    	} else {
+    	}
+    	
+    	if(OI.driver.getRawButton(1)) {
+    		Robot.tankDrive.setRobotPose(new Bearing(0));
+//    		Robot.tankDrive.setRobotPose(angle);
+    	} 
+    	else {
             Robot.tankDrive.tankDrive(leftSpeed, rightSpeed);
     	}
     }
