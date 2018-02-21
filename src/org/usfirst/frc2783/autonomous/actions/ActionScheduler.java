@@ -18,15 +18,22 @@ public class ActionScheduler {
 	ArrayList<Action> queue;
 	
 	public ActionScheduler() {
+		//The list of actions in a queue
 		queue = new ArrayList<Action>();
 		
-		thread = new Notifier(new CrashTrackingRunnable(){
+		thread = new Notifier(new CrashTrackingRunnable() {
 			
 			@Override
 			public void runCrashTracked() {
+				
 				if(isActive()) {
+					
+					//perform action of boolean says so
 					action.perform();
+					
 					if(action.done()) {
+						
+						//When boolean says so, finish action and say action has finished
 						action.finish();
 						Logger.info("Action " + action.getId() + " has finished and quit");
 						

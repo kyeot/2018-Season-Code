@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import org.usfirst.frc2783.util.Timer;
 
-public abstract class Action {
+public class Action {
 	
 	String id;
 	
