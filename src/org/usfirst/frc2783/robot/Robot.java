@@ -116,12 +116,24 @@ public class Robot extends IterativeRobot {
     public void disabledPeriodic() {
         Scheduler.getInstance().run();
     }
-
-    public void autonomousInit() {
+    
+    public static String gameData;
+	public static String autoSides;
+	public static String switchVal;
+	public static String scaleVal;
+   
+	public void autonomousInit() {
+    	
+    	
     	Logger.info("Starting Autonomous");
     	
     	String autoSelected = SmartDashboard.getString("Auto Selector", "None");
 
+    	gameData = DriverStation.getInstance().getGameSpecificMessage();
+    	autoSides = gameData.substring(0,1);
+    	switchVal = gameData.substring(0);
+    	scaleVal = gameData.substring(1);
+    	
     	switch(autoSelected) {
 		case "Test":
 			autoScheduler.setGroup(new TestAuto());
@@ -131,9 +143,47 @@ public class Robot extends IterativeRobot {
 			break;
 		case "ScaleFromleft":
 			autoScheduler.setGroup(new ScaleFromLeft());
+			if (scaleVal == "L" || scaleVal == "l") {
+				ScaleFromLeft.bothLeft();
+			} else if (scaleVal == "R" || scaleVal == "r") {
+				ScaleFromLeft.bothRight();
+			} else {
+				Logger.error("Cannot parse input. Running default case.");
+				ScaleFromLeft.driveForward();
+			}
+			break;
+		case "ScaleFromright":
+			autoScheduler.setGroup(new ScaleFromRight());
+			if (scaleVal == "L" || scaleVal == "l") {
+				ScaleFromRight.bothLeft();
+			} else if (scaleVal == "R" || scaleVal == "r") {
+				ScaleFromRight.bothRight();
+			} else {
+				Logger.error("Cannot parse input. Running default case.");
+				ScaleFromRight.driveForward();
+			}
 			break;
 		case "SwitchFromLeft":
 			autoScheduler.setGroup(new SwitchFromLeft());
+			if (switchVal == "L" || switchVal == "l") {
+				SwitchFromLeft.bothLeft();
+			} else if (switchVal == "R" || switchVal == "r") {
+				SwitchFromLeft.bothRight();
+			} else {
+				Logger.error("Cannot parse input. Running default case.");
+				SwitchFromLeft.driveForward();
+			}
+			break;
+		case "SwitchFromRight":
+			autoScheduler.setGroup(new SwitchFromRight());
+			if (switchVal == "L" || switchVal == "l") {
+				SwitchFromRight.bothLeft();
+			} else if (switchVal == "R" || switchVal == "r") {
+				SwitchFromRight.bothRight();
+			} else {
+				Logger.error("Cannot parse input. Running default case.");
+				SwitchFromRight.driveForward();
+			}
 			break;
 		default:
 			
