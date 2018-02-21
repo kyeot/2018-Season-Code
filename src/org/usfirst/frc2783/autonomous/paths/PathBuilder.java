@@ -43,7 +43,26 @@ public class PathBuilder {
             return w.get(w.size() - 1);
         return w.get(i);
     }
-
+    
+    public static class Setpoint {
+    	
+    	Translation2d position;
+    	
+    	public Setpoint(Translation2d position) {
+    		
+    		this.position = position;
+    		
+    	}
+    	public Setpoint(double x, double y) {
+    		position = new Translation2d(x, y);
+    	}
+    	
+    	public Translation2d getPosition(Setpoint s) {
+    		return position;
+    	}
+    	
+    }
+    
     /**
      * A waypoint along a path. Contains a position, radius (for creating curved paths), and speed. The information from
      * these waypoints is used by the PathBuilder class to generate Paths. Waypoints also contain an optional marker
@@ -52,8 +71,8 @@ public class PathBuilder {
      * @see PathBuilder
      * @see WaitForPathMarkerAction
      */
-    public static class Waypoint {
-        Translation2d position;
+    public static class Waypoint extends Setpoint {
+        
         double radius;
         double speed;
         String marker;
@@ -63,22 +82,26 @@ public class PathBuilder {
         }
 
         public Waypoint(double x, double y, double r, double s) {
-            position = new Translation2d(x, y);
+            super(new Translation2d(x, y));
             radius = r;
             speed = s;
         }
 
         public Waypoint(Translation2d pos, double r, double s) {
-            position = pos;
+            super(pos);
             radius = r;
             speed = s;
         }
 
         public Waypoint(double x, double y, double r, double s, String m) {
-            position = new Translation2d(x, y);
+        	super(new Translation2d(x, y));
             radius = r;
             speed = s;
             marker = m;
+        }
+        
+        public Waypoint setpointToWaypoint(Setpoint point, double r, double s) {
+        	return new Waypoint(getPosition(point), r, s);
         }
     }
 

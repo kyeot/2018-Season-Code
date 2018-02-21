@@ -23,7 +23,6 @@ public class ScaleFromLeft extends ActionGroup implements autoAutonomousInterfac
 		addAction(new DriveWithGyroAndByDistance(0.5, 36, 36));
 		addAction(new AutoElevator(-1, 2.5));
 		addAction(new AutoIntake(1, 1));
-
 		
 	}
 
