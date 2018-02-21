@@ -5,12 +5,11 @@ import org.usfirst.frc2783.autonomous.actions.AutoElevator;
 import org.usfirst.frc2783.autonomous.actions.AutoIntake;
 import org.usfirst.frc2783.autonomous.actions.DriveWithGyroAndByDistance;
 import org.usfirst.frc2783.autonomous.actions.RotateTankAction;
-import org.usfirst.frc2783.loops.Loop;
 import org.usfirst.frc2783.util.Bearing;
 
-public class ScaleFromLeft extends ActionGroup implements autoAutonomousInterface{
+public class ScaleFromRight extends ActionGroup implements autoAutonomousInterface{
 
-	public ScaleFromLeft(){
+	public ScaleFromRight(){
 		super();
 		
 	}
@@ -19,7 +18,7 @@ public class ScaleFromLeft extends ActionGroup implements autoAutonomousInterfac
 	public void bothLeft() {
 		addAction(new AutoElevator(-0.5, 0.5));
 		addAction(new DriveWithGyroAndByDistance(0.5, 24*12, 24*12));
-		addAction(new RotateTankAction(new Bearing(270), 4));
+		addAction(new RotateTankAction(new Bearing(90), 4));
 		addAction(new DriveWithGyroAndByDistance(0.5, 36, 36));
 		addAction(new AutoElevator(-1, 2.5));
 		addAction(new AutoIntake(1, 1));
@@ -42,7 +41,7 @@ public class ScaleFromLeft extends ActionGroup implements autoAutonomousInterfac
 	@Override
 	public void bothRight() {
 		addAction(new DriveWithGyroAndByDistance(0.5, 17*12, 17*12));
-		addAction(new RotateTankAction(new Bearing(270), 3));
+		addAction(new RotateTankAction(new Bearing(90), 3));
 		addAction(new DriveWithGyroAndByDistance(0.5, 17*12, 17*12));
 		addAction(new RotateTankAction(new Bearing(0), 3));
 		addAction(new DriveWithGyroAndByDistance(0.5, 24, 24));

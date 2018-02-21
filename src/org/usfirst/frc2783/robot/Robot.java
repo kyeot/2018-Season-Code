@@ -5,7 +5,9 @@ import java.io.IOException;
 
 import org.usfirst.frc2783.autonomous.DriveGyroTest;
 import org.usfirst.frc2783.autonomous.ScaleFromLeft;
+import org.usfirst.frc2783.autonomous.ScaleFromRight;
 import org.usfirst.frc2783.autonomous.SwitchFromLeft;
+import org.usfirst.frc2783.autonomous.SwitchFromRight;
 import org.usfirst.frc2783.autonomous.TestAuto;
 import org.usfirst.frc2783.autonomous.actions.ActionScheduler;
 import org.usfirst.frc2783.loops.LogData;
@@ -89,7 +91,7 @@ public class Robot extends IterativeRobot {
         slowLoop.addLoop(new VoltageLogger());
         slowLoop.startLoops();
 
-        String[] autonomousList = {"Test", "DriveGyroTest", "ScaleFromLeft", "SwitchFromLeft"};
+        String[] autonomousList = {"Test", "DriveGyroTest", "ScaleFromLeft", "SwitchFromLeft", "ScaleFromRight", "ScaleFromLeft"};
         
         //Puts the autonomous modes selector into the dashboard
         SmartDashboard.putStringArray("Auto List", autonomousList);
@@ -134,6 +136,7 @@ public class Robot extends IterativeRobot {
     	switchVal = gameData.substring(0);
     	scaleVal = gameData.substring(1);
     	
+    	//Switch Statement to Run the Right Auto Code Depending on the selected position and switch/scale sides
     	switch(autoSelected) {
 		case "Test":
 			autoScheduler.setGroup(new TestAuto());
@@ -142,47 +145,51 @@ public class Robot extends IterativeRobot {
 			autoScheduler.setGroup(new DriveGyroTest());
 			break;
 		case "ScaleFromleft":
-			autoScheduler.setGroup(new ScaleFromLeft());
+			ScaleFromLeft scaleFromLeft = new ScaleFromLeft();
+			autoScheduler.setGroup(scaleFromLeft);
 			if (scaleVal == "L" || scaleVal == "l") {
-				ScaleFromLeft.bothLeft();
+				scaleFromLeft.bothLeft();
 			} else if (scaleVal == "R" || scaleVal == "r") {
-				ScaleFromLeft.bothRight();
+				scaleFromLeft.bothRight();
 			} else {
 				Logger.error("Cannot parse input. Running default case.");
-				ScaleFromLeft.driveForward();
+				scaleFromLeft.driveForward();
 			}
 			break;
 		case "ScaleFromright":
-			autoScheduler.setGroup(new ScaleFromRight());
+			ScaleFromRight scaleFromRight = new ScaleFromRight();
+			autoScheduler.setGroup(scaleFromRight);
 			if (scaleVal == "L" || scaleVal == "l") {
-				ScaleFromRight.bothLeft();
+				scaleFromRight.bothLeft();
 			} else if (scaleVal == "R" || scaleVal == "r") {
-				ScaleFromRight.bothRight();
+				scaleFromRight.bothRight();
 			} else {
 				Logger.error("Cannot parse input. Running default case.");
-				ScaleFromRight.driveForward();
+				scaleFromRight.driveForward();
 			}
 			break;
 		case "SwitchFromLeft":
-			autoScheduler.setGroup(new SwitchFromLeft());
+			SwitchFromLeft switchFromLeft = new SwitchFromLeft();
+			autoScheduler.setGroup(switchFromLeft);
 			if (switchVal == "L" || switchVal == "l") {
-				SwitchFromLeft.bothLeft();
+				switchFromLeft.bothLeft();
 			} else if (switchVal == "R" || switchVal == "r") {
-				SwitchFromLeft.bothRight();
+				switchFromLeft.bothRight();
 			} else {
 				Logger.error("Cannot parse input. Running default case.");
-				SwitchFromLeft.driveForward();
+				switchFromLeft.driveForward();
 			}
 			break;
 		case "SwitchFromRight":
-			autoScheduler.setGroup(new SwitchFromRight());
+			SwitchFromRight switchFromRight = new SwitchFromRight();
+			autoScheduler.setGroup(switchFromRight);
 			if (switchVal == "L" || switchVal == "l") {
-				SwitchFromRight.bothLeft();
+				switchFromRight.bothLeft();
 			} else if (switchVal == "R" || switchVal == "r") {
-				SwitchFromRight.bothRight();
+				switchFromRight.bothRight();
 			} else {
 				Logger.error("Cannot parse input. Running default case.");
-				SwitchFromRight.driveForward();
+				switchFromRight.driveForward();
 			}
 			break;
 		default:
