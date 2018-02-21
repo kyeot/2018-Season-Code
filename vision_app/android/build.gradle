@@ -192,5 +192,7 @@ tasks.whenTaskAdded { task ->
 dependencies {
     if (nativeBuildSystem == 'cmake' || nativeBuildSystem == 'none') {
         compile 'org.tensorflow:tensorflow-android:+'
+    } else {
+        compile files('libs/libtensorflow.jar')
     }
 }
