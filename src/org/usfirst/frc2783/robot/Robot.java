@@ -91,7 +91,7 @@ public class Robot extends IterativeRobot {
         slowLoop.addLoop(new VoltageLogger());
         slowLoop.startLoops();
 
-        String[] autonomousList = {"Test", "DriveGyroTest", "ScaleFromLeft", "SwitchFromLeft", "ScaleFromRight", "ScaleFromLeft"};
+        String[] autonomousList = {"Test", "DriveGyroTest", "BaselineCross", "ScaleFromLeft", "SwitchFromLeft", "ScaleFromRight", "ScaleFromLeft"};
         
         //Puts the autonomous modes selector into the dashboard
         SmartDashboard.putStringArray("Auto List", autonomousList);
@@ -192,6 +192,10 @@ public class Robot extends IterativeRobot {
 				switchFromRight.driveForward();
 			}
 			break;
+		case "BaselineCross":
+			SwitchFromRight forward = new SwitchFromRight();
+			autoScheduler.setGroup(forward);
+			forward.driveForward();
 		default:
 			
     	} 
