@@ -2,7 +2,6 @@ package org.usfirst.frc2783.autonomous.actions;
 
 import org.usfirst.frc2783.robot.Constants;
 import org.usfirst.frc2783.robot.Robot;
-import org.usfirst.frc2783.util.Bearing;
 import org.usfirst.frc2783.util.GyroSource;
 import org.usfirst.frc2783.util.NavSensor;
 

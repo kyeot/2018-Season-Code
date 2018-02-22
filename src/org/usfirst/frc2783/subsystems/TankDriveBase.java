@@ -224,7 +224,8 @@ public class TankDriveBase extends Subsystem {
      * @param left_inches_per_sec
      * @param right_inches_per_sec
      */
-    private synchronized void updateVelocitySetpoint(double left_inches_per_sec, double right_inches_per_sec) {
+    @SuppressWarnings("unused")
+	private synchronized void updateVelocitySetpoint(double left_inches_per_sec, double right_inches_per_sec) {
         if (usesTalonVelocityControl(mDriveControlState)) {
             final double max_desired = Math.max(Math.abs(left_inches_per_sec), Math.abs(right_inches_per_sec));
             final double scale = max_desired > Constants.kDriveHighGearMaxSetpoint

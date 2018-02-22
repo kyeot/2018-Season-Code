@@ -5,6 +5,7 @@ import org.usfirst.frc2783.robot.Robot;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
+@SuppressWarnings("static-access")
 public class DriveByDistance extends Action {
 
 	public static double leftDistanceInDegrees;
