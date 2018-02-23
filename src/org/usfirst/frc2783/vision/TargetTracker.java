@@ -10,7 +10,6 @@ import org.usfirst.frc2783.util.Timestamp;
 import org.usfirst.frc2783.util.Vector;
 
 import edu.wpi.first.wpilibj.RobotController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class TargetTracker {
 

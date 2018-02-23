@@ -10,8 +10,6 @@ import org.usfirst.frc2783.util.Vector;
 import org.usfirst.frc2783.vision.TargetInfo;
 import org.usfirst.frc2783.vision.TargetTracker;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 /**
  * Singleton class used to get useful Transformations of things tracked on the field,
  *  i.e. the robot or vision targets
