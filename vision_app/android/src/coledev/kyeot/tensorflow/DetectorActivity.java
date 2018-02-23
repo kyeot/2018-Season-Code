@@ -30,8 +30,8 @@ import android.os.SystemClock;
 import android.util.Size;
 import android.util.TypedValue;
 import android.widget.Toast;
-
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
@@ -59,12 +59,12 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
   private static final String MB_LOCATION_FILE =
       "file:///android_asset/multibox_location_priors.txt";
 
-  private static final int TF_OD_API_INPUT_SIZE = 300;
+  private static final int TF_OD_API_INPUT_SIZE = 120;
   private static final String TF_OD_API_MODEL_FILE = "file:///android_asset/optimized_frozen_inference_graph.pb";
   private static final String TF_OD_API_LABELS_FILE = "file:///android_asset/object-detection-labels.txt";
 
-  static final int kHeight = 480;
-  static final int kWidth = 640;
+  static final int kHeight = 240;
+  static final int kWidth = 320;
   public static final double kCenterCol = ((double) kWidth) / 2.0 - .5;
   public static final double kCenterRow = ((double) kHeight) / 2.0 - .5;
 
@@ -94,7 +94,7 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
 
   private static final boolean MAINTAIN_ASPECT = MODE == DetectorMode.YOLO;
 
-  private static final Size DESIRED_PREVIEW_SIZE = new Size(640, 480);
+  private static final Size DESIRED_PREVIEW_SIZE = new Size(kWidth, kHeight);
 
   private static final boolean SAVE_PREVIEW_BITMAP = false;
   private static final float TEXT_SIZE_DIP = 10;
@@ -226,12 +226,9 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
             if (detector != null) {
               final String statString = detector.getStatString();
               final String[] statLines = statString.split("\n");
-              for (final String line : statLines) {
-                lines.add(line);
-              }
+                lines.addAll(Arrays.asList(statLines));
             }
             lines.add("");
-
             lines.add("Frame: " + previewWidth + "x" + previewHeight);
             lines.add("Crop: " + copy.getWidth() + "x" + copy.getHeight());
             lines.add("View: " + canvas.getWidth() + "x" + canvas.getHeight());

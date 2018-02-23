@@ -1,7 +1,7 @@
 package org.usfirst.frc2783.loops;
 
-import org.usfirst.frc2783.util.Logger;
 import org.usfirst.frc2783.robot.FieldTransform;
+import org.usfirst.frc2783.util.NavSensor;
 import org.usfirst.frc2783.vision.VisionUpdate;
 import org.usfirst.frc2783.vision.VisionUpdateReceiver;
 
@@ -19,6 +19,8 @@ public class VisionProcessor implements Loop, VisionUpdateReceiver {
     static VisionProcessor instance_ = new VisionProcessor();
     VisionUpdate update_ = null;
     FieldTransform fieldTransform = FieldTransform.getInstance();
+    
+	double d = 0;
 
     public static VisionProcessor getInstance() {
         return instance_;
@@ -41,10 +43,20 @@ public class VisionProcessor implements Loop, VisionUpdateReceiver {
             update = update_;
             update_ = null;
         }
-        fieldTransform.addVisionTargets(update.getTargets());
-        fieldTransform.getFieldToTargets();
         
-        SmartDashboard.putString("DB/String 0", "mmmmMMMMM JUICE");
+        NavSensor.getInstance().updateHistory();
+        
+        fieldTransform.addVisionTargets(update.getTargets(), update.getCapturedAtTimestamp());
+		
+    	d++;
+    	
+    	SmartDashboard.putString("DB/String 0", "" + d);
+		
+        fieldTransform.trackLatestTarget();
+        
+		if(fieldTransform.targetHistory.getLatestTarget() != null){
+			SmartDashboard.putString("DB/String 8", "" + fieldTransform.targetHistory.getSmoothTarget().dir().getTheta());
+		}
     }
 
     @Override
@@ -54,7 +66,6 @@ public class VisionProcessor implements Loop, VisionUpdateReceiver {
 
     @Override
     public synchronized void gotUpdate(VisionUpdate update) {
-    	Logger.log("INFO", "gotUpdate");
         update_ = update;
     }
 

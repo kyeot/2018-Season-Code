@@ -4,6 +4,7 @@ import org.usfirst.frc2783.util.EventLogger;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Simple loop that runs the events of EventLogger
@@ -11,6 +12,8 @@ import edu.wpi.first.wpilibj.RobotController;
  * @author 2783
  */
 public class LogData implements Loop{
+	
+	double d = 0;
 	
 	EventLogger batteryHandler = new EventLogger("Battery Browned Out!", "WARN") {
 		@Override
@@ -55,6 +58,11 @@ public class LogData implements Loop{
 		batteryHandler.handleEvent();
 		dcHandler.handleEvent();
 		recHandler.handleEvent();
+		
+    	d++;
+    	
+    	SmartDashboard.putString("DB/String 4", "" + d);
+		
 	}
 
 	@Override

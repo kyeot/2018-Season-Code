@@ -55,8 +55,9 @@ def nativeOutDir = 'libs/' + cpuType
 
 // Default to building with Bazel and override with make if requested.
 def nativeBuildRule = 'buildNativeBazel'
-def demoLibPath = '../../../bazel-bin/tensorflow/examples/android/libtensorflow_demo.so'
-def inferenceLibPath = '../../../bazel-bin/tensorflow/contrib/android/libtensorflow_inference.so'
+def demoLibPath = '/home/cole/tensorflow/bazel-bin/tensorflow/examples/android/libtensorflow_demo.so'
+def inferenceLibPath = '/home/cole/tensorflow/bazel-bin/tensorflow/contrib/android/libtensorflow_inference.so'
+
 if (nativeBuildSystem == 'makefile') {
     nativeBuildRule = 'buildNativeMake'
     demoLibPath = '../../../tensorflow/contrib/makefile/gen/lib/libtensorflow_demo.so'
@@ -66,7 +67,7 @@ if (nativeBuildSystem == 'makefile') {
 // If building with Bazel, this is the location of the bazel binary.
 // NOTE: Bazel does not yet support building for Android on Windows,
 // so in this case the Makefile build must be used as described above.
-def bazelLocation = '/usr/local/bin/bazel'
+def bazelLocation = '/usr/bin/bazel'
 
 // import DownloadModels task
 project.ext.ASSET_DIR = projectDir.toString() + '/assets'
@@ -84,8 +85,8 @@ android {
 
             minSdkVersion 21
             targetSdkVersion 27
-            versionCode 7
-            versionName "1.7"
+            versionCode 6
+            versionName "1.6"
             ndk {
                 abiFilters "${cpuType}"
             }
@@ -141,7 +142,7 @@ android {
 }
 
 task buildNativeBazel(type: Exec) {
-    workingDir '../../..'
+    workingDir '/home/cole/tensorflow'
     commandLine bazelLocation, 'build', '-c', 'opt',  \
          'tensorflow/examples/android:tensorflow_native_libs',  \
          '--crosstool_top=//external:android/crosstool',  \
@@ -192,5 +193,7 @@ tasks.whenTaskAdded { task ->
 dependencies {
     if (nativeBuildSystem == 'cmake' || nativeBuildSystem == 'none') {
         compile 'org.tensorflow:tensorflow-android:+'
+    } else {
+        compile files('libs/libtensorflow.jar')
     }
 }
