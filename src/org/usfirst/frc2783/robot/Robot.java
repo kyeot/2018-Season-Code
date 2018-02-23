@@ -126,7 +126,6 @@ public class Robot extends IterativeRobot {
    
 	public void autonomousInit() {
     	
-    // Hello World!	
     	Logger.info("Starting Autonomous");
     	
     	String autoSelected = SmartDashboard.getString("Auto Selector", "None");
