@@ -18,6 +18,9 @@ import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
+/**
+ * Subsystem base for the TankDrive
+ */
 public class TankDriveBase extends Subsystem {
 	
 	// The robot drivetrain's various states.
@@ -48,6 +51,7 @@ public class TankDriveBase extends Subsystem {
         return false;
     }
     
+    //PID Source Class for the right side of the Tank Drive
 	class RightTankSideSource implements PIDSource {
 		PIDSourceType sourceType;
 		public RightTankSideSource() {
@@ -66,7 +70,8 @@ public class TankDriveBase extends Subsystem {
 			return Robot.rightAbsEnc.getValue()/11.377777777777777778;
 		}	
 	}
-	
+
+    //PID Source Class for the left side of the Tank Drive
 	class LeftTankSideSource implements PIDSource {
 		PIDSourceType sourceType;
 		public LeftTankSideSource() {
@@ -85,14 +90,16 @@ public class TankDriveBase extends Subsystem {
 			return Robot.leftAbsEnc.getValue()/11.377777777777777778;
 		}	
 	}
-	
+
+    //PID Output Class for the left side of the Tank Drive
 	class LeftTankSideOut implements PIDOutput {
 		@Override
 		public void pidWrite(double output){
 			leftOut = -output;
 		}
 	}
-	
+
+    //PID Output Class for the right side of the Tank Drive
 	class RightTankSideOut implements PIDOutput {
 		@Override
 		public void pidWrite(double output){
@@ -100,19 +107,23 @@ public class TankDriveBase extends Subsystem {
 		}
 	}
 	
+	//PID Output Class for tank rotation
 	class TankPoseOut implements PIDOutput {
 		@Override
 		public void pidWrite(double output) {
 			rot = -output;
 		}
 	}
-		
-	public VictorSPX rightMaster = new VictorSPX(Constants.kRightDrive1);
-	VictorSPX right2 = new VictorSPX(Constants.kRightDrive2);
 	
+	//Instantiates the right tank motor controllers
+	public VictorSPX rightMaster = new VictorSPX(Constants.kRightDrive1);
+	VictorSPX rightSlave = new VictorSPX(Constants.kRightDrive2);
+
+	//Instantiates the left tank motor controllers
 	public VictorSPX leftMaster = new VictorSPX(Constants.kLeftDrive1);
 	VictorSPX leftSlave = new VictorSPX(Constants.kLeftDrive2);
 	
+	//Instantiates gyro as an instance of NavSensor
 	NavSensor gyro = NavSensor.getInstance();
 	
 	double rot;
@@ -122,12 +133,14 @@ public class TankDriveBase extends Subsystem {
 	
 	DriveControlState mDriveControlState;
 	
+	//Creates Output and Source for the rotation PID
 	PIDController posePid;
 	TankPoseOut posePidOut;
 	GyroSource posePidSource;
 	
 	PathFollower mPathFollower;
 	
+	//Creates Outputs and Sources for the left and right side PIDs
 	LeftTankSideSource leftPidSource;
 	RightTankSideSource rightPidSource;
 	LeftTankSideOut leftSideOut;
@@ -135,12 +148,16 @@ public class TankDriveBase extends Subsystem {
 	PIDController leftSideController;
 	PIDController rightSideController;
 
+	//Constructor to construct the TankDriveBase
 	public TankDriveBase(){
-		right2.follow(rightMaster);
+		//Sets the slave motor controllers to follow the masters
+		rightSlave.follow(rightMaster);
 		leftSlave.follow(leftMaster);
 		
+		//Sets all drive motors to be in brake mode
 		setBrakeMode(true);
 		
+		//Creates the tank rotation PID controller
 		posePidOut = new TankPoseOut();
 		posePidSource = new GyroSource();
 		posePid = new PIDController(Constants.kTankPoseP, Constants.kTankPoseI, Constants.kTankPoseD, 
@@ -149,31 +166,37 @@ public class TankDriveBase extends Subsystem {
 		posePid.setInputRange(0, 360);
 		posePid.setContinuous();
 		
+		//Creates the left side PID controller
 		leftPidSource = new LeftTankSideSource();
-		rightPidSource = new RightTankSideSource();
-		
 		leftSideOut = new LeftTankSideOut();
-		rightSideOut = new RightTankSideOut();
-		
 		leftSideController = new PIDController(Constants.kTankSideP, Constants.kTankSideI, Constants.kTankSideD,
 												leftPidSource, leftSideOut);
 		leftSideController.setInputRange(0, 360);
 		leftSideController.setContinuous();
 		
+		//Creates the right side PID controller
+		rightPidSource = new RightTankSideSource();
+		rightSideOut = new RightTankSideOut();
 		rightSideController = new PIDController(Constants.kTankSideP, Constants.kTankSideI, Constants.kTankSideD,
 												rightPidSource, rightSideOut);
 		leftSideController.setInputRange(0, 360);
 		leftSideController.setContinuous();
 	}
 	
-	public void setRobotPose(Bearing b){
-		posePid.setSetpoint(b.getTheta());
+    /**
+     * Sets the tank rotation to the Bearing you pass in, 0 - 360
+     */
+	public void setRobotPose(Bearing bearing){
+		posePid.setSetpoint(bearing.getTheta());
 		posePid.enable();
 		
 		rotate(rot);
 		
 	}
 	
+	/**
+     * Sets the left tank side rotation to the Angle you pass in, 0 - 360
+     */
 	public void setLeftPose(double angle){
 		leftSideController.setSetpoint(angle);
 		rightSideController.enable();
@@ -182,6 +205,9 @@ public class TankDriveBase extends Subsystem {
 		
 	}
 	
+	/**
+     * Sets the right tank rotation to the Angle you pass in, 0 - 360
+     */
 	public void setRightPose(double angle){
 		rightSideController.setSetpoint(angle);
 		rightSideController.enable();
@@ -190,22 +216,31 @@ public class TankDriveBase extends Subsystem {
 		
 	}
 	
-	private void rotate(double rotMot){
-		leftMaster.set(ControlMode.PercentOutput, rotMot);
-		rightMaster.set(ControlMode.PercentOutput, rotMot);
-		
+	/**
+     * Sets the speed of the tank sides to rotate based on the rotation motion you pass in
+     */
+	private void rotate(double rotationMotion){
+		setLeftSide(rotationMotion);
+		setRightSide(rotationMotion);	
 	}
 	
+	/**
+     * Sets the left side speed by percent
+     */
 	public void setLeftSide(double speed){
 		leftMaster.set(ControlMode.PercentOutput, speed);
 	}
 
+	/**
+     * Sets the right side speed by percent
+     */
 	public void setRightSide(double speed){
 		rightMaster.set(ControlMode.PercentOutput, speed);
 		
 	}
-	
-	//Moves tank drive by left and right speeds
+	/**
+	 * Moves tank drive by left and right speeds
+	 */
 	public void tankDrive(double leftSpeed, double rightSpeed) {
 		leftMaster.set(ControlMode.PercentOutput, -leftSpeed);
 		rightMaster.set(ControlMode.PercentOutput, rightSpeed);
@@ -265,17 +300,20 @@ public class TankDriveBase extends Subsystem {
         return inches / (Constants.kWheelDiameterByInches * Math.PI);
     }
     
+    /**
+	 * Sets Brake Mode based on Boolean you pass in, true = brake
+	 */
 	public void setBrakeMode(boolean on) {
 		if (on) {
 			rightMaster.setNeutralMode(NeutralMode.Brake);
-			right2.setNeutralMode(NeutralMode.Brake);
+			rightSlave.setNeutralMode(NeutralMode.Brake);
 			
 			leftMaster.setNeutralMode(NeutralMode.Brake);
 			leftSlave.setNeutralMode(NeutralMode.Brake);
 		}
 		else {
 			rightMaster.setNeutralMode(NeutralMode.Coast);
-			right2.setNeutralMode(NeutralMode.Coast);
+			rightSlave.setNeutralMode(NeutralMode.Coast);
 			
 			leftMaster.setNeutralMode(NeutralMode.Coast);
 			leftSlave.setNeutralMode(NeutralMode.Coast);
