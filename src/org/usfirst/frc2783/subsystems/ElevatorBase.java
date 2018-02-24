@@ -28,6 +28,8 @@ public class ElevatorBase extends Subsystem {
 	Servo climber1;
 	Servo climber2;
 	
+	boolean isUp = true;
+	
 	public ElevatorBase(){
 		elevator1Mot = new VictorSPX(Constants.kElevator1);
 		elevator2Mot = new VictorSPX(Constants.kElevator2);
@@ -41,12 +43,24 @@ public class ElevatorBase extends Subsystem {
 		
 	}
 	
-	// moves elevator using left stick
-	//forward up, backwards down
 	public void elevator(double speed) {
-		elevator1Mot.set(ControlMode.PercentOutput, speed);
-		elevator2Mot.set(ControlMode.PercentOutput, speed);
-			
+		
+		if(speed >= 0.1){
+			isUp = true;
+		}
+		else if(speed <= -0.1){
+			isUp = false;
+		}
+		
+		if(isUp){
+			elevator1Mot.set(ControlMode.PercentOutput, speed);
+			elevator2Mot.set(ControlMode.PercentOutput, speed);
+		}
+		else if(!isUp){
+			elevator1Mot.set(ControlMode.PercentOutput, speed/3);
+			elevator2Mot.set(ControlMode.PercentOutput, speed/3);
+		}
+				
 	}
 	
 	public void lowGear(){

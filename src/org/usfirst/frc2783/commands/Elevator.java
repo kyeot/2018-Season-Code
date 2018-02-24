@@ -28,7 +28,7 @@ public class Elevator extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		
-		speed = -OI.manipulator.getRawAxis(1);
+		speed = OI.manipulator.getRawAxis(1);
 
 		if (Math.abs(OI.manipulator.getRawAxis(1)) < 0.15) {
 			if (Robot.isClimb) {
@@ -41,7 +41,7 @@ public class Elevator extends Command {
 			
 		}
 		
-		Robot.elevatorBase.elevator(speed);
+		Robot.elevatorBase.elevator(-speed);
 
 	}
 
