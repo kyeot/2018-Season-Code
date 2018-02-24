@@ -27,11 +27,10 @@ import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.media.ImageReader.OnImageAvailableListener;
 import android.os.SystemClock;
-import android.util.Log;
 import android.util.Size;
 import android.util.TypedValue;
-import android.view.View;
 import android.widget.Toast;
+
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
@@ -84,7 +83,7 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
   // checkpoints.  Optionally use legacy Multibox (trained using an older version of the API)
   // or YOLO.
   private enum DetectorMode {
-    TF_OD_API, MULTIBOX, YOLO;
+    TF_OD_API, MULTIBOX, YOLO
   }
   private static final DetectorMode MODE = DetectorMode.TF_OD_API;
 
@@ -188,7 +187,7 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
     cropToFrameTransform = new Matrix();
     frameToCropTransform.invert(cropToFrameTransform);
 
-    trackingOverlay = (OverlayView) findViewById(R.id.tracking_overlay);
+    trackingOverlay = findViewById(R.id.tracking_overlay);
     trackingOverlay.addCallback(
         new OverlayView.DrawCallback() {
           @Override

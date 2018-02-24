@@ -40,7 +40,7 @@ allprojects {
 }
 
 // set to 'bazel', 'cmake', 'makefile', 'none'
-def nativeBuildSystem = 'bazel'
+def nativeBuildSystem = 'cmake'
 
 // Controls output directory in APK and CPU type for Bazel builds.
 // NOTE: Does not affect the Makefile build target API (yet), which currently
@@ -48,7 +48,7 @@ def nativeBuildSystem = 'bazel'
 // editing the Makefile as well.
 // The CMake build has only been tested with armeabi-v7a; others may not work.
 // Cole's note: arm64-v8a works perfectly fine and has a nice performance boost
-def cpuType = 'arm64-v8a'
+def cpuType = 'armeabi-v7a'
 
 // Output directory in the local directory for packaging into the APK.
 def nativeOutDir = 'libs/' + cpuType
@@ -76,6 +76,15 @@ project.ext.TMP_DIR   = project.buildDir.toString() + '/downloads'
 apply plugin: 'com.android.application'
 
 android {
+
+    /*buildTypes{
+        release{}
+        debug{}
+        innerTest {
+            matchingFallbacks = ['debug', 'release']
+        }
+    }*/
+
     compileSdkVersion 27
     buildToolsVersion '26.0.2'
 
@@ -85,8 +94,8 @@ android {
 
             minSdkVersion 21
             targetSdkVersion 27
-            versionCode 6
-            versionName "1.6"
+            versionCode 7
+            versionName "1.7"
             ndk {
                 abiFilters "${cpuType}"
             }
@@ -107,6 +116,7 @@ android {
         checkReleaseBuilds false
         abortOnError false
     }
+
 
     sourceSets {
         main {
@@ -191,8 +201,8 @@ tasks.whenTaskAdded { task ->
 
 
 dependencies {
-    if (nativeBuildSystem == 'cmake' || nativeBuildSystem == 'none') {
-        compile 'org.tensorflow:tensorflow-android:+'
+    if (nativeBuildSystem == 'cmake') {
+        implementation project(':TensorFlow-Android-Inference')
     } else {
         compile files('libs/libtensorflow.jar')
     }
