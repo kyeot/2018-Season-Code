@@ -1,6 +1,5 @@
 package org.usfirst.frc2783.commands;
 
-import org.usfirst.frc2783.robot.Constants;
 import org.usfirst.frc2783.robot.OI;
 import org.usfirst.frc2783.robot.Robot;
 

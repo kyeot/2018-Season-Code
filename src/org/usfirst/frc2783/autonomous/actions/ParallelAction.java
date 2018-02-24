@@ -1,5 +1,6 @@
 package org.usfirst.frc2783.autonomous.actions;
 
+@SuppressWarnings("unused")
 public class ParallelAction extends Action {
 	
 	private Action act1;

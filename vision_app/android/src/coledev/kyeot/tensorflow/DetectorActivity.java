@@ -32,6 +32,7 @@ import android.util.TypedValue;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
@@ -60,7 +61,7 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
       "file:///android_asset/multibox_location_priors.txt";
 
   private static final int TF_OD_API_INPUT_SIZE = 120;
-  private static final String TF_OD_API_MODEL_FILE = "file:///android_asset/frozen_inference_graph.pb";
+  private static final String TF_OD_API_MODEL_FILE = "file:///android_asset/optimized_frozen_inference_graph.pb";
   private static final String TF_OD_API_LABELS_FILE = "file:///android_asset/object-detection-labels.txt";
 
   static final int kHeight = 240;
@@ -226,9 +227,7 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
             if (detector != null) {
               final String statString = detector.getStatString();
               final String[] statLines = statString.split("\n");
-              for (final String line : statLines) {
-                lines.add(line);
-              }
+                lines.addAll(Arrays.asList(statLines));
             }
             lines.add("");
             lines.add("Frame: " + previewWidth + "x" + previewHeight);

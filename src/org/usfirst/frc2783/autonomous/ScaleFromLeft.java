@@ -5,7 +5,6 @@ import org.usfirst.frc2783.autonomous.actions.AutoElevator;
 import org.usfirst.frc2783.autonomous.actions.AutoIntake;
 import org.usfirst.frc2783.autonomous.actions.DriveWithGyroAndByDistance;
 import org.usfirst.frc2783.autonomous.actions.RotateTankAction;
-import org.usfirst.frc2783.loops.Loop;
 import org.usfirst.frc2783.util.Bearing;
 
 public class ScaleFromLeft extends ActionGroup implements autoAutonomousInterface{
