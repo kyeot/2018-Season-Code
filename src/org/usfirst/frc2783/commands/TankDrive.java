@@ -12,78 +12,77 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class TankDrive extends Command {
-	
+
 	FieldTransform fieldTransform = FieldTransform.getInstance();
-	
+
 	double lastLeftSpeed;
 	double lastRightSpeed;
-	
-	Bearing angle;
-	
+
+	double angle;
+
 	NavSensor navSensor = NavSensor.getInstance();
-	
-    public TankDrive() {
-    	//sets requirement system
-        requires(Robot.tankDrive);
-    }
 
-    // Called just before this Command runs the first time
-    protected void initialize() {
-    }
+	public TankDrive() {
+		// sets requirement system
+		requires(Robot.tankDrive);
+	}
 
-    // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
-    	double leftSpeed = OI.driver.getRawAxis(1);
-    	double rightSpeed = OI.driver.getRawAxis(5);
-    	
-   	if(OI.driver.getRawButton(5)){
-    		leftSpeed = leftSpeed/2;
-    		rightSpeed = rightSpeed/2;
-    	}
-    	
-    	else if(OI.driver.getRawButton(6)){
-    		leftSpeed = leftSpeed*2;
-    		rightSpeed = rightSpeed*2;
-    	}
-    	
-    	if(Math.abs(leftSpeed) < 0.15){
-    		leftSpeed = 0;
-    	}
- 
-    	if(Math.abs(rightSpeed) < 0.15){
-    		rightSpeed = 0;
-    	}
-    	
-    	if(OI.driver.getRawButton(4)){
-    		navSensor.resetGyroNorth(0, 0);
-    	}
-    	
-    	if(OI.driver.getRawButton(2)){
-    		if(fieldTransform.targetHistory.getLatestTarget() != null){
-    			angle = fieldTransform.targetHistory.getSmoothTarget().dir();
-    		}
-    	}
-    	
-    	if(OI.driver.getRawButton(1)) {
-    		Robot.tankDrive.setRobotPose(new Bearing(0));
-//    		Robot.tankDrive.setRobotPose(angle);
-    	} 
-    	else {
-            Robot.tankDrive.tankDrive(leftSpeed, rightSpeed);
-    	}
-    }
+	// Called just before this Command runs the first time
+	protected void initialize() {
+	}
 
-    // Make this return true when this Command no longer needs to run execute()
-    protected boolean isFinished() {
-        return false;
-    }
+	// Called repeatedly when this Command is scheduled to run
+	protected void execute() {
+		double leftSpeed = OI.driver.getRawAxis(1);
+		double rightSpeed = OI.driver.getRawAxis(5);
 
-    // Called once after isFinished returns true
-    protected void end() {
-    }
+		if (OI.driver.getRawButton(5)) {
+			leftSpeed = leftSpeed / 2;
+			rightSpeed = rightSpeed / 2;
+		}
 
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
-    protected void interrupted() {
-    }
+		else if (OI.driver.getRawButton(6)) {
+			leftSpeed = leftSpeed * 2;
+			rightSpeed = rightSpeed * 2;
+		}
+
+		if (Math.abs(leftSpeed) < 0.15) {
+			leftSpeed = 0;
+		}
+
+		if (Math.abs(rightSpeed) < 0.15) {
+			rightSpeed = 0;
+		}
+
+		if (OI.driver.getRawButton(4)) {
+			navSensor.resetGyroNorth(0, 0);
+		}
+
+		if (OI.driver.getRawButton(2)) {
+			if (fieldTransform.targetHistory.getLatestTarget() != null) {
+				angle = fieldTransform.targetHistory.getSmoothTarget().dir().getTheta();
+			}
+		}
+
+		if (OI.driver.getRawButton(1)) {
+			// Robot.tankDrive.setRobotPose(new Bearing(0));
+			Robot.tankDrive.setRobotPose(new Bearing(angle));
+		} else {
+			Robot.tankDrive.tankDrive(leftSpeed, rightSpeed);
+		}
+	}
+
+	// Make this return true when this Command no longer needs to run execute()
+	protected boolean isFinished() {
+		return false;
+	}
+
+	// Called once after isFinished returns true
+	protected void end() {
+	}
+
+	// Called when another command which requires one or more of the same
+	// subsystems is scheduled to run
+	protected void interrupted() {
+	}
 }

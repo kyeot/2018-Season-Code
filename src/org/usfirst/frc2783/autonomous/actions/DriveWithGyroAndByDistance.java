@@ -7,8 +7,6 @@ import org.usfirst.frc2783.util.LeftEncoderCounter;
 import org.usfirst.frc2783.util.NavSensor;
 import org.usfirst.frc2783.util.RightEncoderCounter;
 
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 
