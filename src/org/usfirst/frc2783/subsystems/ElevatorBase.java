@@ -2,11 +2,13 @@ package org.usfirst.frc2783.subsystems;
 
 import org.usfirst.frc2783.commands.Elevator;
 import org.usfirst.frc2783.robot.Constants;
+import org.usfirst.frc2783.robot.Robot;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -23,6 +25,9 @@ public class ElevatorBase extends Subsystem {
 	// adds Victor
 	public static VictorSPX elevator1Mot;
 	public static VictorSPX elevator2Mot;
+	
+	long timeOnStart;
+	double time;
 	
 	Servo shifter;
 	Servo climber1;
@@ -50,6 +55,10 @@ public class ElevatorBase extends Subsystem {
 		}
 		else if(speed <= -0.1){
 			isUp = false;
+		}
+		
+		if(Robot.isClimb){
+			isUp = !isUp;
 		}
 		
 		if(isUp){

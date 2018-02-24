@@ -38,8 +38,12 @@ public class Intake extends Command {
     		speed = 0;
     	}
     	
-    	Robot.intake.intake(speed);
-    	
+    	if(OI.manipulator.getRawButton(3)){
+    		Robot.intake.spinAdjust();
+    	}
+    	else{
+    		Robot.intake.intake(speed);
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
