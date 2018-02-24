@@ -33,15 +33,15 @@ public class TankDrive extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		double leftSpeed = OI.driver.getRawAxis(1);
-		double rightSpeed = OI.driver.getRawAxis(5);
+		double leftSpeed = OI.driver1.getRawAxis(1);
+		double rightSpeed = OI.driver2.getRawAxis(1);
 
-		if (OI.driver.getRawButton(5)) {
+		if (OI.driver1.getRawButton(1)) {
 			leftSpeed = leftSpeed / 2;
 			rightSpeed = rightSpeed / 2;
 		}
 
-		else if (OI.driver.getRawButton(6)) {
+		else if (OI.driver2.getRawButton(1)) {
 			leftSpeed = leftSpeed * 2;
 			rightSpeed = rightSpeed * 2;
 		}
@@ -54,22 +54,22 @@ public class TankDrive extends Command {
 			rightSpeed = 0;
 		}
 
-		if (OI.driver.getRawButton(4)) {
-			navSensor.resetGyroNorth(0, 0);
-		}
+	//	if (OI.driver.getRawButton(4)) {
+		//	navSensor.resetGyroNorth(0, 0);
+//		}
 
-		if (OI.driver.getRawButton(2)) {
-			if (fieldTransform.targetHistory.getLatestTarget() != null) {
-				angle = fieldTransform.targetHistory.getSmoothTarget().dir().getTheta();
-			}
-		}
+		//if (OI.driver.getRawButton(2)) {
+		//	if (fieldTransform.targetHistory.getLatestTarget() != null) {
+			//	angle = fieldTransform.targetHistory.getSmoothTarget().dir().getTheta();
+			//}
+	//	}
 
-		if (OI.driver.getRawButton(1)) {
-			// Robot.tankDrive.setRobotPose(new Bearing(0));
-			Robot.tankDrive.setRobotPose(new Bearing(angle));
-		} else {
-			Robot.tankDrive.tankDrive(leftSpeed, rightSpeed);
-		}
+//	//	if (OI.driver.getRawButton(1)) {
+//			// Robot.tankDrive.setRobotPose(new Bearing(0));
+//			Robot.tankDrive.setRobotPose(new Bearing(angle));
+//		} else {
+//			Robot.tankDrive.tankDrive(leftSpeed, rightSpeed);
+//		}
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
