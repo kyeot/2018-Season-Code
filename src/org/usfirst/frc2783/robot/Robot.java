@@ -3,6 +3,7 @@ package org.usfirst.frc2783.robot;
 import java.io.File;
 import java.io.IOException;
 
+import org.usfirst.frc2783.autonomous.BaselineCross;
 import org.usfirst.frc2783.autonomous.DriveGyroTest;
 import org.usfirst.frc2783.autonomous.ScaleFromLeft;
 import org.usfirst.frc2783.autonomous.ScaleFromRight;
@@ -119,7 +120,7 @@ public class Robot extends IterativeRobot {
         Scheduler.getInstance().run();
     }
     
-    public static String gameData;
+    public static String gameData = "";
 	public static String autoSides;
 	public static String switchVal;
 	public static String scaleVal;
@@ -130,10 +131,11 @@ public class Robot extends IterativeRobot {
     	
     	String autoSelected = SmartDashboard.getString("Auto Selector", "None");
 
-    	gameData = DriverStation.getInstance().getGameSpecificMessage();
-    	autoSides = gameData.substring(0,1);
-    	switchVal = gameData.substring(0);
-    	scaleVal = gameData.substring(1);
+    	gameData = "LLL";
+//    	gameData = DriverStation.getInstance().getGameSpecificMessage();
+    	autoSides = "L";
+    	switchVal = "L";
+    	scaleVal = "L";
     	
     	//Switch Statement to Run the Right Auto Code Depending on the selected position and switch/scale sides
     	switch(autoSelected) {
@@ -144,57 +146,19 @@ public class Robot extends IterativeRobot {
 			autoScheduler.setGroup(new DriveGyroTest());
 			break;
 		case "ScaleFromleft":
-			ScaleFromLeft scaleFromLeft = new ScaleFromLeft();
-			autoScheduler.setGroup(scaleFromLeft);
-			if (scaleVal == "L" || scaleVal == "l") {
-				scaleFromLeft.bothLeft();
-			} else if (scaleVal == "R" || scaleVal == "r") {
-				scaleFromLeft.bothRight();
-			} else {
-				Logger.error("Cannot parse input. Running default case.");
-				scaleFromLeft.driveForward();
-			}
+			autoScheduler.setGroup(new ScaleFromLeft());
 			break;
 		case "ScaleFromright":
-			ScaleFromRight scaleFromRight = new ScaleFromRight();
-			autoScheduler.setGroup(scaleFromRight);
-			if (scaleVal == "L" || scaleVal == "l") {
-				scaleFromRight.bothLeft();
-			} else if (scaleVal == "R" || scaleVal == "r") {
-				scaleFromRight.bothRight();
-			} else {
-				Logger.error("Cannot parse input. Running default case.");
-				scaleFromRight.driveForward();
-			}
+			autoScheduler.setGroup(new ScaleFromRight());
 			break;
 		case "SwitchFromLeft":
-			SwitchFromLeft switchFromLeft = new SwitchFromLeft();
-			autoScheduler.setGroup(switchFromLeft);
-			if (switchVal == "L" || switchVal == "l") {
-				switchFromLeft.bothLeft();
-			} else if (switchVal == "R" || switchVal == "r") {
-				switchFromLeft.bothRight();
-			} else {
-				Logger.error("Cannot parse input. Running default case.");
-				switchFromLeft.driveForward();
-			}
+			autoScheduler.setGroup(new SwitchFromLeft());
 			break;
 		case "SwitchFromRight":
-			SwitchFromRight switchFromRight = new SwitchFromRight();
-			autoScheduler.setGroup(switchFromRight);
-			if (switchVal == "L" || switchVal == "l") {
-				switchFromRight.bothLeft();
-			} else if (switchVal == "R" || switchVal == "r") {
-				switchFromRight.bothRight();
-			} else {
-				Logger.error("Cannot parse input. Running default case.");
-				switchFromRight.driveForward();
-			}
+			autoScheduler.setGroup(new SwitchFromRight());
 			break;
 		case "BaselineCross":
-			SwitchFromRight forward = new SwitchFromRight();
-			autoScheduler.setGroup(forward);
-			forward.driveForward();
+			autoScheduler.setGroup(new BaselineCross());
 		default:
 			
     	} 
@@ -218,8 +182,8 @@ public class Robot extends IterativeRobot {
         
         SmartDashboard.putString("DB/String 1", "" + Robot.leftAbsEnc.getValue());
         SmartDashboard.putString("DB/String 2", "" + Robot.rightAbsEnc.getValue());
-        SmartDashboard.putString("DB/String 3", "" + Robot.leftCounter.leftRotationCounter);
-        SmartDashboard.putString("DB/String 4", "" + Robot.rightCounter.rightRotationCounter);
+        SmartDashboard.putString("DB/String 8", "" + Robot.leftCounter.leftRotationCounter);
+        SmartDashboard.putString("DB/String 9", "" + Robot.rightCounter.rightRotationCounter);
         
         SmartDashboard.putString("DB/String 7", "robot angle: " + Math.floor(NavSensor.getInstance().getAngle(false)));
      
