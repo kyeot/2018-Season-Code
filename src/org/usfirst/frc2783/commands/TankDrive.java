@@ -40,18 +40,21 @@ public class TankDrive extends Command {
 		return value < 0;
 	}
 	
+	boolean biggerRight;
+	boolean goingForward;
+	
 	public double scaleSide(char side, double initialOutput, double angularValue) {
-		boolean biggerRight = isNegative(angularValue);
-		boolean goingForward = !isNegative(angularValue);
+		biggerRight = isNegative(angularValue);
+		goingForward = isNegative(initialOutput);
 		if (goingForward) {
 			if (biggerRight) {
-				if (side == 'r') {
+				if (side == 'l') {
 					return initialOutput;
 				} else {
 					return (initialOutput + initialOutput*angularValue);
 				}
 			} else {
-				if (side == 'r') {
+				if (side == 'l') {
 					return initialOutput - initialOutput*angularValue;
 				} else {
 					return initialOutput;
