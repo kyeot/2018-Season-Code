@@ -74,10 +74,10 @@ public class TankDrive extends Command {
 		}
 	}
 	
-//	public void setSpeeds(double scale) {
-//		leftSpeed = scale*scaleSide('l', averageWheelOutput(OI.driver.getRawAxis(2), OI.driver.getRawAxis(3)), OI.driver.getRawAxis(0));
-//		rightSpeed = scale*scaleSide('r', averageWheelOutput(OI.driver.getRawAxis(2), OI.driver.getRawAxis(3)), OI.driver.getRawAxis(0));
-//	}
+	public void setSpeeds(double scale) {
+		leftSpeed = scale*scaleSide('l', averageWheelOutput(OI.driver.getRawAxis(2), OI.driver.getRawAxis(3)), OI.driver.getRawAxis(0));
+		rightSpeed = scale*scaleSide('r', averageWheelOutput(OI.driver.getRawAxis(2), OI.driver.getRawAxis(3)), OI.driver.getRawAxis(0));
+	}
 	 
 	double leftSpeed;
 	double rightSpeed;
@@ -85,16 +85,21 @@ public class TankDrive extends Command {
 	protected void execute() {
 		leftSpeed = OI.driver.getRawAxis(1)/2;
 		rightSpeed = OI.driver.getRawAxis(5)/2;
+		double scale;
 		
 		if (OI.driver.getRawButton(5)) {
-			leftSpeed *= .5;
-			rightSpeed *= .5;
+			scale = .25;
 		} 
 		
 		else if (OI.driver.getRawButton(6)) {
-			leftSpeed *= 2;
-			rightSpeed *= 2;
+			scale = 1;
 		} 
+		
+		else {
+			scale = .5;
+		}
+		
+		setSpeeds(scale);
 		
 		if (Math.abs(leftSpeed) < 0.15) {
 			leftSpeed = 0;
