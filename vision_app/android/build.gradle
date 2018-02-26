@@ -86,7 +86,7 @@ android {
     }*/
 
     compileSdkVersion 27
-    buildToolsVersion '26.0.2'
+    buildToolsVersion '27.0.3'
 
     if (nativeBuildSystem == 'cmake') {
         defaultConfig {
@@ -202,7 +202,9 @@ tasks.whenTaskAdded { task ->
 
 dependencies {
     if (nativeBuildSystem == 'cmake') {
-        implementation project(':TensorFlow-Android-Inference')
+        //implementation project(':TensorFlow-Android-Inference')
+        debugCompile project(path: ':TensorFlow-Android-Inference', configuration: 'debug')
+        releaseCompile project(path: ':TensorFlow-Android-Inference', configuration: 'release')
     } else {
         compile files('libs/libtensorflow.jar')
     }
