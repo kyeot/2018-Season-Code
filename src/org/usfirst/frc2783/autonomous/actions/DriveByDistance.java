@@ -127,7 +127,7 @@ public class DriveByDistance extends Action {
 	
 	@Override
 	public boolean done(){
-		return isLeftDegreesDone && isRightDegreesDone;
+		return isLeftDegreesDone || isRightDegreesDone;
 	}
 
 	public void finish() {
