@@ -41,7 +41,7 @@ public class Elevator extends Command {
 			
 		}
 		
-		Robot.elevatorBase.elevator(speed);
+		Robot.elevatorBase.elevator(-speed);
 
 	}
 

@@ -15,6 +15,8 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 public class OI {
 	
 	public static Joystick driver = new Joystick(Constants.kDriverControllerId);
+//	public static Joystick driver1 = new Joystick(Constants.kDriverControllerId);
+//	public static Joystick driver2 = new Joystick(Constants.kDriverControllerId);
 	public static Joystick manipulator = new Joystick(Constants.kManipulatorControllerId);
 	
 	public static JoystickButton elevatorShifter = new JoystickButton(manipulator, Constants.kGearShiftID);
