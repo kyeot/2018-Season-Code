@@ -12,78 +12,136 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class TankDrive extends Command {
-	
+
 	FieldTransform fieldTransform = FieldTransform.getInstance();
-	
+
 	double lastLeftSpeed;
 	double lastRightSpeed;
-	
-	Bearing angle;
-	
+
+	double angle;
+
 	NavSensor navSensor = NavSensor.getInstance();
+
+	public TankDrive() {
+		// sets requirement system
+		requires(Robot.tankDrive);
+	}
+
+	// Called just before this Command runs the first time
+	protected void initialize() {
+	}
+
+	// Called repeatedly when this Command is scheduled to run
+	public double averageWheelOutput(double lTrigger, double rTrigger) {
+		return rTrigger - lTrigger;
+	}
 	
-    public TankDrive() {
-    	//sets requirement system
-        requires(Robot.tankDrive);
-    }
+	public boolean isNegative(double value) {
+		return value < 0;
+	}
+	
+	boolean biggerRight;
+	boolean goingForward;
+	
+	public double scaleSide(char side, double initialOutput, double angularValue) {
+		biggerRight = isNegative(angularValue);
+		goingForward = isNegative(initialOutput);
+		if (goingForward) {
+			if (biggerRight) {
+				if (side == 'l') {
+					return initialOutput;
+				} else {
+					return (initialOutput + initialOutput*angularValue);
+				}
+			} else {
+				if (side == 'l') {
+					return initialOutput - initialOutput*angularValue;
+				} else {
+					return initialOutput;
+				}
+			}
+		} else {
+			if (biggerRight) {
+				if (side == 'r') {
+					return initialOutput;
+				} else {
+					return (initialOutput - initialOutput*angularValue);
+				}
+			} else {
+				if (side == 'r') {
+					return initialOutput + initialOutput*angularValue;
+				} else {
+					return initialOutput;
+				}
+			}
+		}
+	}
+	
+	public void setSpeeds(double scale) {
+		leftSpeed = scale*scaleSide('l', averageWheelOutput(OI.driver.getRawAxis(2), OI.driver.getRawAxis(3)), OI.driver.getRawAxis(0));
+		rightSpeed = scale*scaleSide('r', averageWheelOutput(OI.driver.getRawAxis(2), OI.driver.getRawAxis(3)), OI.driver.getRawAxis(0));
+	}
+	 
+	double leftSpeed;
+	double rightSpeed;
+	
+	protected void execute() {
+		leftSpeed = OI.driver.getRawAxis(1)/2;
+		rightSpeed = OI.driver.getRawAxis(5)/2;
+		double scale;
+		
+		if (OI.driver.getRawButton(5)) {
+			scale = .25;
+		} 
+		
+		else if (OI.driver.getRawButton(6)) {
+			scale = 1;
+		} 
+		
+		else {
+			scale = .5;
+		}
+		
+		setSpeeds(scale);
+		
+		if (Math.abs(leftSpeed) < 0.15) {
+			leftSpeed = 0;
+		}
 
-    // Called just before this Command runs the first time
-    protected void initialize() {
-    }
+		if (Math.abs(rightSpeed) < 0.15) {
+			rightSpeed = 0;
+		}
 
-    // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
-    	double leftSpeed = OI.driver.getRawAxis(1);
-    	double rightSpeed = OI.driver.getRawAxis(5);
-    	
-   	if(OI.driver.getRawButton(5)){
-    		leftSpeed = leftSpeed/2;
-    		rightSpeed = rightSpeed/2;
-    	}
-    	
-    	else if(OI.driver.getRawButton(6)){
-    		leftSpeed = leftSpeed*2;
-    		rightSpeed = rightSpeed*2;
-    	}
-    	
-    	if(Math.abs(leftSpeed) < 0.15){
-    		leftSpeed = 0;
-    	}
- 
-    	if(Math.abs(rightSpeed) < 0.15){
-    		rightSpeed = 0;
-    	}
-    	
-    	if(OI.driver.getRawButton(4)){
-    		navSensor.resetGyroNorth(0, 0);
-    	}
-    	
-    	if(OI.driver.getRawButton(2)){
-    		if(fieldTransform.targetHistory.getLatestTarget() != null){
-    			angle = fieldTransform.targetHistory.getSmoothTarget().dir();
-    		}
-    	}
-    	
-    	if(OI.driver.getRawButton(1)) {
-    		Robot.tankDrive.setRobotPose(new Bearing(0));
-//    		Robot.tankDrive.setRobotPose(angle);
-    	} 
-    	else {
-            Robot.tankDrive.tankDrive(leftSpeed, rightSpeed);
-    	}
-    }
+		if (OI.driver.getRawButton(4)) {
+			navSensor.resetGyroNorth(0, 0);
+		}
 
-    // Make this return true when this Command no longer needs to run execute()
-    protected boolean isFinished() {
-        return false;
-    }
+		if (OI.driver.getRawButton(2)) {
+			if (fieldTransform.targetHistory.getLatestTarget() != null) {
+				angle = fieldTransform.targetHistory.getSmoothTarget().dir().getTheta();
+			}
+		}
 
-    // Called once after isFinished returns true
-    protected void end() {
-    }
+		if (OI.driver.getRawButton(1)) {
+			// Robot.tankDrive.setRobotPose(new Bearing(0));
+			Robot.tankDrive.setRobotPose(new Bearing(angle));
+		} else {
+			Robot.tankDrive.tankDrive(leftSpeed, rightSpeed);
+		}
+	}
 
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
-    protected void interrupted() {
-    }
+	// Make this return true when this Command no longer needs to run execute()
+	protected boolean isFinished() {
+		return false;
+	}
+
+	// Called once after isFinished returns true
+	protected void end() {
+	}
+
+	// Called when another command which requires one or more of the same\
+	
+	// subsystems is scheduled to run
+	protected void interrupted() {
+	}
 }

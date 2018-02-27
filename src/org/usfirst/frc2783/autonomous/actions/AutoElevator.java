@@ -15,7 +15,7 @@ public class AutoElevator extends Action {
 	
 	@Override
 	public void perform(){
-		Robot.elevatorBase.elevator(speed);
+		Robot.elevatorBase.elevator(-speed);
 	}
 
 }
