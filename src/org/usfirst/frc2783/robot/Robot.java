@@ -39,7 +39,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 @SuppressWarnings("static-access")
 public class Robot extends IterativeRobot {
-
+	
     public static OI oi;
     public static Looper looper = new Looper(Constants.kPeriod);
     public static Looper slowLoop = new Looper(0.1);
@@ -82,7 +82,7 @@ public class Robot extends IterativeRobot {
     
     VisionServer mVisionServer = VisionServer.getInstance();
     
-        public void robotInit() {
+    public void robotInit() {
         oi = new OI();
         
         mVisionServer.addVisionUpdateReceiver(VisionProcessor.getInstance());
@@ -100,7 +100,7 @@ public class Robot extends IterativeRobot {
         slowLoop.addLoop(new VoltageLogger());
         slowLoop.startLoops();
 
-        String[] autonomousList = {"Test", "DriveGyroTest", "BaselineCross", "ScaleFromLeft", "SwitchFromLeft", "ScaleFromRight", "ScaleFromLeft"};
+        String[] autonomousList = {"Test", "DriveGyroTest", "BaselineCross", "ScaleFromLeft", "SwitchFromLeft", "ScaleFromRight", "SwitchFromRight"};
         
         //Puts the autonomous modes selector into the dashboard
         SmartDashboard.putStringArray("Auto List", autonomousList);
@@ -110,15 +110,17 @@ public class Robot extends IterativeRobot {
         File logFile = new File("/home/lvuser/log.txt");
         try {
 			logFile.createNewFile();
-		} catch (IOException e) {
+		} 
+        catch (IOException e) {
 			e.printStackTrace();
 		}
         
         try {
 	         navSensor = new AHRS(SPI.Port.kMXP);
-	     } catch (RuntimeException ex) {
+	    }
+        catch (RuntimeException ex) {
 	         DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
-	     }
+	    }
     }
 
     public void disabledInit(){
@@ -224,8 +226,9 @@ public class Robot extends IterativeRobot {
 		else{
 			try{
 				return DriverStation.getInstance().getGameSpecificMessage();
-			} catch(NullPointerException n) {
-				Logger.error("No Game Message was Recieved");
+			} 
+			catch(Throwable t) {
+				Logger.error("No Game Message Recieved");
 				return "IDK";
 			}
 		}
