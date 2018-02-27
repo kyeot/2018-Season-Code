@@ -27,6 +27,7 @@ import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.media.ImageReader.OnImageAvailableListener;
 import android.os.SystemClock;
+import android.util.Log;
 import android.util.Size;
 import android.util.TypedValue;
 import android.widget.Toast;
@@ -134,29 +135,29 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
     tracker = new MultiBoxTracker(this);
 
     int cropSize = TF_OD_API_INPUT_SIZE;
-    if (MODE == DetectorMode.YOLO) {
-      detector =
-          TensorFlowYoloDetector.create(
-              getAssets(),
-              YOLO_MODEL_FILE,
-              YOLO_INPUT_SIZE,
-              YOLO_INPUT_NAME,
-              YOLO_OUTPUT_NAMES,
-              YOLO_BLOCK_SIZE);
-      cropSize = YOLO_INPUT_SIZE;
-    } else if (MODE == DetectorMode.MULTIBOX) {
-      detector =
-          TensorFlowMultiBoxDetector.create(
-              getAssets(),
-              MB_MODEL_FILE,
-              MB_LOCATION_FILE,
-              MB_IMAGE_MEAN,
-              MB_IMAGE_STD,
-              MB_INPUT_NAME,
-              MB_OUTPUT_LOCATIONS_NAME,
-              MB_OUTPUT_SCORES_NAME);
-      cropSize = MB_INPUT_SIZE;
-    } else {
+//    if (MODE == DetectorMode.YOLO) {
+//      detector =
+//          TensorFlowYoloDetector.create(
+//              getAssets(),
+//              YOLO_MODEL_FILE,
+//              YOLO_INPUT_SIZE,
+//              YOLO_INPUT_NAME,
+//              YOLO_OUTPUT_NAMES,
+//              YOLO_BLOCK_SIZE);
+//      cropSize = YOLO_INPUT_SIZE;
+//    } else if (MODE == DetectorMode.MULTIBOX) {
+//      detector =
+//          TensorFlowMultiBoxDetector.create(
+//              getAssets(),
+//              MB_MODEL_FILE,
+//              MB_LOCATION_FILE,
+//              MB_IMAGE_MEAN,
+//              MB_IMAGE_STD,
+//              MB_INPUT_NAME,
+//              MB_OUTPUT_LOCATIONS_NAME,
+//              MB_OUTPUT_SCORES_NAME);
+//      cropSize = MB_INPUT_SIZE;
+//    } else {
       try {
         detector = TensorFlowObjectDetectionAPIModel.create(
             getAssets(), TF_OD_API_MODEL_FILE, TF_OD_API_LABELS_FILE, TF_OD_API_INPUT_SIZE);
@@ -168,7 +169,7 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
                 getApplicationContext(), "Classifier could not be initialized", Toast.LENGTH_SHORT);
         toast.show();
         finish();
-      }
+//      }
     }
 
     previewWidth = size.getWidth();
@@ -320,17 +321,14 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
               final RectF location = result.getLocation();
               if (location != null && result.getConfidence() >= minimumConfidence) {
                 canvas.drawRect(location, paint);
-
                 cropToFrameTransform.mapRect(location);
                 result.setLocation(location);
                 mappedRecognitions.add(result);
               }
-
             }
-
+            Log.d(TAG, "Processing time: " + lastProcessingTimeMs);
             tracker.trackResults(mappedRecognitions, luminanceCopy, currTimestamp);
             trackingOverlay.postInvalidate();
-
             requestRender();
             computingDetection = false;
           }
