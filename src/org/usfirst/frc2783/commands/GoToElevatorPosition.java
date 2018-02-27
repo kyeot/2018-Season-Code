@@ -15,8 +15,6 @@ public class GoToElevatorPosition extends Command {
 	
 	EncoderPosition encPos;
 	
-	static ElevatorEncoderCounter elevatorCounter = ElevatorEncoderCounter.getInstance();
-	
     public GoToElevatorPosition(EncoderPosition encPos) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
@@ -24,28 +22,33 @@ public class GoToElevatorPosition extends Command {
     	
     	this.encPos = encPos;
     	
-    	if(elevatorCounter.getRotations() < encPos.getRotations()){
-    		isUp = true;
-    	}
-    	
-    	else if(elevatorCounter.getRotations() > encPos.getRotations()){
-    		isUp = false;
-    	}
-    	
-    	else{
-    		if(Robot.elevatorAbsEnc.getValue() < encPos.getDegrees()){
-    			isUp = true;
-    		}
-    		else if(Robot.elevatorAbsEnc.getValue() > encPos.getDegrees()){
-    			isUp = false;
-    		}
-    	}
-    	
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.elevatorBase.elevator(1);
+
+   		if(Robot.elEncCounter.getRotations() < encPos.getRotations()){
+       		isUp = true;
+       	}
+   		else if(Robot.elEncCounter.getRotations() > encPos.getRotations()){
+       		isUp = false;
+       	}
+       	
+       	else{
+       		if(Robot.elevatorAbsEnc.getValue() < encPos.getDegrees()){
+       			isUp = true;
+       		}
+       		else if(Robot.elevatorAbsEnc.getValue() > encPos.getDegrees()){
+       			isUp = false;
+       		}
+       	}
+   	
+   		if(isUp = true){
+   	    	Robot.elevatorBase.elevator(-1);
+   		}
+   		else{
+   	    	Robot.elevatorBase.elevator(1);
+   		}
     	
     }
 
@@ -56,10 +59,10 @@ public class GoToElevatorPosition extends Command {
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
     	if(isUp){
-    		return elevatorCounter.getRotations() > encPos.getRotations() && Robot.elevatorAbsEnc.getValue() > encPos.getDegrees();
+    		return Robot.elEncCounter.getRotations() > encPos.getRotations() && Robot.elevatorAbsEnc.getValue() > encPos.getDegrees();
     	}
     	else{
-    		return elevatorCounter.getRotations() < encPos.getRotations() && Robot.elevatorAbsEnc.getValue() < encPos.getDegrees();
+    		return Robot.elEncCounter.getRotations() < encPos.getRotations() && Robot.elevatorAbsEnc.getValue() < encPos.getDegrees();
     	}
         
     }

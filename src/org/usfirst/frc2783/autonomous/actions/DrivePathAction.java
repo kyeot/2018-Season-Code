@@ -2,13 +2,14 @@ package org.usfirst.frc2783.autonomous.actions;
 
 import org.usfirst.frc2783.autonomous.paths.Path;
 import org.usfirst.frc2783.autonomous.paths.PathContainer;
+import org.usfirst.frc2783.robot.Robot;
 import org.usfirst.frc2783.subsystems.TankDriveBase;
 
 public class DrivePathAction extends Action {
 	
 	private PathContainer mPathContainer;
     private Path mPath;
-    private TankDriveBase mDrive = TankDriveBase.getInstance();
+    private TankDriveBase mDrive = Robot.tankDrive;
 
     public DrivePathAction(PathContainer p, String name) {
         super(name);

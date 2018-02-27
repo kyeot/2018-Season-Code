@@ -72,9 +72,9 @@ public class Robot extends IterativeRobot {
     
     public static ActionScheduler autoScheduler = new ActionScheduler();
     
-    public static LeftEncoderCounter leftCounter = LeftEncoderCounter.getInstance();
-    public static RightEncoderCounter rightCounter = RightEncoderCounter.getInstance();
-    public static ElevatorEncoderCounter elEncCounter = ElevatorEncoderCounter.getInstance();
+    public static LeftEncoderCounter leftCounter = new LeftEncoderCounter();
+    public static RightEncoderCounter rightCounter = new RightEncoderCounter();
+    public static ElevatorEncoderCounter elEncCounter = new ElevatorEncoderCounter();
     
     public static EncoderPosition groundPos;
     public static EncoderPosition switchPos;

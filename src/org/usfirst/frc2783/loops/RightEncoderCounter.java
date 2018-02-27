@@ -4,12 +4,6 @@ import org.usfirst.frc2783.robot.Robot;
 
 public class RightEncoderCounter implements Loop{
 	
-	private static RightEncoderCounter _instance;
-	
-	public static RightEncoderCounter getInstance(){
-		return _instance;
-	}
-	
 	double rightEncValSub1;
 	double rightEncValSub2;
 	double rightEncValSub3;

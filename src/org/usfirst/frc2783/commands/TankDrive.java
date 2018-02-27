@@ -100,12 +100,12 @@ public class TankDrive extends Command {
 //		rightSpeed = OI.driver.getRawAxis(5)/2;
 		double scale;
 		
-		if (OI.driver.getRawButton(Constants.kFastModeID)) {
+		if (OI.driver.getRawButton(Constants.kSlowModeID)) {
 			//Quarter speed
 			scale = .25;
 		} 
 		
-		else if (OI.driver.getRawButton(Constants.kSlowModeID)) {
+		else if (OI.driver.getRawButton(Constants.kFastModeID)) {
 			//Full speed
 			scale = 1;
 		} 

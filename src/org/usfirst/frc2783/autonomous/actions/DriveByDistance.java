@@ -46,9 +46,6 @@ public class DriveByDistance extends Action {
 	boolean isRightRotationsDone = false;
 	boolean isRightDegreesDone = false;
 	
-	static LeftEncoderCounter leftCounter = LeftEncoderCounter.getInstance();
-	static RightEncoderCounter rightCounter = RightEncoderCounter.getInstance();
-	
 	public DriveByDistance(double speedScaler, double leftDistance, double rightDistance) {
 		super("DriveByDistance");
 
@@ -65,7 +62,7 @@ public class DriveByDistance extends Action {
     	wantedLeftTotalDegrees = leftAngleOnStart + leftDistanceInDegrees;
     	wantedRightTotalDegrees = rightAngleOnStart + rightDistanceInDegrees;
     	
-    	leftRotationOnStart = leftCounter.getRotations();
+    	leftRotationOnStart = Robot.leftCounter.getRotations();
     	rightRotationOnStart = Robot.rightCounter.getRotations();
     	
     	if(leftDistanceInDegrees > rightDistanceInDegrees){
@@ -101,11 +98,11 @@ public class DriveByDistance extends Action {
 	
 	@Override
 	public void perform(){                
-    	if(leftCounter.getRotations() >= (leftRotationOnStart + wantedLeftRotations)){
+    	if(Robot.leftCounter.getRotations() >= (leftRotationOnStart + wantedLeftRotations)){
     		isLeftRotationsDone = true;
     	}
     	
-    	if(rightCounter.getRotations() >= (rightRotationOnStart + wantedRightRotations)){
+    	if(Robot.rightCounter.getRotations() >= (rightRotationOnStart + wantedRightRotations)){
     		isRightRotationsDone = true;
     	}
     	

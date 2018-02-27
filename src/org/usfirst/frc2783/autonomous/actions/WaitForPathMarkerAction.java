@@ -1,5 +1,6 @@
 package org.usfirst.frc2783.autonomous.actions;
 
+import org.usfirst.frc2783.robot.Robot;
 import org.usfirst.frc2783.subsystems.TankDriveBase;
 
 /**
@@ -12,7 +13,7 @@ import org.usfirst.frc2783.subsystems.TankDriveBase;
  */
 public class WaitForPathMarkerAction extends Action {
 
-    private TankDriveBase mDrive = new TankDriveBase();
+    private TankDriveBase mDrive = Robot.tankDrive;
     private String mMarker;
 
     public WaitForPathMarkerAction(String marker) {

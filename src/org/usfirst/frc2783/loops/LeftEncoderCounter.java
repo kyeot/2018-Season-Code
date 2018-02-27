@@ -4,12 +4,6 @@ import org.usfirst.frc2783.robot.Robot;
 
 public class LeftEncoderCounter implements Loop{
 	
-	private static LeftEncoderCounter _instance;
-	
-	public static LeftEncoderCounter getInstance(){
-		return _instance;
-	}
-	
 	//Sets the rotation counters to 0
 	static double leftRotationCounter = 0;
 	
