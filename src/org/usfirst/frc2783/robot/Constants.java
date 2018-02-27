@@ -20,15 +20,18 @@ public class Constants {
 	public static final int kLeftDrive2 = 7;
 	public static final int kRightDrive1 = 11;
 	public static final int kRightDrive2 = 8;
+	
+	//Servo IDs (plugged into PWM ports)
+	public static final int kElevatorShifterID = 0;
 
 	//Joystick IDs
 	public static final int kDriverControllerId = 0;
 	public static final int kManipulatorControllerId = 1;
 	
-	//Button IDs
 	public static final int kJoyTankLeftID = 3;
 	public static final int kJoyTankRightID = 4;
 	
+	//Button IDs for manipulator
 	public static final int kRaiseClimbID = 7;
 	public static final int kDeployClimbID = 8;
 	
@@ -36,8 +39,18 @@ public class Constants {
 	public static final int kElevatorToSwitchID = 2;
 	public static final int kElevatorToScaleID = 4;
 	
-	public static final int kElevatorLockShiftID = 3;
+	public static final int kIntakeSpinnerID = 3;
+	
+	public static final int kElevatorLockShiftID = 9;
 	public static final int kElevatorGearShiftID = 10;
+	
+	//Buton IDs for driver
+	public static final int kSlowModeID = 5;
+	public static final int kFastModeID = 6;
+	
+	public static final int kVisionTestID = 1;
+	
+	public static final int kGyroResetID = 4;
 	
 	//PID values for tank rotation to angle
 	public static final double kTankPoseP = 0.0065;
