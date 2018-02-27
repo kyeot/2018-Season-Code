@@ -19,19 +19,22 @@ import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.RectF;
 import android.os.Trace;
+
+import org.tensorflow.contrib.android.TensorFlowInferenceInterface;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.PriorityQueue;
-import org.tensorflow.contrib.android.TensorFlowInferenceInterface;
+
 import coledev.kyeot.tensorflow.env.Logger;
 import coledev.kyeot.tensorflow.env.SplitTimer;
 
 /** An object detector that uses TF and a YOLO model to detect objects. */
 public class TensorFlowYoloDetector implements Classifier {
   private static final Logger LOGGER = new Logger();
-
   // Only return this many results with at least this confidence.
+
   private static final int MAX_RESULTS = 5;
 
   private static final int NUM_CLASSES = 20;

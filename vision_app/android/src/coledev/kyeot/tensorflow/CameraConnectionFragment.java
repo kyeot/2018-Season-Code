@@ -16,6 +16,7 @@
 
 package coledev.kyeot.tensorflow;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -53,6 +54,7 @@ import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -60,11 +62,12 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
+
 import coledev.kyeot.tensorflow.env.Logger;
-import coledev.kyeot.tensorflow.tracking.MultiBoxTracker;
 
 import static coledev.kyeot.tensorflow.DetectorActivity.kWidth;
 
+@SuppressLint("ValidFragment")
 public class CameraConnectionFragment extends Fragment {
 
   private static final Logger LOGGER = new Logger();
@@ -350,7 +353,7 @@ public class CameraConnectionFragment extends Fragment {
 
   @Override
   public void onViewCreated(final View view, final Bundle savedInstanceState) {
-    textureView = (AutoFitTextureView) view.findViewById(R.id.texture);
+    textureView = view.findViewById(R.id.texture);
   }
 
   @Override
@@ -376,8 +379,10 @@ public class CameraConnectionFragment extends Fragment {
 
   @Override
   public void onPause() {
-    closeCamera();
-    stopBackgroundThread();
+    if (!DetectorActivity.isDebug()) {
+      closeCamera();
+      stopBackgroundThread();
+    }
     super.onPause();
   }
 
