@@ -10,6 +10,8 @@ import edu.wpi.first.wpilibj.Notifier;
 
 public class ActionScheduler {
 	
+	//The Action action is what runs
+	//The ArrayList queue is what organizes the action being run
 	Notifier thread;
 	Action action;
 	
@@ -23,6 +25,7 @@ public class ActionScheduler {
 		
 		thread = new Notifier(new CrashTrackingRunnable() {
 			
+			//t=this method is what actually runs the current action set by setAuto
 			@Override
 			public void runCrashTracked() {
 				
@@ -74,6 +77,7 @@ public class ActionScheduler {
 	}
 	
 	//Sets the currently running action
+	//This will soon end and the method will be called again to add another action
 	public void setAuto(Action action) {
 		this.action = action;
 	}

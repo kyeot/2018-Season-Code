@@ -1,21 +1,63 @@
 package org.usfirst.frc2783.autonomous.actions;
 
-@SuppressWarnings("unused")
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Composite action, running all sub-actions at the same time All actions are started then updated until all actions
+ * report being done.
+ * 
+ * @param A List of Action objects
+ */
+
 public class ParallelAction extends Action {
 	
-	private Action act1;
-	private Action act2;
+	private ArrayList<Action> actions = new ArrayList<Action>();
 	
-	public ParallelAction(Action act1, Action act2) {
+	public ParallelAction(List<Action> actions) {
 		
 		//Returns name as both action ids
-		super("Parallel " + act1.id + " and " + act2.id);
-		//sets given action to actions on object
-		this.act1 = act1;
-		this.act2 = act2;
+		super("Parallel actions");
+		this.actions = new ArrayList<>(actions.size());
+        for (Action action : actions) {
+            this.actions.add(action);
+        }
 		
 	}
 	
+	//Waits for ALL actions to be done
+	@Override
+	public boolean done() {
+		boolean all_finished = true;
+        for (Action action : actions) {
+            if (!action.done()) {
+                all_finished = false;
+            }
+        }
+        return all_finished;
+	}
+	//When called once, all actions in the list run
+	@Override
+	public void perform() {
+		for (Action action : actions) {
+            action.perform();
+        }
+	}
 	
-
+	//Finishes all actions at once
+	@Override
+	public void finish() {
+		for (Action action : actions) {
+            action.finish();
+        }
+	}
+	
+	//Starts all actions at once
+	@Override
+	public void start() {
+		for (Action action : actions) {
+            action.start();
+        }
+	}
+	
 }
