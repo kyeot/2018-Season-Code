@@ -2,6 +2,7 @@ package org.usfirst.frc2783.autonomous.paths;
 
 import org.usfirst.frc2783.autonomous.actions.WaitForPathMarkerAction;
 import org.usfirst.frc2783.autonomous.paths.Path;
+import org.usfirst.frc2783.autonomous.paths.PathBuilder.Setpoint;
 import org.usfirst.frc2783.autonomous.paths.PathSegment;
 import org.usfirst.frc2783.calculation.RigidTransform2d;
 import org.usfirst.frc2783.calculation.Rotation2d;
@@ -90,7 +91,7 @@ public class PathBuilder {
     		position = new Translation2d(x, y);
     	}
     	
-    	public Translation2d getPosition(Setpoint s) {
+    	public Translation2d getPosition() {
     		return position;
     	}
     	
@@ -120,8 +121,8 @@ public class PathBuilder {
             speed = s;
         }
 
-        public Waypoint(Translation2d pos, double r, double s) {
-            super(pos);
+        public Waypoint(Setpoint point, double r, double s) {
+            super(point.getPosition());
             radius = r;
             speed = s;
         }
@@ -133,9 +134,6 @@ public class PathBuilder {
             marker = m;
         }
         
-        public Waypoint setpointToWaypoint(Setpoint point, double r, double s) {
-        	return new Waypoint(getPosition(point), r, s);
-        }
     }
 
     /**
