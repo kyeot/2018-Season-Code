@@ -2,6 +2,7 @@ package org.usfirst.frc2783.autonomous.paths;
 
 import org.usfirst.frc2783.autonomous.actions.WaitForPathMarkerAction;
 import org.usfirst.frc2783.autonomous.paths.Path;
+import org.usfirst.frc2783.autonomous.paths.PathBuilder.Setpoint;
 import org.usfirst.frc2783.autonomous.paths.PathSegment;
 import org.usfirst.frc2783.calculation.RigidTransform2d;
 import org.usfirst.frc2783.calculation.Rotation2d;
@@ -19,31 +20,64 @@ import java.util.List;
 public class PathBuilder {
     private static final double kEpsilon = 1E-9;
     private static final double kReallyBigNumber = 1E9;
-
+    
+    /**
+     * Takes a list of waypoints and converts them into
+     * a buiult path
+     * 
+     * @param w
+     * @return Path created by list w
+     */
     public static Path buildPathFromWaypoints(List<Waypoint> w) {
         Path p = new Path();
-        if (w.size() < 2)
+        
+        //Makes sure path has enough waypoints
+        if (w.size() < 2) {
             throw new Error("Path must contain at least 2 waypoints");
+        }
+        
+        //Uses index i to create curved path
         int i = 0;
         if (w.size() > 2) {
+        	
+        	/*
+        	 * Loops through list of waypoints and creates an arc
+        	 * out of every three points
+        	 */
             do {
                 new Arc(getPoint(w, i), getPoint(w, i + 1), getPoint(w, i + 2)).addToPath(p);
                 i++;
             } while (i < w.size() - 2);
         }
+        
+        //Creates line at the end with leftover points
         new Line(w.get(w.size() - 2), w.get(w.size() - 1)).addToPath(p, 0);
         p.extrapolateLast();
         p.verifySpeeds();
         // System.out.println(p);
         return p;
     }
-
+    
+    /**
+     * This method accesses waypoints in a list of waypoints
+     * with a given index of i
+     * 
+     * @param w
+     * @param i
+     * @return Waypoint requested at index i
+     */
     private static Waypoint getPoint(List<Waypoint> w, int i) {
         if (i > w.size())
             return w.get(w.size() - 1);
         return w.get(i);
     }
     
+    /**
+     * Creates a setpoint with location x, y
+     * 
+     * @author Adam Ma
+     * @version 02/21/2018
+     */
     public static class Setpoint {
     	
     	Translation2d position;
@@ -57,7 +91,7 @@ public class PathBuilder {
     		position = new Translation2d(x, y);
     	}
     	
-    	public Translation2d getPosition(Setpoint s) {
+    	public Translation2d getPosition() {
     		return position;
     	}
     	
@@ -87,8 +121,8 @@ public class PathBuilder {
             speed = s;
         }
 
-        public Waypoint(Translation2d pos, double r, double s) {
-            super(pos);
+        public Waypoint(Setpoint point, double r, double s) {
+            super(point.getPosition());
             radius = r;
             speed = s;
         }
@@ -100,9 +134,6 @@ public class PathBuilder {
             marker = m;
         }
         
-        public Waypoint setpointToWaypoint(Setpoint point, double r, double s) {
-        	return new Waypoint(getPosition(point), r, s);
-        }
     }
 
     /**
@@ -115,7 +146,13 @@ public class PathBuilder {
         Translation2d end;
         Translation2d slope;
         double speed;
-
+        
+        /**
+         * Constructs a line with 2 given waypoints
+         * 
+         * @param a
+         * @param b
+         */
         public Line(Waypoint a, Waypoint b) {
             this.a = a;
             this.b = b;
@@ -124,8 +161,14 @@ public class PathBuilder {
             start = a.position.translateBy(slope.scale(a.radius / slope.norm()));
             end = b.position.translateBy(slope.scale(-b.radius / slope.norm()));
         }
-
-        private void addToPath(Path p, double endSpeed) {
+        
+        /**
+         * Adds line to path p with a given end speed
+         * 
+         * @param p
+         * @param endSpeed
+         */
+        void addToPath(Path p, double endSpeed) {
             double pathLength = new Translation2d(end, start).norm();
             if (pathLength > kEpsilon) {
                 if (b.marker != null) {

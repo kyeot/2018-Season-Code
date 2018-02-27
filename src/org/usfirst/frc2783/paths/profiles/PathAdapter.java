@@ -42,9 +42,10 @@ public class PathAdapter {
     
     static final double kFieldHeight = 324; // total height of the field in inches (doesn't really have to be accurate,
                                             // everything is relative)
+    //Build paths in methods here
+    //or go to autonomous.paths and build paths as classes there
+    //public Path 
     
-    
-
     public static void main(String[] args) {
     	
     }

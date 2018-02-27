@@ -2,6 +2,7 @@ package org.usfirst.frc2783.calculation;
 
 import static org.usfirst.frc2783.util.Util.epsilonEquals;
 
+import org.usfirst.frc2783.autonomous.paths.PathBuilder.Setpoint;
 import org.usfirst.frc2783.util.Interpolable;
 
 /**
@@ -22,14 +23,16 @@ public class RigidTransform2d implements Interpolable<RigidTransform2d> {
 
     protected Translation2d translation_;
     protected Rotation2d rotation_;
-
+    
+    
+    
     public RigidTransform2d() {
         translation_ = new Translation2d();
         rotation_ = new Rotation2d();
     }
 
-    public RigidTransform2d(Translation2d translation, Rotation2d rotation) {
-        translation_ = translation;
+    public RigidTransform2d(Setpoint point, Rotation2d rotation) {
+        translation_ = point.getPosition();
         rotation_ = rotation;
     }
 

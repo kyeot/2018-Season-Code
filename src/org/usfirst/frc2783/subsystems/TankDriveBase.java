@@ -1,8 +1,14 @@
 package org.usfirst.frc2783.subsystems;
 
+import org.usfirst.frc2783.autonomous.paths.Lookahead;
+import org.usfirst.frc2783.autonomous.paths.Path;
 import org.usfirst.frc2783.autonomous.paths.PathFollower;
+import org.usfirst.frc2783.calculation.RigidTransform2d;
+import org.usfirst.frc2783.calculation.Rotation2d;
+import org.usfirst.frc2783.calculation.Twist2d;
 import org.usfirst.frc2783.commands.TankDrive;
 import org.usfirst.frc2783.robot.Constants;
+import org.usfirst.frc2783.robot.Kinematics;
 import org.usfirst.frc2783.robot.Robot;
 import org.usfirst.frc2783.util.Bearing;
 import org.usfirst.frc2783.util.GyroSource;
@@ -11,6 +17,9 @@ import org.usfirst.frc2783.util.NavSensor;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.team254.frc2017.subsystems.Drive.DriveControlState;
+
+import org.usfirst.frc2783.robot.RobotState;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
@@ -22,6 +31,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * Subsystem base for the TankDrive
  */
 public class TankDriveBase extends Subsystem {
+	
+	private static TankDriveBase mInstance = new TankDriveBase();
 	
 	// The robot drivetrain's various states.
     public enum DriveControlState {
@@ -115,6 +126,9 @@ public class TankDriveBase extends Subsystem {
 		}
 	}
 	
+	private Rotation2d mTargetHeading = new Rotation2d();
+    private Path mCurrentPath = null;
+	
 	//Instantiates the right tank motor controllers
 	public VictorSPX rightMaster = new VictorSPX(Constants.kRightDrive1);
 	VictorSPX rightSlave = new VictorSPX(Constants.kRightDrive2);
@@ -125,6 +139,8 @@ public class TankDriveBase extends Subsystem {
 	
 	//Instantiates gyro as an instance of NavSensor
 	NavSensor gyro = NavSensor.getInstance();
+	
+	RobotState mRobotState;
 	
 	double rot;
 
@@ -253,6 +269,61 @@ public class TankDriveBase extends Subsystem {
 		
 	}
 	
+	/**
+     * Start up velocity mode. This sets the drive train in high gear as well.
+     * 
+     * @param left_inches_per_sec
+     * @param right_inches_per_sec
+     */
+    public synchronized void setVelocitySetpoint(double left_inches_per_sec, double right_inches_per_sec) {
+        mDriveControlState = DriveControlState.VELOCITY_SETPOINT;
+        updateVelocitySetpoint(left_inches_per_sec, right_inches_per_sec);
+    }
+	
+	/**
+     * Configures the drivebase to drive a path. Used for autonomous driving
+     * THIS is what converts arcs to movenemts
+     * 
+     * @see Path
+     */
+    public synchronized void setWantDrivePath(Path path, boolean reversed) {
+        if (mCurrentPath != path || mDriveControlState != DriveControlState.PATH_FOLLOWING) {
+            //RobotState.getInstance().resetDistanceDriven(); //Need to reset rotations
+            mPathFollower = new PathFollower(path, reversed,
+                    new PathFollower.Parameters(
+                            new Lookahead(Constants.kMinLookAhead, Constants.kMaxLookAhead,
+                                    	  Constants.kMinLookAheadSpeed, Constants.kMaxLookAheadSpeed),
+                            			  Constants.kInertiaSteeringGain, Constants.kPathFollowingProfileKp,
+                            			  Constants.kPathFollowingProfileKi, Constants.kPathFollowingProfileKv,
+                            			  Constants.kPathFollowingProfileKffv, Constants.kPathFollowingProfileKffa,
+                            			  Constants.kPathFollowingMaxVel, Constants.kPathFollowingMaxAccel,
+                            			  Constants.kPathFollowingGoalPosTolerance, Constants.kPathFollowingGoalVelTolerance, 
+                            			  Constants.kPathStopSteeringDistance));
+            mDriveControlState = DriveControlState.PATH_FOLLOWING;
+            mCurrentPath = path;
+        } else {
+            setVelocitySetpoint(0, 0); //This method takes the movements and sends them to encoders
+        }
+    }
+    
+    /**
+     * Called periodically when the robot is in path following mode. Updates the path follower with the robots latest
+     * pose, distance driven, and velocity, the updates the wheel velocity setpoints.
+     */
+    private void updatePathFollower(double timestamp) {
+		RigidTransform2d robot_pose = mRobotState.getLatestFieldToVehicle().getValue();
+        
+        //This command is that command that takes a path
+        Twist2d command = mPathFollower.update(timestamp, robot_pose,
+                RobotState.getInstance().getDistanceDriven(), RobotState.getInstance().getPredictedVelocity().dx);
+        if (!mPathFollower.isFinished()) {
+            Kinematics.DriveVelocity setpoint = Kinematics.inverseKinematics(command);
+            updateVelocitySetpoint(setpoint.left, setpoint.right);
+        } else {
+            updateVelocitySetpoint(0, 0);
+        }
+    }
+	
     /**
      * Adjust Velocity setpoint (if already in velocity mode)
      * 
@@ -275,7 +346,8 @@ public class TankDriveBase extends Subsystem {
     }
 
     /**
-     * Adjust position setpoint (if already in position mode)
+     * Takes inches in parameters and tells robot to
+     * move that many inches by converting inchesToRotations
      * 
      * @param left_inches_per_sec
      * @param right_inches_per_sec
@@ -328,5 +400,18 @@ public class TankDriveBase extends Subsystem {
             return false;
         }
     }
-
+	
+	public static TankDriveBase getInstance() {
+		return mInstance;
+	}
+	
+	public synchronized boolean isDoneWithPath() {
+        if (mDriveControlState == DriveControlState.PATH_FOLLOWING && mPathFollower != null) {
+            return mPathFollower.isFinished();
+        } else {
+            System.out.println("Robot is not in path following mode");
+            return true;
+        }
+    }
+	
 }

@@ -78,7 +78,7 @@ public class AdbBridge {
 
     public void restartApp() {
         System.out.println("Restarting app");
-        runCommand("shell am force-stop com.team254.cheezdroid \\; "
-                + "am start com.team254.cheezdroid/com.team254.cheezdroid.VisionTrackerActivity");
+        runCommand("shell am force-stop coldev.kyeot.tensorflow \\; "
+                + "am start coldev.kyeot.tensorflow/coldev.kyeot.tensorflow.DetectorActivity");
     }
 }

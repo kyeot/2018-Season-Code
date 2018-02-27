@@ -27,12 +27,12 @@ import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.media.ImageReader.OnImageAvailableListener;
 import android.os.SystemClock;
-import android.util.Log;
 import android.util.Size;
 import android.util.TypedValue;
-import android.view.View;
 import android.widget.Toast;
+
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
@@ -61,7 +61,7 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
       "file:///android_asset/multibox_location_priors.txt";
 
   private static final int TF_OD_API_INPUT_SIZE = 120;
-  private static final String TF_OD_API_MODEL_FILE = "file:///android_asset/frozen_inference_graph.pb";
+  private static final String TF_OD_API_MODEL_FILE = "file:///android_asset/optimized_frozen_inference_graph.pb";
   private static final String TF_OD_API_LABELS_FILE = "file:///android_asset/object-detection-labels.txt";
 
   static final int kHeight = 240;
@@ -84,7 +84,7 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
   // checkpoints.  Optionally use legacy Multibox (trained using an older version of the API)
   // or YOLO.
   private enum DetectorMode {
-    TF_OD_API, MULTIBOX, YOLO;
+    TF_OD_API, MULTIBOX, YOLO
   }
   private static final DetectorMode MODE = DetectorMode.TF_OD_API;
 
@@ -188,7 +188,7 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
     cropToFrameTransform = new Matrix();
     frameToCropTransform.invert(cropToFrameTransform);
 
-    trackingOverlay = (OverlayView) findViewById(R.id.tracking_overlay);
+    trackingOverlay = findViewById(R.id.tracking_overlay);
     trackingOverlay.addCallback(
         new OverlayView.DrawCallback() {
           @Override
@@ -227,9 +227,7 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
             if (detector != null) {
               final String statString = detector.getStatString();
               final String[] statLines = statString.split("\n");
-              for (final String line : statLines) {
-                lines.add(line);
-              }
+                lines.addAll(Arrays.asList(statLines));
             }
             lines.add("");
             lines.add("Frame: " + previewWidth + "x" + previewHeight);
