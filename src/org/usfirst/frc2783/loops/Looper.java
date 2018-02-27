@@ -6,7 +6,7 @@ import java.util.List;
 import org.usfirst.frc2783.util.CrashTrackingRunnable;
 import org.usfirst.frc2783.util.Logger;
 
-import com.team254.frc2017.loops.Loop;
+import org.usfirst.frc2783.loops.Loop;
 
 import edu.wpi.first.wpilibj.Notifier;
 

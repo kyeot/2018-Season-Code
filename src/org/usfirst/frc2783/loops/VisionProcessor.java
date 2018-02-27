@@ -69,4 +69,10 @@ public class VisionProcessor implements Loop, VisionUpdateReceiver {
         update_ = update;
     }
 
+	@Override
+	public void onLoop(double timestamp) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

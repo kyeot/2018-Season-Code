@@ -82,4 +82,10 @@ public class ElevatorEncoderCounter implements Loop{
 	public void onStop() {
 	}
 
+	@Override
+	public void onLoop(double timestamp) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -70,4 +70,10 @@ public class LogData implements Loop{
 		
 	}
 
+	@Override
+	public void onLoop(double timestamp) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
