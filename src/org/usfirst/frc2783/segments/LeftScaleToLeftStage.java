@@ -30,7 +30,7 @@ public class LeftScaleToLeftStage implements PathContainer{
 
 	@Override
 	public boolean isReversed() {
-		return false;
+		return true;
 	}
 
 }
