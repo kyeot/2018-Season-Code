@@ -82,28 +82,41 @@ public class TankDrive extends Command {
 		leftSpeed = scale*scaleSide('l', averageWheelOutput(OI.driver.getRawAxis(2), OI.driver.getRawAxis(3)), OI.driver.getRawAxis(0));
 		rightSpeed = scale*scaleSide('r', averageWheelOutput(OI.driver.getRawAxis(2), OI.driver.getRawAxis(3)), OI.driver.getRawAxis(0));
 	}
-	 
+	
+	public void checkStationaryRotation(double scale) {
+		//If the joystick is greater than .25 away, rotate in place
+		if (Math.abs(OI.driver.getRawAxis(4)) > .25) {
+			leftSpeed = -1*scale*OI.driver.getRawAxis(4);
+			rightSpeed = scale*OI.driver.getRawAxis(4);
+		}
+	}
+	
 	double leftSpeed;
 	double rightSpeed;
 	
 	protected void execute() {
-		leftSpeed = OI.driver.getRawAxis(1)/2;
-		rightSpeed = OI.driver.getRawAxis(5)/2;
+//		leftSpeed = OI.driver.getRawAxis(1)/2;
+//		rightSpeed = OI.driver.getRawAxis(5)/2;
 		double scale;
 		
 		if (OI.driver.getRawButton(5)) {
+			//Quarter speed
 			scale = .25;
 		} 
 		
 		else if (OI.driver.getRawButton(6)) {
+			//Full speed
 			scale = 1;
 		} 
 		
 		else {
+			//Default speed of .5
 			scale = .5;
 		}
 		
+		//Rotation in place supersedes regular driving but has a higher deadband
 		setSpeeds(scale);
+		checkStationaryRotation(scale);
 		
 		if (Math.abs(leftSpeed) < 0.15) {
 			leftSpeed = 0;

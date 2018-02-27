@@ -2,6 +2,7 @@ package org.usfirst.frc2783.robot;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Random;
 
 import org.usfirst.frc2783.autonomous.BaselineCross;
 import org.usfirst.frc2783.autonomous.DriveGyroTest;
@@ -60,6 +61,8 @@ public class Robot extends IterativeRobot {
     
     public static boolean isClimb;
     
+    public static Random rand = new Random();
+    
     public static boolean isLeftForward = false;
     public static boolean isRightForward = false;
     public static boolean isElevatorForward = false;
@@ -69,6 +72,10 @@ public class Robot extends IterativeRobot {
     public static LeftEncoderCounter leftCounter = new LeftEncoderCounter();
     public static RightEncoderCounter rightCounter = new RightEncoderCounter();
     public static ElevatorEncoderCounter elEncCounter = new ElevatorEncoderCounter();
+    
+    public static String gameData;
+	public static String switchesVal;
+	public static String scaleVal;
     
     boolean isBrownOut = false;
     boolean wasBrownOut = false;
@@ -119,11 +126,6 @@ public class Robot extends IterativeRobot {
     public void disabledPeriodic() {
         Scheduler.getInstance().run();
     }
-    
-    public static String gameData = "";
-	public static String autoSides;
-	public static String switchVal;
-	public static String scaleVal;
    
 	public void autonomousInit() {
     	
@@ -131,11 +133,10 @@ public class Robot extends IterativeRobot {
     	
     	String autoSelected = SmartDashboard.getString("Auto Selector", "None");
 
-    	gameData = "RLL";
-//    	gameData = DriverStation.getInstance().getGameSpecificMessage();
-    	autoSides = "RR";
-    	switchVal = "R";
-    	scaleVal = "R";
+    	gameData = getPracticeData(true);
+    	
+    	switchesVal = gameData.substring(0, 1);
+    	scaleVal = gameData.substring(1, 2);
     	
     	//Switch Statement to Run the Right Auto Code Depending on the selected position and switch/scale sides
     	switch(autoSelected) {
@@ -192,6 +193,43 @@ public class Robot extends IterativeRobot {
     public void testPeriodic() {
     	
     }
+    
+    public static String getPracticeData(boolean isTest) {
+		if(isTest){
+			String switchesString;
+			String scaleString;
+		
+			int switchesInt = rand.nextInt(2) + 1;
+			int scaleInt = rand.nextInt(2) + 1;
+		
+			if(switchesInt == 1){
+				switchesString = "L";
+			}
+			else{
+				switchesString = "R";
+			}
+		
+			if(scaleInt == 1){
+				scaleString = "L";
+			}
+			else{
+				scaleString = "R";
+			}
+			
+			return switchesString + scaleString + switchesString;
+			
+		}
+		
+		else{
+			try{
+				return DriverStation.getInstance().getGameSpecificMessage();
+			} catch(NullPointerException n) {
+				Logger.error("No Game Message was Recieved");
+				return "IDK";
+			}
+		}
+		
+	}
     
     public static String parseMatchTime() {
     	double s = DriverStation.getInstance().getMatchTime();
