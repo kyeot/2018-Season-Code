@@ -15,6 +15,8 @@ public class ElevatorEncoderCounter implements Loop{
 	//Sets the rotation counters to 0
 	static double elevatorRotationCounter = 0;
 	
+	static double elevatorEncoderValueOnStart;
+	
 	double loopCount;
 
 	double elevatorEncoderLastVal;
@@ -31,6 +33,7 @@ public class ElevatorEncoderCounter implements Loop{
 		
 		wasForward = true;
 		
+		elevatorEncoderValueOnStart = Robot.elevatorAbsEnc.getValue();
 		elevatorEncVal = Robot.elevatorAbsEnc.getValue();  
 		
 		if(Robot.isElevatorForward){
@@ -94,6 +97,10 @@ public class ElevatorEncoderCounter implements Loop{
 	
 	public double getRotations(){
 		return elevatorRotationCounter;
+	}
+	
+	public double getEncoderStartPos(){
+		return elevatorEncoderValueOnStart;
 	}
 
 }

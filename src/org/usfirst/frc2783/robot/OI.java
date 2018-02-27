@@ -2,6 +2,7 @@ package org.usfirst.frc2783.robot;
 
 import org.usfirst.frc2783.commands.ClimbHold;
 import org.usfirst.frc2783.commands.ClimbServoShift;
+import org.usfirst.frc2783.commands.GoToElevatorPosition;
 import org.usfirst.frc2783.commands.ServoShift;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -21,8 +22,11 @@ public class OI {
 	
 	public static JoystickButton elevatorShifter = new JoystickButton(manipulator, Constants.kGearShiftID);
 	public static JoystickButton climberShifter = new JoystickButton(manipulator, Constants.kDeployClimbID);
+	public static JoystickButton elevatorToGround = new JoystickButton(manipulator, Constants.kElevatorToGroundButton);
+	public static JoystickButton elevatorToSwitch = new JoystickButton(manipulator, Constants.kElevatorToSwitchButton);
+	public static JoystickButton elevatorToScale = new JoystickButton(manipulator, Constants.kElevatorToScaleButton);
 	
-	public static JoystickButton switchBrake = new JoystickButton(manipulator, 1);
+	public static JoystickButton switchBrake = new JoystickButton(manipulator, 3);
 
     public OI() {
     	
@@ -30,7 +34,11 @@ public class OI {
     	climberShifter.whileHeld(new ClimbServoShift());
     	
     	switchBrake.whenPressed(new ClimbHold());
-
+    	
+    	elevatorToGround.whenPressed(new GoToElevatorPosition(Robot.groundPos));
+    	elevatorToSwitch.whenPressed(new GoToElevatorPosition(Robot.switchPos));
+    	elevatorToScale.whenPressed(new GoToElevatorPosition(Robot.scalePos));
+    	
     }
 
 }

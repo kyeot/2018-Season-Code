@@ -20,6 +20,7 @@ import org.usfirst.frc2783.subsystems.ElevatorBase;
 import org.usfirst.frc2783.subsystems.IntakeBase;
 import org.usfirst.frc2783.subsystems.TankDriveBase;
 import org.usfirst.frc2783.util.ElevatorEncoderCounter;
+import org.usfirst.frc2783.util.EncoderPosition;
 import org.usfirst.frc2783.util.LeftEncoderCounter;
 import org.usfirst.frc2783.util.Logger;
 import org.usfirst.frc2783.util.NavSensor;
@@ -73,6 +74,10 @@ public class Robot extends IterativeRobot {
     public static RightEncoderCounter rightCounter = RightEncoderCounter.getInstance();
     public static ElevatorEncoderCounter elEncCounter = ElevatorEncoderCounter.getInstance();
     
+    public static EncoderPosition groundPos;
+    public static EncoderPosition switchPos;
+    public static EncoderPosition scalePos;
+    
     public static String gameData;
 	public static String switchesVal;
 	public static String scaleVal;
@@ -100,6 +105,10 @@ public class Robot extends IterativeRobot {
         slowLoop.addLoop(new VoltageLogger());
         slowLoop.startLoops();
 
+        groundPos = new EncoderPosition(0, elEncCounter.getEncoderStartPos());
+        switchPos = new EncoderPosition(2, elEncCounter.getEncoderStartPos());
+        scalePos = new EncoderPosition(6, elEncCounter.getEncoderStartPos());
+        
         String[] autonomousList = {"Test", "DriveGyroTest", "BaselineCross", "ScaleFromLeft", "SwitchFromLeft", "ScaleFromRight", "SwitchFromRight"};
         
         //Puts the autonomous modes selector into the dashboard

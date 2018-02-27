@@ -23,10 +23,10 @@ public class Constants {
 	public static final double kTankPoseP = 0.0065;
 	public static final double kTankPoseI = 0.00035;
 	public static final double kTankPoseD = 0.009;
+	
 	//Need to adjust these for our purposes
 	public static double kTrackWidthInches = 26.655;
     public static double kTrackScrubFactor = 0.924;
-	
 	
 	public static final double kGyroDriveP = 0.01;
 	public static final double kGyroDriveI = 0.001;
@@ -35,6 +35,10 @@ public class Constants {
 	public static final double kTankSideP = 0.0075;
 	public static final double kTankSideI = 0.0003;
 	public static final double kTankSideD = 0.005;
+	
+	public static final double kElevatorP = 0.0075;
+	public static final double kElevatorI = 0.0003;
+	public static final double kElevatorD = 0.005;
 	
 	public static final double kPeriod = 0.005; 
 
@@ -100,7 +104,12 @@ public class Constants {
 	
 	public static final int kRaiseClimbID = 7;
 	public static final int kDeployClimbID = 8;
+	
+	public static final int kElevatorToGroundButton = 1;
+	public static final int kElevatorToSwitchButton = 2;
+	public static final int kElevatorToScaleButton = 4;
 	public static final int kGearShiftID = 10;
+	
 	public static final double kDriveHighGearMaxSetpoint = 17 * 12; //17 feet per second
 	
 	/**

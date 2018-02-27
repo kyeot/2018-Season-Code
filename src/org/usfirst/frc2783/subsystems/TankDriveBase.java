@@ -240,15 +240,15 @@ public class TankDriveBase extends Subsystem {
 		leftSideController = new PIDController(Constants.kTankSideP, Constants.kTankSideI, Constants.kTankSideD,
 												leftPidSource, leftSideOut);
 		leftSideController.setInputRange(0, 360);
-		leftSideController.setContinuous();
+		leftSideController.setContinuous(false);
 		
 		//Creates the right side PID controller
 		rightPidSource = new RightTankSideSource();
 		rightSideOut = new RightTankSideOut();
 		rightSideController = new PIDController(Constants.kTankSideP, Constants.kTankSideI, Constants.kTankSideD,
 												rightPidSource, rightSideOut);
-		leftSideController.setInputRange(0, 360);
-		leftSideController.setContinuous();
+		rightSideController.setInputRange(0, 360);
+		rightSideController.setContinuous(false);
 	}
 	
     /**

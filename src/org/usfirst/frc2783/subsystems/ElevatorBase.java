@@ -8,7 +8,10 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
-import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -18,10 +21,34 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * @version 1/20/2017
  */
 public class ElevatorBase extends Subsystem {
-
-    // Put methods for controlling this subsystem
-    // here. Call these from Commands.
 	
+	class ElevatorEncSource implements PIDSource {
+		PIDSourceType sourceType;
+		public ElevatorEncSource() {
+			setPIDSourceType(PIDSourceType.kDisplacement);
+		}
+		@Override
+		public void setPIDSourceType(PIDSourceType pidSource) {
+			sourceType = pidSource;
+		}
+		@Override
+		public PIDSourceType getPIDSourceType() {
+			return sourceType;
+		}
+		@Override
+		public double pidGet() {
+			return Robot.elevatorAbsEnc.getValue()/11.3777777777777777778;
+		}	
+	}
+
+    //PID Output Class for the elevator
+	class ElevatorOut implements PIDOutput {
+		@Override
+		public void pidWrite(double output){
+			out = -output;
+		}
+	}
+
 	// adds Victor
 	public static VictorSPX elevator1Mot;
 	public static VictorSPX elevator2Mot;
@@ -29,9 +56,15 @@ public class ElevatorBase extends Subsystem {
 	long timeOnStart;
 	double time;
 	
+	double out;
+	
 	Servo shifter;
 	Servo climber1;
 	Servo climber2;
+	
+	ElevatorEncSource elevatorEncSource;
+	ElevatorOut elevatorOut;
+	PIDController elevatorEncController;
 	
 	boolean isUp = true;
 	
@@ -45,6 +78,21 @@ public class ElevatorBase extends Subsystem {
 		
 		elevator1Mot.setNeutralMode(NeutralMode.Brake);
 		elevator2Mot.setNeutralMode(NeutralMode.Brake);
+		
+		elevatorEncSource = new ElevatorEncSource();
+		elevatorOut = new ElevatorOut();
+		elevatorEncController = new PIDController(Constants.kElevatorP, Constants.kElevatorI, Constants.kElevatorD,
+												  elevatorEncSource, elevatorOut);
+		elevatorEncController.setInputRange(0, 360);
+		elevatorEncController.setContinuous(false);
+		
+	}
+	
+	public void elevatorPid(double angle){
+		elevatorEncController.setSetpoint(angle);
+		elevatorEncController.enable();
+		
+		elevator(out);
 		
 	}
 	
