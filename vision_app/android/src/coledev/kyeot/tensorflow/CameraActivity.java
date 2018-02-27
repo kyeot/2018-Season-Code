@@ -19,8 +19,12 @@ package coledev.kyeot.tensorflow;
 import android.Manifest;
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.hardware.Camera;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
@@ -32,6 +36,7 @@ import android.media.Image.Plane;
 import android.media.ImageReader;
 import android.media.ImageReader.OnImageAvailableListener;
 import android.media.MediaPlayer;
+import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -43,6 +48,8 @@ import android.view.KeyEvent;
 import android.view.Surface;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -82,22 +89,47 @@ public abstract class CameraActivity extends Activity
   private TextView connectionState;
   private RobotConnectionStatusBroadcastReceiver rbr;
   private TextView teamLogo;
+  private TextView batteryLevel;
+  private TextView criticalBattery;
   private MediaPlayer mp;
   private int clicks = 0;
+  private BroadcastReceiver mBatInfoReceiver = new BroadcastReceiver(){
+    @Override
+    public void onReceive(Context ctxt, Intent intent) {
+      int level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0);
+      if (level <= 30){
+        batteryLevel.setTextColor(Color.RED);
+      } else {
+        batteryLevel.setTextColor(getResources().getColor(R.color.kyeot_blue));
+      }
+      if (level <= 20){
+        criticalBattery.setVisibility(View.VISIBLE);
+        Animation anim = new AlphaAnimation(0.0f, 1.0f);
+        anim.setDuration(400); //You can manage the blinking time with this parameter
+        anim.setStartOffset(20);
+        anim.setRepeatMode(Animation.REVERSE);
+        anim.setRepeatCount(Animation.INFINITE);
+        criticalBattery.startAnimation(anim);
+      } else {
+       criticalBattery.setVisibility(View.INVISIBLE);
+      }
+      batteryLevel.setText(String.valueOf(level) + "%");
+    }
+  };
 
   //robot code
   @Override
   public void robotConnected(){
     Log.d(TAG, "Robot Connected");
     connectionState.setText("Robot Connected");
-    connectionState.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
+    connectionState.setTextColor(getResources().getColor(R.color.kyeot_blue));
   }
 
   @Override
   public void robotDisconnected(){
     Log.d(TAG, "Robot Disconnected");
     connectionState.setText("Robot Disconnected");
-    connectionState.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
+    connectionState.setTextColor(Color.RED);
   }
 
   @Override
@@ -108,6 +140,9 @@ public abstract class CameraActivity extends Activity
     setContentView(R.layout.activity_camera);
     connectionState = findViewById(R.id.connectionState);
     teamLogo = findViewById(R.id.teamLogo);
+    batteryLevel = findViewById(R.id.batteryPercentage);
+    criticalBattery = findViewById(R.id.criticalBattery);
+    this.registerReceiver(this.mBatInfoReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
     rbr = new RobotConnectionStatusBroadcastReceiver(this, this);
     if (hasPermission()) {
       setFragment();
