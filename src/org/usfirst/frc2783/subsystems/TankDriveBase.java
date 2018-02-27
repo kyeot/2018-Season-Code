@@ -17,6 +17,7 @@ import org.usfirst.frc2783.util.NavSensor;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.team254.frc2017.subsystems.Drive.DriveControlState;
 
 import org.usfirst.frc2783.robot.RobotState;
 
@@ -30,6 +31,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * Subsystem base for the TankDrive
  */
 public class TankDriveBase extends Subsystem {
+	
+	private static TankDriveBase mInstance = new TankDriveBase();
 	
 	// The robot drivetrain's various states.
     public enum DriveControlState {
@@ -397,5 +400,18 @@ public class TankDriveBase extends Subsystem {
             return false;
         }
     }
-
+	
+	public static TankDriveBase getInstance() {
+		return mInstance;
+	}
+	
+	public synchronized boolean isDoneWithPath() {
+        if (mDriveControlState == DriveControlState.PATH_FOLLOWING && mPathFollower != null) {
+            return mPathFollower.isFinished();
+        } else {
+            System.out.println("Robot is not in path following mode");
+            return true;
+        }
+    }
+	
 }
