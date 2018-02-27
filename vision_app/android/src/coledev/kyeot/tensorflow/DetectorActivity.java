@@ -121,6 +121,8 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
   private byte[] luminanceCopy;
 
   private BorderedText borderedText;
+  private final String TAG = "DetectorActivity";
+
   @Override
   public void onPreviewSizeChosen(final Size size, final int rotation) {
     final float textSizePx =

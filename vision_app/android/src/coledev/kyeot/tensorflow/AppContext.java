@@ -1,6 +1,8 @@
 package coledev.kyeot.tensorflow;
 
 import android.app.Application;
+import android.app.admin.DevicePolicyManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -12,7 +14,7 @@ public class AppContext extends Application {
 
     private AppContext instance;
     private PowerManager.WakeLock wakeLock;
-
+    private OnScreenOffReceiver onScreenOffReceiver;
 
     // This class is mainly here so we can get references to the application context in places where
     // it is otherwise extremely hairy to do so. USE SPARINGLY.
@@ -36,6 +38,8 @@ public class AppContext extends Application {
         instance = this;
         rc = new RobotConnection(getDefaultContext());
         rc.start();
+        registerKioskModeScreenOffReceiver();
+        whitelistLockTasks();
     }
 
     public static RobotConnection getRobotConnection() {
@@ -52,6 +56,25 @@ public class AppContext extends Application {
         }
         return wakeLock;
     }
+
+    private void whitelistLockTasks() {
+        DevicePolicyManager manager =
+                (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
+        ComponentName componentName = VisionDeviceAdminReceiver.getComponentName(this);
+
+        if (manager.isDeviceOwnerApp(getPackageName())) {
+            manager.setLockTaskPackages(componentName, new String[]{getPackageName()});
+        }
+    }
+
+    private void registerKioskModeScreenOffReceiver() {
+        // register screen off receiver
+        final IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_OFF);
+        onScreenOffReceiver = new OnScreenOffReceiver();
+        registerReceiver(onScreenOffReceiver, filter);
+    }
+
+
 
     @Override
     public void onTerminate() {
