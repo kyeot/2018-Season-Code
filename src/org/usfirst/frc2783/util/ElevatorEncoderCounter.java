@@ -29,8 +29,6 @@ public class ElevatorEncoderCounter implements Loop{
 	@Override
 	public void onStart() {
 		
-		Robot.isElevatorForward = true;
-		
 		wasForward = true;
 		
 		elevatorEncVal = Robot.elevatorAbsEnc.getValue();  

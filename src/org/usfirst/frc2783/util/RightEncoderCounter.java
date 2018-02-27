@@ -24,7 +24,6 @@ public class RightEncoderCounter implements Loop{
 	@Override
 	public void onStart() {
 
-		Robot.isRightForward = true;
 		wasForward = true;
 		
 		rightEncVal = Robot.rightAbsEnc.getValue();

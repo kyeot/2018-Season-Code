@@ -63,9 +63,9 @@ public class Robot extends IterativeRobot {
     
     public static Random rand = new Random();
     
-    public static boolean isLeftForward = false;
-    public static boolean isRightForward = false;
-    public static boolean isElevatorForward = false;
+    public static boolean isLeftForward = true;
+    public static boolean isRightForward = true;
+    public static boolean isElevatorForward = true;
     
     public static ActionScheduler autoScheduler = new ActionScheduler();
     

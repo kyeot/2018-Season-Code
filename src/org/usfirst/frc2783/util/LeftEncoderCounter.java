@@ -28,8 +28,6 @@ public class LeftEncoderCounter implements Loop{
 	@Override
 	public void onStart() {
 		
-		Robot.isLeftForward = true;
-		
 		wasForward = true;
 		
 		leftEncVal = Robot.leftAbsEnc.getValue();  
