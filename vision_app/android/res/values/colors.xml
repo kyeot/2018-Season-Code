@@ -16,4 +16,6 @@
 -->
 <resources>
     <color name="control_background">#cc4285f4</color>
+    <color name="kyeot_blue">#143e5c</color>
+    <color name="kyeot_blue_transparent">#b3143e5c</color>
 </resources>

@@ -7,9 +7,12 @@ import org.usfirst.frc2783.calculation.RigidTransform2d;
 import org.usfirst.frc2783.calculation.Rotation2d;
 import org.usfirst.frc2783.calculation.Twist2d;
 import org.usfirst.frc2783.commands.TankDrive;
+import org.usfirst.frc2783.loops.Loop;
+import org.usfirst.frc2783.loops.Looper;
 import org.usfirst.frc2783.robot.Constants;
 import org.usfirst.frc2783.robot.Kinematics;
 import org.usfirst.frc2783.robot.Robot;
+import org.usfirst.frc2783.robot.RobotState;
 import org.usfirst.frc2783.util.Bearing;
 import org.usfirst.frc2783.util.GyroSource;
 import org.usfirst.frc2783.util.NavSensor;
@@ -17,9 +20,6 @@ import org.usfirst.frc2783.util.NavSensor;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-import com.team254.frc2017.subsystems.Drive.DriveControlState;
-
-import org.usfirst.frc2783.robot.RobotState;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
@@ -60,6 +60,58 @@ public class TankDriveBase extends Subsystem {
             return true;
         }
         return false;
+    }
+    
+    private final Loop mLoop = new Loop() {
+    
+	    
+
+		@Override
+		public void onStart() {
+			synchronized (TankDriveBase.this) {
+                setBrakeMode(false);
+                setVelocitySetpoint(0, 0);
+            }
+		}
+
+		@Override
+		public void onLoop(double timestamp) {
+	        synchronized (TankDriveBase.this) {
+	            switch (mDriveControlState) {
+	            case OPEN_LOOP:
+	                return;
+	            case VELOCITY_SETPOINT:
+	                return;
+	            case PATH_FOLLOWING:
+	                if (mPathFollower != null) {
+	                    updatePathFollower(timestamp);
+	                }
+	                return;
+	                // fallthrough intended
+	            case TURN_TO_HEADING:
+	                return;
+	            default:
+	                System.out.println("Unexpected drive control state: " + mDriveControlState);
+	                break;
+	            }
+	        }
+	    }
+
+		@Override
+		public void onStop() {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onLoop() {
+			// TODO Auto-generated method stub
+			
+		}
+    };
+    
+    public void registerEnabledLoops(Looper in) {
+        in.register(mLoop);
     }
     
     //PID Source Class for the right side of the Tank Drive
@@ -291,13 +343,20 @@ public class TankDriveBase extends Subsystem {
             //RobotState.getInstance().resetDistanceDriven(); //Need to reset rotations
             mPathFollower = new PathFollower(path, reversed,
                     new PathFollower.Parameters(
-                            new Lookahead(Constants.kMinLookAhead, Constants.kMaxLookAhead,
-                                    	  Constants.kMinLookAheadSpeed, Constants.kMaxLookAheadSpeed),
-                            			  Constants.kInertiaSteeringGain, Constants.kPathFollowingProfileKp,
-                            			  Constants.kPathFollowingProfileKi, Constants.kPathFollowingProfileKv,
-                            			  Constants.kPathFollowingProfileKffv, Constants.kPathFollowingProfileKffa,
-                            			  Constants.kPathFollowingMaxVel, Constants.kPathFollowingMaxAccel,
-                            			  Constants.kPathFollowingGoalPosTolerance, Constants.kPathFollowingGoalVelTolerance, 
+                            new Lookahead(Constants.kMinLookAhead,
+                            			  Constants.kMaxLookAhead,
+                                    	  Constants.kMinLookAheadSpeed,
+                                    	  Constants.kMaxLookAheadSpeed),
+                            			  Constants.kInertiaSteeringGain,
+                            			  Constants.kPathFollowingProfileKp,
+                            			  Constants.kPathFollowingProfileKi,
+                            			  Constants.kPathFollowingProfileKv,
+                            			  Constants.kPathFollowingProfileKffv,
+                            			  Constants.kPathFollowingProfileKffa,
+                            			  Constants.kPathFollowingMaxVel,
+                            			  Constants.kPathFollowingMaxAccel,
+                            			  Constants.kPathFollowingGoalPosTolerance,
+                            			  Constants.kPathFollowingGoalVelTolerance, 
                             			  Constants.kPathStopSteeringDistance));
             mDriveControlState = DriveControlState.PATH_FOLLOWING;
             mCurrentPath = path;

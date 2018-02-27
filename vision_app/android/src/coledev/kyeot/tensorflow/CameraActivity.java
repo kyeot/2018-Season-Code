@@ -26,26 +26,35 @@ import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.params.StreamConfigurationMap;
+import android.media.AudioManager;
 import android.media.Image;
 import android.media.Image.Plane;
 import android.media.ImageReader;
 import android.media.ImageReader.OnImageAvailableListener;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Trace;
+import android.util.Log;
 import android.util.Size;
 import android.view.KeyEvent;
 import android.view.Surface;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
+
 import java.nio.ByteBuffer;
+
+import coledev.kyeot.tensorflow.comm.RobotConnectionStateListener;
+import coledev.kyeot.tensorflow.comm.RobotConnectionStatusBroadcastReceiver;
 import coledev.kyeot.tensorflow.env.ImageUtils;
 import coledev.kyeot.tensorflow.env.Logger;
 
 public abstract class CameraActivity extends Activity
-    implements OnImageAvailableListener, Camera.PreviewCallback {
+    implements OnImageAvailableListener, Camera.PreviewCallback, RobotConnectionStateListener {
   private static final Logger LOGGER = new Logger();
 
   private static final int PERMISSIONS_REQUEST = 1;
@@ -53,7 +62,7 @@ public abstract class CameraActivity extends Activity
   private static final String PERMISSION_CAMERA = Manifest.permission.CAMERA;
   private static final String PERMISSION_STORAGE = Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
-  private boolean debug = false;
+  private static boolean debug = false;
 
   private Handler handler;
   private HandlerThread handlerThread;
@@ -68,15 +77,38 @@ public abstract class CameraActivity extends Activity
 
   private Runnable postInferenceCallback;
   private Runnable imageConverter;
+  private final String TAG = "CameraActivity";
+
+  private TextView connectionState;
+  private RobotConnectionStatusBroadcastReceiver rbr;
+  private TextView teamLogo;
+  private MediaPlayer mp;
+  private int clicks = 0;
+
+  //robot code
+  @Override
+  public void robotConnected(){
+    Log.d(TAG, "Robot Connected");
+    connectionState.setText("Robot Connected");
+    connectionState.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
+  }
+
+  @Override
+  public void robotDisconnected(){
+    Log.d(TAG, "Robot Disconnected");
+    connectionState.setText("Robot Disconnected");
+    connectionState.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
+  }
 
   @Override
   protected void onCreate(final Bundle savedInstanceState) {
     LOGGER.d("onCreate " + this);
     super.onCreate(null);
     getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-
     setContentView(R.layout.activity_camera);
-
+    connectionState = findViewById(R.id.connectionState);
+    teamLogo = findViewById(R.id.teamLogo);
+    rbr = new RobotConnectionStatusBroadcastReceiver(this, this);
     if (hasPermission()) {
       setFragment();
     } else {
@@ -233,7 +265,7 @@ public abstract class CameraActivity extends Activity
   public synchronized void onPause() {
     LOGGER.d("onPause " + this);
 
-    if (!isFinishing()) {
+    if (!isFinishing() && isDebug()) {
       LOGGER.d("Requesting finish");
       finish();
     }
@@ -259,6 +291,7 @@ public abstract class CameraActivity extends Activity
   @Override
   public synchronized void onDestroy() {
     LOGGER.d("onDestroy " + this);
+    unregisterReceiver(rbr);
     super.onDestroy();
   }
 
@@ -393,19 +426,19 @@ public abstract class CameraActivity extends Activity
     }
   }
 
-  public boolean isDebug() {
+  public static boolean isDebug() {
     return debug;
   }
 
   public void requestRender() {
-    final OverlayView overlay = (OverlayView) findViewById(R.id.debug_overlay);
+    final OverlayView overlay = findViewById(R.id.debug_overlay);
     if (overlay != null) {
       overlay.postInvalidate();
     }
   }
 
   public void addCallback(final OverlayView.DrawCallback callback) {
-    final OverlayView overlay = (OverlayView) findViewById(R.id.debug_overlay);
+    final OverlayView overlay = findViewById(R.id.debug_overlay);
     if (overlay != null) {
       overlay.addCallback(callback);
     }
@@ -417,6 +450,13 @@ public abstract class CameraActivity extends Activity
   public boolean onKeyDown(final int keyCode, final KeyEvent event) {
     if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN || keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
       debug = !debug;
+      if (debug) {
+        connectionState.setVisibility(View.INVISIBLE);
+        teamLogo.setVisibility(View.INVISIBLE);
+      } else {
+        connectionState.setVisibility(View.VISIBLE);
+        teamLogo.setVisibility(View.VISIBLE);
+      }
       requestRender();
       onSetDebug(debug);
       return true;
@@ -427,6 +467,38 @@ public abstract class CameraActivity extends Activity
   protected void readyForNextImage() {
     if (postInferenceCallback != null) {
       postInferenceCallback.run();
+    }
+  }
+
+  public void playDevelopers(View v) {
+    clicks++;
+    Log.d(TAG, "Logo clicked!");
+    if (clicks < 10){
+      Toast.makeText(getApplicationContext(), "You are " + (10 - clicks) + " steps away from being a developer", Toast.LENGTH_SHORT).show();
+    }
+    if (clicks == 10) {
+      Toast.makeText(getApplicationContext(), "You are now a developer!", Toast.LENGTH_SHORT).show();
+      //set volume to full because I am a bad person
+      AudioManager am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+      am.setStreamVolume(
+              AudioManager.STREAM_MUSIC,
+              am.getStreamMaxVolume(AudioManager.STREAM_MUSIC),
+              0);
+      mp = MediaPlayer.create(this, R.raw.developers);
+      mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+        @Override
+        public void onCompletion(MediaPlayer mp) {
+          mp.release();
+          clicks = 0;
+        }
+      });
+      mp.start();
+    }
+    if (mp != null && mp.isPlaying() && clicks > 10) {
+        mp.stop();
+        mp.release();
+        mp = null;
+        clicks = 0;
     }
   }
 

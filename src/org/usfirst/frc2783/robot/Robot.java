@@ -131,11 +131,11 @@ public class Robot extends IterativeRobot {
     	
     	String autoSelected = SmartDashboard.getString("Auto Selector", "None");
 
-    	gameData = "LLL";
+    	gameData = "RLL";
 //    	gameData = DriverStation.getInstance().getGameSpecificMessage();
-    	autoSides = "L";
-    	switchVal = "L";
-    	scaleVal = "L";
+    	autoSides = "RR";
+    	switchVal = "R";
+    	scaleVal = "R";
     	
     	//Switch Statement to Run the Right Auto Code Depending on the selected position and switch/scale sides
     	switch(autoSelected) {

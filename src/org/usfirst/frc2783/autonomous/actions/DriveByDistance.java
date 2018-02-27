@@ -5,6 +5,8 @@ import org.usfirst.frc2783.robot.Robot;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 @SuppressWarnings("static-access")
 public class DriveByDistance extends Action {
 
@@ -36,6 +38,8 @@ public class DriveByDistance extends Action {
 	double leftSpeedOnStart;
 	double rightSpeedOnStart;
 	
+	boolean isRight = true;
+	
 	boolean isLeftRotationsDone = false;
 	boolean isLeftDegreesDone = false;
 	boolean isRightRotationsDone = false;
@@ -63,10 +67,12 @@ public class DriveByDistance extends Action {
     	if(leftDistanceInDegrees > rightDistanceInDegrees){
     		rightSpeed = rightDistanceInDegrees/leftDistanceInDegrees*speedScaler;
     		leftSpeed = speedScaler;
+    		isRight = true;
     	}
     	else if(rightDistanceInDegrees > leftDistanceInDegrees){
     		leftSpeed = leftDistanceInDegrees/rightDistanceInDegrees*speedScaler;
     		rightSpeed = speedScaler;
+    		isRight = false;
     	}
     	else{
     		rightSpeed = speedScaler;
@@ -90,7 +96,8 @@ public class DriveByDistance extends Action {
 	}
 	
 	@Override
-	public void perform(){                                                                                 
+	public void perform(){                
+		SmartDashboard.putString("DB/String 5", "yes");
     	if(Robot.leftCounter.leftRotationCounter >= (leftRotationOnStart + wantedLeftRotations)){
     		isLeftRotationsDone = true;
     	}
@@ -121,13 +128,18 @@ public class DriveByDistance extends Action {
     		rightSpeed = 0;
     	}
     	
-    	Robot.tankDrive.tankDrive(leftSpeed, rightSpeed);
+    	Robot.tankDrive.tankDrive(-leftSpeed, -rightSpeed);
 		
 	}
 	
 	@Override
 	public boolean done(){
-		return isLeftDegreesDone || isRightDegreesDone;
+		if(isRight){
+			return isRightDegreesDone;
+		}
+		else{
+			return isLeftDegreesDone;
+		}
 	}
 
 	public void finish() {

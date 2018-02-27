@@ -72,6 +72,9 @@ public class DriveWithGyroAndByDistance extends Action {
 	boolean isLeftDegreesDone = false;
 	boolean isRightRotationsDone = false;
 	boolean isRightDegreesDone = false;
+	
+	double angle;
+	
 	/**
 	 * 
 	 * Drives the tank drive forward with automatic gyroscope adjustment based on the left and right distances you give it
@@ -81,11 +84,9 @@ public class DriveWithGyroAndByDistance extends Action {
 	 * @param LeftDistance
 	 * @param RightDistance
 	 */
-	public DriveWithGyroAndByDistance(double speedScaler, double leftDistance, double rightDistance) {
+	public DriveWithGyroAndByDistance(double speedScaler, double leftDistance, double rightDistance, double angle) {
 		super("DriveByDistance");
 
-		Robot.angle = gyro.getAngle(false);
-		
 		//Creates the PID controller for gyro adjustment
 		gyroDriveOut = new GyroDriveOut();
 		gyroSource = new GyroSource();
@@ -98,6 +99,8 @@ public class DriveWithGyroAndByDistance extends Action {
     	this.speedScaler = speedScaler;
     	this.leftDistance = leftDistance;
     	this.rightDistance = rightDistance;
+    	
+    	this.angle = angle;
     	
     	//Makes the angle on start equal the angle, on start
     	leftAngleOnStart = Robot.leftAbsEnc.getValue();
@@ -192,7 +195,7 @@ public class DriveWithGyroAndByDistance extends Action {
 	 * @param speed
 	 */
 	public void gyroDrive(double speed){
-		gyroDrivePid.setSetpoint(Robot.angle);
+		gyroDrivePid.setSetpoint(angle);
 		gyroDrivePid.enable();
 
 		Robot.tankDrive.tankDrive(-speed, -speed+rot);
@@ -200,7 +203,7 @@ public class DriveWithGyroAndByDistance extends Action {
 	
 	@Override
 	public boolean done(){
-		return isLeftDegreesDone && isRightDegreesDone;
+		return isLeftDegreesDone || isRightDegreesDone;
 	}
 
 	@Override
