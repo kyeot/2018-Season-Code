@@ -1,18 +1,18 @@
-package org.usfirst.frc2783.paths.profiles;
+package org.usfirst.frc2783.autonomous.paths.profiles;
 
 /**
- * Contains the corrective values for Comp bot
+ * Contains the corrective values for Practice bot
  */
-public class CompBot implements RobotProfile {
+public class PracticeBot implements RobotProfile {
 
     @Override
     public double getRedBoilerGearXCorrection() {
-        return 3.0;
+        return 2.5;
     }
 
     @Override
     public double getRedBoilerGearYCorrection() {
-        return 4.0;
+        return 7.0;
     }
 
     @Override
@@ -22,27 +22,27 @@ public class CompBot implements RobotProfile {
 
     @Override
     public double getRedHopperYOffset() {
-        return -3.0;
+        return -6.0;
     }
 
     @Override
     public double getBlueBoilerGearXCorrection() {
-        return 0.5;
+        return 2.5;
     }
 
     @Override
     public double getBlueBoilerGearYCorrection() {
-        return 1.0;
+        return -1.0;
     }
 
     @Override
     public double getBlueHopperXOffset() {
-        return -5.5;
+        return 0.0;
     }
 
     @Override
     public double getBlueHopperYOffset() {
-        return 0.0;
+        return -4.0;
     }
 
 }

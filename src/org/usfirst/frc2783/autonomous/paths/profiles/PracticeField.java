@@ -1,4 +1,4 @@
-package org.usfirst.frc2783.paths.profiles;
+package org.usfirst.frc2783.autonomous.paths.profiles;
 
 /**
  * Contains the measurements for the practice field at the 254 lab
