@@ -38,7 +38,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 //adds classes to the code
 
-@SuppressWarnings("static-access")
 public class Robot extends IterativeRobot {
 	
     public static OI oi;

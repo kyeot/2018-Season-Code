@@ -44,7 +44,7 @@ public class Constants {
 	public static final int kElevatorLockShiftID = 9;
 	public static final int kElevatorGearShiftID = 10;
 	
-	//Buton IDs for driver
+	//Button IDs for driver
 	public static final int kSlowModeID = 5;
 	public static final int kFastModeID = 6;
 	
@@ -85,6 +85,8 @@ public class Constants {
 	
 	//Time between each loop in a loop in seconds
 	public static final double kPeriod = 0.005; 
+	
+	//Time between each loop in autonomous actions in seconds
 	public static final double kAutoPeriod = 0.005;
 	
 	//Need to adjust these for our purposes
