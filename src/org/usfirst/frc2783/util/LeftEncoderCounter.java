@@ -5,8 +5,14 @@ import org.usfirst.frc2783.robot.Robot;
 
 public class LeftEncoderCounter implements Loop{
 	
+	private static LeftEncoderCounter _instance;
+	
+	public static LeftEncoderCounter getInstance(){
+		return _instance;
+	}
+	
 	//Sets the rotation counters to 0
-	public static double leftRotationCounter = 0;
+	static double leftRotationCounter = 0;
 	
 	double loopCount;
 
@@ -17,10 +23,14 @@ public class LeftEncoderCounter implements Loop{
 	double leftEncValSub2;
 	double leftEncValSub3;
 
+	boolean wasForward;
+	
 	@Override
 	public void onStart() {
 		
 		Robot.isLeftForward = true;
+		
+		wasForward = true;
 		
 		leftEncVal = Robot.leftAbsEnc.getValue();  
 		
@@ -47,18 +57,20 @@ public class LeftEncoderCounter implements Loop{
 		
 		leftEncVal = Robot.leftAbsEnc.getValue();  
 		
-		if(Robot.isLeftForward){
-			if(leftEncVal < leftEncoderLastVal){
-				leftRotationCounter--;
+		if(wasForward == Robot.isLeftForward){
+			if(Robot.isLeftForward){
+				if(leftEncVal < leftEncoderLastVal){
+					leftRotationCounter--;
+				}
+			}
+		
+			else{
+				if(leftEncVal > leftEncoderLastVal){
+					leftRotationCounter++;
+				}
 			}
 		}
-		
-		else{
-			if(leftEncVal > leftEncoderLastVal){
-				leftRotationCounter++;
-			}
-		}
-		
+			
 		if(Robot.isLeftForward){
 			leftEncoderLastVal = leftEncVal-50;
 		}
@@ -67,11 +79,22 @@ public class LeftEncoderCounter implements Loop{
 			leftEncoderLastVal = leftEncVal+50;
 		}
 		
+		wasForward = Robot.isLeftForward;
 		
 	}
 
 	@Override
 	public void onStop() {
+	}
+
+	@Override
+	public void onLoop(double timestamp) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public double getRotations(){
+		return leftRotationCounter;
 	}
 
 }

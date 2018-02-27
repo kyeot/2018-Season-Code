@@ -1,4 +1,4 @@
-package org.usfirst.frc2783.paths.profiles;
+package org.usfirst.frc2783.autonomous.paths.profiles;
 
 /**
  * Interface that holds all the field measurements required by the PathAdapter

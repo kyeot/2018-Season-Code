@@ -1,4 +1,4 @@
-package org.usfirst.frc2783.autonomous;
+package org.usfirst.frc2783.autonomous.actions.groups;
 
 import org.usfirst.frc2783.autonomous.actions.ActionGroup;
 import org.usfirst.frc2783.autonomous.actions.RotateTankAction;

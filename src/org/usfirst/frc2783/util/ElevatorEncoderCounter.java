@@ -6,8 +6,14 @@ import org.usfirst.frc2783.subsystems.ElevatorBase;
 
 public class ElevatorEncoderCounter implements Loop{
 	
+	private static ElevatorEncoderCounter _instance;
+	
+	public static ElevatorEncoderCounter getInstance(){
+		return _instance;
+	}
+	
 	//Sets the rotation counters to 0
-	public static double elevatorRotationCounter = 0;
+	static double elevatorRotationCounter = 0;
 	
 	double loopCount;
 
@@ -18,10 +24,14 @@ public class ElevatorEncoderCounter implements Loop{
 	double elevatorEncValSub2;
 	double elevatorEncValSub3;
 
+	boolean wasForward;
+	
 	@Override
 	public void onStart() {
 		
 		Robot.isElevatorForward = true;
+		
+		wasForward = true;
 		
 		elevatorEncVal = Robot.elevatorAbsEnc.getValue();  
 		
@@ -48,18 +58,20 @@ public class ElevatorEncoderCounter implements Loop{
 		
 		elevatorEncVal = Robot.elevatorAbsEnc.getValue();  
 		
-		if(Robot.isElevatorForward){
-			if(elevatorEncVal < elevatorEncoderLastVal){
-				elevatorRotationCounter--;
+		if(wasForward = Robot.isElevatorForward){
+			if(Robot.isElevatorForward){
+				if(elevatorEncVal < elevatorEncoderLastVal){
+					elevatorRotationCounter--;
+				}
+			}
+		
+			else{
+				if(elevatorEncVal > elevatorEncoderLastVal){
+					elevatorRotationCounter++;
+				}
 			}
 		}
-		
-		else{
-			if(elevatorEncVal > elevatorEncoderLastVal){
-				elevatorRotationCounter++;
-			}
-		}
-		
+			
 		if(Robot.isElevatorForward){
 			elevatorEncoderLastVal = elevatorEncVal-50;
 		}
@@ -68,11 +80,22 @@ public class ElevatorEncoderCounter implements Loop{
 			elevatorEncoderLastVal = elevatorEncVal+50;
 		}
 		
+		wasForward = Robot.isElevatorForward;
 		
 	}
 
 	@Override
 	public void onStop() {
+	}
+
+	@Override
+	public void onLoop(double timestamp) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public double getRotations(){
+		return elevatorRotationCounter;
 	}
 
 }

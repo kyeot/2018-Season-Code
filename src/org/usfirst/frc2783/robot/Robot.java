@@ -4,14 +4,14 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Random;
 
-import org.usfirst.frc2783.autonomous.BaselineCross;
-import org.usfirst.frc2783.autonomous.DriveGyroTest;
-import org.usfirst.frc2783.autonomous.ScaleFromLeft;
-import org.usfirst.frc2783.autonomous.ScaleFromRight;
-import org.usfirst.frc2783.autonomous.SwitchFromLeft;
-import org.usfirst.frc2783.autonomous.SwitchFromRight;
-import org.usfirst.frc2783.autonomous.TestAuto;
 import org.usfirst.frc2783.autonomous.actions.ActionScheduler;
+import org.usfirst.frc2783.autonomous.actions.groups.BaselineCross;
+import org.usfirst.frc2783.autonomous.actions.groups.DriveGyroTest;
+import org.usfirst.frc2783.autonomous.actions.groups.ScaleFromLeft;
+import org.usfirst.frc2783.autonomous.actions.groups.ScaleFromRight;
+import org.usfirst.frc2783.autonomous.actions.groups.SwitchFromLeft;
+import org.usfirst.frc2783.autonomous.actions.groups.SwitchFromRight;
+import org.usfirst.frc2783.autonomous.actions.groups.TestAuto;
 import org.usfirst.frc2783.loops.LogData;
 import org.usfirst.frc2783.loops.Looper;
 import org.usfirst.frc2783.loops.VisionProcessor;
@@ -39,7 +39,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 @SuppressWarnings("static-access")
 public class Robot extends IterativeRobot {
-
+	
     public static OI oi;
     public static Looper looper = new Looper(Constants.kPeriod);
     public static Looper slowLoop = new Looper(0.1);
@@ -69,9 +69,9 @@ public class Robot extends IterativeRobot {
     
     public static ActionScheduler autoScheduler = new ActionScheduler();
     
-    public static LeftEncoderCounter leftCounter = new LeftEncoderCounter();
-    public static RightEncoderCounter rightCounter = new RightEncoderCounter();
-    public static ElevatorEncoderCounter elEncCounter = new ElevatorEncoderCounter();
+    public static LeftEncoderCounter leftCounter = LeftEncoderCounter.getInstance();
+    public static RightEncoderCounter rightCounter = RightEncoderCounter.getInstance();
+    public static ElevatorEncoderCounter elEncCounter = ElevatorEncoderCounter.getInstance();
     
     public static String gameData;
 	public static String switchesVal;
@@ -82,7 +82,7 @@ public class Robot extends IterativeRobot {
     
     VisionServer mVisionServer = VisionServer.getInstance();
     
-        public void robotInit() {
+    public void robotInit() {
         oi = new OI();
         
         mVisionServer.addVisionUpdateReceiver(VisionProcessor.getInstance());
@@ -93,13 +93,14 @@ public class Robot extends IterativeRobot {
         looper.addLoop(VisionProcessor.getInstance());
         looper.addLoop(leftCounter);
         looper.addLoop(rightCounter);
+        looper.addLoop(elEncCounter);
         Logger.info("Starting Loops");
         looper.startLoops();
         
         slowLoop.addLoop(new VoltageLogger());
         slowLoop.startLoops();
 
-        String[] autonomousList = {"Test", "DriveGyroTest", "BaselineCross", "ScaleFromLeft", "SwitchFromLeft", "ScaleFromRight", "ScaleFromLeft"};
+        String[] autonomousList = {"Test", "DriveGyroTest", "BaselineCross", "ScaleFromLeft", "SwitchFromLeft", "ScaleFromRight", "SwitchFromRight"};
         
         //Puts the autonomous modes selector into the dashboard
         SmartDashboard.putStringArray("Auto List", autonomousList);
@@ -109,15 +110,17 @@ public class Robot extends IterativeRobot {
         File logFile = new File("/home/lvuser/log.txt");
         try {
 			logFile.createNewFile();
-		} catch (IOException e) {
+		} 
+        catch (IOException e) {
 			e.printStackTrace();
 		}
         
         try {
 	         navSensor = new AHRS(SPI.Port.kMXP);
-	     } catch (RuntimeException ex) {
+	    }
+        catch (RuntimeException ex) {
 	         DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
-	     }
+	    }
     }
 
     public void disabledInit(){
@@ -183,8 +186,8 @@ public class Robot extends IterativeRobot {
         
         SmartDashboard.putString("DB/String 1", "" + Robot.leftAbsEnc.getValue());
         SmartDashboard.putString("DB/String 2", "" + Robot.rightAbsEnc.getValue());
-        SmartDashboard.putString("DB/String 8", "" + Robot.leftCounter.leftRotationCounter);
-        SmartDashboard.putString("DB/String 9", "" + Robot.rightCounter.rightRotationCounter);
+        SmartDashboard.putString("DB/String 8", "" + leftCounter.getRotations());
+        SmartDashboard.putString("DB/String 9", "" + rightCounter.getRotations());
         
         SmartDashboard.putString("DB/String 7", "robot angle: " + Math.floor(NavSensor.getInstance().getAngle(false)));
      
@@ -223,8 +226,9 @@ public class Robot extends IterativeRobot {
 		else{
 			try{
 				return DriverStation.getInstance().getGameSpecificMessage();
-			} catch(NullPointerException n) {
-				Logger.error("No Game Message was Recieved");
+			} 
+			catch(Throwable t) {
+				Logger.error("No Game Message Recieved");
 				return "IDK";
 			}
 		}

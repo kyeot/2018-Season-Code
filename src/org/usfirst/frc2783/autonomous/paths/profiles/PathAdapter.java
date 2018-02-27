@@ -1,4 +1,4 @@
-package org.usfirst.frc2783.paths.profiles;
+package org.usfirst.frc2783.autonomous.paths.profiles;
 
 import org.usfirst.frc2783.robot.Constants;
 import org.usfirst.frc2783.autonomous.paths.PathBuilder;
