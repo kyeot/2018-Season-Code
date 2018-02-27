@@ -13,21 +13,20 @@ public class ScaleFromRight extends ActionGroup{
 	public ScaleFromRight(){
 		super();
 		
-		if(Robot.scaleVal == "L"){
-			addAction(new AutoElevator(-0.5, 0.5));
+		if(Robot.scaleVal == "R"){
 			addAction(new DriveWithGyroAndByDistance(0.5, 24*12, 24*12, 0));
-			addAction(new RotateTankAction(new Bearing(90), 3));
-			addAction(new DriveWithGyroAndByDistance(0.5, 36, 36, 90));
+			addAction(new RotateTankAction(new Bearing(80), 3));
+			addAction(new DriveWithGyroAndByDistance(0.5, 36, 36, 270));
 			addAction(new AutoElevator(-1, 2.5));
-			addAction(new AutoIntake(1, 1));
+			addAction(new AutoIntake(0.75, 1));
 		}
 		else if(Robot.scaleVal == "R"){
 			addAction(new DriveWithGyroAndByDistance(0.5, 17*12, 17*12, 0));
 			addAction(new RotateTankAction(new Bearing(90), 3));
-			addAction(new DriveWithGyroAndByDistance(0.5, 17*12, 17*12, 90));
+			addAction(new DriveWithGyroAndByDistance(0.5, 17*12, 17*12, 270));
 			addAction(new RotateTankAction(new Bearing(0), 3));
 			addAction(new DriveWithGyroAndByDistance(0.5, 24, 24, 0));
-			addAction(new AutoElevator(-1, 1));
+			addAction(new AutoElevator(-1, 2.5));
 			addAction(new AutoIntake(0.75, 1));
 		}
 		else{
