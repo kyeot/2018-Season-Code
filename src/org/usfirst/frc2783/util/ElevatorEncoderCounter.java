@@ -18,10 +18,14 @@ public class ElevatorEncoderCounter implements Loop{
 	double elevatorEncValSub2;
 	double elevatorEncValSub3;
 
+	boolean wasForward;
+	
 	@Override
 	public void onStart() {
 		
 		Robot.isElevatorForward = true;
+		
+		wasForward = true;
 		
 		elevatorEncVal = Robot.elevatorAbsEnc.getValue();  
 		
@@ -48,18 +52,20 @@ public class ElevatorEncoderCounter implements Loop{
 		
 		elevatorEncVal = Robot.elevatorAbsEnc.getValue();  
 		
-		if(Robot.isElevatorForward){
-			if(elevatorEncVal < elevatorEncoderLastVal){
-				elevatorRotationCounter--;
+		if(wasForward = Robot.isElevatorForward){
+			if(Robot.isElevatorForward){
+				if(elevatorEncVal < elevatorEncoderLastVal){
+					elevatorRotationCounter--;
+				}
+			}
+		
+			else{
+				if(elevatorEncVal > elevatorEncoderLastVal){
+					elevatorRotationCounter++;
+				}
 			}
 		}
-		
-		else{
-			if(elevatorEncVal > elevatorEncoderLastVal){
-				elevatorRotationCounter++;
-			}
-		}
-		
+			
 		if(Robot.isElevatorForward){
 			elevatorEncoderLastVal = elevatorEncVal-50;
 		}
@@ -68,6 +74,7 @@ public class ElevatorEncoderCounter implements Loop{
 			elevatorEncoderLastVal = elevatorEncVal+50;
 		}
 		
+		wasForward = Robot.isElevatorForward;
 		
 	}
 

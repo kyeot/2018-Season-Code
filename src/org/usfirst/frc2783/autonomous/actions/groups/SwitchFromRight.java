@@ -14,7 +14,7 @@ public class SwitchFromRight extends ActionGroup {
 	public SwitchFromRight() {
 		super();
 				
-		if(Robot.switchVal == "R"){
+		if(Robot.switchesVal == "R"){
 			
 			addAction(new DriveWithGyroAndByDistance(0.5, 13*12, 13*12, 0));
 			addAction(new RotateTankAction(new Bearing(90), 4));
@@ -22,7 +22,7 @@ public class SwitchFromRight extends ActionGroup {
 			addAction(new AutoDrive(0.25, 0.25, 2));
 			addAction(new AutoIntake(0.75, 1));
 		}
-		else if(Robot.switchVal == "L"){
+		else if(Robot.switchesVal == "L"){
 			addAction(new DriveWithGyroAndByDistance(0.5, 5*12, 5*12, 0));
 			addAction(new RotateTankAction(new Bearing(90), 4));
 			addAction(new DriveWithGyroAndByDistance(0.5, 21*12, 21*12, 270));

@@ -12,12 +12,15 @@ public class RightEncoderCounter implements Loop{
 
 	public static double rightRotationCounter = 0;
 	double rightEncoderLastVal;
+	
+	boolean wasForward;
 
 	@Override
 	public void onStart() {
 
 		Robot.isRightForward = true;
-
+		wasForward = true;
+		
 		rightEncVal = Robot.rightAbsEnc.getValue();
 		
 		if(Robot.isRightForward){
@@ -43,18 +46,21 @@ public class RightEncoderCounter implements Loop{
 
 		rightEncVal = Robot.rightAbsEnc.getValue();
 		
-		if(Robot.isRightForward){
-			if(rightEncVal > rightEncoderLastVal){
-				rightRotationCounter--;
+		if(wasForward == Robot.isRightForward){
+			if(Robot.isRightForward){
+				if(rightEncVal > rightEncoderLastVal){
+					rightRotationCounter--;
+				}
 			}
-		}
 		
-		else{
-			if(rightEncVal < rightEncoderLastVal){
-				rightRotationCounter++;
+			else{
+				if(rightEncVal < rightEncoderLastVal){
+					rightRotationCounter++;
+				}
 			}
-		}
 
+		}
+			
 		if(Robot.isRightForward){
 			rightEncoderLastVal = rightEncVal+50;
 		}
@@ -63,6 +69,7 @@ public class RightEncoderCounter implements Loop{
 			rightEncoderLastVal = rightEncVal-50;
 		}
 		
+		wasForward = Robot.isRightForward;
 		
 	}
 
