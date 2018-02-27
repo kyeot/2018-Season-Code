@@ -60,7 +60,7 @@ public class AdaptivePurePursuitController {
     public Command update(RigidTransform2d pose) {
         if (mReversed) {
             pose = new RigidTransform2d(pose.getTranslation(),
-                    pose.getRotation().rotateBy(Rotation2d.fromRadians(Math.PI)));
+                    				    pose.getRotation().rotateBy(Rotation2d.fromRadians(Math.PI)));
         }
 
         final Path.TargetPointReport report = mPath.getTargetPoint(pose.getTranslation(), mLookahead);
