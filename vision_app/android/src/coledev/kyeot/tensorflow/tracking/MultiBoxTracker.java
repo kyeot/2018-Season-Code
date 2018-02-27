@@ -28,16 +28,17 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.util.Pair;
 import android.util.TypedValue;
-import android.widget.TextView;
 import android.widget.Toast;
+
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Queue;
 
 import coledev.kyeot.tensorflow.AppContext;
 import coledev.kyeot.tensorflow.CameraConnectionFragment;
+import coledev.kyeot.tensorflow.Classifier;
 import coledev.kyeot.tensorflow.DetectorActivity;
-import coledev.kyeot.tensorflow.R;
 import coledev.kyeot.tensorflow.comm.CameraTargetInfo;
 import coledev.kyeot.tensorflow.comm.RobotConnection;
 import coledev.kyeot.tensorflow.comm.VisionUpdate;
@@ -45,7 +46,6 @@ import coledev.kyeot.tensorflow.comm.messages.TargetUpdateMessage;
 import coledev.kyeot.tensorflow.env.BorderedText;
 import coledev.kyeot.tensorflow.env.ImageUtils;
 import coledev.kyeot.tensorflow.env.Logger;
-import coledev.kyeot.tensorflow.Classifier;
 
 /**
  * A tracker wrapping ObjectTracker that also handles non-max suppression and matching existing
@@ -160,7 +160,7 @@ public class MultiBoxTracker {
 
 
       if (getFrameToCanvasMatrix().mapRect(trackedPos)) {
-        final String labelString = String.format("%.2f", trackedObject.getCurrentCorrelation());
+        final String labelString = String.format(Locale.US, "%.2f", trackedObject.getCurrentCorrelation());
         borderedText.drawText(canvas, trackedPos.right, trackedPos.bottom, labelString);
       }
     }
@@ -202,8 +202,8 @@ public class MultiBoxTracker {
 
       final String labelString =
           !TextUtils.isEmpty(recognition.title)
-              ? String.format("%s %.2f", recognition.title, recognition.detectionConfidence)
-              : String.format("%.2f", recognition.detectionConfidence);
+              ? String.format(Locale.US, "%s %.2f", recognition.title, recognition.detectionConfidence)
+              : String.format(Locale.US, "%.2f", recognition.detectionConfidence);
       borderedText.drawText(canvas, trackedPos.left + cornerSize, trackedPos.bottom, labelString);
     }
   }

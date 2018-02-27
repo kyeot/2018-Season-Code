@@ -50,8 +50,10 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import java.nio.ByteBuffer;
 
@@ -87,10 +89,12 @@ public abstract class CameraActivity extends Activity
   private final String TAG = "CameraActivity";
 
   private TextView connectionState;
-  private RobotConnectionStatusBroadcastReceiver rbr;
   private TextView teamLogo;
   private TextView batteryLevel;
-  private TextView criticalBattery;
+  private TextView criticalError;
+  private ToggleButton competitionMode;
+  static boolean isCompetition = false;
+  private RobotConnectionStatusBroadcastReceiver rbr;
   private MediaPlayer mp;
   private int clicks = 0;
   private BroadcastReceiver mBatInfoReceiver = new BroadcastReceiver(){
@@ -103,32 +107,52 @@ public abstract class CameraActivity extends Activity
         batteryLevel.setTextColor(getResources().getColor(R.color.kyeot_blue));
       }
       if (level <= 20){
-        criticalBattery.setVisibility(View.VISIBLE);
-        Animation anim = new AlphaAnimation(0.0f, 1.0f);
-        anim.setDuration(400); //You can manage the blinking time with this parameter
-        anim.setStartOffset(20);
-        anim.setRepeatMode(Animation.REVERSE);
-        anim.setRepeatCount(Animation.INFINITE);
-        criticalBattery.startAnimation(anim);
+        //connection warning takes priority over low battery, trying not to overload user with warnings
+        if (criticalError.getVisibility() != View.VISIBLE)
+        criticalError.setText(R.string.battery_error);
+        criticalError.setVisibility(View.VISIBLE);
+        criticalError.startAnimation(warningAnimation());
       } else {
-       criticalBattery.setVisibility(View.INVISIBLE);
+        criticalError.clearAnimation();
+        criticalError.setVisibility(View.INVISIBLE);
       }
       batteryLevel.setText(String.valueOf(level) + "%");
     }
   };
 
+  private Animation warningAnimation(){
+    Animation anim = new AlphaAnimation(0.0f, 1.0f);
+    anim.setDuration(400); //You can manage the blinking time with this parameter
+    anim.setStartOffset(20);
+    anim.setRepeatMode(Animation.REVERSE);
+    anim.setRepeatCount(Animation.INFINITE);
+    return anim;
+  }
+
   //robot code
   @Override
   public void robotConnected(){
     Log.d(TAG, "Robot Connected");
-    connectionState.setText("Robot Connected");
+    if (criticalError.getVisibility() == View.VISIBLE && criticalError.getText().equals(getResources().getString(R.string.disconnect_error))){
+      criticalError.setVisibility(View.INVISIBLE);
+      criticalError.clearAnimation();
+    }
+    connectionState.setText(R.string.robot_connected);
     connectionState.setTextColor(getResources().getColor(R.color.kyeot_blue));
   }
 
   @Override
   public void robotDisconnected(){
     Log.d(TAG, "Robot Disconnected");
-    connectionState.setText("Robot Disconnected");
+    if (isCompetition){
+      criticalError.setText(R.string.disconnect_error);
+      criticalError.setVisibility(View.VISIBLE);
+      criticalError.startAnimation(warningAnimation());
+    } else {
+      criticalError.setVisibility(View.INVISIBLE);
+      criticalError.clearAnimation();
+    }
+    connectionState.setText(getResources().getString(R.string.robot_disconnected));
     connectionState.setTextColor(Color.RED);
   }
 
@@ -141,7 +165,14 @@ public abstract class CameraActivity extends Activity
     connectionState = findViewById(R.id.connectionState);
     teamLogo = findViewById(R.id.teamLogo);
     batteryLevel = findViewById(R.id.batteryPercentage);
-    criticalBattery = findViewById(R.id.criticalBattery);
+    criticalError = findViewById(R.id.criticalBattery);
+    competitionMode = findViewById(R.id.competitionToggle);
+    competitionMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+      @Override
+      public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        setCompetition(isChecked);
+      }
+    });
     this.registerReceiver(this.mBatInfoReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
     rbr = new RobotConnectionStatusBroadcastReceiver(this, this);
     if (hasPermission()) {
@@ -149,6 +180,31 @@ public abstract class CameraActivity extends Activity
     } else {
       requestPermission();
     }
+  }
+
+  private void setCompetition(boolean isChecked){
+    if (isChecked){
+      //hide debug menu if it is visible when competition mode is enabled
+      if (DetectorActivity.isDebug()) {
+        debug = !debug;
+        if (debug) {
+          connectionState.setVisibility(View.INVISIBLE);
+          teamLogo.setVisibility(View.INVISIBLE);
+          //competitionMode.setVisibility(View.INVISIBLE);
+        } else {
+          connectionState.setVisibility(View.VISIBLE);
+          teamLogo.setVisibility(View.VISIBLE);
+          //competitionMode.setVisibility(View.VISIBLE);
+        }
+        requestRender();
+        onSetDebug(debug);
+      }
+      startLockTask();
+    } else {
+      stopLockTask();
+      criticalError.clearAnimation();
+    }
+    isCompetition = isChecked;
   }
 
   private byte[] lastPreviewFrame;
@@ -300,7 +356,7 @@ public abstract class CameraActivity extends Activity
   public synchronized void onPause() {
     LOGGER.d("onPause " + this);
 
-    if (!isFinishing() && isDebug()) {
+    if (!isFinishing() && !isCompetition) {
       LOGGER.d("Requesting finish");
       finish();
     }
@@ -403,9 +459,11 @@ public abstract class CameraActivity extends Activity
         // Fallback to camera1 API for internal cameras that don't have full support.
         // This should help with legacy situations where using the camera2 API causes
         // distorted or otherwise broken previews.
-        useCamera2API = (facing == CameraCharacteristics.LENS_FACING_EXTERNAL)
-            || isHardwareLevelSupported(characteristics, 
-                                        CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_FULL);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+          useCamera2API = (facing == CameraCharacteristics.LENS_FACING_EXTERNAL)
+              || isHardwareLevelSupported(characteristics,
+                                          CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_FULL);
+        }
         LOGGER.i("Camera API lv2?: %s", useCamera2API);
         return cameraId;
       }
@@ -483,20 +541,23 @@ public abstract class CameraActivity extends Activity
 
   @Override
   public boolean onKeyDown(final int keyCode, final KeyEvent event) {
-    if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN || keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
+    if ((keyCode == KeyEvent.KEYCODE_VOLUME_DOWN || keyCode == KeyEvent.KEYCODE_VOLUME_UP) && !isCompetition) {
       debug = !debug;
       if (debug) {
         connectionState.setVisibility(View.INVISIBLE);
         teamLogo.setVisibility(View.INVISIBLE);
+        //competitionMode.setVisibility(View.INVISIBLE);
       } else {
         connectionState.setVisibility(View.VISIBLE);
         teamLogo.setVisibility(View.VISIBLE);
+        //competitionMode.setVisibility(View.VISIBLE);
       }
       requestRender();
       onSetDebug(debug);
       return true;
+    } else {
+      return isCompetition || super.onKeyDown(keyCode, event);
     }
-    return super.onKeyDown(keyCode, event);
   }
 
   protected void readyForNextImage() {
@@ -506,34 +567,36 @@ public abstract class CameraActivity extends Activity
   }
 
   public void playDevelopers(View v) {
-    clicks++;
-    Log.d(TAG, "Logo clicked!");
-    if (clicks < 10){
-      Toast.makeText(getApplicationContext(), "You are " + (10 - clicks) + " steps away from being a developer", Toast.LENGTH_SHORT).show();
-    }
-    if (clicks == 10) {
-      Toast.makeText(getApplicationContext(), "You are now a developer!", Toast.LENGTH_SHORT).show();
-      //set volume to full because I am a bad person
-      AudioManager am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-      am.setStreamVolume(
-              AudioManager.STREAM_MUSIC,
-              am.getStreamMaxVolume(AudioManager.STREAM_MUSIC),
-              0);
-      mp = MediaPlayer.create(this, R.raw.developers);
-      mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-        @Override
-        public void onCompletion(MediaPlayer mp) {
-          mp.release();
-          clicks = 0;
-        }
-      });
-      mp.start();
-    }
-    if (mp != null && mp.isPlaying() && clicks > 10) {
+    if (!isCompetition) {
+      clicks++;
+      Log.d(TAG, "Logo clicked!");
+      if (clicks < 10) {
+        Toast.makeText(getApplicationContext(), "You are " + (10 - clicks) + " steps away from being a developer", Toast.LENGTH_SHORT).show();
+      }
+      if (clicks == 10) {
+        Toast.makeText(getApplicationContext(), "You are now a developer!", Toast.LENGTH_SHORT).show();
+        //set volume to full because I am a bad person
+        AudioManager am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        am.setStreamVolume(
+                AudioManager.STREAM_MUSIC,
+                am.getStreamMaxVolume(AudioManager.STREAM_MUSIC),
+                0);
+        mp = MediaPlayer.create(this, R.raw.developers);
+        mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+          @Override
+          public void onCompletion(MediaPlayer mp) {
+            mp.release();
+            clicks = 0;
+          }
+        });
+        mp.start();
+      }
+      if (mp != null && mp.isPlaying() && clicks > 10) {
         mp.stop();
         mp.release();
         mp = null;
         clicks = 0;
+      }
     }
   }
 
