@@ -12,8 +12,8 @@ public class StaticSetpoints {
 	public static Setpoint exchangeStart = new Setpoint(17, 193);
 	public static Setpoint rightOfSwitch = new Setpoint(150, 43);
 	public static Setpoint leftOfSwitch = new Setpoint(150, 282);
-	public static Setpoint platformFarRight = new Setpoint(240, 75);
-	public static Setpoint platformFarLeft = new Setpoint(240, 250);
+	public static Setpoint platformRight = new Setpoint(240, 43);
+	public static Setpoint platformLeft = new Setpoint(240, 282);
 	public static Setpoint preScaleRight = new Setpoint(280, 75);
 	public static Setpoint preScaleLeft = new Setpoint(280, 250);
 	public static Setpoint scaleRight = new Setpoint(300, 75);
