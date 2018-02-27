@@ -5,12 +5,18 @@ import org.usfirst.frc2783.robot.Robot;
 
 public class RightEncoderCounter implements Loop{
 	
+	private static RightEncoderCounter _instance;
+	
+	public static RightEncoderCounter getInstance(){
+		return _instance;
+	}
+	
 	double rightEncValSub1;
 	double rightEncValSub2;
 	double rightEncValSub3;
 	double rightEncVal;
 
-	public static double rightRotationCounter = 0;
+	static double rightRotationCounter = 0;
 	double rightEncoderLastVal;
 	
 	boolean wasForward;
@@ -81,6 +87,10 @@ public class RightEncoderCounter implements Loop{
 	public void onLoop(double timestamp) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public double getRotations(){
+		return rightRotationCounter;
 	}
 
 }

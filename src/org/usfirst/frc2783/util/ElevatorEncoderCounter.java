@@ -6,8 +6,14 @@ import org.usfirst.frc2783.subsystems.ElevatorBase;
 
 public class ElevatorEncoderCounter implements Loop{
 	
+	private static ElevatorEncoderCounter _instance;
+	
+	public static ElevatorEncoderCounter getInstance(){
+		return _instance;
+	}
+	
 	//Sets the rotation counters to 0
-	public static double elevatorRotationCounter = 0;
+	static double elevatorRotationCounter = 0;
 	
 	double loopCount;
 
@@ -86,6 +92,10 @@ public class ElevatorEncoderCounter implements Loop{
 	public void onLoop(double timestamp) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public double getRotations(){
+		return elevatorRotationCounter;
 	}
 
 }

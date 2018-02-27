@@ -69,9 +69,9 @@ public class Robot extends IterativeRobot {
     
     public static ActionScheduler autoScheduler = new ActionScheduler();
     
-    public static LeftEncoderCounter leftCounter = new LeftEncoderCounter();
-    public static RightEncoderCounter rightCounter = new RightEncoderCounter();
-    public static ElevatorEncoderCounter elEncCounter = new ElevatorEncoderCounter();
+    public static LeftEncoderCounter leftCounter = LeftEncoderCounter.getInstance();
+    public static RightEncoderCounter rightCounter = RightEncoderCounter.getInstance();
+    public static ElevatorEncoderCounter elEncCounter = ElevatorEncoderCounter.getInstance();
     
     public static String gameData;
 	public static String switchesVal;
@@ -186,8 +186,8 @@ public class Robot extends IterativeRobot {
         
         SmartDashboard.putString("DB/String 1", "" + Robot.leftAbsEnc.getValue());
         SmartDashboard.putString("DB/String 2", "" + Robot.rightAbsEnc.getValue());
-        SmartDashboard.putString("DB/String 8", "" + Robot.leftCounter.leftRotationCounter);
-        SmartDashboard.putString("DB/String 9", "" + Robot.rightCounter.rightRotationCounter);
+        SmartDashboard.putString("DB/String 8", "" + leftCounter.getRotations());
+        SmartDashboard.putString("DB/String 9", "" + rightCounter.getRotations());
         
         SmartDashboard.putString("DB/String 7", "robot angle: " + Math.floor(NavSensor.getInstance().getAngle(false)));
      

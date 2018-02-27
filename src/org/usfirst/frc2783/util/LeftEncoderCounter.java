@@ -5,8 +5,14 @@ import org.usfirst.frc2783.robot.Robot;
 
 public class LeftEncoderCounter implements Loop{
 	
+	private static LeftEncoderCounter _instance;
+	
+	public static LeftEncoderCounter getInstance(){
+		return _instance;
+	}
+	
 	//Sets the rotation counters to 0
-	public static double leftRotationCounter = 0;
+	static double leftRotationCounter = 0;
 	
 	double loopCount;
 
@@ -85,6 +91,10 @@ public class LeftEncoderCounter implements Loop{
 	public void onLoop(double timestamp) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public double getRotations(){
+		return leftRotationCounter;
 	}
 
 }

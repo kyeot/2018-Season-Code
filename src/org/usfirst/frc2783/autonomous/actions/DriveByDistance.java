@@ -2,12 +2,13 @@ package org.usfirst.frc2783.autonomous.actions;
 
 import org.usfirst.frc2783.robot.Constants;
 import org.usfirst.frc2783.robot.Robot;
+import org.usfirst.frc2783.util.LeftEncoderCounter;
+import org.usfirst.frc2783.util.RightEncoderCounter;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-@SuppressWarnings("static-access")
 public class DriveByDistance extends Action {
 
 	public static double leftDistanceInDegrees;
@@ -45,6 +46,9 @@ public class DriveByDistance extends Action {
 	boolean isRightRotationsDone = false;
 	boolean isRightDegreesDone = false;
 	
+	static LeftEncoderCounter leftCounter = LeftEncoderCounter.getInstance();
+	static RightEncoderCounter rightCounter = RightEncoderCounter.getInstance();
+	
 	public DriveByDistance(double speedScaler, double leftDistance, double rightDistance) {
 		super("DriveByDistance");
 
@@ -61,8 +65,8 @@ public class DriveByDistance extends Action {
     	wantedLeftTotalDegrees = leftAngleOnStart + leftDistanceInDegrees;
     	wantedRightTotalDegrees = rightAngleOnStart + rightDistanceInDegrees;
     	
-    	leftRotationOnStart = Robot.leftCounter.leftRotationCounter;
-    	rightRotationOnStart = Robot.rightCounter.rightRotationCounter;
+    	leftRotationOnStart = leftCounter.getRotations();
+    	rightRotationOnStart = Robot.rightCounter.getRotations();
     	
     	if(leftDistanceInDegrees > rightDistanceInDegrees){
     		rightSpeed = rightDistanceInDegrees/leftDistanceInDegrees*speedScaler;
@@ -98,11 +102,11 @@ public class DriveByDistance extends Action {
 	@Override
 	public void perform(){                
 		SmartDashboard.putString("DB/String 5", "yes");
-    	if(Robot.leftCounter.leftRotationCounter >= (leftRotationOnStart + wantedLeftRotations)){
+    	if(leftCounter.getRotations() >= (leftRotationOnStart + wantedLeftRotations)){
     		isLeftRotationsDone = true;
     	}
     	
-    	if(Robot.rightCounter.rightRotationCounter >= (rightRotationOnStart + wantedRightRotations)){
+    	if(rightCounter.getRotations() >= (rightRotationOnStart + wantedRightRotations)){
     		isRightRotationsDone = true;
     	}
     	
