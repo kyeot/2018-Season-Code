@@ -12,6 +12,7 @@
 	<classpathentry kind="var" path="USERLIBS_DIR/Jama-1.0.3.jar"/>
 	<classpathentry kind="var" path="USERLIBS_DIR/json-simple-1.1.1.jar"/>
 	<classpathentry kind="var" path="USERLIBS_DIR/CTRE_Phoenix-sources.jar"/>
-	<classpathentry kind="var" path="USERLIBS_DIR/java-json.jar"/>
+	<classpathentry kind="var" path="USERLIBS_DIR/Jama-1.0.3.jar"/>
+	<classpathentry kind="var" path="USERLIBS_DIR/json-simple-1.1.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
