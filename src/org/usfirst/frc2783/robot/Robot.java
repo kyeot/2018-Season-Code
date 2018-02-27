@@ -43,7 +43,7 @@ public class Robot extends IterativeRobot {
 	
     public static OI oi;
     public static Looper looper = new Looper(Constants.kPeriod);
-    public static Looper slowLoop = new Looper(0.1);
+    public static Looper slowLoop = new Looper(Constants.kSlowLooperPeriod);
     
     @SuppressWarnings("unused")
 	private static AHRS navSensor;
