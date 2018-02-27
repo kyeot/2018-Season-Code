@@ -83,11 +83,11 @@ public class Constants {
 	public static final double kGoalHeight = 6;	    // height to center of target in inches
 	
 	
-	//Time between each loop in a loop in seconds
-	public static final double kPeriod = 0.005; 
+	//Time between each loop in a loop in hertz
+	public static final double kPeriod = 200; 
 	
-	//Time between each loop in autonomous actions in seconds
-	public static final double kAutoPeriod = 0.005;
+	//Time between each loop in autonomous actions in hertz
+	public static final double kAutoPeriod = 200;
 	
 	//Need to adjust these for our purposes
 	public static double kTrackWidthInches = 26.655;
