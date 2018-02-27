@@ -33,7 +33,7 @@ public class TankDrive extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	public double averageWheelOutput(double lTrigger, double rTrigger) {
-		return rTrigger - lTrigger;
+		return -(rTrigger - lTrigger);
 	}
 	
 	public boolean isNegative(double value) {
@@ -44,6 +44,7 @@ public class TankDrive extends Command {
 	boolean goingForward;
 	
 	public double scaleSide(char side, double initialOutput, double angularValue) {
+		angularValue = -angularValue;
 		biggerRight = isNegative(angularValue);
 		goingForward = isNegative(initialOutput);
 		if (goingForward) {
