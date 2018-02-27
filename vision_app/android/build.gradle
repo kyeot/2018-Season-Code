@@ -40,7 +40,7 @@ allprojects {
 }
 
 // set to 'bazel', 'cmake', 'makefile', 'none'
-def nativeBuildSystem = 'bazel'
+def nativeBuildSystem = 'cmake'
 
 // Controls output directory in APK and CPU type for Bazel builds.
 // NOTE: Does not affect the Makefile build target API (yet), which currently
@@ -48,15 +48,15 @@ def nativeBuildSystem = 'bazel'
 // editing the Makefile as well.
 // The CMake build has only been tested with armeabi-v7a; others may not work.
 // Cole's note: arm64-v8a works perfectly fine and has a nice performance boost
-def cpuType = 'arm64-v8a'
+def cpuType = 'armeabi-v7a'
 
 // Output directory in the local directory for packaging into the APK.
 def nativeOutDir = 'libs/' + cpuType
 
 // Default to building with Bazel and override with make if requested.
 def nativeBuildRule = 'buildNativeBazel'
-def demoLibPath = '/home/cole/tensorflow/bazel-bin/tensorflow/examples/android/libtensorflow_demo.so'
-def inferenceLibPath = '/home/cole/tensorflow/bazel-bin/tensorflow/contrib/android/libtensorflow_inference.so'
+def demoLibPath = '../../../tensorflow/bazel-bin/tensorflow/examples/android/libtensorflow_demo.so'
+def inferenceLibPath = '../../../tensorflow/bazel-bin/tensorflow/contrib/android/libtensorflow_inference.so'
 
 if (nativeBuildSystem == 'makefile') {
     nativeBuildRule = 'buildNativeMake'
@@ -76,8 +76,17 @@ project.ext.TMP_DIR   = project.buildDir.toString() + '/downloads'
 apply plugin: 'com.android.application'
 
 android {
+
+    /*buildTypes{
+        release{}
+        debug{}
+        innerTest {
+            matchingFallbacks = ['debug', 'release']
+        }
+    }*/
+
     compileSdkVersion 27
-    buildToolsVersion '26.0.2'
+    buildToolsVersion '27.0.3'
 
     if (nativeBuildSystem == 'cmake') {
         defaultConfig {
@@ -85,8 +94,8 @@ android {
 
             minSdkVersion 21
             targetSdkVersion 27
-            versionCode 6
-            versionName "1.6"
+            versionCode 7
+            versionName "1.7"
             ndk {
                 abiFilters "${cpuType}"
             }
@@ -107,6 +116,7 @@ android {
         checkReleaseBuilds false
         abortOnError false
     }
+
 
     sourceSets {
         main {
@@ -142,9 +152,9 @@ android {
 }
 
 task buildNativeBazel(type: Exec) {
-    workingDir '/home/cole/tensorflow'
+    workingDir '../../..'
     commandLine bazelLocation, 'build', '-c', 'opt',  \
-         'tensorflow/examples/android:tensorflow_native_libs',  \
+         'tensorflow/tensorflow/examples/android:tensorflow_native_libs',  \
          '--crosstool_top=//external:android/crosstool',  \
          '--cpu=' + cpuType,  \
          '--host_crosstool_top=@bazel_tools//tools/cpp:toolchain'
@@ -156,9 +166,9 @@ task buildNativeMake(type: Exec) {
     // builds significantly.
     // environment "CC_PREFIX", 'ccache'
     workingDir '../../..'
-    commandLine 'tensorflow/contrib/makefile/build_all_android.sh',  \
+    commandLine 'tensorflow/tensorflow/contrib/makefile/build_all_android.sh',  \
          '-s',  \
-         'tensorflow/contrib/makefile/sub_makefiles/android/Makefile.in',  \
+         'tensorflow/tensorflow/contrib/makefile/sub_makefiles/android/Makefile.in',  \
          '-t',  \
          'libtensorflow_inference.so libtensorflow_demo.so'  \
          //, '-T'  // Uncomment to skip protobuf and speed up subsequent builds.
@@ -191,7 +201,10 @@ tasks.whenTaskAdded { task ->
 
 
 dependencies {
-    if (nativeBuildSystem == 'cmake' || nativeBuildSystem == 'none') {
+    if (nativeBuildSystem == 'cmake') {
+        //implementation project(':TensorFlow-Android-Inference')
+        //debugCompile project(path: ':TensorFlow-Android-Inference', configuration: 'debug')
+        //releaseCompile project(path: ':TensorFlow-Android-Inference', configuration: 'release')
         compile 'org.tensorflow:tensorflow-android:+'
     } else {
         compile files('libs/libtensorflow.jar')
