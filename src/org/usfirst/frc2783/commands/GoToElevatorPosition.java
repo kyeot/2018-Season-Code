@@ -1,7 +1,7 @@
 package org.usfirst.frc2783.commands;
 
+import org.usfirst.frc2783.loops.ElevatorEncoderCounter;
 import org.usfirst.frc2783.robot.Robot;
-import org.usfirst.frc2783.util.ElevatorEncoderCounter;
 import org.usfirst.frc2783.util.EncoderPosition;
 
 import edu.wpi.first.wpilibj.command.Command;

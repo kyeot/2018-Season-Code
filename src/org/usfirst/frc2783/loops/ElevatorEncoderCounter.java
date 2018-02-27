@@ -1,6 +1,5 @@
-package org.usfirst.frc2783.util;
+package org.usfirst.frc2783.loops;
 
-import org.usfirst.frc2783.loops.Loop;
 import org.usfirst.frc2783.robot.Robot;
 import org.usfirst.frc2783.subsystems.ElevatorBase;
 
