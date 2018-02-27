@@ -8,7 +8,7 @@ public class BaselineCross extends ActionGroup{
 	public BaselineCross(){
 		super();
 		
-		addAction(new DriveWithGyroAndByDistance(0.5, 100, 100));
+		addAction(new DriveWithGyroAndByDistance(0.5, 100, 100, 0));
 		
 		
 	}
