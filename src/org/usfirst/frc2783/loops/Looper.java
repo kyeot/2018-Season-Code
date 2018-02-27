@@ -6,6 +6,8 @@ import java.util.List;
 import org.usfirst.frc2783.util.CrashTrackingRunnable;
 import org.usfirst.frc2783.util.Logger;
 
+import com.team254.frc2017.loops.Loop;
+
 import edu.wpi.first.wpilibj.Notifier;
 
 /**
@@ -17,6 +19,7 @@ import edu.wpi.first.wpilibj.Notifier;
 public class Looper {
 	
 	double period;
+	private final Object taskRunningLock_ = new Object();
 	
 	CrashTrackingRunnable runnable = new CrashTrackingRunnable() {
 		@Override
@@ -59,5 +62,11 @@ public class Looper {
 			l.onStop();
 		}
 	}
+	
+	public synchronized void register(Loop loop) {
+        synchronized (taskRunningLock_) {
+            loops.add(loop);
+        }
+    }
 
 }
