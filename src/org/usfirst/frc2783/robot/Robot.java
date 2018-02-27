@@ -12,6 +12,7 @@ import org.usfirst.frc2783.autonomous.actions.groups.ScaleFromRight;
 import org.usfirst.frc2783.autonomous.actions.groups.SwitchFromLeft;
 import org.usfirst.frc2783.autonomous.actions.groups.SwitchFromRight;
 import org.usfirst.frc2783.autonomous.actions.groups.TestAuto;
+import org.usfirst.frc2783.autonomous.actions.groups.WaypointTest;
 import org.usfirst.frc2783.loops.ElevatorEncoderCounter;
 import org.usfirst.frc2783.loops.LeftEncoderCounter;
 import org.usfirst.frc2783.loops.LogData;
@@ -170,6 +171,10 @@ public class Robot extends IterativeRobot {
 			break;
 		case "BaselineCross":
 			autoScheduler.setGroup(new BaselineCross());
+			break;
+		case "WaypointTest":
+			autoScheduler.setGroup(new WaypointTest());
+			break;
 		default:
 			
     	} 

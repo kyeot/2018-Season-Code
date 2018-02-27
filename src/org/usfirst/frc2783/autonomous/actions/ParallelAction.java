@@ -8,11 +8,14 @@ public class ParallelAction extends Action {
 	
 	public ParallelAction(Action act1, Action act2) {
 		
+		//Returns name as both action ids
 		super("Parallel " + act1.id + " and " + act2.id);
-		
+		//sets given action to actions on object
 		this.act1 = act1;
 		this.act2 = act2;
 		
 	}
+	
+	
 
 }
