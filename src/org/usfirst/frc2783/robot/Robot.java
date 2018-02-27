@@ -89,6 +89,19 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
         oi = new OI();
         
+        //Clears SmartDashboard
+        SmartDashboard.putString("DB/String 0", "");
+        SmartDashboard.putString("DB/String 1", "");
+        SmartDashboard.putString("DB/String 2", "");
+        SmartDashboard.putString("DB/String 3", "");
+        SmartDashboard.putString("DB/String 4", "");
+        SmartDashboard.putString("DB/String 5", "");
+        SmartDashboard.putString("DB/String 6", "");
+        SmartDashboard.putString("DB/String 7", "");
+        SmartDashboard.putString("DB/String 8", "");
+        SmartDashboard.putString("DB/String 9", "");
+        
+        
         mVisionServer.addVisionUpdateReceiver(VisionProcessor.getInstance());
         
         NavSensor.getInstance().resetGyroNorth(180, 0);
@@ -196,12 +209,32 @@ public class Robot extends IterativeRobot {
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
         
-        SmartDashboard.putString("DB/String 1", "" + Robot.leftAbsEnc.getValue());
-        SmartDashboard.putString("DB/String 2", "" + Robot.rightAbsEnc.getValue());
-        SmartDashboard.putString("DB/String 8", "" + leftCounter.getRotations());
-        SmartDashboard.putString("DB/String 9", "" + rightCounter.getRotations());
+        if(switchesVal == "L"){
+            SmartDashboard.putString("DB/String 0", "OUR SWITCH: LEFT");
+            SmartDashboard.putString("DB/String 2", "ENEMY SWITCH: LEFT");
+        }
+        else{
+            SmartDashboard.putString("DB/String 0", "OUR SWITCH: RIGHT");
+            SmartDashboard.putString("DB/String 2", "ENEMY SWITCH: RIGHT");	
+        }
         
-        SmartDashboard.putString("DB/String 7", "robot angle: " + Math.floor(NavSensor.getInstance().getAngle(false)));
+        if(scaleVal == "L"){
+            SmartDashboard.putString("DB/String 1", "SCALE: LEFT");
+        }
+        else{
+            SmartDashboard.putString("DB/String 1", "SCALE: RIGHT");
+        }
+        
+        SmartDashboard.putString("DB/String 0", "");
+        SmartDashboard.putString("DB/String 1", "");
+        SmartDashboard.putString("DB/String 2", "");
+        
+        SmartDashboard.putString("DB/String 5", "" + Robot.leftAbsEnc.getValue());
+        SmartDashboard.putString("DB/String 6", "" + Robot.rightAbsEnc.getValue());
+        SmartDashboard.putString("DB/String 7", "" + leftCounter.getRotations());
+        SmartDashboard.putString("DB/String 8", "" + rightCounter.getRotations());
+        
+        SmartDashboard.putString("DB/String 9", "robot angle: " + Math.floor(NavSensor.getInstance().getAngle(false)));
      
     }
 

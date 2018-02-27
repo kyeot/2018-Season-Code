@@ -13,8 +13,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class LogData implements Loop{
 	
-	double d = 0;
-	
 	EventLogger batteryHandler = new EventLogger("Battery Browned Out!", "WARN") {
 		@Override
 		public boolean event() {
@@ -58,10 +56,6 @@ public class LogData implements Loop{
 		batteryHandler.handleEvent();
 		dcHandler.handleEvent();
 		recHandler.handleEvent();
-		
-    	d++;
-    	
-    	SmartDashboard.putString("DB/String 4", "" + d);
 		
 	}
 

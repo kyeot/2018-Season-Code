@@ -74,7 +74,7 @@ public class VisionUpdate {
                     return update;
                 }
                 targetInfos.add(new TargetInfo(y.get(), z.get()));
-                SmartDashboard.putString("DB/String 6", "" + z.get());
+                SmartDashboard.putString("DB/String 3", "" + z.get());
             }
             update.targets = targetInfos;
             update.valid = true;

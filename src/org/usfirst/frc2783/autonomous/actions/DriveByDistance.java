@@ -101,7 +101,6 @@ public class DriveByDistance extends Action {
 	
 	@Override
 	public void perform(){                
-		SmartDashboard.putString("DB/String 5", "yes");
     	if(leftCounter.getRotations() >= (leftRotationOnStart + wantedLeftRotations)){
     		isLeftRotationsDone = true;
     	}
