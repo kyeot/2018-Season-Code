@@ -9,34 +9,68 @@ import edu.wpi.first.wpilibj.Solenoid;
  */
 public class Constants {
 	
-	// IDs for motor controllers correspond to their matching points on the PDP(Power Distribution Panel)
+	//IDs for manipulator motor controllers, corresponds to their matching points on the PDP(Power Distribution Panel)
 	public static final int kElevator1 = 2;
 	public static final int kElevator2 = 0;
 	public static final int kIntakeRight = 15;
 	public static final int kIntakeLeft = 12;
 
+	//IDs for drive motor controllers, corresponds to their matching points on the PDP(Power Distribution Panel)
 	public static final int kLeftDrive1 = 4;
 	public static final int kLeftDrive2 = 7;
 	public static final int kRightDrive1 = 11;
 	public static final int kRightDrive2 = 8;
+
+	//Joystick IDs
+	public static final int kDriverControllerId = 0;
+	public static final int kManipulatorControllerId = 1;
 	
+	//Button IDs
+	public static final int kJoyTankLeftID = 3;
+	public static final int kJoyTankRightID = 4;
+	
+	public static final int kRaiseClimbID = 7;
+	public static final int kDeployClimbID = 8;
+	
+	public static final int kElevatorToGroundID = 1;
+	public static final int kElevatorToSwitchID = 2;
+	public static final int kElevatorToScaleID = 4;
+	
+	public static final int kElevatorLockShiftID = 3;
+	public static final int kElevatorGearShiftID = 10;
+	
+	//PID values for tank rotation to angle
 	public static final double kTankPoseP = 0.0065;
 	public static final double kTankPoseI = 0.00035;
 	public static final double kTankPoseD = 0.009;
 	
+	//PID values for gyro adjusted drive
 	public static final double kGyroDriveP = 0.01;
 	public static final double kGyroDriveI = 0.001;
 	public static final double kGyroDriveD = 0.09;
 	
+	//PID values for tank wheel angle adjusters
 	public static final double kTankSideP = 0.0075;
 	public static final double kTankSideI = 0.0003;
 	public static final double kTankSideD = 0.005;
 	
+	//PID values for elevator angle adjuster
 	public static final double kElevatorP = 0.0075;
 	public static final double kElevatorI = 0.0003;
 	public static final double kElevatorD = 0.005;
 	
-	//How Often Loops loop in Hertz
+	// Offsets for vision in inches
+	public static final double kCameraXOffset = 6;     // distance forward of camera from center of robot
+	public static final double kCameraYOffset = 0;   	// distance left or right of camera from center of robot	
+	public static final double kCameraZOffset = 14;		// distance of camera from ground
+	public static final double kCameraPitchOffset = 0.0;
+	public static final double kCameraRollOffset = 0.0;
+	public static final double kCameraYawOffset = 0.0;
+	
+	public static final double kGoalHeight = 6;	    // height to center of target in inches
+	
+	
+	//Time between each loop in a loop in seconds
 	public static final double kPeriod = 0.005; 
 	public static final double kAutoPeriod = 0.005;
 	
@@ -83,36 +117,8 @@ public class Constants {
 	
 	public static final double kGyroMaxAge = 0.4;
 	
-	// Offsets for vision in inches
-	public static final double kCameraXOffset = 6;     // distance forward of camera from center of robot
-	public static final double kCameraYOffset = 0;   	// distance left or right of camera from center of robot	
-	public static final double kCameraZOffset = 14;		// distance of camera from ground
-	public static final double kCameraPitchOffset = 0.0;
-	public static final double kCameraRollOffset = 0.0;
-	public static final double kCameraYawOffset = 0.0;
-	
-	public static final double kGoalHeight = 6;	    // height to center of target in inches
-	
 	public static final int kArmPdpPortId = 0;
 	public static final double kArmCurrentLoweredThreshold = 0.1;
-	
-	//Joystick IDs
-	public static final int kDriverControllerId = 0;
-	public static final int kManipulatorControllerId = 1;
-	
-	//Button IDs
-	public static final int kJoyTankLeftID = 3;
-	public static final int kJoyTankRightID = 4;
-	
-	public static final int kRaiseClimbID = 7;
-	public static final int kDeployClimbID = 8;
-	
-	public static final int kElevatorToGroundID = 1;
-	public static final int kElevatorToSwitchID = 2;
-	public static final int kElevatorToScaleID = 4;
-	
-	public static final int kElevatorLockShiftID = 3;
-	public static final int kElevatorGearShiftID = 10;
 	
 	public static final double kDriveHighGearMaxSetpoint = 17 * 12; //17 feet per second
 	
