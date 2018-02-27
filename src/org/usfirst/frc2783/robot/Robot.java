@@ -68,6 +68,8 @@ public class Robot extends IterativeRobot {
     public static boolean isRightForward = true;
     public static boolean isElevatorForward = true;
     
+    public static boolean isHigh;
+    
     public static ActionScheduler autoScheduler = new ActionScheduler();
     
     public static LeftEncoderCounter leftCounter = LeftEncoderCounter.getInstance();
@@ -81,9 +83,6 @@ public class Robot extends IterativeRobot {
     public static String gameData;
 	public static String switchesVal;
 	public static String scaleVal;
-    
-    boolean isBrownOut = false;
-    boolean wasBrownOut = false;
     
     VisionServer mVisionServer = VisionServer.getInstance();
     

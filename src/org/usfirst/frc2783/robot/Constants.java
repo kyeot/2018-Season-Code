@@ -24,10 +24,6 @@ public class Constants {
 	public static final double kTankPoseI = 0.00035;
 	public static final double kTankPoseD = 0.009;
 	
-	//Need to adjust these for our purposes
-	public static double kTrackWidthInches = 26.655;
-    public static double kTrackScrubFactor = 0.924;
-	
 	public static final double kGyroDriveP = 0.01;
 	public static final double kGyroDriveI = 0.001;
 	public static final double kGyroDriveD = 0.09;
@@ -40,9 +36,13 @@ public class Constants {
 	public static final double kElevatorI = 0.0003;
 	public static final double kElevatorD = 0.005;
 	
+	//How Often Loops loop in Hertz
 	public static final double kPeriod = 0.005; 
-
 	public static final double kAutoPeriod = 0.005;
+	
+	//Need to adjust these for our purposes
+	public static double kTrackWidthInches = 26.655;
+    public static double kTrackScrubFactor = 0.924;
 	
 	public static final double kTurretStowedAngle = 0;
 	public static final double kTurretAngleTolerance = 0;
@@ -96,19 +96,23 @@ public class Constants {
 	public static final int kArmPdpPortId = 0;
 	public static final double kArmCurrentLoweredThreshold = 0.1;
 	
+	//Joystick IDs
 	public static final int kDriverControllerId = 0;
 	public static final int kManipulatorControllerId = 1;
 	
+	//Button IDs
 	public static final int kJoyTankLeftID = 3;
 	public static final int kJoyTankRightID = 4;
 	
 	public static final int kRaiseClimbID = 7;
 	public static final int kDeployClimbID = 8;
 	
-	public static final int kElevatorToGroundButton = 1;
-	public static final int kElevatorToSwitchButton = 2;
-	public static final int kElevatorToScaleButton = 4;
-	public static final int kGearShiftID = 10;
+	public static final int kElevatorToGroundID = 1;
+	public static final int kElevatorToSwitchID = 2;
+	public static final int kElevatorToScaleID = 4;
+	
+	public static final int kElevatorLockShiftID = 3;
+	public static final int kElevatorGearShiftID = 10;
 	
 	public static final double kDriveHighGearMaxSetpoint = 17 * 12; //17 feet per second
 	

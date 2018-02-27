@@ -1,7 +1,5 @@
 package org.usfirst.frc2783.commands;
 
-import org.usfirst.frc2783.robot.Constants;
-import org.usfirst.frc2783.robot.OI;
 import org.usfirst.frc2783.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -9,28 +7,18 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class ServoShift extends Command {
+public class ElevatorLockShift extends Command {
 	
-	boolean isHigh;
-	
-    public ServoShift() {
+    public ElevatorLockShift() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.elevatorBase);
-    	isHigh = true;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	isHigh = !isHigh;
-    	if(OI.manipulator.getRawButton(Constants.kGearShiftID)){
-    		if(isHigh){
-            	Robot.elevatorBase.lowGear();
-    		}
-    		else if(!isHigh){
-            	Robot.elevatorBase.highGear();
-    		}
-    	}
+    	Robot.isClimb = !Robot.isClimb;
+    	
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -39,7 +27,7 @@ public class ServoShift extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 
     // Called once after isFinished returns true

@@ -1,9 +1,9 @@
 package org.usfirst.frc2783.robot;
 
-import org.usfirst.frc2783.commands.ClimbHold;
+import org.usfirst.frc2783.commands.ElevatorLockShift;
 import org.usfirst.frc2783.commands.ClimbServoShift;
 import org.usfirst.frc2783.commands.GoToElevatorPosition;
-import org.usfirst.frc2783.commands.ServoShift;
+import org.usfirst.frc2783.commands.ElevatorServoShift;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -20,20 +20,17 @@ public class OI {
 //	public static Joystick driver2 = new Joystick(Constants.kDriverControllerId);
 	public static Joystick manipulator = new Joystick(Constants.kManipulatorControllerId);
 	
-	public static JoystickButton elevatorShifter = new JoystickButton(manipulator, Constants.kGearShiftID);
-	public static JoystickButton climberShifter = new JoystickButton(manipulator, Constants.kDeployClimbID);
-	public static JoystickButton elevatorToGround = new JoystickButton(manipulator, Constants.kElevatorToGroundButton);
-	public static JoystickButton elevatorToSwitch = new JoystickButton(manipulator, Constants.kElevatorToSwitchButton);
-	public static JoystickButton elevatorToScale = new JoystickButton(manipulator, Constants.kElevatorToScaleButton);
+	public static JoystickButton elevatorShift = new JoystickButton(manipulator, Constants.kElevatorGearShiftID);
+	public static JoystickButton elevatorLockShift = new JoystickButton(manipulator, Constants.kElevatorLockShiftID);
 	
-	public static JoystickButton switchBrake = new JoystickButton(manipulator, 3);
+	public static JoystickButton elevatorToGround = new JoystickButton(manipulator, Constants.kElevatorToGroundID);
+	public static JoystickButton elevatorToSwitch = new JoystickButton(manipulator, Constants.kElevatorToSwitchID);
+	public static JoystickButton elevatorToScale = new JoystickButton(manipulator, Constants.kElevatorToScaleID);
 
     public OI() {
     	
-    	elevatorShifter.whileHeld(new ServoShift());
-    	climberShifter.whileHeld(new ClimbServoShift());
-    	
-    	switchBrake.whenPressed(new ClimbHold());
+    	elevatorShift.whenPressed(new ElevatorServoShift());
+    	elevatorLockShift.whenPressed(new ElevatorLockShift());
     	
     	elevatorToGround.whenPressed(new GoToElevatorPosition(Robot.groundPos));
     	elevatorToSwitch.whenPressed(new GoToElevatorPosition(Robot.switchPos));
