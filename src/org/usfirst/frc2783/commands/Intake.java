@@ -1,5 +1,6 @@
 package org.usfirst.frc2783.commands;
 
+import org.usfirst.frc2783.robot.Constants;
 import org.usfirst.frc2783.robot.OI;
 import org.usfirst.frc2783.robot.Robot;
 
@@ -38,7 +39,7 @@ public class Intake extends Command {
     		speed = 0;
     	}
     	
-    	if(OI.manipulator.getRawButton(3)){
+    	if(OI.manipulator.getRawButton(Constants.kIntakeSpinnerID)){
     		Robot.intake.spinAdjust();
     	}
     	else{

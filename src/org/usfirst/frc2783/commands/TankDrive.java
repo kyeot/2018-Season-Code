@@ -1,5 +1,6 @@
 package org.usfirst.frc2783.commands;
 
+import org.usfirst.frc2783.robot.Constants;
 import org.usfirst.frc2783.robot.FieldTransform;
 import org.usfirst.frc2783.robot.OI;
 import org.usfirst.frc2783.robot.Robot;
@@ -99,12 +100,12 @@ public class TankDrive extends Command {
 //		rightSpeed = OI.driver.getRawAxis(5)/2;
 		double scale;
 		
-		if (OI.driver.getRawButton(5)) {
+		if (OI.driver.getRawButton(Constants.kFastModeID)) {
 			//Quarter speed
 			scale = .25;
 		} 
 		
-		else if (OI.driver.getRawButton(6)) {
+		else if (OI.driver.getRawButton(Constants.kSlowModeID)) {
 			//Full speed
 			scale = 1;
 		} 
@@ -126,7 +127,7 @@ public class TankDrive extends Command {
 			rightSpeed = 0;
 		}
 
-		if (OI.driver.getRawButton(4)) {
+		if (OI.driver.getRawButton(Constants.kGyroResetID)) {
 			navSensor.resetGyroNorth(0, 0);
 		}
 
@@ -136,7 +137,7 @@ public class TankDrive extends Command {
 			}
 		}
 
-		if (OI.driver.getRawButton(1)) {
+		if (OI.driver.getRawButton(Constants.kVisionTestID)) {
 			// Robot.tankDrive.setRobotPose(new Bearing(0));
 			Robot.tankDrive.setRobotPose(new Bearing(angle));
 		} else {

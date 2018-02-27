@@ -1,9 +1,8 @@
 package org.usfirst.frc2783.robot;
 
 import org.usfirst.frc2783.commands.ElevatorLockShift;
-import org.usfirst.frc2783.commands.ClimbServoShift;
-import org.usfirst.frc2783.commands.GoToElevatorPosition;
 import org.usfirst.frc2783.commands.ElevatorServoShift;
+import org.usfirst.frc2783.commands.GoToElevatorPosition;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;

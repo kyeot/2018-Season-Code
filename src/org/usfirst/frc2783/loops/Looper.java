@@ -38,7 +38,7 @@ public class Looper {
 	List<Loop> loops;
 	Notifier notifier;
 	
-	public Looper(int period) {
+	public Looper(double period) {
 		this.period = period;
 		loops = new ArrayList<Loop>();
 		notifier = new Notifier(runnable);
