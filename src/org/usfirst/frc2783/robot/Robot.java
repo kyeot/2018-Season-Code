@@ -93,6 +93,7 @@ public class Robot extends IterativeRobot {
         looper.addLoop(VisionProcessor.getInstance());
         looper.addLoop(leftCounter);
         looper.addLoop(rightCounter);
+        looper.addLoop(elEncCounter);
         Logger.info("Starting Loops");
         looper.startLoops();
         
