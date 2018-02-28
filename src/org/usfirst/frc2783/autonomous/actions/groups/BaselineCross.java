@@ -1,15 +1,14 @@
 package org.usfirst.frc2783.autonomous.actions.groups;
 
 import org.usfirst.frc2783.autonomous.actions.ActionGroup;
-import org.usfirst.frc2783.autonomous.actions.DriveWithGyroAndByDistance;
+import org.usfirst.frc2783.autonomous.actions.AutoDrive;
 
 public class BaselineCross extends ActionGroup{
 
 	public BaselineCross(){
 		super();
 		
-		addAction(new DriveWithGyroAndByDistance(0.5, 100, 100, 0));
-		
+		addAction(new AutoDrive(0.5, 0.5, 5));
 		
 	}
 	

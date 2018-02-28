@@ -16,10 +16,10 @@ import org.usfirst.frc2783.autonomous.actions.groups.WaypointTest;
 import org.usfirst.frc2783.loops.ElevatorEncoderCounter;
 import org.usfirst.frc2783.loops.LeftEncoderCounter;
 import org.usfirst.frc2783.loops.LogData;
+import org.usfirst.frc2783.loops.Loop;
 import org.usfirst.frc2783.loops.Looper;
 import org.usfirst.frc2783.loops.RightEncoderCounter;
 import org.usfirst.frc2783.loops.VisionProcessor;
-import org.usfirst.frc2783.loops.VoltageLogger;
 import org.usfirst.frc2783.subsystems.ElevatorBase;
 import org.usfirst.frc2783.subsystems.IntakeBase;
 import org.usfirst.frc2783.subsystems.TankDriveBase;
@@ -33,57 +33,87 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-//adds classes to the code
-
 public class Robot extends IterativeRobot {
 	
+	//Instantiates the Object Interface
     public static OI oi;
-    public static Looper looper = new Looper(Constants.kPeriod);
-    public static Looper slowLoop = new Looper(Constants.kSlowLooperPeriod);
     
-    @SuppressWarnings("unused")
+    //Creates NavSensor for detecting the angle of the robot
+	@SuppressWarnings("unused")
 	private static AHRS navSensor;
     
-    public static double angle = 0;
-    
-    public static AnalogInput leftAbsEnc = new AnalogInput(0);
-    public static AnalogInput rightAbsEnc = new AnalogInput(1);
-    public static AnalogInput elevatorAbsEnc = new AnalogInput(2);
-    
+	//Creates Subsystems for each main robot function
     public static TankDriveBase tankDrive = new TankDriveBase();
     public static IntakeBase intake = new IntakeBase();
     public static ElevatorBase elevatorBase = new ElevatorBase();
     
-    public static FieldTransform fieldTransform = FieldTransform.getInstance();
+    //Creates Scheduler for running the correct actions at the correct times during auto
+    public static ActionScheduler autoScheduler = new ActionScheduler();
     
-    public static boolean isClimb;
-    
-    public static Random rand = new Random();
-    
+    //Creates externally used and called variables
     public static boolean isLeftForward = true;
     public static boolean isRightForward = true;
     public static boolean isElevatorForward = true;
     
     public static boolean isHigh;
+    public static boolean isClimb;
     
-    public static ActionScheduler autoScheduler = new ActionScheduler();
+    public static double angle = 0;
     
+    //Creates Randomizer for use in test autonomous
+    public static Random rand = new Random();
+    
+    //Creates Loopers
+    public static Looper looper = new Looper(Constants.kPeriod);
+    public static Looper slowLoop = new Looper(Constants.kSlowLooperPeriod);
+    
+    //Creates the simple loop used to log at a slow rate
+    private Loop slowLoopLogger = new Loop(){
+    	@Override
+    	public void onStart() {
+    	}
+
+    	@Override
+    	public void onLoop() {
+    		Logger.info("Your voltage is: " + RobotController.getInputVoltage());
+    	}
+
+    	@Override
+    	public void onStop() {
+    	}
+
+    	@Override
+    	public void onLoop(double timestamp) {
+    	}
+    };
+    
+    //Creates Encoders with Respective IDs
+    public static AnalogInput leftAbsEnc = new AnalogInput(0);
+    public static AnalogInput rightAbsEnc = new AnalogInput(1);
+    public static AnalogInput elevatorAbsEnc = new AnalogInput(2);
+    
+    //Creates Encoder Counters for measuring Loops on each Encoder
     public static LeftEncoderCounter leftCounter = new LeftEncoderCounter();
     public static RightEncoderCounter rightCounter = new RightEncoderCounter();
     public static ElevatorEncoderCounter elEncCounter = new ElevatorEncoderCounter();
     
+    //Creates Elevator Encoder set Position Variables
     public static EncoderPosition groundPos;
     public static EncoderPosition switchPos;
     public static EncoderPosition scalePos;
     
+    //Creates Variables for storing which sides of the field elements are which
     public static String gameData;
 	public static String switchesVal;
 	public static String scaleVal;
     
+	//Creates Instances of Vision Classes for Communicating with the phone
+    public static FieldTransform fieldTransform = FieldTransform.getInstance();
     VisionServer mVisionServer = VisionServer.getInstance();
     
     public void robotInit() {
@@ -101,26 +131,33 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putString("DB/String 8", "");
         SmartDashboard.putString("DB/String 9", "");
         
-        
+        //Adds VisionProcessor Loop to the server
         mVisionServer.addVisionUpdateReceiver(VisionProcessor.getInstance());
         
+        //Resets NavSensor to make 0 forward
         NavSensor.getInstance().resetGyroNorth(180, 0);
         
+        //Adds loops to the main looper
         looper.addLoop(new LogData());
         looper.addLoop(VisionProcessor.getInstance());
         looper.addLoop(leftCounter);
         looper.addLoop(rightCounter);
         looper.addLoop(elEncCounter);
         Logger.info("Starting Loops");
+        //Starts the main looper
         looper.startLoops();
         
-        slowLoop.addLoop(new VoltageLogger());
+        //Adds slow loops to the slow looper
+        slowLoop.addLoop(slowLoopLogger);
+        //Starts the slow looper
         slowLoop.startLoops();
-
+        
+        //Sets the positions of the elevator set positions
         groundPos = new EncoderPosition(0, elEncCounter.getEncoderStartPos());
         switchPos = new EncoderPosition(2, elEncCounter.getEncoderStartPos());
         scalePos = new EncoderPosition(6, elEncCounter.getEncoderStartPos());
         
+      //Creates a List of selectable autonomous groups
         String[] autonomousList = {"Test",
         						   "DriveGyroTest",
         						   "BaselineCross",
@@ -130,11 +167,14 @@ public class Robot extends IterativeRobot {
         						   "SwitchFromRight",
         						   "WaypointTest"};
         
-        //Puts the autonomous modes selector into the dashboard
+        
+        //Puts the autonomous groups list into the dashboard
         SmartDashboard.putStringArray("Auto List", autonomousList);
         
+        //Updates the history of NavSensor angles
         NavSensor.getInstance().updateHistory();
         
+        //Creates the log file in a directory on the roborio
         File logFile = new File("/home/lvuser/log.txt");
         try {
 			logFile.createNewFile();
@@ -143,6 +183,7 @@ public class Robot extends IterativeRobot {
 			e.printStackTrace();
 		}
         
+        //Creates the NavSensor
         try {
 	         navSensor = new AHRS(SPI.Port.kMXP);
 	    }
@@ -162,14 +203,15 @@ public class Robot extends IterativeRobot {
     	
     	Logger.info("Starting Autonomous");
     	
+    	//Creates the String based on which autonomous group was selected on the dashboard
     	String autoSelected = SmartDashboard.getString("Auto Selector", "None");
 
+    	//Makes the field element sides corrospond to actual sides which information from the driver station (or a randomizer in test mode)
     	gameData = getPracticeData(true);
-    	
     	switchesVal = gameData.substring(0, 1);
     	scaleVal = gameData.substring(1, 2);
     	
-    	//Switch Statement to Run the Right Auto Code Depending on the selected position and switch/scale sides
+    	//Switch Statement to Run the Right Autonomous group Depending on the selected position and switch/scale sides
     	switch(autoSelected) {
 		case "Test":
 			autoScheduler.setGroup(new TestAuto());
@@ -177,10 +219,10 @@ public class Robot extends IterativeRobot {
 		case "DriveGyroTest":
 			autoScheduler.setGroup(new DriveGyroTest());
 			break;
-		case "ScaleFromleft":
+		case "ScaleFromLeft":
 			autoScheduler.setGroup(new ScaleFromLeft());
 			break;
-		case "ScaleFromright":
+		case "ScaleFromRight":
 			autoScheduler.setGroup(new ScaleFromRight());
 			break;
 		case "SwitchFromLeft":
@@ -200,11 +242,11 @@ public class Robot extends IterativeRobot {
 			
     	} 
     	
+    	//Starts the selected autonomous group with the scheduler
     	autoScheduler.start();
     }
     
 	public void autonomousPeriodic() {
-
         SmartDashboard.putString("DB/String 7", "robot angle: " + Math.floor(NavSensor.getInstance().getAngle(false)));
         
         Scheduler.getInstance().run();
@@ -217,22 +259,25 @@ public class Robot extends IterativeRobot {
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
         
-        if(switchesVal == "L"){
-            SmartDashboard.putString("DB/String 0", "OUR SWITCH: LEFT");
-            SmartDashboard.putString("DB/String 2", "ENEMY SWITCH: LEFT");
-        }
-        else{
-            SmartDashboard.putString("DB/String 0", "OUR SWITCH: RIGHT");
-            SmartDashboard.putString("DB/String 2", "ENEMY SWITCH: RIGHT");	
-        }
+        try{
+        	if(isSwitchesLeft()){
+        		SmartDashboard.putString("DB/String 0", "OUR SWITCH: LEFT");
+        		SmartDashboard.putString("DB/String 2", "ENEMY SWITCH: LEFT");
+        	}
+        	else{
+        		SmartDashboard.putString("DB/String 0", "OUR SWITCH: RIGHT");
+        		SmartDashboard.putString("DB/String 2", "ENEMY SWITCH: RIGHT");	
+        	}
         
-        if(scaleVal == "L"){
-            SmartDashboard.putString("DB/String 1", "SCALE: LEFT");
+        	if(isScaleLeft()){
+        		SmartDashboard.putString("DB/String 1", "SCALE: LEFT");
+        	}
+        	else{
+        		SmartDashboard.putString("DB/String 1", "SCALE: RIGHT");
+        	}
         }
-        else{
-            SmartDashboard.putString("DB/String 1", "SCALE: RIGHT");
-        }
-        
+        catch(NullPointerException n){}
+        	
         SmartDashboard.putString("DB/String 0", "");
         SmartDashboard.putString("DB/String 1", "");
         SmartDashboard.putString("DB/String 2", "");
@@ -240,8 +285,7 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putString("DB/String 5", "" + Robot.leftAbsEnc.getValue());
         SmartDashboard.putString("DB/String 6", "" + Robot.rightAbsEnc.getValue());
         SmartDashboard.putString("DB/String 7", "" + leftCounter.getRotations());
-        SmartDashboard.putString("DB/String 8", "" + rightCounter.getRotations());
-        
+        SmartDashboard.putString("DB/String 8", "" + rightCounter.getRotations());;
         SmartDashboard.putString("DB/String 9", "robot angle: " + Math.floor(NavSensor.getInstance().getAngle(false)));
      
     }
@@ -250,6 +294,12 @@ public class Robot extends IterativeRobot {
     	
     }
     
+    /**
+     * Used to get the game specific data on which sides of the field elements belong to which alliance
+     * 
+     * @param isTest
+     * @return 
+     */
     public static String getPracticeData(boolean isTest) {
 		if(isTest){
 			String switchesString;
@@ -287,6 +337,20 @@ public class Robot extends IterativeRobot {
 		}
 		
 	}
+    
+    /**
+     * @return Whether or not your side of the switch is the left side
+     */
+    public static boolean isSwitchesLeft(){
+    	return switchesVal.equals("L");
+    }
+    
+    /**
+     * @return Whether or not your side of the scale is the left side
+     */
+    public static boolean isScaleLeft(){
+    	return scaleVal.equals("L");
+    }
     
     public static String parseMatchTime() {
     	double s = DriverStation.getInstance().getMatchTime();
