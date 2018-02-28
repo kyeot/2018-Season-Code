@@ -101,7 +101,6 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putString("DB/String 8", "");
         SmartDashboard.putString("DB/String 9", "");
         
-        
         mVisionServer.addVisionUpdateReceiver(VisionProcessor.getInstance());
         
         NavSensor.getInstance().resetGyroNorth(180, 0);
@@ -121,8 +120,7 @@ public class Robot extends IterativeRobot {
         switchPos = new EncoderPosition(2, elEncCounter.getEncoderStartPos());
         scalePos = new EncoderPosition(6, elEncCounter.getEncoderStartPos());
         
-        String[] autonomousList = {"Test", "DriveGyroTest", "BaselineCross", "ScaleFromLeft", "SwitchFromLeft", "ScaleFromRight", "SwitchFromRight", "WaypointTest"};
-        
+        String[] autonomousList = {"BaselineCross", "SwitchFromLeft", "SwitchFromRight", "ScaleFromLeft", "ScaleFromRight", "WaypointTest", "DriveGyroTest", "Test"};
         //Puts the autonomous modes selector into the dashboard
         SmartDashboard.putStringArray("Auto List", autonomousList);
         
@@ -170,10 +168,10 @@ public class Robot extends IterativeRobot {
 		case "DriveGyroTest":
 			autoScheduler.setGroup(new DriveGyroTest());
 			break;
-		case "ScaleFromleft":
+		case "ScaleFromLeft":
 			autoScheduler.setGroup(new ScaleFromLeft());
 			break;
-		case "ScaleFromright":
+		case "ScaleFromRight":
 			autoScheduler.setGroup(new ScaleFromRight());
 			break;
 		case "SwitchFromLeft":
