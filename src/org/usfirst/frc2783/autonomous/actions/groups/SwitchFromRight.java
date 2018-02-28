@@ -8,6 +8,7 @@ import org.usfirst.frc2783.autonomous.actions.DriveWithGyroAndByDistance;
 import org.usfirst.frc2783.autonomous.actions.RotateTankAction;
 import org.usfirst.frc2783.robot.Robot;
 import org.usfirst.frc2783.util.Bearing;
+import org.usfirst.frc2783.util.Logger;
 
 public class SwitchFromRight extends ActionGroup {
 	
@@ -34,7 +35,10 @@ public class SwitchFromRight extends ActionGroup {
 			
 		}
 		catch(NullPointerException n){
+			Logger.error("Game Data Not Recieved, Crossing Baseline");
+        	
 			addAction(new AutoDrive(0.5, 0.5, 5));
+		
 		}
 		
 	}

@@ -120,7 +120,11 @@ public class Robot extends IterativeRobot {
         switchPos = new EncoderPosition(2, elEncCounter.getEncoderStartPos());
         scalePos = new EncoderPosition(6, elEncCounter.getEncoderStartPos());
         
-        String[] autonomousList = {"BaselineCross", "SwitchFromLeft", "SwitchFromRight", "ScaleFromLeft", "ScaleFromRight", "WaypointTest", "DriveGyroTest", "Test"};
+        String[] autonomousList = {"BaselineCross",
+        						   "SwitchFromLeft", "SwitchFromRight",
+        						   "ScaleFromLeft", "ScaleFromRight", 
+        						   "WaypointTest", "DriveGyroTest", "Test"};
+        
         //Puts the autonomous modes selector into the dashboard
         SmartDashboard.putStringArray("Auto List", autonomousList);
         
@@ -207,22 +211,25 @@ public class Robot extends IterativeRobot {
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
         
-        if(isSwitchesLeft()){
-            SmartDashboard.putString("DB/String 0", "OUR SWITCH: LEFT");
-            SmartDashboard.putString("DB/String 2", "ENEMY SWITCH: LEFT");
-        }
-        else{
-            SmartDashboard.putString("DB/String 0", "OUR SWITCH: RIGHT");
-            SmartDashboard.putString("DB/String 2", "ENEMY SWITCH: RIGHT");	
-        }
+        try{
+        	if(isSwitchesLeft()){
+        		SmartDashboard.putString("DB/String 0", "OUR SWITCH: LEFT");
+        		SmartDashboard.putString("DB/String 2", "ENEMY SWITCH: LEFT");
+        	}
+        	else{
+        		SmartDashboard.putString("DB/String 0", "OUR SWITCH: RIGHT");
+        		SmartDashboard.putString("DB/String 2", "ENEMY SWITCH: RIGHT");	
+        	}
         
-        if(isScaleLeft()){
-            SmartDashboard.putString("DB/String 1", "SCALE: LEFT");
+        	if(isScaleLeft()){
+        		SmartDashboard.putString("DB/String 1", "SCALE: LEFT");
+        	}
+        	else{
+        		SmartDashboard.putString("DB/String 1", "SCALE: RIGHT");
+        	}
         }
-        else{
-            SmartDashboard.putString("DB/String 1", "SCALE: RIGHT");
-        }
-        
+        catch(NullPointerException n){}
+        	
         SmartDashboard.putString("DB/String 0", "");
         SmartDashboard.putString("DB/String 1", "");
         SmartDashboard.putString("DB/String 2", "");
