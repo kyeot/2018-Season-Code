@@ -121,7 +121,14 @@ public class Robot extends IterativeRobot {
         switchPos = new EncoderPosition(2, elEncCounter.getEncoderStartPos());
         scalePos = new EncoderPosition(6, elEncCounter.getEncoderStartPos());
         
-        String[] autonomousList = {"Test", "DriveGyroTest", "BaselineCross", "ScaleFromLeft", "SwitchFromLeft", "ScaleFromRight", "SwitchFromRight", "WaypointTest"};
+        String[] autonomousList = {"Test",
+        						   "DriveGyroTest",
+        						   "BaselineCross",
+        						   "ScaleFromLeft",
+        						   "SwitchFromLeft",
+        						   "ScaleFromRight",
+        						   "SwitchFromRight",
+        						   "WaypointTest"};
         
         //Puts the autonomous modes selector into the dashboard
         SmartDashboard.putStringArray("Auto List", autonomousList);
@@ -187,6 +194,7 @@ public class Robot extends IterativeRobot {
 			break;
 		case "WaypointTest":
 			autoScheduler.setGroup(new WaypointTest());
+			System.out.println("Hi");
 			break;
 		default:
 			

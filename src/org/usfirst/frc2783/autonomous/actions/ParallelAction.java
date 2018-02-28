@@ -16,7 +16,6 @@ public class ParallelAction extends Action {
 	
 	public ParallelAction(List<Action> actions) {
 		
-		//Returns name as both action ids
 		super("Parallel actions");
 		this.actions = new ArrayList<>(actions.size());
         for (Action action : actions) {
