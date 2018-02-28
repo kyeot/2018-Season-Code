@@ -32,8 +32,6 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class TankDriveBase extends Subsystem {
 	
-	private static TankDriveBase mInstance = new TankDriveBase();
-	
 	// The robot drivetrain's various states.
     public enum DriveControlState {
         OPEN_LOOP, // open loop voltage control
@@ -317,7 +315,8 @@ public class TankDriveBase extends Subsystem {
 	
 	@Override
 	protected void initDefaultCommand() {
-		setDefaultCommand(new TankDrive());
+		TankDrive mhm = new TankDrive();
+		setDefaultCommand(mhm);
 		
 	}
 	
@@ -459,10 +458,6 @@ public class TankDriveBase extends Subsystem {
             return false;
         }
     }
-	
-	public static TankDriveBase getInstance() {
-		return mInstance;
-	}
 	
 	public synchronized boolean isDoneWithPath() {
         if (mDriveControlState == DriveControlState.PATH_FOLLOWING && mPathFollower != null) {

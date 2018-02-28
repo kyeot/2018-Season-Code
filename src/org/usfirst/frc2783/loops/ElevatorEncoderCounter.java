@@ -5,12 +5,6 @@ import org.usfirst.frc2783.subsystems.ElevatorBase;
 
 public class ElevatorEncoderCounter implements Loop{
 	
-	private static ElevatorEncoderCounter _instance;
-	
-	public static ElevatorEncoderCounter getInstance(){
-		return _instance;
-	}
-	
 	//Sets the rotation counters to 0
 	static double elevatorRotationCounter = 0;
 	

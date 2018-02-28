@@ -75,9 +75,6 @@ public class DriveWithGyroAndByDistance extends Action {
 	
 	double angle;
 	
-	static LeftEncoderCounter leftCounter = LeftEncoderCounter.getInstance();
-	static RightEncoderCounter rightCounter = RightEncoderCounter.getInstance();
-	
 	/**
 	 * 
 	 * Drives the tank drive forward with automatic gyroscope adjustment based on the left and right distances you give it
@@ -118,8 +115,8 @@ public class DriveWithGyroAndByDistance extends Action {
     	wantedRightTotalDegrees = rightAngleOnStart + rightDistanceInDegrees;
     	
     	//Makes the rotations on start equal the rotations, on start
-    	leftRotationOnStart = leftCounter.getRotations();
-    	rightRotationOnStart = rightCounter.getRotations();
+    	leftRotationOnStart = Robot.leftCounter.getRotations();
+    	rightRotationOnStart = Robot.rightCounter.getRotations();
     	
     	//Scales the left and right speeds scale based on which needs to go more distance
     	if(leftDistanceInDegrees > rightDistanceInDegrees){
@@ -156,10 +153,10 @@ public class DriveWithGyroAndByDistance extends Action {
 	@Override
 	public void perform(){                         
 		//Detects when the rotations are done and sets the booleans correspondingly
-    	if(leftCounter.getRotations() >= (leftRotationOnStart + wantedLeftRotations)){
+    	if(Robot.leftCounter.getRotations() >= (leftRotationOnStart + wantedLeftRotations)){
     		isLeftRotationsDone = true;
     	}
-    	if(rightCounter.getRotations() >= (rightRotationOnStart + wantedRightRotations)){
+    	if(Robot.rightCounter.getRotations() >= (rightRotationOnStart + wantedRightRotations)){
     		isRightRotationsDone = true;
     	}
     	
