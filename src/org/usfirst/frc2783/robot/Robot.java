@@ -209,7 +209,7 @@ public class Robot extends IterativeRobot {
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
         
-        if(switchesVal == "L"){
+        if(isSwitchesLeft()){
             SmartDashboard.putString("DB/String 0", "OUR SWITCH: LEFT");
             SmartDashboard.putString("DB/String 2", "ENEMY SWITCH: LEFT");
         }
@@ -218,7 +218,7 @@ public class Robot extends IterativeRobot {
             SmartDashboard.putString("DB/String 2", "ENEMY SWITCH: RIGHT");	
         }
         
-        if(scaleVal == "L"){
+        if(isScaleLeft()){
             SmartDashboard.putString("DB/String 1", "SCALE: LEFT");
         }
         else{
@@ -232,8 +232,7 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putString("DB/String 5", "" + Robot.leftAbsEnc.getValue());
         SmartDashboard.putString("DB/String 6", "" + Robot.rightAbsEnc.getValue());
         SmartDashboard.putString("DB/String 7", "" + leftCounter.getRotations());
-        SmartDashboard.putString("DB/String 8", "" + rightCounter.getRotations());
-        
+        SmartDashboard.putString("DB/String 8", "" + rightCounter.getRotations());;
         SmartDashboard.putString("DB/String 9", "robot angle: " + Math.floor(NavSensor.getInstance().getAngle(false)));
      
     }
@@ -279,6 +278,14 @@ public class Robot extends IterativeRobot {
 		}
 		
 	}
+    
+    public static boolean isSwitchesLeft(){
+    	return switchesVal.equals("L");
+    }
+    
+    public static boolean isScaleLeft(){
+    	return scaleVal.equals("L");
+    }
     
     public static String parseMatchTime() {
     	double s = DriverStation.getInstance().getMatchTime();
