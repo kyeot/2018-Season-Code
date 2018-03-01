@@ -143,6 +143,8 @@ public class Robot extends IterativeRobot {
         looper.addLoop(leftCounter);
         looper.addLoop(rightCounter);
         looper.addLoop(elEncCounter);
+        looper.addLoop(tankDrive.registerEnabledLoops());
+        //SmartDashboard.putString("DB/String 1", "Hi");
         Logger.info("Starting Loops");
         //Starts the main looper
         looper.startLoops();
@@ -236,7 +238,7 @@ public class Robot extends IterativeRobot {
 			break;
 		case "WaypointTest":
 			autoScheduler.setGroup(new WaypointTest());
-			System.out.println("Hi");
+			//SmartDashboard.putString("DB/String 1", "Hi");
 			break;
 		default:
 			

@@ -26,6 +26,7 @@ public class Looper {
 		public void runCrashTracked() {
 			for(Loop l : loops) {
 				l.onLoop();
+				l.onLoop(200);
 			}
 		}
 		

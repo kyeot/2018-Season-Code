@@ -26,6 +26,7 @@ import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Subsystem base for the TankDrive
@@ -69,30 +70,42 @@ public class TankDriveBase extends Subsystem {
 			synchronized (TankDriveBase.this) {
                 setBrakeMode(false);
                 setVelocitySetpoint(0, 0);
+                //SmartDashboard.putString("DB/String 1", "srdt");
             }
 		}
 
+		double iteration = 0;
 		@Override
 		public void onLoop(double timestamp) {
+			iteration++;
+			//SmartDashboard.putString("DB/String 1", "sewfsgdtrdt");
 	        synchronized (TankDriveBase.this) {
 	            switch (mDriveControlState) {
 	            case OPEN_LOOP:
+	            	SmartDashboard.putString("DB/String 1", "Aewfsgdtrdt");
 	                return;
 	            case VELOCITY_SETPOINT:
+	            	SmartDashboard.putString("DB/String 1", "Bewfsgdtrdt");
 	                return;
 	            case PATH_FOLLOWING:
+	            	SmartDashboard.putString("DB/String 1", "" + iteration);
 	                if (mPathFollower != null) {
 	                    updatePathFollower(timestamp);
+	                    SmartDashboard.putString("DB/String 2", "Dewfsgdtrdt");
 	                }
 	                return;
 	                // fallthrough intended
 	            case TURN_TO_HEADING:
+	            	SmartDashboard.putString("DB/String 1", "Esewfsgdtrdt");
 	                return;
 	            default:
 	                System.out.println("Unexpected drive control state: " + mDriveControlState);
+	                SmartDashboard.putString("DB/String 1", "Fsewfsgdtrdt");
 	                break;
 	            }
 	        }
+	        
+	        
 	    }
 
 		@Override
@@ -104,12 +117,12 @@ public class TankDriveBase extends Subsystem {
 		@Override
 		public void onLoop() {
 			// TODO Auto-generated method stub
-			
+			//SmartDashboard.putString("DB/String 1", "sewfsgdtrdt");
 		}
     };
     
-    public void registerEnabledLoops(Looper in) {
-        in.register(mLoop);
+    public Loop registerEnabledLoops() {
+        return mLoop;
     }
     
     //PID Source Class for the right side of the Tank Drive
@@ -357,10 +370,16 @@ public class TankDriveBase extends Subsystem {
                             			  Constants.kPathFollowingGoalPosTolerance,
                             			  Constants.kPathFollowingGoalVelTolerance, 
                             			  Constants.kPathStopSteeringDistance));
+            if (mPathFollower != null) {
+        		SmartDashboard.putString("DB/String 3", "sewfsgdtrdt");
+        	}
             mDriveControlState = DriveControlState.PATH_FOLLOWING;
             mCurrentPath = path;
+
+            //SmartDashboard.putString("DB/String 1", "Hsdfggr");
         } else {
             setVelocitySetpoint(0, 0); //This method takes the movements and sends them to encoders
+            //SmartDashboard.putString("DB/String 1", "Firetdty");
         }
     }
     
