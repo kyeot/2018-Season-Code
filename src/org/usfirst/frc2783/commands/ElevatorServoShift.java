@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class ElevatorServoShift extends Command {
 	
+	static double set;
+	
     public ElevatorServoShift() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
@@ -20,14 +22,15 @@ public class ElevatorServoShift extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.isHigh = !Robot.isHigh;
-    	if(OI.manipulator.getRawButton(Constants.kElevatorGearShiftID)){
-    		if(Robot.isHigh){
-            	Robot.elevatorBase.lowGear();
-    		}
-    		else if(!Robot.isHigh){
-            	Robot.elevatorBase.highGear();
-    		}
+    	if(Robot.isHigh){
+           	Robot.elevatorBase.lowGear();
+           	set = 0;
     	}
+    	else if(!Robot.isHigh){
+           	Robot.elevatorBase.highGear();
+           	set = 1;
+    	}
+    	
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -36,7 +39,7 @@ public class ElevatorServoShift extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+        return Robot.elevatorBase.shifter.get() == set;
     }
 
     // Called once after isFinished returns true

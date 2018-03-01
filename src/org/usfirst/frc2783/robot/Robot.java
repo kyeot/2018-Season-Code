@@ -205,7 +205,7 @@ public class Robot extends IterativeRobot {
     	gameData = getPracticeData(true);
     	switchesVal = gameData.substring(0, 1);
     	scaleVal = gameData.substring(1, 2);
-    	
+    			
     	//Switch Statement to Run the Right Autonomous group Depending on the selected position and switch/scale sides
     	switch(autoSelected) {
 		case "Test":
@@ -272,14 +272,8 @@ public class Robot extends IterativeRobot {
         }
         catch(NullPointerException n){}
         	
-        SmartDashboard.putString("DB/String 0", "");
-        SmartDashboard.putString("DB/String 1", "");
-        SmartDashboard.putString("DB/String 2", "");
-        
-        SmartDashboard.putString("DB/String 5", "" + Robot.leftAbsEnc.getValue());
-        SmartDashboard.putString("DB/String 6", "" + Robot.rightAbsEnc.getValue());
-        SmartDashboard.putString("DB/String 7", "" + leftCounter.getRotations());
-        SmartDashboard.putString("DB/String 8", "" + rightCounter.getRotations());;
+        SmartDashboard.putString("DB/String 6", "" + Robot.elevatorAbsEnc.getValue());
+        SmartDashboard.putString("DB/String 7", "" + elEncCounter.getRotations());
         SmartDashboard.putString("DB/String 9", "robot angle: " + Math.floor(NavSensor.getInstance().getAngle(false)));
      
     }

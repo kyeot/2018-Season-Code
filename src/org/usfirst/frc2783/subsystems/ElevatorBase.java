@@ -58,7 +58,7 @@ public class ElevatorBase extends Subsystem {
 	
 	double out;
 	
-	Servo shifter;
+	public Servo shifter;
 	
 	ElevatorEncSource elevatorEncSource;
 	ElevatorOut elevatorOut;
