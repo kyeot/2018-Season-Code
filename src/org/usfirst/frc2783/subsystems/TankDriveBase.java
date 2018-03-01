@@ -234,7 +234,7 @@ public class TankDriveBase extends Subsystem {
 		leftSlave.follow(leftMaster);
 		
 		//Sets all drive motors to be in brake mode
-		setBrakeMode(true);
+		setBrakeMode(false);
 		
 		//Creates the tank rotation PID controller
 		posePidOut = new TankPoseOut();
