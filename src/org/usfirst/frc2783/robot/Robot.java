@@ -143,6 +143,8 @@ public class Robot extends IterativeRobot {
         looper.addLoop(leftCounter);
         looper.addLoop(rightCounter);
         looper.addLoop(elEncCounter);
+        looper.addLoop(tankDrive.registerEnabledLoops());
+        //SmartDashboard.putString("DB/String 1", "Hi");
         Logger.info("Starting Loops");
         //Starts the main looper
         looper.startLoops();
@@ -157,11 +159,16 @@ public class Robot extends IterativeRobot {
         switchPos = new EncoderPosition(2, elEncCounter.getEncoderStartPos());
         scalePos = new EncoderPosition(6, elEncCounter.getEncoderStartPos());
         
-        //Creates a List of selectable autonomous groups
-        String[] autonomousList = {"BaselineCross",
-        						   "SwitchFromLeft", "SwitchFromRight",
-        						   "ScaleFromLeft", "ScaleFromRight", 
-        						   "WaypointTest", "DriveGyroTest", "Test"};
+      //Creates a List of selectable autonomous groups
+        String[] autonomousList = {"Test",
+        						   "DriveGyroTest",
+        						   "BaselineCross",
+        						   "ScaleFromLeft",
+        						   "SwitchFromLeft",
+        						   "ScaleFromRight",
+        						   "SwitchFromRight",
+        						   "WaypointTest"};
+        
         
         //Puts the autonomous groups list into the dashboard
         SmartDashboard.putStringArray("Auto List", autonomousList);
@@ -231,6 +238,7 @@ public class Robot extends IterativeRobot {
 			break;
 		case "WaypointTest":
 			autoScheduler.setGroup(new WaypointTest());
+			//SmartDashboard.putString("DB/String 1", "Hi");
 			break;
 		default:
 			

@@ -5,6 +5,8 @@ import org.usfirst.frc2783.autonomous.paths.PathContainer;
 import org.usfirst.frc2783.robot.Robot;
 import org.usfirst.frc2783.subsystems.TankDriveBase;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class DrivePathAction extends Action {
 	
 	private PathContainer mPathContainer;
@@ -36,6 +38,7 @@ public class DrivePathAction extends Action {
     @Override
     public void start() {
         mDrive.setWantDrivePath(mPath, mPathContainer.isReversed());
+        //SmartDashboard.putString("DB/String 1", "sawdfghj,k");
     }
     
 }
