@@ -68,7 +68,7 @@ public class TankDriveBase extends Subsystem {
 		@Override
 		public void onStart() {
 			synchronized (TankDriveBase.this) {
-                setBrakeMode(false);
+                setBrakeMode(true);
                 setVelocitySetpoint(0, 0);
                 //SmartDashboard.putString("DB/String 1", "srdt");
             }
@@ -234,7 +234,7 @@ public class TankDriveBase extends Subsystem {
 		leftSlave.follow(leftMaster);
 		
 		//Sets all drive motors to be in brake mode
-		setBrakeMode(false);
+		setBrakeMode(true);
 		
 		//Creates the tank rotation PID controller
 		posePidOut = new TankPoseOut();
