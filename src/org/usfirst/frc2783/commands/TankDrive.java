@@ -86,7 +86,7 @@ public class TankDrive extends Command {
 	
 	public void checkStationaryRotation(double scale) {
 		//If the joystick is greater than .25 away, rotate in place
-		if (Math.abs(OI.driver.getRawAxis(0)) > .25 && OI.driver.getRawAxis(3) < .25 && OI.driver.getRawAxis(3) > -.25) {
+		if (Math.abs(OI.driver.getRawAxis(0)) > .25 && OI.driver.getRawAxis(3) < .25 && OI.driver.getRawAxis(2) < .25) {
 			leftSpeed = -1*scale*OI.driver.getRawAxis(0);
 			rightSpeed = scale*OI.driver.getRawAxis(0);
 		}
@@ -112,8 +112,8 @@ public class TankDrive extends Command {
 		} 
 		
 		else {
-			//Default speed of .5
-			scale = .5;
+			//Default speed of .6
+			scale = .6;
 		}
 		
 		//Rotation in place supersedes regular driving but has a higher deadband

@@ -32,8 +32,7 @@ public class Constants {
 	public static final int kJoyTankRightID = 4;
 	
 	//Button IDs for manipulator
-	public static final int kRaiseClimbID = 7;
-	public static final int kDeployClimbID = 8;
+	public static final int kIntakeTestThing = 8;
 	
 	public static final int kElevatorToGroundID = 1;
 	public static final int kElevatorToSwitchID = 2;

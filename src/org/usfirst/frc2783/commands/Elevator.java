@@ -30,7 +30,7 @@ public class Elevator extends Command {
 		
 		speed = OI.manipulator.getRawAxis(1);
 
-		if (Math.abs(OI.manipulator.getRawAxis(1)) < 0.15) {
+		if (Math.abs(OI.manipulator.getRawAxis(1)) < 0.05) {
 			if (Robot.isClimb) {
 				speed = 0.1;
 			}

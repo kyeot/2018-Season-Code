@@ -30,7 +30,9 @@ import org.usfirst.frc2783.vision.VisionServer;
 
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.RobotController;
@@ -63,6 +65,8 @@ public class Robot extends IterativeRobot {
     public static boolean isHigh;
     public static boolean isClimb;
     
+    public static boolean isSucking = false;
+    
     public static double angle = 0;
     
     //Creates Randomizer for use in test autonomous
@@ -71,6 +75,8 @@ public class Robot extends IterativeRobot {
     //Creates Loopers
     public static Looper looper = new Looper(Constants.kPeriod);
     public static Looper slowLoop = new Looper(Constants.kSlowLooperPeriod);
+    
+    public UsbCamera camera = CameraServer.getInstance().startAutomaticCapture(0);
     
     //Creates the simple loop used to log at a slow rate
     private Loop slowLoopLogger = new Loop(){
@@ -118,6 +124,8 @@ public class Robot extends IterativeRobot {
     
     public void robotInit() {
         oi = new OI();
+        
+        
         
         //Clears SmartDashboard
         SmartDashboard.putString("DB/String 0", "");

@@ -36,7 +36,12 @@ public class Intake extends Command {
     	}
     	
     	else{
-    		speed = 0;
+    		if(Robot.isSucking){
+        		speed = 0.5;
+    		}
+    		else{
+    			speed = 0;
+    		}
     	}
     	
     	if(OI.manipulator.getRawButton(Constants.kIntakeSpinnerID)){
