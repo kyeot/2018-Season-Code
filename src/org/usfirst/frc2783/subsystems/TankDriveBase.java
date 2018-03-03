@@ -82,25 +82,19 @@ public class TankDriveBase extends Subsystem {
 	        synchronized (TankDriveBase.this) {
 	            switch (mDriveControlState) {
 	            case OPEN_LOOP:
-	            	SmartDashboard.putString("DB/String 1", "Aewfsgdtrdt");
 	                return;
 	            case VELOCITY_SETPOINT:
-	            	SmartDashboard.putString("DB/String 1", "Bewfsgdtrdt");
-	                return;
+	            	return;
 	            case PATH_FOLLOWING:
-	            	SmartDashboard.putString("DB/String 1", "" + iteration);
-	                if (mPathFollower != null) {
+	            	if (mPathFollower != null) {
 	                    updatePathFollower(timestamp);
-	                    SmartDashboard.putString("DB/String 2", "Dewfsgdtrdt");
-	                }
+	                    }
 	                return;
 	                // fallthrough intended
 	            case TURN_TO_HEADING:
-	            	SmartDashboard.putString("DB/String 1", "Esewfsgdtrdt");
-	                return;
+	            	return;
 	            default:
 	                System.out.println("Unexpected drive control state: " + mDriveControlState);
-	                SmartDashboard.putString("DB/String 1", "Fsewfsgdtrdt");
 	                break;
 	            }
 	        }
@@ -371,7 +365,6 @@ public class TankDriveBase extends Subsystem {
                             			  Constants.kPathFollowingGoalVelTolerance, 
                             			  Constants.kPathStopSteeringDistance));
             if (mPathFollower != null) {
-        		SmartDashboard.putString("DB/String 3", "sewfsgdtrdt");
         	}
             mDriveControlState = DriveControlState.PATH_FOLLOWING;
             mCurrentPath = path;

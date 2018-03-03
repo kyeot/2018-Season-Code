@@ -32,7 +32,7 @@ public class Constants {
 	public static final int kJoyTankRightID = 4;
 	
 	//Button IDs for manipulator
-	public static final int kIntakeTestThing = 8;
+	public static final int kIntakeTestThing = 7;
 	
 	public static final int kElevatorToGroundID = 1;
 	public static final int kElevatorToSwitchID = 2;
@@ -52,9 +52,9 @@ public class Constants {
 	public static final int kGyroResetID = 4;
 	
 	//PID values for tank rotation to angle
-	public static final double kTankPoseP = 0.0065;
-	public static final double kTankPoseI = 0.00035;
-	public static final double kTankPoseD = 0.009;
+	public static final double kTankPoseP = 0.007;
+	public static final double kTankPoseI = 0.0;
+	public static final double kTankPoseD = 0.008;
 	
 	//PID values for gyro adjusted drive
 	public static final double kGyroDriveP = 0.01;
