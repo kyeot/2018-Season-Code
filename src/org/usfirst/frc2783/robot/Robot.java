@@ -175,7 +175,8 @@ public class Robot extends IterativeRobot {
         						   "SwitchFromLeft",
         						   "ScaleFromRight",
         						   "SwitchFromRight",
-        						   "WaypointTest"};
+        						   "WaypointTest",
+        						   "StageRightWaypoint"};
         
         
         //Puts the autonomous groups list into the dashboard
