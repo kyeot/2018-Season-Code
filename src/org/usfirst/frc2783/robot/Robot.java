@@ -179,8 +179,9 @@ public class Robot extends IterativeRobot {
         						   "ScaleFromRight",
         						   "SwitchFromRightClose",
         						   "SwitchFromRightFar",
-        						   "WaypointTest"};
-        
+        						   "SwitchFromRight",
+        						   "WaypointTest",
+        						   "StageRightWaypoint"};
         
         //Puts the autonomous groups list into the dashboard
         SmartDashboard.putStringArray("Auto List", autonomousList);
