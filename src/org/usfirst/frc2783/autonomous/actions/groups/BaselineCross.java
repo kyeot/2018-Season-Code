@@ -8,7 +8,7 @@ public class BaselineCross extends ActionGroup{
 	public BaselineCross(){
 		super();
 		
-		addAction(new AutoDrive(.5, 0.6, 5));
+		addAction(new AutoDrive(0.5, 0.5, 5));
 		
 	}
 	

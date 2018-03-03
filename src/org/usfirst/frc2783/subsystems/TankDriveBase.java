@@ -8,7 +8,6 @@ import org.usfirst.frc2783.calculation.Rotation2d;
 import org.usfirst.frc2783.calculation.Twist2d;
 import org.usfirst.frc2783.commands.TankDrive;
 import org.usfirst.frc2783.loops.Loop;
-import org.usfirst.frc2783.loops.Looper;
 import org.usfirst.frc2783.robot.Constants;
 import org.usfirst.frc2783.robot.Kinematics;
 import org.usfirst.frc2783.robot.Robot;
@@ -26,7 +25,6 @@ import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Subsystem base for the TankDrive

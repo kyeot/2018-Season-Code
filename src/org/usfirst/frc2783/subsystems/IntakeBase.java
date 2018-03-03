@@ -37,9 +37,9 @@ public class IntakeBase extends Subsystem {
 		
 	}
 	
-	public void spinAdjust(){
-		left.set(ControlMode.PercentOutput, 1);
-		right.set(ControlMode.PercentOutput, 1);
+	public void spinAdjust(double speed){
+		left.set(ControlMode.PercentOutput, -.8*speed);
+		right.set(ControlMode.PercentOutput, speed);
 	}
 	
 	@Override

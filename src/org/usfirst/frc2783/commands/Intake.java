@@ -45,7 +45,7 @@ public class Intake extends Command {
     	}
     	
     	if(OI.manipulator.getRawButton(Constants.kIntakeSpinnerID)){
-    		Robot.intake.spinAdjust();
+    		Robot.intake.spinAdjust(speed);
     	}
     	else{
     		Robot.intake.intake(speed);
