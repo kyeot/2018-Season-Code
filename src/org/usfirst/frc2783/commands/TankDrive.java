@@ -8,6 +8,7 @@ import org.usfirst.frc2783.util.Bearing;
 import org.usfirst.frc2783.util.NavSensor;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -19,7 +20,8 @@ public class TankDrive extends Command {
 	double lastLeftSpeed;
 	double lastRightSpeed;
 
-	double angle;
+	Bearing startAngle;
+	Bearing endAngle;
 
 	NavSensor navSensor = NavSensor.getInstance();
 
@@ -93,7 +95,10 @@ public class TankDrive extends Command {
 		if (/*Math.abs(OI.driver.getRawAxis(0)) > .25 &&*/ OI.driver.getRawAxis(3) < .25 && OI.driver.getRawAxis(2) < .25) {
 			leftSpeed = scale*OI.driver.getRawAxis(1);
 			rightSpeed = scale*OI.driver.getRawAxis(5);
-			
+			if (Math.abs(OI.driver.getRawAxis(5)) < .25 && Math.abs(OI.driver.getRawAxis(1)) < .3 && Math.abs(OI.driver.getRawAxis(0)) > .25) {
+				leftSpeed = -scale*OI.driver.getRawAxis(0);
+				rightSpeed = scale*OI.driver.getRawAxis(0);
+			}
 		}	
 	}
 	
@@ -139,13 +144,16 @@ public class TankDrive extends Command {
 
 		if (OI.driver.getRawButton(2)) {
 			if (fieldTransform.targetHistory.getLatestTarget() != null) {
-				angle = fieldTransform.targetHistory.getSmoothTarget().dir().getTheta();
+				startAngle = new Bearing(fieldTransform.targetHistory.getSmoothTarget().dir().getTheta());
+				endAngle = startAngle.rotate(new Bearing(180));
+				SmartDashboard.putString("DB/String 0", "" + endAngle.getTheta());
+				
 			}
 		}
 
 		if (OI.driver.getRawButton(Constants.kVisionTestID)) {
 			// Robot.tankDrive.setRobotPose(new Bearing(0));
-			Robot.tankDrive.setRobotPose(new Bearing(angle));
+			Robot.tankDrive.setRobotPose(endAngle);
 		} else {
 			Robot.tankDrive.tankDrive(leftSpeed, rightSpeed);
 		}
