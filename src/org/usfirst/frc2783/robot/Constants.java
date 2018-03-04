@@ -128,7 +128,7 @@ public class Constants {
     public static double kPathStopSteeringDistance = 9.0;
 	
 	public static final double kCameraFrameRate = 30;
-	public static final double kTargetMaxAge = 0.3; 
+	public static final double kTargetMaxAge = 1; 
 	
 	public static final double kGyroMaxAge = 0.4;
 	
