@@ -2,7 +2,7 @@ package org.usfirst.frc2783.robot;
 
 import org.usfirst.frc2783.commands.ElevatorLockShift;
 import org.usfirst.frc2783.commands.ElevatorServoShift;
-import org.usfirst.frc2783.commands.GoToElevatorPosition;
+import org.usfirst.frc2783.commands.GoToTopSimple;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -22,18 +22,22 @@ public class OI {
 	public static JoystickButton elevatorShift = new JoystickButton(manipulator, Constants.kElevatorGearShiftID);
 	public static JoystickButton elevatorLockShift = new JoystickButton(manipulator, Constants.kElevatorLockShiftID);
 	
-	public static JoystickButton elevatorToGround = new JoystickButton(manipulator, Constants.kElevatorToGroundID);
-	public static JoystickButton elevatorToSwitch = new JoystickButton(manipulator, Constants.kElevatorToSwitchID);
-	public static JoystickButton elevatorToScale = new JoystickButton(manipulator, Constants.kElevatorToScaleID);
+	public static JoystickButton elevatorUpSimple = new JoystickButton(manipulator, 4);
+	
+//	public static JoystickButton elevatorToGround = new JoystickButton(manipulator, Constants.kElevatorToGroundID);
+//	public static JoystickButton elevatorToSwitch = new JoystickButton(manipulator, Constants.kElevatorToSwitchID);
+//	public static JoystickButton elevatorToScale = new JoystickButton(manipulator, Constants.kElevatorToScaleID);
 
     public OI() {
     	
     	elevatorShift.whenPressed(new ElevatorServoShift());
     	elevatorLockShift.whenPressed(new ElevatorLockShift());
     	
-    	elevatorToGround.whenPressed(new GoToElevatorPosition(Robot.groundPos));
-    	elevatorToSwitch.whenPressed(new GoToElevatorPosition(Robot.switchPos));
-    	elevatorToScale.whenPressed(new GoToElevatorPosition(Robot.scalePos));
+    	elevatorUpSimple.whenPressed(new GoToTopSimple());
+    	
+//    	elevatorToGround.whenPressed(new GoToElevatorPosition(Robot.groundPos.getRotations(), Robot.groundPos.getDegrees()));
+//    	elevatorToSwitch.whenPressed(new GoToElevatorPosition(Robot.switchPos.getRotations(), Robot.switchPos.getDegrees()));
+//    	elevatorToScale.whenPressed(new GoToElevatorPosition(Robot.scalePos.getRotations(), Robot.scalePos.getDegrees()));
     	
     }
 

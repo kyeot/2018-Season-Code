@@ -1,8 +1,6 @@
 package org.usfirst.frc2783.commands;
 
-import org.usfirst.frc2783.loops.ElevatorEncoderCounter;
 import org.usfirst.frc2783.robot.Robot;
-import org.usfirst.frc2783.util.EncoderPosition;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -10,44 +8,43 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class GoToElevatorPosition extends Command {
-
-	boolean isUp = true;
 	
-	EncoderPosition encPos;
+	double wantedRot;
+	double wantedDeg;
 	
-    public GoToElevatorPosition(EncoderPosition encPos) {
+    public GoToElevatorPosition(double wantedRot, double wantedDeg) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.elevatorBase);
     	
-    	this.encPos = encPos;
+    	this.wantedRot = wantedRot;
+    	this.wantedDeg = wantedDeg;
     	
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
 
-   		if(Robot.elEncCounter.getRotations() < encPos.getRotations()){
-       		isUp = true;
+   		if(Robot.elevatorBase.elevator1Mot.getMotorOutputPercent() > 0.1){
+       		Robot.isUp = true;
        	}
-   		else if(Robot.elEncCounter.getRotations() > encPos.getRotations()){
-       		isUp = false;
+   		else if(Robot.elevatorBase.elevator1Mot.getMotorOutputPercent() < -0.1){
+       		Robot.isUp = false;
        	}
-       	
-       	else{
-       		if(Robot.elevatorAbsEnc.getValue() < encPos.getDegrees()){
-       			isUp = true;
-       		}
-       		else if(Robot.elevatorAbsEnc.getValue() > encPos.getDegrees()){
-       			isUp = false;
-       		}
-       	}
-   	
-   		if(isUp = true){
-   	    	Robot.elevatorBase.elevator(-1);
+   		else{
+   			if(Robot.elevatorAbsEnc.getValue() > wantedDeg){
+   				Robot.isUp = false;
+   			}
+   			else if(Robot.elevatorAbsEnc.getValue() > wantedDeg){
+   				Robot.isUp = true;
+   			}
+   		}
+           	
+   		if(Robot.isUp = true){
+   	    	Robot.elevatorBase.elevator(1);
    		}
    		else{
-   	    	Robot.elevatorBase.elevator(1);
+   	    	Robot.elevatorBase.elevator(-1);
    		}
     	
     }
@@ -58,11 +55,11 @@ public class GoToElevatorPosition extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	if(isUp){
-    		return Robot.elEncCounter.getRotations() > encPos.getRotations() && Robot.elevatorAbsEnc.getValue() > encPos.getDegrees();
+    	if(Robot.isUp){
+    		return Robot.elEncCounter.getRotations() >= wantedRot && Robot.elevatorAbsEnc.getValue() < wantedDeg;
     	}
     	else{
-    		return Robot.elEncCounter.getRotations() < encPos.getRotations() && Robot.elevatorAbsEnc.getValue() < encPos.getDegrees();
+    		return Robot.elEncCounter.getRotations() <= wantedRot && Robot.elevatorAbsEnc.getValue() > wantedDeg;
     	}
         
     }

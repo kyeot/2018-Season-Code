@@ -30,19 +30,20 @@ public class Elevator extends Command {
 		
 		speed = OI.manipulator.getRawAxis(1);
 
-		if (Math.abs(OI.manipulator.getRawAxis(1)) < 0.05) {
-			if (Robot.isClimb) {
-				speed = 0.1;
+		if(!Robot.yesso){
+			if (Math.abs(OI.manipulator.getRawAxis(1)) < 0.1) {
+				if (Robot.isClimb) {
+					speed = 0.1;
+				}
+				
+				else {
+					speed = -0.1;
+				}
+				
 			}
-			
-			else {
-				speed = -0.1;
-			}
-			
+			Robot.elevatorBase.elevator(-speed);
 		}
 		
-		Robot.elevatorBase.elevator(-speed);
-
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

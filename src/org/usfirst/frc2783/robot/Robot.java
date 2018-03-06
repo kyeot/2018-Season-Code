@@ -9,6 +9,7 @@ import org.usfirst.frc2783.autonomous.actions.groups.BaselineCross;
 import org.usfirst.frc2783.autonomous.actions.groups.DriveGyroTest;
 import org.usfirst.frc2783.autonomous.actions.groups.ScaleFromLeft;
 import org.usfirst.frc2783.autonomous.actions.groups.ScaleFromRight;
+import org.usfirst.frc2783.autonomous.actions.groups.SwitchFromCenter;
 import org.usfirst.frc2783.autonomous.actions.groups.SwitchFromLeft;
 import org.usfirst.frc2783.autonomous.actions.groups.SwitchFromRight;
 import org.usfirst.frc2783.autonomous.actions.groups.TestAuto;
@@ -62,8 +63,11 @@ public class Robot extends IterativeRobot {
     public static boolean isRightForward = true;
     public static boolean isElevatorForward = true;
     
+    public static boolean yesso = false;
+    
     public static boolean isHigh;
     public static boolean isClimb;
+    public static boolean isUp;
     
     public static boolean isSucking = false;
     
@@ -111,9 +115,9 @@ public class Robot extends IterativeRobot {
     public static ElevatorEncoderCounter elEncCounter = new ElevatorEncoderCounter();
     
     //Creates Elevator Encoder set Position Variables
-    public static EncoderPosition groundPos;
-    public static EncoderPosition switchPos;
-    public static EncoderPosition scalePos;
+    public static EncoderPosition groundPos = new EncoderPosition(1, elEncCounter.getEncoderStartPos());
+    public static EncoderPosition switchPos = new EncoderPosition(6, elEncCounter.getEncoderStartPos());
+    public static EncoderPosition scalePos = new EncoderPosition(13, elEncCounter.getEncoderStartPos());
     
     //Creates Variables for storing which sides of the field elements are which
     public static String gameData;
@@ -126,8 +130,6 @@ public class Robot extends IterativeRobot {
     
     public void robotInit() {
         oi = new OI();
-        
-        
         
         //Clears SmartDashboard
         SmartDashboard.putString("DB/String 0", "");
@@ -164,15 +166,11 @@ public class Robot extends IterativeRobot {
         //Starts the slow looper
         slowLoop.startLoops();
         
-        //Sets the positions of the elevator set positions
-        groundPos = new EncoderPosition(0, elEncCounter.getEncoderStartPos());
-        switchPos = new EncoderPosition(2, elEncCounter.getEncoderStartPos());
-        scalePos = new EncoderPosition(6, elEncCounter.getEncoderStartPos());
-        
       //Creates a List of selectable autonomous groups
         String[] autonomousList = {"Test",
         						   "DriveGyroTest",
         						   "BaselineCross",
+        						   "SwitchFromCenter",
         						   "ScaleFromLeft",
         						   "SwitchFromLeftClose",
         						   "SwitchFromLeftFar",
@@ -223,10 +221,9 @@ public class Robot extends IterativeRobot {
     	String autoSelected = SmartDashboard.getString("Auto Selector", "None");
 
     	//Makes the field element sides corrospond to actual sides which information from the driver station (or a randomizer in test mode)
-    	gameData = getPracticeData(true);
-    	switchesVal = "R";
-//    	switchesVal = gameData.substring(0, 1);
-    	scaleVal = gameData.substring(1, 2);
+    	gameData = getPracticeData(false);
+    	switchesVal = gameData.substring(0, 1);
+    	scaleVal = gameData.substring(1, 2);                          
     			
     	//Switch Statement to Run the Right Autonomous group Depending on the selected position and switch/scale sides
     	switch(autoSelected) {
@@ -240,7 +237,7 @@ public class Robot extends IterativeRobot {
 			autoScheduler.setGroup(new ScaleFromLeft());
 			break;
 		case "ScaleFromRight":
-			autoScheduler.setGroup(new ScaleFromRight());
+			autoScheduler.setGroup(new ScaleFromRight());         
 			break;
 		case "SwitchFromLeftClose":
 			Robot.switchAutoIsFront = true;
@@ -257,6 +254,9 @@ public class Robot extends IterativeRobot {
 		case "SwitchFromRightFar":
 			Robot.switchAutoIsFront = false;
 			autoScheduler.setGroup(new SwitchFromRight());
+			break;
+		case "SwitchFromCenter":
+			autoScheduler.setGroup(new SwitchFromCenter());
 			break;
 		case "BaselineCross":
 			autoScheduler.setGroup(new BaselineCross());

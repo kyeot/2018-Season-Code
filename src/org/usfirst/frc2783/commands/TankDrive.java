@@ -66,13 +66,13 @@ public class TankDrive extends Command {
 			}
 		} else {
 			if (biggerRight) {
-				if (side == 'r') {
+				if (side == 'l') {
 					return initialOutput;
 				} else {
 					return (initialOutput - initialOutput*angularValue);
 				}
 			} else {
-				if (side == 'r') {
+				if (side == 'l') {
 					return initialOutput + initialOutput*angularValue;
 				} else {
 					return initialOutput;
@@ -92,7 +92,7 @@ public class TankDrive extends Command {
 		if (scale == .6) {
 			scale = .5;
 		}
-		if (/*Math.abs(OI.driver.getRawAxis(0)) > .25 &&*/ OI.driver.getRawAxis(3) < .25 && OI.driver.getRawAxis(2) < .25) {
+		if (/*Math.abs(OI.driver.getRawAxis(0)) > .25 &&*/ OI.driver.getRawAxis(3) < .15 && OI.driver.getRawAxis(2) < .15) {
 			leftSpeed = scale*OI.driver.getRawAxis(1);
 			rightSpeed = scale*OI.driver.getRawAxis(5);
 			if (Math.abs(OI.driver.getRawAxis(5)) < .25 && Math.abs(OI.driver.getRawAxis(1)) < .3 && Math.abs(OI.driver.getRawAxis(0)) > .25) {
@@ -106,8 +106,6 @@ public class TankDrive extends Command {
 	double rightSpeed;
 	
 	protected void execute() {
-//		leftSpeed = OI.driver.getRawAxis(1)/2;
-//		rightSpeed = OI.driver.getRawAxis(5)/2;
 		double scale;
 		
 		if (OI.driver.getRawButton(Constants.kFastModeID)) {
@@ -130,6 +128,8 @@ public class TankDrive extends Command {
 		setSpeeds(scale);
 		checkStationaryRotation(scale);
 		
+		
+		
 		if (Math.abs(leftSpeed) < 0.15) {
 			leftSpeed = 0;
 		}
@@ -142,19 +142,23 @@ public class TankDrive extends Command {
 			navSensor.resetGyroNorth(0, 0);
 		}
 
-		if (OI.driver.getRawButton(2)) {
-			if (fieldTransform.targetHistory.getLatestTarget() != null) {
-				startAngle = new Bearing(fieldTransform.targetHistory.getSmoothTarget().dir().getTheta());
-				endAngle = startAngle.rotate(new Bearing(180));
-				SmartDashboard.putString("DB/String 0", "" + endAngle.getTheta());
-				
-			}
+//		if (OI.driver.getRawButton(2)) {
+//			if (fieldTransform.targetHistory.getLatestTarget() != null) {
+//				startAngle = new Bearing(fieldTransform.targetHistory.getSmoothTarget().dir().getTheta());
+//				endAngle = startAngle.rotate(new Bearing(180));
+//				SmartDashboard.putString("DB/String 0", "" + endAngle.getTheta());
+//				
+//			}
+//		}
+//
+//		if (OI.driver.getRawButton(3)) {
+//			// Robot.tankDrive.setRobotPose(new Bearing(0));
+//			Robot.tankDrive.setRobotPose(endAngle);
+//		} 
+		if(OI.driver.getRawButton(1)) {
+			Robot.tankDrive.tankDrive(-rightSpeed, -leftSpeed);
 		}
-
-		if (OI.driver.getRawButton(Constants.kVisionTestID)) {
-			// Robot.tankDrive.setRobotPose(new Bearing(0));
-			Robot.tankDrive.setRobotPose(endAngle);
-		} else {
+		else{
 			Robot.tankDrive.tankDrive(leftSpeed, rightSpeed);
 		}
 	}
