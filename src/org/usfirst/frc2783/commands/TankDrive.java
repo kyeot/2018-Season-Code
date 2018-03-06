@@ -105,6 +105,10 @@ public class TankDrive extends Command {
 	double leftSpeed;
 	double rightSpeed;
 	
+	public boolean toggleInput(boolean value) {
+		return value ? false : true;
+	}
+	
 	protected void execute() {
 		double scale;
 		
@@ -155,7 +159,17 @@ public class TankDrive extends Command {
 //			// Robot.tankDrive.setRobotPose(new Bearing(0));
 //			Robot.tankDrive.setRobotPose(endAngle);
 //		} 
-		if(OI.driver.getRawButton(1)) {
+		boolean lastButton1State = false;
+		boolean reverseButton1Toggle = false;
+		
+		if(OI.driver.getRawButton(1) == true && lastButton1State == false) {
+			reverseButton1Toggle = toggleInput(reverseButton1Toggle);
+			lastButton1State = true;
+		} else if (OI.driver.getRawButton(1) == false) {
+			lastButton1State = false;
+		}
+		
+		if(reverseButton1Toggle) {
 			Robot.tankDrive.tankDrive(-rightSpeed, -leftSpeed);
 		}
 		else{
