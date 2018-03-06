@@ -20,7 +20,7 @@ public class MethodTest extends ActionGroup {
 	
 	public MethodTest() {
 		super();
-		addAction(new MethodAction("Tests", 7, 7));
+		addAction(new MethodAction("Tests", 7, 7, 10));
 		//Robot.tankDrive.isExisting();
 	}
 

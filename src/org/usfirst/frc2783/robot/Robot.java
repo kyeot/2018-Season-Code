@@ -31,7 +31,9 @@ import org.usfirst.frc2783.vision.VisionServer;
 
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.RobotController;
@@ -64,6 +66,10 @@ public class Robot extends IterativeRobot {
     public static boolean isHigh;
     public static boolean isClimb;
     
+    public static boolean isSucking = false;
+    
+    public static boolean switchAutoIsFront = true;
+    
     public static double angle = 0;
     
     //Creates Randomizer for use in test autonomous
@@ -72,6 +78,8 @@ public class Robot extends IterativeRobot {
     //Creates Loopers
     public static Looper looper = new Looper(Constants.kPeriod);
     public static Looper slowLoop = new Looper(Constants.kSlowLooperPeriod);
+    
+    public UsbCamera camera = CameraServer.getInstance().startAutomaticCapture(0);
     
     //Creates the simple loop used to log at a slow rate
     private Loop slowLoopLogger = new Loop(){
@@ -120,6 +128,8 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
         oi = new OI();
         
+        
+        
         //Clears SmartDashboard
         SmartDashboard.putString("DB/String 0", "");
         SmartDashboard.putString("DB/String 1", "");
@@ -164,12 +174,16 @@ public class Robot extends IterativeRobot {
         						   "DriveGyroTest",
         						   "BaselineCross",
         						   "ScaleFromLeft",
-        						   "SwitchFromLeft",
+        						   "SwitchFromLeftClose",
+        						   "SwitchFromLeftFar",
         						   "ScaleFromRight",
+        						   "SwitchFromRightClose",
+        						   "SwitchFromRightFar",
         						   "SwitchFromRight",
         						   "WaypointTest",
-        						   "Tests"};
-        
+        						   "Tests",
+        						   "StageRightWaypoint",
+        						   "StageLeftWaypoint"};
         
         //Puts the autonomous groups list into the dashboard
         SmartDashboard.putStringArray("Auto List", autonomousList);
@@ -211,7 +225,8 @@ public class Robot extends IterativeRobot {
 
     	//Makes the field element sides corrospond to actual sides which information from the driver station (or a randomizer in test mode)
     	gameData = getPracticeData(true);
-    	switchesVal = gameData.substring(0, 1);
+    	switchesVal = "R";
+//    	switchesVal = gameData.substring(0, 1);
     	scaleVal = gameData.substring(1, 2);
     			
     	//Switch Statement to Run the Right Autonomous group Depending on the selected position and switch/scale sides
@@ -228,10 +243,20 @@ public class Robot extends IterativeRobot {
 		case "ScaleFromRight":
 			autoScheduler.setGroup(new ScaleFromRight());
 			break;
-		case "SwitchFromLeft":
+		case "SwitchFromLeftClose":
+			Robot.switchAutoIsFront = true;
 			autoScheduler.setGroup(new SwitchFromLeft());
 			break;
-		case "SwitchFromRight":
+		case "SwitchFromRightClose":
+			Robot.switchAutoIsFront = true;
+			autoScheduler.setGroup(new SwitchFromRight());
+			break;
+		case "SwitchFromLeftFar":
+			Robot.switchAutoIsFront = false;
+			autoScheduler.setGroup(new SwitchFromLeft());
+			break;
+		case "SwitchFromRightFar":
+			Robot.switchAutoIsFront = false;
 			autoScheduler.setGroup(new SwitchFromRight());
 			break;
 		case "BaselineCross":

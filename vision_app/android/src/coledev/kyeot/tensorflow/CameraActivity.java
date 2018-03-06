@@ -203,6 +203,7 @@ public abstract class CameraActivity extends Activity
     } else {
       stopLockTask();
       criticalError.clearAnimation();
+      criticalError.setVisibility(View.INVISIBLE);
     }
     isCompetition = isChecked;
   }

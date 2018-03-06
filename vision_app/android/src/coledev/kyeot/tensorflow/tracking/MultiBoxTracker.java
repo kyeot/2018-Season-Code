@@ -302,8 +302,6 @@ public class MultiBoxTracker {
 
     if (robotConnected) {
       Log.w("MultiBoxTracker", "Robot is connected, sending visionUpdate");
-      //#TODO Remove reference to AppContext here.
-      //#TODO Initialize the connection once and check if it is null on every run. If so, initialize it again.
       TargetUpdateMessage update = new TargetUpdateMessage(visionUpdate, System.nanoTime());
       if (mRobotConnection == null){
         mRobotConnection = AppContext.getRobotConnection();

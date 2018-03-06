@@ -9,7 +9,6 @@ import org.usfirst.frc2783.calculation.Rotation2d;
 import org.usfirst.frc2783.calculation.Twist2d;
 import org.usfirst.frc2783.commands.TankDrive;
 import org.usfirst.frc2783.loops.Loop;
-import org.usfirst.frc2783.loops.Looper;
 import org.usfirst.frc2783.robot.Constants;
 import org.usfirst.frc2783.robot.Kinematics;
 import org.usfirst.frc2783.robot.Robot;
@@ -67,11 +66,17 @@ public class TankDriveBase extends Subsystem {
 		@Override
 		public void onStart() {
 			synchronized (TankDriveBase.this) {
+
 				setBrakeMode(false);
 				setVelocitySetpoint(0, 0);
 				// SmartDashboard.putString("DB/String 1", "srdt");
 			}
-		}
+
+                setBrakeMode(true);
+                setVelocitySetpoint(0, 0);
+                //SmartDashboard.putString("DB/String 1", "srdt");
+            }
+		
 
 		int iteration = 0;
 		int iteration1 = 0;
@@ -84,10 +89,11 @@ public class TankDriveBase extends Subsystem {
 		@Override
 		public void onLoop(double timestamp) {
 			iteration++;
+
 			//isExisting();
 			// SmartDashboard.putString("DB/String 1", "sewfsgdtrdt");
 			synchronized (TankDriveBase.this) {
-				iteration++;
+				//iteration++;
 				SmartDashboard.putString("DB/String 0", "" + iteration);
 				switch (mDriveControlState) {
 				case OPEN_LOOP:
@@ -123,6 +129,7 @@ public class TankDriveBase extends Subsystem {
 
 		}
 
+			//SmartDashboard.putString("DB/String 1", "sewfsgdtrdt");
 		@Override
 		public void onStop() {
 			// TODO Auto-generated method stub
@@ -255,10 +262,18 @@ public class TankDriveBase extends Subsystem {
 		rightSlave.follow(rightMaster);
 		leftSlave.follow(leftMaster);
 
+
 		// Sets all drive motors to be in brake mode
 		setBrakeMode(true);
 
 		// Creates the tank rotation PID controller
+
+		
+		//Sets all drive motors to be in brake mode
+		setBrakeMode(true);
+		
+		//Creates the tank rotation PID controller
+
 		posePidOut = new TankPoseOut();
 		posePidSource = new GyroSource();
 		posePid = new PIDController(Constants.kTankPoseP, Constants.kTankPoseI, Constants.kTankPoseD, posePidSource,
@@ -368,40 +383,10 @@ public class TankDriveBase extends Subsystem {
 		//Robot.tankDrive.isExisting();
 	}
 
-	/**
-	 * Configures the drivebase to drive a path. Used for autonomous driving
-	 * THIS is what converts arcs to movenemts
-	 * 
-	 * @see Path
-	 */
-	public synchronized void setWantDrivePath(Path path, boolean reversed) {
-		if (mCurrentPath != path || mDriveControlState != DriveControlState.PATH_FOLLOWING) {
-			// RobotState.getInstance().resetDistanceDriven(); //Need to reset
-			// rotations
-			mPathFollower = new PathFollower(path, reversed, new PathFollower.Parameters(
-					new Lookahead(Constants.kMinLookAhead, Constants.kMaxLookAhead, Constants.kMinLookAheadSpeed,
-							Constants.kMaxLookAheadSpeed),
-					Constants.kInertiaSteeringGain, Constants.kPathFollowingProfileKp,
-					Constants.kPathFollowingProfileKi, Constants.kPathFollowingProfileKv,
-					Constants.kPathFollowingProfileKffv, Constants.kPathFollowingProfileKffa,
-					Constants.kPathFollowingMaxVel, Constants.kPathFollowingMaxAccel,
-					Constants.kPathFollowingGoalPosTolerance, Constants.kPathFollowingGoalVelTolerance,
-					Constants.kPathStopSteeringDistance));
-			//if (mPathFollower != null) {
-				//SmartDashboard.putString("DB/String 8", "It exists here!");
-			//}
-			mDriveControlState = DriveControlState.PATH_FOLLOWING;
-			mCurrentPath = path;
-
-			// SmartDashboard.putString("DB/String 1", "Hsdfggr");
-		} else {
-			setVelocitySetpoint(0, 0);
-			// SmartDashboard.putString("DB/String 1", "Firetdty");
-		}
+	
 		//if (mPathFollower != null) {
 			//SmartDashboard.putString("DB/String 8", mPathFollower.toString());
 		//}
-	}
 	public boolean isExisting() {
 		
 		if (mPathFollower != null) {
@@ -419,39 +404,93 @@ public class TankDriveBase extends Subsystem {
 	 * the updates the wheel velocity setpoints.
 	 */
 	int iterator7;
-	private void updatePathFollower(double timestamp) {
-		//Robot.tankDrive.isExisting();
-		RigidTransform2d robot_pose = new RigidTransform2d(StaticSetpoints.leftCornerStart, Rotation2d.fromDegrees(0));
-		//Robot.tankDrive.isExisting();
-		// This command is that command that takes a path
-		Twist2d command = mPathFollower.update(timestamp, robot_pose, RobotState.getInstance().getDistanceDriven(),
-				RobotState.getInstance().getPredictedVelocity().dx);
-		if (!mPathFollower.isFinished()) {
-			Kinematics.DriveVelocity setpoint = Kinematics.inverseKinematics(command);
-			updateVelocitySetpoint(setpoint.left, setpoint.right);
-			iterator7++;
-			SmartDashboard.putString("DB/String 9", "" + iterator7);
-		} else {
-			updateVelocitySetpoint(0, 0);
-		}
-	}
+	
 
 	/**
+
 	 * Adjust Velocity setpoint (if already in velocity mode)
 	 * 
 	 * @param left_inches_per_sec
 	 * @param right_inches_per_sec
 	 */
+
+     /**Configures the drivebase to drive a path. Used for autonomous driving
+     * THIS is what converts arcs to movenemts
+     * 
+     * @see Path
+     */
+    public synchronized void setWantDrivePath(Path path, boolean reversed) {
+        if (mCurrentPath != path || mDriveControlState != DriveControlState.PATH_FOLLOWING) {
+            //RobotState.getInstance().resetDistanceDriven(); //Need to reset rotations
+            mPathFollower = new PathFollower(path, reversed,
+                    new PathFollower.Parameters(
+                            new Lookahead(Constants.kMinLookAhead,
+                            			  Constants.kMaxLookAhead,
+                                    	  Constants.kMinLookAheadSpeed,
+                                    	  Constants.kMaxLookAheadSpeed),
+                            			  Constants.kInertiaSteeringGain,
+                            			  Constants.kPathFollowingProfileKp,
+                            			  Constants.kPathFollowingProfileKi,
+                            			  Constants.kPathFollowingProfileKv,
+                            			  Constants.kPathFollowingProfileKffv,
+                            			  Constants.kPathFollowingProfileKffa,
+                            			  Constants.kPathFollowingMaxVel,
+                            			  Constants.kPathFollowingMaxAccel,
+                            			  Constants.kPathFollowingGoalPosTolerance,
+                            			  Constants.kPathFollowingGoalVelTolerance, 
+                            			  Constants.kPathStopSteeringDistance));
+            if (mPathFollower != null) {
+            	//SmartDashboard.putString("DB/String 1", "Hsdfggr");
+        	}
+            mDriveControlState = DriveControlState.PATH_FOLLOWING;
+            mCurrentPath = path;
+
+            //SmartDashboard.putString("DB/String 1", "Hsdfggr");
+        } else {
+            setVelocitySetpoint(0, 0); //This method takes the movements and sends them to encoders
+            //SmartDashboard.putString("DB/String 1", "Firetdty");
+        }
+        if (mDriveControlState == DriveControlState.PATH_FOLLOWING) {
+        	SmartDashboard.putString("DB/String 6", "dfgb");
+    	}
+    }
+    
+    /**
+     * Called periodically when the robot is in path following mode. Updates the path follower with the robots latest
+     * pose, distance driven, and velocity, the updates the wheel velocity setpoints.
+     */
+    private void updatePathFollower(double timestamp) {
+		RigidTransform2d robot_pose = mRobotState.getLatestFieldToVehicle().getValue();
+        
+        //This command is that command that takes a path
+        Twist2d command = mPathFollower.update(timestamp, robot_pose,
+                RobotState.getInstance().getDistanceDriven(), RobotState.getInstance().getPredictedVelocity().dx);
+        if (!mPathFollower.isFinished()) {
+            Kinematics.DriveVelocity setpoint = Kinematics.inverseKinematics(command);
+            updateVelocitySetpoint(setpoint.left, setpoint.right);
+            SmartDashboard.putString("DB/String 8", "" + "aesfrgdssawdfghfhd");
+        } else {
+            updateVelocitySetpoint(0, 0);
+        }
+    }
+	
+    /**
+     * Adjust Velocity setpoint (if already in velocity mode)
+     * 
+     * @param left_inches_per_sec
+     * @param right_inches_per_sec
+     */
 	private synchronized void updateVelocitySetpoint(double left_inches_per_sec, double right_inches_per_sec) {
 		if (usesTalonVelocityControl(mDriveControlState)) {
 			final double max_desired = Math.max(Math.abs(left_inches_per_sec), Math.abs(right_inches_per_sec));
 			final double scale = max_desired > Constants.kDriveHighGearMaxSetpoint
 					? Constants.kDriveHighGearMaxSetpoint / max_desired : 1.0;
-			leftMaster.set(ControlMode.PercentOutput, 1);
-			rightMaster.set(ControlMode.Velocity, inchesPerSecondToRpm(right_inches_per_sec * scale));
+			Robot.tankDrive.tankDrive(left_inches_per_sec, right_inches_per_sec);
+			//rightMaster.set(ControlMode.Velocity, inchesPerSecondToRpm(right_inches_per_sec * scale));
+			//rightMaster.set(ControlMode.PercentOutput, -5);
 			//Robot.tankDrive.isExisting();
 			iterator7++;
-			SmartDashboard.putString("DB/String 9", "" + iterator7);
+			SmartDashboard.putString("DB/String 9", "" + left_inches_per_sec);
 		} else {
 			System.out.println("Hit a bad velocity control state");
 			leftMaster.set(ControlMode.Velocity, 0);
