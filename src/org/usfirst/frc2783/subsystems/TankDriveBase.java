@@ -67,16 +67,12 @@ public class TankDriveBase extends Subsystem {
 		public void onStart() {
 			synchronized (TankDriveBase.this) {
 
-				setBrakeMode(false);
+				setBrakeMode(true);
 				setVelocitySetpoint(0, 0);
 				// SmartDashboard.putString("DB/String 1", "srdt");
 			}
+		}
 
-                setBrakeMode(true);
-                setVelocitySetpoint(0, 0);
-                //SmartDashboard.putString("DB/String 1", "srdt");
-            }
-		
 
 		int iteration = 0;
 		int iteration1 = 0;
@@ -138,7 +134,8 @@ public class TankDriveBase extends Subsystem {
 
 		@Override
 		public void onLoop() {
-			// SmartDashboard.putString("DB/String 1", "sewfsgdtrdt");
+			iteration6++;
+			SmartDashboard.putString("DB/String 6", "" + iteration6);
 		}
 	};
 
