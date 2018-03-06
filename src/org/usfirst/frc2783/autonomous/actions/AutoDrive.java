@@ -1,7 +1,13 @@
 package org.usfirst.frc2783.autonomous.actions;
 
 import org.usfirst.frc2783.robot.Robot;
-
+/**
+ * 
+ * Give it a PercentOutPut on both sides and give it a time to run
+ * 
+ * @author 2783
+ *
+ */
 public class AutoDrive extends Action {
 	
 	double left;

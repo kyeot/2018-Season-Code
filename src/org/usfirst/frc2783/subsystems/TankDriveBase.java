@@ -1,5 +1,6 @@
 package org.usfirst.frc2783.subsystems;
 
+import org.usfirst.frc2783.autonomous.StaticSetpoints;
 import org.usfirst.frc2783.autonomous.paths.Lookahead;
 import org.usfirst.frc2783.autonomous.paths.Path;
 import org.usfirst.frc2783.autonomous.paths.PathFollower;
@@ -25,193 +26,226 @@ import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Subsystem base for the TankDrive
  */
 public class TankDriveBase extends Subsystem {
-	
-	// The robot drivetrain's various states.
-    public enum DriveControlState {
-        OPEN_LOOP, // open loop voltage control
-        VELOCITY_SETPOINT, // velocity PID control
-        PATH_FOLLOWING, // used for autonomous driving
-        TURN_TO_HEADING, // turn in place
-    }
-	
-    /**
-     * Check if the drive talons are configured for velocity control
-     */
-    protected static boolean usesTalonVelocityControl(DriveControlState state) {
-        if (state == DriveControlState.VELOCITY_SETPOINT || state == DriveControlState.PATH_FOLLOWING) {
-            return true;
-        }
-        return false;
-    }
 
-    /**
-     * Check if the drive talons are configured for position control
-     */
-    protected static boolean usesTalonPositionControl(DriveControlState state) {
-        if (state == DriveControlState.TURN_TO_HEADING) {
-            return true;
-        }
-        return false;
-    }
-    
-    private final Loop mLoop = new Loop() {
-    
-	    
+	// The robot drivetrain's various states.
+	public enum DriveControlState {
+		OPEN_LOOP, // open loop voltage control
+		VELOCITY_SETPOINT, // velocity PID control
+		PATH_FOLLOWING, // used for autonomous driving
+		TURN_TO_HEADING, // turn in place
+	}
+
+	/**
+	 * Check if the drive talons are configured for velocity control
+	 */
+	protected static boolean usesTalonVelocityControl(DriveControlState state) {
+		if (state == DriveControlState.VELOCITY_SETPOINT || state == DriveControlState.PATH_FOLLOWING) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Check if the drive talons are configured for position control
+	 */
+	protected static boolean usesTalonPositionControl(DriveControlState state) {
+		if (state == DriveControlState.TURN_TO_HEADING) {
+			return true;
+		}
+		return false;
+	}
+
+	private final Loop mLoop = new Loop() {
 
 		@Override
 		public void onStart() {
 			synchronized (TankDriveBase.this) {
-                setBrakeMode(true);
-                setVelocitySetpoint(0, 0);
-                //SmartDashboard.putString("DB/String 1", "srdt");
-            }
+
+				setBrakeMode(true);
+				setVelocitySetpoint(0, 0);
+				// SmartDashboard.putString("DB/String 1", "srdt");
+			}
 		}
 
-		double iteration = 0;
+
+		int iteration = 0;
+		int iteration1 = 0;
+		int iteration2 = 0;
+		int iteration3 = 0;
+		int iteration4 = 0;
+		int iteration5 = 0;
+		int iteration6 = 0;
+
 		@Override
 		public void onLoop(double timestamp) {
 			iteration++;
-			//SmartDashboard.putString("DB/String 1", "sewfsgdtrdt");
-	        synchronized (TankDriveBase.this) {
-	            switch (mDriveControlState) {
-	            case OPEN_LOOP:
-	                return;
-	            case VELOCITY_SETPOINT:
-	            	return;
-	            case PATH_FOLLOWING:
-	            	if (mPathFollower != null) {
-	                    updatePathFollower(timestamp);
-	                    }
-	                return;
-	                // fallthrough intended
-	            case TURN_TO_HEADING:
-	            	return;
-	            default:
-	                System.out.println("Unexpected drive control state: " + mDriveControlState);
-	                break;
-	            }
-	        }
-	        
-	        
-	    }
 
+			//isExisting();
+			// SmartDashboard.putString("DB/String 1", "sewfsgdtrdt");
+			synchronized (TankDriveBase.this) {
+				//iteration++;
+				SmartDashboard.putString("DB/String 0", "" + iteration);
+				switch (mDriveControlState) {
+				case OPEN_LOOP:
+					iteration1++;
+					SmartDashboard.putString("DB/String 1", "" + iteration1);
+					return;
+				case VELOCITY_SETPOINT:
+					iteration2++;
+					SmartDashboard.putString("DB/String 2", "" + iteration2);
+					return;
+				case PATH_FOLLOWING:
+					iteration3++;
+					SmartDashboard.putString("DB/String 3", "" + iteration3);
+					//isExisting();
+					if (mPathFollower != null) {
+						updatePathFollower(timestamp);
+						iteration4++;
+						SmartDashboard.putString("DB/String 4", "" + iteration4);
+					}
+					return;
+				// fallthrough intended
+				case TURN_TO_HEADING:
+					iteration5++;
+					SmartDashboard.putString("DB/String 5", "" + iteration5);
+					return;
+				default:
+					System.out.println("Unexpected drive control state: " + mDriveControlState);
+					iteration6++;
+					SmartDashboard.putString("DB/String 6", "" + iteration6);
+					break;
+				}
+			}
+
+		}
+
+			//SmartDashboard.putString("DB/String 1", "sewfsgdtrdt");
 		@Override
 		public void onStop() {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
 		public void onLoop() {
-			// TODO Auto-generated method stub
-			//SmartDashboard.putString("DB/String 1", "sewfsgdtrdt");
+			iteration6++;
+			SmartDashboard.putString("DB/String 6", "" + iteration6);
 		}
-    };
-    
-    public Loop registerEnabledLoops() {
-        return mLoop;
-    }
-    
-    //PID Source Class for the right side of the Tank Drive
+	};
+
+	public Loop registerEnabledLoops() {
+		return mLoop;
+	}
+
+	// PID Source Class for the right side of the Tank Drive
 	class RightTankSideSource implements PIDSource {
 		PIDSourceType sourceType;
+
 		public RightTankSideSource() {
 			setPIDSourceType(PIDSourceType.kDisplacement);
 		}
+
 		@Override
 		public void setPIDSourceType(PIDSourceType pidSource) {
 			sourceType = pidSource;
 		}
+
 		@Override
 		public PIDSourceType getPIDSourceType() {
 			return sourceType;
 		}
+
 		@Override
 		public double pidGet() {
-			return Robot.rightAbsEnc.getValue()/11.377777777777777778;
-		}	
+			return Robot.rightAbsEnc.getValue() / 11.377777777777777778;
+		}
 	}
 
-    //PID Source Class for the left side of the Tank Drive
+	// PID Source Class for the left side of the Tank Drive
 	class LeftTankSideSource implements PIDSource {
 		PIDSourceType sourceType;
+
 		public LeftTankSideSource() {
 			setPIDSourceType(PIDSourceType.kDisplacement);
 		}
+
 		@Override
 		public void setPIDSourceType(PIDSourceType pidSource) {
 			sourceType = pidSource;
 		}
+
 		@Override
 		public PIDSourceType getPIDSourceType() {
 			return sourceType;
 		}
+
 		@Override
 		public double pidGet() {
-			return Robot.leftAbsEnc.getValue()/11.377777777777777778;
-		}	
+			return Robot.leftAbsEnc.getValue() / 11.377777777777777778;
+		}
 	}
 
-    //PID Output Class for the left side of the Tank Drive
+	// PID Output Class for the left side of the Tank Drive
 	class LeftTankSideOut implements PIDOutput {
 		@Override
-		public void pidWrite(double output){
+		public void pidWrite(double output) {
 			leftOut = -output;
 		}
 	}
 
-    //PID Output Class for the right side of the Tank Drive
+	// PID Output Class for the right side of the Tank Drive
 	class RightTankSideOut implements PIDOutput {
 		@Override
-		public void pidWrite(double output){
+		public void pidWrite(double output) {
 			rightOut = output;
 		}
 	}
-	
-	//PID Output Class for tank rotation
+
+	// PID Output Class for tank rotation
 	class TankPoseOut implements PIDOutput {
 		@Override
 		public void pidWrite(double output) {
 			rot = -output;
 		}
 	}
-	
+
 	private Rotation2d mTargetHeading = new Rotation2d();
-    private Path mCurrentPath = null;
-	
-	//Instantiates the right tank motor controllers
+	private Path mCurrentPath = null;
+
+	// Instantiates the right tank motor controllers
 	public VictorSPX rightMaster = new VictorSPX(Constants.kRightDrive1);
 	VictorSPX rightSlave = new VictorSPX(Constants.kRightDrive2);
 
-	//Instantiates the left tank motor controllers
+	// Instantiates the left tank motor controllers
 	public VictorSPX leftMaster = new VictorSPX(Constants.kLeftDrive1);
 	VictorSPX leftSlave = new VictorSPX(Constants.kLeftDrive2);
-	
-	//Instantiates gyro as an instance of NavSensor
+
+	// Instantiates gyro as an instance of NavSensor
 	NavSensor gyro = NavSensor.getInstance();
-	
+
 	RobotState mRobotState;
-	
+
 	double rot;
 
 	double leftOut;
 	double rightOut;
-	
+
 	DriveControlState mDriveControlState;
-	
-	//Creates Output and Source for the rotation PID
+
+	// Creates Output and Source for the rotation PID
 	PIDController posePid;
 	TankPoseOut posePidOut;
 	GyroSource posePidSource;
-	
-	PathFollower mPathFollower;
-	
-	//Creates Outputs and Sources for the left and right side PIDs
+
+	public static PathFollower mPathFollower;
+
+	// Creates Outputs and Sources for the left and right side PIDs
 	LeftTankSideSource leftPidSource;
 	RightTankSideSource rightPidSource;
 	LeftTankSideOut leftSideOut;
@@ -219,125 +253,165 @@ public class TankDriveBase extends Subsystem {
 	PIDController leftSideController;
 	PIDController rightSideController;
 
-	//Constructor to construct the TankDriveBase
-	public TankDriveBase(){
-		//Sets the slave motor controllers to follow the masters
+	// Constructor to construct the TankDriveBase
+	public TankDriveBase() {
+		// Sets the slave motor controllers to follow the masters
 		rightSlave.follow(rightMaster);
 		leftSlave.follow(leftMaster);
+
+
+		// Sets all drive motors to be in brake mode
+		setBrakeMode(true);
+
+		// Creates the tank rotation PID controller
+
 		
 		//Sets all drive motors to be in brake mode
 		setBrakeMode(true);
 		
 		//Creates the tank rotation PID controller
+
 		posePidOut = new TankPoseOut();
 		posePidSource = new GyroSource();
-		posePid = new PIDController(Constants.kTankPoseP, Constants.kTankPoseI, Constants.kTankPoseD, 
-										posePidSource, 
-										posePidOut);
+		posePid = new PIDController(Constants.kTankPoseP, Constants.kTankPoseI, Constants.kTankPoseD, posePidSource,
+				posePidOut);
 		posePid.setInputRange(0, 360);
 		posePid.setContinuous();
-		
-		//Creates the left side PID controller
+
+		// Creates the left side PID controller
 		leftPidSource = new LeftTankSideSource();
 		leftSideOut = new LeftTankSideOut();
 		leftSideController = new PIDController(Constants.kTankSideP, Constants.kTankSideI, Constants.kTankSideD,
-												leftPidSource, leftSideOut);
+				leftPidSource, leftSideOut);
 		leftSideController.setInputRange(0, 360);
 		leftSideController.setContinuous(false);
-		
-		//Creates the right side PID controller
+
+		// Creates the right side PID controller
 		rightPidSource = new RightTankSideSource();
 		rightSideOut = new RightTankSideOut();
 		rightSideController = new PIDController(Constants.kTankSideP, Constants.kTankSideI, Constants.kTankSideD,
-												rightPidSource, rightSideOut);
+				rightPidSource, rightSideOut);
 		rightSideController.setInputRange(0, 360);
 		rightSideController.setContinuous(false);
 	}
-	
-    /**
-     * Sets the tank rotation to the Bearing you pass in, 0 - 360
-     */
-	public void setRobotPose(Bearing bearing){
+
+	/**
+	 * Sets the tank rotation to the Bearing you pass in, 0 - 360
+	 */
+	public void setRobotPose(Bearing bearing) {
 		posePid.setSetpoint(bearing.getTheta());
 		posePid.enable();
-		
+
 		rotate(rot);
-		
+
 	}
-	
+
 	/**
-     * Sets the left tank side rotation to the Angle you pass in, 0 - 360
-     */
-	public void setLeftPose(double angle){
+	 * Sets the left tank side rotation to the Angle you pass in, 0 - 360
+	 */
+	public void setLeftPose(double angle) {
 		leftSideController.setSetpoint(angle);
 		rightSideController.enable();
-		
+
 		setLeftSide(leftOut);
-		
+
 	}
-	
+
 	/**
-     * Sets the right tank rotation to the Angle you pass in, 0 - 360
-     */
-	public void setRightPose(double angle){
+	 * Sets the right tank rotation to the Angle you pass in, 0 - 360
+	 */
+	public void setRightPose(double angle) {
 		rightSideController.setSetpoint(angle);
 		rightSideController.enable();
-		
+
 		setRightSide(rightOut);
-		
+
 	}
-	
+
 	/**
-     * Sets the speed of the tank sides to rotate based on the rotation motion you pass in
-     */
-	private void rotate(double rotationMotion){
+	 * Sets the speed of the tank sides to rotate based on the rotation motion
+	 * you pass in
+	 */
+	private void rotate(double rotationMotion) {
 		setLeftSide(rotationMotion);
-		setRightSide(rotationMotion);	
+		setRightSide(rotationMotion);
 	}
-	
+
 	/**
-     * Sets the left side speed by percent
-     */
-	public void setLeftSide(double speed){
+	 * Sets the left side speed by percent
+	 */
+	public void setLeftSide(double speed) {
 		leftMaster.set(ControlMode.PercentOutput, speed);
 	}
 
 	/**
-     * Sets the right side speed by percent
-     */
-	public void setRightSide(double speed){
+	 * Sets the right side speed by percent
+	 */
+	public void setRightSide(double speed) {
 		rightMaster.set(ControlMode.PercentOutput, speed);
-		
+
 	}
+
 	/**
 	 * Moves tank drive by left and right speeds
 	 */
 	public void tankDrive(double leftSpeed, double rightSpeed) {
 		leftMaster.set(ControlMode.PercentOutput, -leftSpeed);
 		rightMaster.set(ControlMode.PercentOutput, rightSpeed);
-		
+
 	}
-	
+
 	@Override
 	protected void initDefaultCommand() {
 		TankDrive mhm = new TankDrive();
 		setDefaultCommand(mhm);
+
+	}
+
+	/**
+	 * Start up velocity mode. This sets the drive train in high gear as well.
+	 * 
+	 * @param left_inches_per_sec
+	 * @param right_inches_per_sec
+	 */
+	public synchronized void setVelocitySetpoint(double left_inches_per_sec, double right_inches_per_sec) {
+		mDriveControlState = DriveControlState.VELOCITY_SETPOINT;
+		updateVelocitySetpoint(left_inches_per_sec, right_inches_per_sec);
+		//Robot.tankDrive.isExisting();
+	}
+
+	
+		//if (mPathFollower != null) {
+			//SmartDashboard.putString("DB/String 8", mPathFollower.toString());
+		//}
+	public boolean isExisting() {
+		
+		if (mPathFollower != null) {
+			SmartDashboard.putString("DB/String 8", "It exists here!");
+			return true;
+		} else {
+			SmartDashboard.putString("DB/String 8", "It doesn't exists here!");
+			return false;
+		}
 		
 	}
-	
 	/**
-     * Start up velocity mode. This sets the drive train in high gear as well.
-     * 
-     * @param left_inches_per_sec
-     * @param right_inches_per_sec
-     */
-    public synchronized void setVelocitySetpoint(double left_inches_per_sec, double right_inches_per_sec) {
-        mDriveControlState = DriveControlState.VELOCITY_SETPOINT;
-        updateVelocitySetpoint(left_inches_per_sec, right_inches_per_sec);
-    }
+	 * Called periodically when the robot is in path following mode. Updates the
+	 * path follower with the robots latest pose, distance driven, and velocity,
+	 * the updates the wheel velocity setpoints.
+	 */
+	int iterator7;
 	
+
 	/**
-     * Configures the drivebase to drive a path. Used for autonomous driving
+
+	 * Adjust Velocity setpoint (if already in velocity mode)
+	 * 
+	 * @param left_inches_per_sec
+	 * @param right_inches_per_sec
+	 */
+
+     /**Configures the drivebase to drive a path. Used for autonomous driving
      * THIS is what converts arcs to movenemts
      * 
      * @see Path
@@ -363,6 +437,7 @@ public class TankDriveBase extends Subsystem {
                             			  Constants.kPathFollowingGoalVelTolerance, 
                             			  Constants.kPathStopSteeringDistance));
             if (mPathFollower != null) {
+            	//SmartDashboard.putString("DB/String 1", "Hsdfggr");
         	}
             mDriveControlState = DriveControlState.PATH_FOLLOWING;
             mCurrentPath = path;
@@ -372,6 +447,9 @@ public class TankDriveBase extends Subsystem {
             setVelocitySetpoint(0, 0); //This method takes the movements and sends them to encoders
             //SmartDashboard.putString("DB/String 1", "Firetdty");
         }
+        if (mDriveControlState == DriveControlState.PATH_FOLLOWING) {
+        	SmartDashboard.putString("DB/String 6", "dfgb");
+    	}
     }
     
     /**
@@ -387,6 +465,7 @@ public class TankDriveBase extends Subsystem {
         if (!mPathFollower.isFinished()) {
             Kinematics.DriveVelocity setpoint = Kinematics.inverseKinematics(command);
             updateVelocitySetpoint(setpoint.left, setpoint.right);
+            SmartDashboard.putString("DB/String 8", "" + "aesfrgdssawdfghfhd");
         } else {
             updateVelocitySetpoint(0, 0);
         }
@@ -398,84 +477,86 @@ public class TankDriveBase extends Subsystem {
      * @param left_inches_per_sec
      * @param right_inches_per_sec
      */
-    @SuppressWarnings("unused")
 	private synchronized void updateVelocitySetpoint(double left_inches_per_sec, double right_inches_per_sec) {
-        if (usesTalonVelocityControl(mDriveControlState)) {
-            final double max_desired = Math.max(Math.abs(left_inches_per_sec), Math.abs(right_inches_per_sec));
-            final double scale = max_desired > Constants.kDriveHighGearMaxSetpoint
-                    ? Constants.kDriveHighGearMaxSetpoint / max_desired : 1.0;
-            leftMaster.set(ControlMode.Velocity, inchesPerSecondToRpm(left_inches_per_sec * scale));
-            rightMaster.set(ControlMode.Velocity, inchesPerSecondToRpm(right_inches_per_sec * scale));
-        } else {
-            System.out.println("Hit a bad velocity control state");
-            leftMaster.set(ControlMode.Velocity, 0);
-            rightMaster.set(ControlMode.Velocity, 0);
-        }
-    }
+		if (usesTalonVelocityControl(mDriveControlState)) {
+			final double max_desired = Math.max(Math.abs(left_inches_per_sec), Math.abs(right_inches_per_sec));
+			final double scale = max_desired > Constants.kDriveHighGearMaxSetpoint
+					? Constants.kDriveHighGearMaxSetpoint / max_desired : 1.0;
+			Robot.tankDrive.tankDrive(left_inches_per_sec, right_inches_per_sec);
+			//rightMaster.set(ControlMode.Velocity, inchesPerSecondToRpm(right_inches_per_sec * scale));
+			//rightMaster.set(ControlMode.PercentOutput, -5);
+			//Robot.tankDrive.isExisting();
+			iterator7++;
+			SmartDashboard.putString("DB/String 9", "" + left_inches_per_sec);
+		} else {
+			System.out.println("Hit a bad velocity control state");
+			leftMaster.set(ControlMode.Velocity, 0);
+			rightMaster.set(ControlMode.Velocity, 0);
+		}
+	}
 
-    /**
-     * Takes inches in parameters and tells robot to
-     * move that many inches by converting inchesToRotations
-     * 
-     * @param left_inches_per_sec
-     * @param right_inches_per_sec
-     */
-    @SuppressWarnings("unused")
+	/**
+	 * Takes inches in parameters and tells robot to move that many inches by
+	 * converting inchesToRotations
+	 * 
+	 * @param left_inches_per_sec
+	 * @param right_inches_per_sec
+	 */
+	@SuppressWarnings("unused")
 	private synchronized void updatePositionSetpoint(double left_position_inches, double right_position_inches) {
-        if (usesTalonPositionControl(mDriveControlState)) {
-            leftMaster.set(ControlMode.Position, inchesToRotations(left_position_inches));
-            rightMaster.set(ControlMode.Position, inchesToRotations(right_position_inches));
-        } else {
-            System.out.println("Hit a bad position control state");
-            leftMaster.set(ControlMode.Position, 0);
-            rightMaster.set(ControlMode.Position, 0);
-        }
-    }
-	
-    private static double inchesPerSecondToRpm(double inches_per_second) {
-        return inchesToRotations(inches_per_second) * 60;
-    }
-    
-    private static double inchesToRotations(double inches) {
-        return inches / (Constants.kWheelDiameterByInches * Math.PI);
-    }
-    
-    /**
+		if (usesTalonPositionControl(mDriveControlState)) {
+			leftMaster.set(ControlMode.Position, inchesToRotations(left_position_inches));
+			rightMaster.set(ControlMode.Position, inchesToRotations(right_position_inches));
+		} else {
+			System.out.println("Hit a bad position control state");
+			leftMaster.set(ControlMode.Position, 0);
+			rightMaster.set(ControlMode.Position, 0);
+		}
+	}
+
+	private static double inchesPerSecondToRpm(double inches_per_second) {
+		return inchesToRotations(inches_per_second) * 60;
+	}
+
+	private static double inchesToRotations(double inches) {
+		return inches / (Constants.kWheelDiameterByInches * Math.PI);
+	}
+
+	/**
 	 * Sets Brake Mode based on Boolean you pass in, true = brake
 	 */
 	public void setBrakeMode(boolean on) {
 		if (on) {
 			rightMaster.setNeutralMode(NeutralMode.Brake);
 			rightSlave.setNeutralMode(NeutralMode.Brake);
-			
+
 			leftMaster.setNeutralMode(NeutralMode.Brake);
 			leftSlave.setNeutralMode(NeutralMode.Brake);
-		}
-		else {
+		} else {
 			rightMaster.setNeutralMode(NeutralMode.Coast);
 			rightSlave.setNeutralMode(NeutralMode.Coast);
-			
+
 			leftMaster.setNeutralMode(NeutralMode.Coast);
 			leftSlave.setNeutralMode(NeutralMode.Coast);
 		}
 	}
 
 	public synchronized boolean hasPassedMarker(String marker) {
-        if (mDriveControlState == DriveControlState.PATH_FOLLOWING && mPathFollower != null) {
-            return mPathFollower.hasPassedMarker(marker);
-        } else {
-            System.out.println("Robot is not in path following mode");
-            return false;
-        }
-    }
-	
+		if (mDriveControlState == DriveControlState.PATH_FOLLOWING && mPathFollower != null) {
+			return mPathFollower.hasPassedMarker(marker);
+		} else {
+			System.out.println("Robot is not in path following mode");
+			return false;
+		}
+	}
+
 	public synchronized boolean isDoneWithPath() {
-        if (mDriveControlState == DriveControlState.PATH_FOLLOWING && mPathFollower != null) {
-            return mPathFollower.isFinished();
-        } else {
-            System.out.println("Robot is not in path following mode");
-            return true;
-        }
-    }
-	
+		if (mDriveControlState == DriveControlState.PATH_FOLLOWING && mPathFollower != null) {
+			return mPathFollower.isFinished();
+		} else {
+			System.out.println("Robot is not in path following mode");
+			return true;
+		}
+	}
+
 }
