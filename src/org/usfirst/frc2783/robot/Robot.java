@@ -7,6 +7,7 @@ import java.util.Random;
 import org.usfirst.frc2783.autonomous.actions.ActionScheduler;
 import org.usfirst.frc2783.autonomous.actions.groups.BaselineCross;
 import org.usfirst.frc2783.autonomous.actions.groups.DriveGyroTest;
+import org.usfirst.frc2783.autonomous.actions.groups.MethodTest;
 import org.usfirst.frc2783.autonomous.actions.groups.ScaleFromLeft;
 import org.usfirst.frc2783.autonomous.actions.groups.ScaleFromRight;
 import org.usfirst.frc2783.autonomous.actions.groups.SwitchFromLeft;
@@ -144,7 +145,6 @@ public class Robot extends IterativeRobot {
         looper.addLoop(rightCounter);
         looper.addLoop(elEncCounter);
         looper.addLoop(tankDrive.registerEnabledLoops());
-        //SmartDashboard.putString("DB/String 1", "Hi");
         Logger.info("Starting Loops");
         //Starts the main looper
         looper.startLoops();
@@ -167,7 +167,8 @@ public class Robot extends IterativeRobot {
         						   "SwitchFromLeft",
         						   "ScaleFromRight",
         						   "SwitchFromRight",
-        						   "WaypointTest"};
+        						   "WaypointTest",
+        						   "Tests"};
         
         
         //Puts the autonomous groups list into the dashboard
@@ -238,8 +239,11 @@ public class Robot extends IterativeRobot {
 			break;
 		case "WaypointTest":
 			autoScheduler.setGroup(new WaypointTest());
+			//SmartDashboard.putString("DB/String 9", TankDriveBase.mPathFollower.toString());
 			//SmartDashboard.putString("DB/String 1", "Hi");
 			break;
+		case "Tests":
+			autoScheduler.setGroup(new MethodTest());
 		default:
 			
     	} 

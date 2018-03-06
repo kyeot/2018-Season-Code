@@ -5,6 +5,10 @@ import org.usfirst.frc2783.calculation.Twist2d;
 import org.usfirst.frc2783.motion.MotionProfileConstraints;
 import org.usfirst.frc2783.motion.MotionProfileGoal;
 import org.usfirst.frc2783.motion.MotionProfileGoal.CompletionBehavior;
+import org.usfirst.frc2783.subsystems.TankDriveBase;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import org.usfirst.frc2783.motion.MotionState;
 import org.usfirst.frc2783.motion.ProfileFollower;
 
@@ -121,6 +125,7 @@ public class PathFollower {
         mGoalVelTolerance = parameters.goal_vel_tolerance;
         mInertiaGain = parameters.inertia_gain;
         mStopSteeringDistance = parameters.stop_steering_distance;
+        //SmartDashboard.putString("DB/String 9", "f");
     }
 
     /**
@@ -147,7 +152,7 @@ public class PathFollower {
             mDebugOutput.steering_command_dtheta = steering_command.delta.dtheta;
             mCrossTrackError = steering_command.cross_track_error;
             mLastSteeringDelta = steering_command.delta;
-            mVelocityController.setGoalAndConstraints(
+            mVelocityController.setGoalAndConstraints( //Give a goal to reach and the limits it cannot pass to reach goal
                     new MotionProfileGoal(displacement + steering_command.delta.dx,
                             			  Math.abs(steering_command.end_velocity),
                             			  CompletionBehavior.VIOLATE_MAX_ACCEL,
@@ -155,7 +160,7 @@ public class PathFollower {
                             			  mGoalVelTolerance),
                     new MotionProfileConstraints(Math.min(mMaxProfileVel, steering_command.max_velocity),
                             					 mMaxProfileAcc));
-
+            SmartDashboard.putString("DB/String 7", "Reached Update Method");
             if (steering_command.remaining_path_length < mStopSteeringDistance) {
                 doneSteering = true;
             }
@@ -174,6 +179,7 @@ public class PathFollower {
         final Twist2d rv = new Twist2d(mLastSteeringDelta.dx * scale, 0.0, dtheta * scale);
 
         // Fill out debug.
+        //All this does is output info
         mDebugOutput.t = t;
         mDebugOutput.pose_x = pose.getTranslation().x();
         mDebugOutput.pose_y = pose.getTranslation().y();

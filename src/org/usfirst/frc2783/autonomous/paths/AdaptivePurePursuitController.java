@@ -16,14 +16,22 @@ import org.usfirst.frc2783.calculation.Twist2d;
 
 public class AdaptivePurePursuitController {
     private static final double kReallyBigNumber = 1E6;
-
+    
+    /**
+     * This class does exactly what the name says.
+     * It is a class full of different kinds of data
+     * that are used to help the robot understand it's
+     * current state and how to get to the next state
+     * 
+     * @author Adam Ma
+     */
     public static class Command {
         public Twist2d delta = Twist2d.identity();
-        public double cross_track_error;
-        public double max_velocity;
-        public double end_velocity;
-        public Translation2d lookahead_point;
-        public double remaining_path_length;
+        public double cross_track_error; //how much it's off track? I'm not sure about this one.
+        public double max_velocity; //The max speed
+        public double end_velocity; //The speed in which the robot reaches desired point
+        public Translation2d lookahead_point; //The desired point of the robot
+        public double remaining_path_length; //The length of the path needed to be driven
 
         public Command() {
         }
@@ -60,7 +68,8 @@ public class AdaptivePurePursuitController {
     public Command update(RigidTransform2d pose) {
         if (mReversed) {
             pose = new RigidTransform2d(pose.getTranslation(),
-                    				    pose.getRotation().rotateBy(Rotation2d.fromRadians(Math.PI)));
+                    				    pose.getRotation().rotateBy(Rotation2d.fromRadians(Math.PI))); //Just creates a new pose that now uses radians instead of degrees
+            //Works if and only if mReversed is true
         }
 
         final Path.TargetPointReport report = mPath.getTargetPoint(pose.getTranslation(), mLookahead);
@@ -83,12 +92,12 @@ public class AdaptivePurePursuitController {
             scale_factor *= -1;
         }
 
-        return new Command(
-                new Twist2d(scale_factor * arc.length, 0.0,
-                        arc.length * getDirection(pose, report.lookahead_point) * Math.abs(scale_factor) / arc.radius),
-                report.closest_point_distance, report.max_speed,
-                report.lookahead_point_speed * Math.signum(scale_factor), report.lookahead_point,
-                report.remaining_path_distance);
+        return new Command(new Twist2d(scale_factor * arc.length,
+        							   0.0,
+        							   arc.length * getDirection(pose, report.lookahead_point) * Math.abs(scale_factor) / arc.radius),
+                		   report.closest_point_distance, report.max_speed,
+                		   report.lookahead_point_speed * Math.signum(scale_factor), report.lookahead_point,
+                		   report.remaining_path_distance);
     }
 
     public boolean hasPassedMarker(String marker) {
