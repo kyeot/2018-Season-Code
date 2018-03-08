@@ -89,7 +89,7 @@ public class TankDrive extends Command {
 	}	
 	
 	public void checkStationaryRotation(double scale) {
-		if (scale == .6) {
+		if (scale == .7) {
 			scale = .5;
 		}
 		if (/*Math.abs(OI.driver.getRawAxis(0)) > .25 &&*/ OI.driver.getRawAxis(3) < .15 && OI.driver.getRawAxis(2) < .15) {
