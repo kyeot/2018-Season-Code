@@ -124,8 +124,8 @@ public class TankDrive extends Command {
 		} 
 		
 		else {
-			//Default speed of .6
-			scale = .6;
+			//Default speed of .7
+			scale = .7;
 		}
 		
 		//Rotation in place supersedes regular driving but has a higher deadband
