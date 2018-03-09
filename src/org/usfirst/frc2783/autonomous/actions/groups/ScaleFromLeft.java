@@ -20,7 +20,7 @@ public class ScaleFromLeft extends ActionGroup{
 			if(Robot.isScaleLeft()){
 				addAction(new DriveWithGyroAndByDistance(0.5, 25*12, 25*12, 0));
 				addAction(new RotateTankAction(new Bearing(270), 1));
-				addAction(new AutoElevator(-0.5, 0.5));
+				addAction(new AutoElevator(0.5, 0.5));
 				addAction(new AutoDrive(-0.25, -0.25, 0.8));
 				addAction(new GoToTopAction());
 				addAction(new AutoDrive(0.25, 0.25, 1.2));

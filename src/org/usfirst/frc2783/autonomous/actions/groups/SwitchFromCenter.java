@@ -21,7 +21,7 @@ public class SwitchFromCenter extends ActionGroup{
 				addAction(new RotateTankAction(new Bearing(90), 1));
 				addAction(new DriveWithGyroAndByDistance(0.5, 10*12, 10*12, 90));
 				addAction(new RotateTankAction(new Bearing(0), 1));
-				addAction(new AutoElevator(-1, 1.25));
+				addAction(new AutoElevator(1, 1.25));
 				addAction(new AutoDrive(0.5, 0.5, 1.5));
 				addAction(new AutoIntake(1, 1));
 			}
