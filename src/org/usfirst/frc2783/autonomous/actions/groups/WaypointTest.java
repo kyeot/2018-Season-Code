@@ -13,7 +13,6 @@ public class WaypointTest extends ActionGroup {
 		super();
 		PathContainer testPath = new LeftScaleToLeftStage();
 		addAction(new DrivePathAction(testPath, "Test"));
-		SmartDashboard.putString("DB/String 1", "Hi");
 	}
 	
 }

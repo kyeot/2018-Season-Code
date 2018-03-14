@@ -11,26 +11,27 @@ import org.usfirst.frc2783.robot.Robot;
 import org.usfirst.frc2783.util.Bearing;
 import org.usfirst.frc2783.util.Logger;
 
-public class ScaleFromRight extends ActionGroup{
+public class TwoScaleFromLeft extends ActionGroup{
 
-	public ScaleFromRight(){
+	public TwoScaleFromLeft(){
 		super();
 		
 		try{
-			if(!Robot.isScaleLeft()){
+			if(Robot.isScaleLeft()){
 				addAction(new AutoElevator(-0.5, 0.25));
-				addAction(new DriveWithGyroAndByDistance(0.5, 25*12, 25*12, 0));
-				addAction(new RotateTankAction(new Bearing(90), 1));
-				addAction(new AutoElevator(-0.5, 0.5));
-				addAction(new AutoDrive(-0.25, -0.25, 0.8));
-				addAction(new GoToTopAction());
-				addAction(new AutoDrive(0.25, 0.25, 1.2));
-				addAction(new AutoIntake(0.75, 1));
+				addAction(new AutoDrive(.4, .4, .5));
+				addAction(new AutoDrive(.8, .8, 2));
+				addAction(new AutoDrive(.5, 0, .5));
+//				addAction(new AutoElevator(-0.5, 0.5));
+//				addAction(new AutoDrive(-0.25, -0.25, 0.8));
+//				addAction(new GoToTopAction());
+//				addAction(new AutoDrive(0.25, 0.25, 1.2));
+//				addAction(new AutoIntake(0.75, 1));
 			}
 			else{
 				addAction(new AutoElevator(-0.5, 0.25));
 				addAction(new DriveWithGyroAndByDistance(0.5, 18.8*12, 18.8*12, 0));
-				addAction(new RotateTankAction(new Bearing(89), 1));
+				addAction(new RotateTankAction(new Bearing(269), 1));
 				addAction(new DriveWithGyroAndByDistance(0.5, 36*12, 36*12, 270));
 				addAction(new RotateTankAction(new Bearing(0), 1));
 				addAction(new GoToTopAction());
@@ -43,10 +44,8 @@ public class ScaleFromRight extends ActionGroup{
 			Logger.error("Game Data Not Recieved, Crossing Baseline");
         	
 			addAction(new AutoDrive(0.5, 0.5, 5));
-		
+			
 		}
-		
-		
 		
 	}
 	

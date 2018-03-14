@@ -17,7 +17,7 @@ public class GoToTopAction extends Action{
 	
 	@Override
 	public boolean done(){
-        return Robot.elEncCounter.getRotations() >= 12;
+        return Robot.elEncCounter.getRotations() >= 11;
 		
 	}
 	

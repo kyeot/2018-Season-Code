@@ -33,11 +33,11 @@ public class Elevator extends Command {
 		if(!Robot.yesso){
 			if (Math.abs(OI.manipulator.getRawAxis(1)) < 0.1) {
 				if (Robot.isClimb) {
-					speed = 0.1;
+					speed = 0.15;
 				}
 				
 				else {
-					speed = -0.1;
+					speed = -0.15;
 				}
 				
 			}

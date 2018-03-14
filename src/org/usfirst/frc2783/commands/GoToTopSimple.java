@@ -26,7 +26,7 @@ public class GoToTopSimple extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Robot.elEncCounter.getRotations() >= 12;
+        return Robot.elEncCounter.getRotations() >= 11;
     }
 
     // Called once after isFinished returns true

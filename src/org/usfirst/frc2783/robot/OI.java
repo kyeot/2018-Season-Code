@@ -3,6 +3,8 @@ package org.usfirst.frc2783.robot;
 import org.usfirst.frc2783.commands.ElevatorLockShift;
 import org.usfirst.frc2783.commands.ElevatorServoShift;
 import org.usfirst.frc2783.commands.GoToTopSimple;
+import org.usfirst.frc2783.commands.SkrtLeft;
+import org.usfirst.frc2783.commands.SkrtRight;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -24,16 +26,22 @@ public class OI {
 	
 	public static JoystickButton elevatorUpSimple = new JoystickButton(manipulator, 4);
 	
+	public static JoystickButton skrtLeft = new JoystickButton(driver, 3);
+	public static JoystickButton skrtRight = new JoystickButton(driver, 2);
+	
 //	public static JoystickButton elevatorToGround = new JoystickButton(manipulator, Constants.kElevatorToGroundID);
 //	public static JoystickButton elevatorToSwitch = new JoystickButton(manipulator, Constants.kElevatorToSwitchID);
 //	public static JoystickButton elevatorToScale = new JoystickButton(manipulator, Constants.kElevatorToScaleID);
 
     public OI() {
     	
-    	elevatorShift.whenPressed(new ElevatorServoShift());
+    	elevatorShift.whileHeld(new ElevatorServoShift());
     	elevatorLockShift.whenPressed(new ElevatorLockShift());
     	
     	elevatorUpSimple.whenPressed(new GoToTopSimple());
+    	
+    	skrtLeft.whenPressed(new SkrtLeft());
+    	skrtRight.whenPressed(new SkrtRight());
     	
 //    	elevatorToGround.whenPressed(new GoToElevatorPosition(Robot.groundPos.getRotations(), Robot.groundPos.getDegrees()));
 //    	elevatorToSwitch.whenPressed(new GoToElevatorPosition(Robot.switchPos.getRotations(), Robot.switchPos.getDegrees()));

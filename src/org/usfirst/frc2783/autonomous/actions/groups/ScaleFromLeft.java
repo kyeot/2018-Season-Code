@@ -18,6 +18,7 @@ public class ScaleFromLeft extends ActionGroup{
 		
 		try{
 			if(Robot.isScaleLeft()){
+				addAction(new AutoElevator(-0.5, 0.25));
 				addAction(new DriveWithGyroAndByDistance(0.5, 25*12, 25*12, 0));
 				addAction(new RotateTankAction(new Bearing(270), 1));
 				addAction(new AutoElevator(-0.5, 0.5));
@@ -27,6 +28,7 @@ public class ScaleFromLeft extends ActionGroup{
 				addAction(new AutoIntake(0.75, 1));
 			}
 			else{
+				addAction(new AutoElevator(-0.5, 0.25));
 				addAction(new DriveWithGyroAndByDistance(0.5, 18.8*12, 18.8*12, 0));
 				addAction(new RotateTankAction(new Bearing(269), 1));
 				addAction(new DriveWithGyroAndByDistance(0.5, 36*12, 36*12, 270));

@@ -95,7 +95,7 @@ public class TankDrive extends Command {
 		if (/*Math.abs(OI.driver.getRawAxis(0)) > .25 &&*/ OI.driver.getRawAxis(3) < .15 && OI.driver.getRawAxis(2) < .15) {
 			leftSpeed = scale*OI.driver.getRawAxis(1);
 			rightSpeed = scale*OI.driver.getRawAxis(5);
-			if (Math.abs(OI.driver.getRawAxis(5)) < .25 && Math.abs(OI.driver.getRawAxis(1)) < .3 && Math.abs(OI.driver.getRawAxis(0)) > .25) {
+			if (Math.abs(OI.driver.getRawAxis(5)) < .25 && Math.abs(OI.driver.getRawAxis(1)) < .4 && Math.abs(OI.driver.getRawAxis(0)) > .25) {
 				leftSpeed = -scale*OI.driver.getRawAxis(0);
 				rightSpeed = scale*OI.driver.getRawAxis(0);
 			}
@@ -104,6 +104,8 @@ public class TankDrive extends Command {
 	
 	double leftSpeed;
 	double rightSpeed;
+	boolean lastButton1State = false;
+	boolean reverseButton1Toggle = false;
 	
 	public boolean toggleInput(boolean value) {
 		return value ? false : true;
@@ -159,8 +161,7 @@ public class TankDrive extends Command {
 //			// Robot.tankDrive.setRobotPose(new Bearing(0));
 //			Robot.tankDrive.setRobotPose(endAngle);
 //		} 
-		boolean lastButton1State = false;
-		boolean reverseButton1Toggle = false;
+		
 		
 		if(OI.driver.getRawButton(1) == true && lastButton1State == false) {
 			reverseButton1Toggle = toggleInput(reverseButton1Toggle);

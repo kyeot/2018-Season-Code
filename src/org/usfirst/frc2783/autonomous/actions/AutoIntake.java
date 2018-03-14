@@ -15,7 +15,7 @@ public class AutoIntake extends Action{
 	
 	@Override
 	public void perform(){
-		Robot.intake.intake(speed);
+		Robot.intake.intake(-speed);
 	}
 
 }

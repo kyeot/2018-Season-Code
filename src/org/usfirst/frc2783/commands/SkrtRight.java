@@ -1,7 +1,7 @@
 package org.usfirst.frc2783.commands;
 
-import org.usfirst.frc2783.robot.Constants;
-import org.usfirst.frc2783.robot.OI;
+import org.usfirst.frc2783.autonomous.actions.ActionScheduler;
+import org.usfirst.frc2783.autonomous.actions.groups.SkrtRightGroup;
 import org.usfirst.frc2783.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -9,24 +9,19 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class ElevatorServoShift extends Command {
-	
-    public ElevatorServoShift() {
+public class SkrtRight extends Command {
+
+	ActionScheduler yes = Robot.autoScheduler;
+
+	public SkrtRight() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.elevatorBase);
+		requires(Robot.tankDrive);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.isHigh = !Robot.isHigh;
-    	if(Robot.isHigh){
-           	Robot.elevatorBase.lowGear();
-    	}
-    	else if(!Robot.isHigh){
-           	Robot.elevatorBase.highGear();
-    	}
-    	
+    	yes.setGroup(new SkrtRightGroup());
     }
 
     // Called repeatedly when this Command is scheduled to run

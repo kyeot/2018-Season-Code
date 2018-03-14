@@ -36,19 +36,19 @@ public class Intake extends Command {
     	}
     	
     	else{
-    		if(Robot.isSucking){
-        		speed = 0.5;
-    		}
-    		else{
+//    		if(Robot.isLimit){
+//        		speed = 0.15;
+//    		}
+//    		else{
     			speed = 0;
-    		}
+//    		}
     	}
     	
     	if(OI.manipulator.getRawButton(Constants.kIntakeSpinnerID)){
     		Robot.intake.spinAdjust(speed);
     	}
     	else{
-    		Robot.intake.intake(speed);
+    		Robot.intake.intake(-speed);
     	}
     }
 

@@ -99,7 +99,7 @@ public class DriveWithGyroAndByDistance extends Action {
     	this.speedScaler = speedScaler;
     	this.leftDistance = leftDistance;
     	this.rightDistance = rightDistance;
-    	
+    	 
     	this.angle = angle;
     	
     	//Makes the angle on start equal the angle, on start

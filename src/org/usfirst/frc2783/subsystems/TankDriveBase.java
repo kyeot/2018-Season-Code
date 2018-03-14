@@ -90,35 +90,27 @@ public class TankDriveBase extends Subsystem {
 			// SmartDashboard.putString("DB/String 1", "sewfsgdtrdt");
 			synchronized (TankDriveBase.this) {
 				//iteration++;
-				SmartDashboard.putString("DB/String 0", "" + iteration);
 				switch (mDriveControlState) {
 				case OPEN_LOOP:
 					iteration1++;
-					SmartDashboard.putString("DB/String 1", "" + iteration1);
 					return;
 				case VELOCITY_SETPOINT:
 					iteration2++;
-					SmartDashboard.putString("DB/String 2", "" + iteration2);
 					return;
 				case PATH_FOLLOWING:
 					iteration3++;
-					SmartDashboard.putString("DB/String 3", "" + iteration3);
 					//isExisting();
 					if (mPathFollower != null) {
 						updatePathFollower(timestamp);
 						iteration4++;
-						SmartDashboard.putString("DB/String 4", "" + iteration4);
-					}
+						}
 					return;
 				// fallthrough intended
 				case TURN_TO_HEADING:
 					iteration5++;
-					SmartDashboard.putString("DB/String 5", "" + iteration5);
 					return;
 				default:
-					System.out.println("Unexpected drive control state: " + mDriveControlState);
 					iteration6++;
-					SmartDashboard.putString("DB/String 6", "" + iteration6);
 					break;
 				}
 			}
@@ -135,7 +127,6 @@ public class TankDriveBase extends Subsystem {
 		@Override
 		public void onLoop() {
 			iteration6++;
-			SmartDashboard.putString("DB/String 6", "" + iteration6);
 		}
 	};
 
