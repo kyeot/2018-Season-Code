@@ -22,7 +22,7 @@ public class SwitchFromLeft extends ActionGroup{
 					addAction(new DriveWithGyroAndByDistance(0.5, 12.5*12, 12.5*12, 0));
 					addAction(new RotateTankAction(new Bearing(270), 1));
 					addAction(new AutoIntake(-0.5, 0.5));
-					addAction(new AutoElevator(-1, 1.5)); 
+					addAction(new AutoElevator(1, 1.5)); 
 					addAction(new AutoDrive(0.25, 0.25, 0.5));
 					addAction(new AutoIntake(1, 1));
 				}
