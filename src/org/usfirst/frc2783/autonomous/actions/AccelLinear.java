@@ -34,8 +34,24 @@ public class AccelLinear extends Action {
 	double maxAcceleration = .5;
 
 	scenarios scenario;
-
-	public AccelLinear(double initX, double initY, double initS, double finX, double finY, double finS) {
+	
+	/**
+	 * Constructs a line of an x, y positions and an s speed
+	 * and calculates the acceleration on the line of travel
+	 * 
+	 * @param initX
+	 * @param initY
+	 * @param initS
+	 * @param finX
+	 * @param finY
+	 * @param finS
+	 */
+	public AccelLinear(double initX,
+					   double initY,
+					   double initS,
+					   double finX,
+					   double finY,
+					   double finS) {
 		super("AccelLinear");
 		this.initX = initX;
 		this.initY = initY;
@@ -51,8 +67,27 @@ public class AccelLinear extends Action {
 			scenario = finS > desiredFinalSpeed ? scenarios.LESSER_THEN_GREATER : scenarios.BOTH_LESSER;
 		}
 	}
-
-	public AccelLinear(double initX, double initY, double initS, double midS, double finX, double finY, double finS) {
+	
+	/**
+	 * This constructor also creates a linear path with two x, y
+	 * points and two s speeds, but also includes a mid speed
+	 * to help calculate acceleration
+	 * 
+	 * @param initX
+	 * @param initY
+	 * @param initS
+	 * @param midS
+	 * @param finX
+	 * @param finY
+	 * @param finS
+	 */
+	public AccelLinear(double initX,
+					   double initY,
+					   double initS,
+					   double midS,
+					   double finX,
+					   double finY,
+					   double finS) {
 		super("AccelLinear");
 		this.initX = initX;
 		this.initY = initY;
@@ -73,6 +108,7 @@ public class AccelLinear extends Action {
 		}
 	}
 
+	@Override
 	public void start() {
 		startTime = RobotController.getFPGATime();
 		endTime = startTime + runtime;
@@ -125,6 +161,7 @@ public class AccelLinear extends Action {
 		}
 	}
 
+	@Override
 	public void perform() {
 		curTime = RobotController.getFPGATime();
 		showtime = Math.abs(curTime - startTime);
@@ -208,10 +245,12 @@ public class AccelLinear extends Action {
 		Robot.tankDrive.tankDrive(leftSpeed, rightSpeed);
 	}
 
+	@Override
 	public boolean done() {
 		return showtime >= runtime;
 	}
 
+	@Override
 	public void finish() {
 		// All you're doing here is setting the brake mode, it won't stop the
 		// robot if thats your goal

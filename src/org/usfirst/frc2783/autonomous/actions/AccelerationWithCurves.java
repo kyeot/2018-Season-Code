@@ -58,14 +58,26 @@ public class AccelerationWithCurves extends Action {
 	 * 
 	 * In regards to how the action runs, given a starting speed, a max speed
 	 * (desiredFinalSpeed), and an ending speed, the robot obeys the following
-	 * conditions: 1. The robot must never accelerate or decelerate faster than
-	 * maxAcceleration. 2. The robot must start with speed initialSpeed. 3. The
-	 * robot must end with speed nextFinalSpeed. 4. The robot must never go
-	 * faster than desiredFinalSpeed. 5. The robot must go as fast as possible.
+	 * conditions:
+	 * 1. The robot must never accelerate or decelerate faster than maxAcceleration.
+	 * 2. The robot must start with speed initialSpeed.
+	 * 3. The robot must end with speed nextFinalSpeed.
+	 * 4. The robot must never go faster than desiredFinalSpeed.
+	 * 5. The robot must go as fast as possible.
 	 */
-	public AccelerationWithCurves(double initX, double initY, double initialSpeed, double initialRadius, double finalX,
-			double finalY, double desiredFinalSpeed, double radius, double nextX, double nextY, double nextFinalSpeed,
-			double nextRadius, double time) {
+	public AccelerationWithCurves(double initX,
+								  double initY,
+								  double initialSpeed,
+								  double initialRadius,
+								  double finalX,
+								  double finalY,
+								  double desiredFinalSpeed,
+								  double radius,
+								  double nextX,
+								  double nextY,
+								  double nextFinalSpeed,
+								  double nextRadius,
+								  double time) {
 
 		super("AccelerationWithCurves");
 
@@ -96,6 +108,7 @@ public class AccelerationWithCurves extends Action {
 		}
 	}
 
+	@Override
 	public void start() {
 		startTime = RobotController.getFPGATime();
 		endTime = startTime + runtime;
@@ -148,6 +161,7 @@ public class AccelerationWithCurves extends Action {
 		}
 	}
 
+	@Override
 	public void perform() {
 		curTime = RobotController.getFPGATime();
 		showtime = Math.abs(curTime - startTime);
@@ -251,10 +265,12 @@ public class AccelerationWithCurves extends Action {
 		Robot.tankDrive.tankDrive(leftSpeed, rightSpeed);
 	}
 
+	@Override
 	public boolean done() {
 		return showtime >= runtime;
 	}
 
+	@Override
 	public void finish() {
 		Robot.tankDrive.leftMaster.setNeutralMode(NeutralMode.Brake);
 		Robot.tankDrive.rightMaster.setNeutralMode(NeutralMode.Brake);
