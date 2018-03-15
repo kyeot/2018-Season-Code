@@ -29,6 +29,7 @@ public class VisionProcessor implements Loop, VisionUpdateReceiver {
 
     @Override
     public void onStart() {
+    	throw new Error("no, stop, just stop");
     }
 
     @Override

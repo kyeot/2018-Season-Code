@@ -36,8 +36,8 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.CameraServer;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.SPI;
@@ -79,6 +79,8 @@ public class Robot extends IterativeRobot {
 
 	public static double angle = 0;
 
+	Alliance team;
+	
 //	DigitalInput intakeLimit = new DigitalInput(0);
 	
 	// Creates Randomizer for use in test autonomous
@@ -157,7 +159,7 @@ public class Robot extends IterativeRobot {
 
 		// Adds loops to the main looper
 		looper.addLoop(new LogData());
-		looper.addLoop(VisionProcessor.getInstance());
+//		looper.addLoop(VisionProcessor.getInstance());
 		looper.addLoop(leftCounter);
 		looper.addLoop(rightCounter);
 		looper.addLoop(elEncCounter);
@@ -207,7 +209,9 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void autonomousInit() {
-
+		
+		team = DriverStation.getInstance().getAlliance();
+		
 		Logger.info("Starting Autonomous");
 
 		// Creates the String based on which autonomous group was selected on
