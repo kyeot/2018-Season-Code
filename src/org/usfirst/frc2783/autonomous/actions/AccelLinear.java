@@ -1,6 +1,6 @@
 package org.usfirst.frc2783.autonomous.actions;
 
-import org.usfirst.frc2783.util.scenarios;
+import org.usfirst.frc2783.util.Scenarios;
 import org.usfirst.frc2783.robot.Robot;
 import org.usfirst.frc2783.util.Logger;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -33,7 +33,7 @@ public class AccelLinear extends Action {
 
 	double maxAcceleration = .5;
 
-	scenarios scenario;
+	Scenarios scenario;
 	
 	/**
 	 * Constructs a line of an x, y positions and an s speed
@@ -62,9 +62,9 @@ public class AccelLinear extends Action {
 		desiredFinalSpeed = 1;
 
 		if (initS >= desiredFinalSpeed) {
-			scenario = finS > desiredFinalSpeed ? scenarios.BOTH_GREATER : scenarios.GREATER_THEN_LESSER;
+			scenario = finS > desiredFinalSpeed ? Scenarios.BOTH_GREATER : Scenarios.GREATER_THEN_LESSER;
 		} else {
-			scenario = finS > desiredFinalSpeed ? scenarios.LESSER_THEN_GREATER : scenarios.BOTH_LESSER;
+			scenario = finS > desiredFinalSpeed ? Scenarios.LESSER_THEN_GREATER : Scenarios.BOTH_LESSER;
 		}
 	}
 	
@@ -102,9 +102,9 @@ public class AccelLinear extends Action {
 		}
 
 		if (initS >= midS) {
-			scenario = finS > midS ? scenarios.BOTH_GREATER : scenarios.GREATER_THEN_LESSER;
+			scenario = finS > midS ? Scenarios.BOTH_GREATER : Scenarios.GREATER_THEN_LESSER;
 		} else {
-			scenario = finS > midS ? scenarios.LESSER_THEN_GREATER : scenarios.BOTH_LESSER;
+			scenario = finS > midS ? Scenarios.LESSER_THEN_GREATER : Scenarios.BOTH_LESSER;
 		}
 	}
 

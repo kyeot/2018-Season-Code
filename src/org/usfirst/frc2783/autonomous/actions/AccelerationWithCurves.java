@@ -1,6 +1,6 @@
 package org.usfirst.frc2783.autonomous.actions;
 
-import org.usfirst.frc2783.util.scenarios;
+import org.usfirst.frc2783.util.Scenarios;
 import org.usfirst.frc2783.robot.Constants;
 import org.usfirst.frc2783.robot.Robot;
 import org.usfirst.frc2783.util.Logger;
@@ -42,7 +42,7 @@ public class AccelerationWithCurves extends Action {
 
 	// Outputs given throughout the code
 
-	scenarios scenario;
+	Scenarios scenario;
 	double robotSpeed;
 	double angularVelocity;
 	double leftSpeed;
@@ -102,9 +102,9 @@ public class AccelerationWithCurves extends Action {
 		}
 
 		if (initialSpeed >= desiredFinalSpeed) {
-			scenario = nextFinalSpeed > desiredFinalSpeed ? scenarios.BOTH_GREATER : scenarios.GREATER_THEN_LESSER;
+			scenario = nextFinalSpeed > desiredFinalSpeed ? Scenarios.BOTH_GREATER : Scenarios.GREATER_THEN_LESSER;
 		} else {
-			scenario = nextFinalSpeed > desiredFinalSpeed ? scenarios.LESSER_THEN_GREATER : scenarios.BOTH_LESSER;
+			scenario = nextFinalSpeed > desiredFinalSpeed ? Scenarios.LESSER_THEN_GREATER : Scenarios.BOTH_LESSER;
 		}
 	}
 

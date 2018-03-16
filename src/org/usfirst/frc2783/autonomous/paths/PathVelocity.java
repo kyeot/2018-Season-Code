@@ -1,7 +1,7 @@
 package org.usfirst.frc2783.autonomous.paths;
 
 import org.usfirst.frc2783.autonomous.paths.PathBuilder.Setpoint;
-import org.usfirst.frc2783.util.scenarios;
+import org.usfirst.frc2783.util.Scenarios;
 
 public class PathVelocity {
 	double distance;
@@ -16,7 +16,7 @@ public class PathVelocity {
 	double changeTwo;
 	
 	boolean hasStagnantSegment;
-	scenarios scenario;
+	Scenarios scenario;
 	
 	double runtime;
 	
@@ -61,9 +61,9 @@ public class PathVelocity {
 	
 	public void compareSpeeds() {
 		if (vi >= vp) {
-			scenario = vf > vp ? scenarios.BOTH_GREATER : scenarios.GREATER_THEN_LESSER;
+			scenario = vf > vp ? Scenarios.BOTH_GREATER : Scenarios.GREATER_THEN_LESSER;
 		} else {
-			scenario = vf > vp ? scenarios.LESSER_THEN_GREATER : scenarios.BOTH_LESSER;
+			scenario = vf > vp ? Scenarios.LESSER_THEN_GREATER : Scenarios.BOTH_LESSER;
 		}
 	}
 	
