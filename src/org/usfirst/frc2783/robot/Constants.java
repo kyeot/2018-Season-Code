@@ -47,14 +47,20 @@ public class Constants {
 	public static final int kSlowModeID = 5;
 	public static final int kFastModeID = 6;
 	
+	public static final int kFaceDownField = 3;
+	
 	public static final int kVisionTestID = 1;
 	
 	public static final int kGyroResetID = 4;
 	
 	//PID values for tank rotation to angle
-	public static final double kTankPoseP = 0.007;
+//	public static final double kTankPoseP = 0.007;
+//	public static final double kTankPoseI = 0.0;
+//	public static final double kTankPoseD = 0.008;
+	
+	public static final double kTankPoseP = 0.01;
 	public static final double kTankPoseI = 0.0;
-	public static final double kTankPoseD = 0.008;
+	public static final double kTankPoseD = 0.011;
 	
 	//PID values for gyro adjusted drive
 	public static final double kGyroDriveP = 0.01;
