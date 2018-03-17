@@ -4,6 +4,8 @@ import org.usfirst.frc2783.autonomous.paths.PathBuilder.Setpoint;
 import org.usfirst.frc2783.util.Logger;
 import org.usfirst.frc2783.util.Scenarios;
 
+import edu.wpi.first.wpilibj.RobotController;
+
 public class PathVelocity {
 	double distance;
 	double vi;
@@ -20,9 +22,10 @@ public class PathVelocity {
 	double changeTwo;
 	
 	boolean hasStagnantSegment;
-	Scenarios scenario;
+	public Scenarios scenario;
 	
-	double runtime;
+	public double startTime;
+	public double runtime;
 	
 	double maxAccel = .5;
 	
@@ -31,6 +34,8 @@ public class PathVelocity {
 		this.vi = vi;
 		this.vp = vp;
 		this.vf = vf;
+		
+		startTime = RobotController.getFPGATime();
 		
 		compareSpeeds();
 	}
@@ -41,6 +46,8 @@ public class PathVelocity {
 		this.vi = vi;
 		this.vp = vp;
 		this.vf = vf;
+		
+		startTime = RobotController.getFPGATime();
 		
 		compareSpeeds();
 	}
@@ -56,12 +63,10 @@ public class PathVelocity {
 		this.vp = vp;
 		this.vf = vf;
 		
+		startTime = RobotController.getFPGATime();
+		
 		compareSpeeds();
 	}
-	
-//	public double runtime() {
-//		runtime = ;
-//	}
 	
 	public void compareSpeeds() {
 		if (vi >= vp) {
@@ -71,19 +76,7 @@ public class PathVelocity {
 		}
 	}
 	
-	public double changeOne() {
-		return changeOne;
-	}
-	
-	public double changeTwo() {
-		return changeTwo;
-	}
-	
-	public boolean hasStagnantSegment() {
-		return hasStagnantSegment;
-	}
-	
-	public void maxSpeed() {
+	public void calculateRuntime() {
 		switch(scenario) {
 		case BOTH_GREATER:
 			if(Math.abs((square(vf) - square(vi)) / (2 * maxAccel)) < distance) {
@@ -93,8 +86,51 @@ public class PathVelocity {
 				} else {
 					potentialvp = Math.sqrt(square(vf) - (maxAccel * spareDist));
 				}
+				runtime = ((vi - potentialvp) / maxAccel) + ((vf - potentialvp) / maxAccel);
 				vp = potentialvp > vp ? potentialvp : vp;
-				runtime = ((vi - vp) / maxAccel) + ((vf - vp) / maxAccel);
+			} else if(Math.abs((square(vf) - square(vi)) / (2 * maxAccel)) == distance) {
+				runtime = Math.abs((vf - vi) / maxAccel);
+			} else {
+				Logger.error("Cannot achieve desired velocity. Accelerating as much as possible.");
+				if (vf > vi) {
+					vf = Math.sqrt(square(vi) + (2 * maxAccel * distance));
+				} else {
+					vf = Math.sqrt(square(vi) - (2 * maxAccel * distance));
+				}
+				runtime = Math.abs((vf - vi)) / maxAccel;
+			}
+		case LESSER_THEN_GREATER:
+			if(Math.abs((square(vf) - square(vi)) / (2 * maxAccel)) < distance) {
+				spareDist = distance - Math.abs((square(vf) - square(vi)) / (2 * maxAccel));
+				runtime = ((vf - vi) / maxAccel) + (spareDist / vp);
+			} else if(Math.abs((square(vf) - square(vi)) / (2 * maxAccel)) == distance) {
+				runtime = (vf - vi) / maxAccel;
+			} else {
+				Logger.error("Cannot achieve desired velocity. Accelerating as much as possible.");
+				vf = Math.sqrt(square(vi) + (2 * maxAccel * distance));
+				runtime = (vf - vi) / maxAccel;
+			}
+		case GREATER_THEN_LESSER:
+			if(Math.abs((square(vf) - square(vi)) / (2 * maxAccel)) < distance) {
+				spareDist = distance - Math.abs((square(vf) - square(vi)) / (2 * maxAccel));
+				runtime = ((vi - vf) / maxAccel) + (spareDist / vp);
+			} else if(Math.abs((square(vf) - square(vi)) / (2 * maxAccel)) == distance) {
+				runtime = (vi - vf) / maxAccel;
+			} else {
+				Logger.error("Cannot achieve desired velocity. Accelerating as much as possible.");
+				vf = Math.sqrt(square(vi) - (2 * maxAccel * distance));
+				runtime = (vi - vf) / maxAccel;
+			}
+		case BOTH_LESSER:
+			if(Math.abs((square(vf) - square(vi)) / (2 * maxAccel)) < distance) {
+				spareDist = distance - Math.abs((square(vf) - square(vi)) / (2 * maxAccel));
+				if(vi < vf) {
+					potentialvp = Math.sqrt(square(vi) + (maxAccel * spareDist));
+				} else {
+					potentialvp = Math.sqrt(square(vf) + (maxAccel * spareDist));
+				}
+				runtime = ((potentialvp - vi) / maxAccel) + ((potentialvp - vf) / maxAccel);
+				vp = potentialvp < vp ? potentialvp : vp;
 			} else if(Math.abs((square(vf) - square(vi)) / (2 * maxAccel)) == distance) {
 				runtime = Math.abs((vf - vi) / maxAccel);
 			} else {
@@ -167,6 +203,82 @@ public class PathVelocity {
 				changeTwo = runtime - vpvfint;
 			}
 			break;
+		}
+	}
+	
+	public double seconds(double ms) {
+		return ms / 1000000;
+	}
+	
+	public double getOutput(double curTime) {
+		double showtime = seconds(curTime - startTime);
+		switch (scenario) {
+		case BOTH_GREATER:
+			if (hasStagnantSegment) {
+				if (showtime <= changeOne) {
+					return vi - (maxAccel * showtime);
+				} else if (showtime <= changeTwo) {
+					return vp;
+				} else {
+					return vp + (maxAccel * (showtime - changeTwo));
+				}
+			} else {
+				if (showtime <= changeOne) {
+					return vi - (maxAccel * showtime);
+				} else {
+					return (vi - (maxAccel * changeOne))
+							+ (maxAccel * (showtime - changeOne));
+				}
+			}
+		case GREATER_THEN_LESSER:
+			if (hasStagnantSegment) {
+				if (showtime <= changeOne) {
+					return vi - (maxAccel * showtime);
+				} else if (showtime <= changeTwo) {
+					return vp;
+				} else {
+					return vp - (maxAccel * (showtime - changeTwo));
+				}
+			} else {
+				return vi - (maxAccel * showtime);
+			}
+		case LESSER_THEN_GREATER:
+			if (hasStagnantSegment) {
+				if (showtime <= changeOne) {
+					return vi + (maxAccel * showtime);
+				} else if (showtime <= changeTwo) {
+					return vp;
+				} else {
+					return vp + (maxAccel * (showtime - changeTwo));
+				}
+			} else {
+				if (showtime <= changeOne) {
+					return vi + (maxAccel * showtime);
+				} else {
+					throw new Error("Timeout. Please allot more time for operation to run.");
+				}
+			}
+		case BOTH_LESSER:
+			if (hasStagnantSegment) {
+				if (showtime <= changeOne) {
+					return vi + (maxAccel * showtime);
+				} else if (showtime <= changeTwo) {
+					return vp;
+				} else {
+					return vp - (maxAccel * (showtime - changeTwo));
+				}
+			} else {
+				if (showtime <= changeOne) {
+					return vi + (maxAccel * showtime);
+				} else {
+					return (vi + (maxAccel * changeOne))
+							- (maxAccel * (showtime - changeOne));
+				}
+			}
+		default:
+			Logger.error("Velocity case not found. Running without acceleration or deceleration.");
+			scenario = null;
+			return vp;
 		}
 	}
 }
