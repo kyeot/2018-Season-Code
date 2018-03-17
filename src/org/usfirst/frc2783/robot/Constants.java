@@ -49,6 +49,8 @@ public class Constants {
 	
 	public static final int kFaceDownField = 3;
 	
+	public static final int kFaceDriverStation =2;
+	
 	public static final int kVisionTestID = 1;
 	
 	public static final int kGyroResetID = 4;
