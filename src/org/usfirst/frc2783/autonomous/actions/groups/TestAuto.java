@@ -1,15 +1,14 @@
 package org.usfirst.frc2783.autonomous.actions.groups;
 
 import org.usfirst.frc2783.autonomous.actions.ActionGroup;
-import org.usfirst.frc2783.autonomous.actions.RotateTankAction;
-import org.usfirst.frc2783.util.Bearing;
+import org.usfirst.frc2783.autonomous.actions.AutoDrive;
 
 public class TestAuto extends ActionGroup {
 	
 	public TestAuto() {
 		super();
 
-		addAction(new RotateTankAction(new Bearing(0), 5));
+		addAction(new AutoDrive(1, 1, 5));
 		
 	}
 

@@ -5,6 +5,7 @@ import org.usfirst.frc2783.robot.OI;
 import org.usfirst.frc2783.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -26,6 +27,7 @@ public class ElevatorServoShift extends Command {
     	else if(!Robot.isHigh){
            	Robot.elevatorBase.highGear();
     	}
+		SmartDashboard.putString("DB/String 4", "" + Robot.isHigh);
     	
     }
 

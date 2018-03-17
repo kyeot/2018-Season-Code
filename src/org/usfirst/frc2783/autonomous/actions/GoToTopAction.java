@@ -12,12 +12,12 @@ public class GoToTopAction extends Action{
 	@Override
 	public void start(){
     	Robot.yesso = true;
-    	Robot.elevatorBase.elevator(0.8);
+    	Robot.elevatorBase.elevator(1);
 	}
 	
 	@Override
 	public boolean done(){
-        return Robot.elEncCounter.getRotations() >= 11;
+        return Robot.elEncCounter.getRotations() >= 12;
 		
 	}
 	

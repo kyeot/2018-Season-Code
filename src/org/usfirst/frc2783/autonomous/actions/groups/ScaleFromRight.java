@@ -4,6 +4,7 @@ import org.usfirst.frc2783.autonomous.actions.ActionGroup;
 import org.usfirst.frc2783.autonomous.actions.AutoDrive;
 import org.usfirst.frc2783.autonomous.actions.AutoElevator;
 import org.usfirst.frc2783.autonomous.actions.AutoIntake;
+import org.usfirst.frc2783.autonomous.actions.DriveWithGyro;
 import org.usfirst.frc2783.autonomous.actions.DriveWithGyroAndByDistance;
 import org.usfirst.frc2783.autonomous.actions.GoToTopAction;
 import org.usfirst.frc2783.autonomous.actions.RotateTankAction;
@@ -18,23 +19,23 @@ public class ScaleFromRight extends ActionGroup{
 		
 		try{
 			if(!Robot.isScaleLeft()){
-				addAction(new AutoElevator(-0.5, 0.25));
-				addAction(new DriveWithGyroAndByDistance(0.5, 25*12, 25*12, 0));
+				addAction(new AutoElevator(-0.5, 0.5));
+				addAction(new DriveWithGyroAndByDistance(0.65, 25*12, 25*12, 0));
 				addAction(new RotateTankAction(new Bearing(90), 1));
-				addAction(new AutoElevator(0.5, 0.5));
-				addAction(new AutoDrive(-0.25, -0.25, 0.8));
+				addAction(new AutoElevator(-0.5, 0.5));
+				addAction(new AutoDrive(-0.25, -0.25, 1));
 				addAction(new GoToTopAction());
-				addAction(new AutoDrive(0.25, 0.25, 1.2));
+				addAction(new AutoDrive(0.25, 0.25, 1.4));
 				addAction(new AutoIntake(0.75, 1));
 			}
 			else{
-				addAction(new AutoElevator(-0.5, 0.25));
+				addAction(new AutoElevator(-0.5, 0.5));
 				addAction(new DriveWithGyroAndByDistance(0.5, 18.8*12, 18.8*12, 0));
 				addAction(new RotateTankAction(new Bearing(89), 1));
-				addAction(new DriveWithGyroAndByDistance(0.5, 36*12, 36*12, 270));
+				addAction(new DriveWithGyroAndByDistance(0.5, 37*12, 37*12, 270));
 				addAction(new RotateTankAction(new Bearing(0), 1));
 				addAction(new GoToTopAction());
-				addAction(new AutoDrive(0.3, 0.3, 2));
+				addAction(new DriveWithGyro(2, 30));
 				addAction(new AutoIntake(0.75, 1));
 			}
 			

@@ -81,6 +81,9 @@ public class Robot extends IterativeRobot {
 
 	Alliance team;
 	
+	public double leftTotalAngle = 0;
+	public double rightTotalAngle = 0;
+	
 //	DigitalInput intakeLimit = new DigitalInput(0);
 	
 	// Creates Randomizer for use in test autonomous
@@ -206,6 +209,10 @@ public class Robot extends IterativeRobot {
 
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
+		
+		leftTotalAngle = ((Robot.leftCounter.getRotations())*(4096)) + Robot.leftAbsEnc.getValue();
+		rightTotalAngle = ((Robot.rightCounter.getRotations())*(4096)) + Robot.rightAbsEnc.getValue();
+		
 	}
 
 	public void autonomousInit() {
@@ -282,6 +289,9 @@ public class Robot extends IterativeRobot {
 	public void autonomousPeriodic() {
 		SmartDashboard.putString("DB/String 7", "robot angle: " + Math.floor(NavSensor.getInstance().getAngle(false)));
 
+		leftTotalAngle = ((Robot.leftCounter.getRotations())*(4096)) + Robot.leftAbsEnc.getValue();
+		rightTotalAngle = ((Robot.rightCounter.getRotations())*(4096)) + Robot.rightAbsEnc.getValue();
+		
 		Scheduler.getInstance().run();
 	}
 
@@ -295,6 +305,9 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 
+		leftTotalAngle = ((Robot.leftCounter.getRotations())*(4096)) + Robot.leftAbsEnc.getValue();
+		rightTotalAngle = ((Robot.rightCounter.getRotations())*(4096)) + Robot.rightAbsEnc.getValue();
+		
 		try {
 			if (isSwitchesLeft()) {
 				SmartDashboard.putString("DB/String 0", "OUR SWITCH: LEFT");
@@ -311,9 +324,11 @@ public class Robot extends IterativeRobot {
 			}
 		} catch (NullPointerException n) {
 		}
-
-		SmartDashboard.putString("DB/String 5", "" + Robot.elEncCounter.getRotations());
-		SmartDashboard.putString("DB/String 6", "" + Robot.elevatorAbsEnc.getValue());
+		
+		SmartDashboard.putString("DB/String 5", "" + Robot.leftCounter.getRotations());
+		SmartDashboard.putString("DB/String 6", "" + Robot.rightCounter.getRotations());
+		SmartDashboard.putString("DB/String 7", "" + Robot.leftAbsEnc.getValue());
+		SmartDashboard.putString("DB/String 8", "" + Robot.rightAbsEnc.getValue());
 		SmartDashboard.putString("DB/String 9", "robot angle: " + Math.floor(NavSensor.getInstance().getAngle(false)));
 
 	}
