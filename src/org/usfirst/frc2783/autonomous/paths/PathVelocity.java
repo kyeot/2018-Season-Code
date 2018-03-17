@@ -32,9 +32,9 @@ public class PathVelocity {
 	
 	public PathVelocity(double distance, double vi, double vp, double vf) {
 		this.distance = distance;
-		this.vi = vi;
-		this.vp = vp;
-		this.vf = vf;
+		this.vi = percentToVelocity(vi);
+		this.vp = percentToVelocity(vp);
+		this.vf = percentToVelocity(vf);
 		
 		startTime = RobotController.getFPGATime();
 		
@@ -45,9 +45,9 @@ public class PathVelocity {
 	public PathVelocity(double xone, double yone, double xtwo, double ytwo, double vi, double vp, double vf) {
 		//Only for linear functions
 		distance = dist(xone, yone, xtwo, ytwo);
-		this.vi = vi;
-		this.vp = vp;
-		this.vf = vf;
+		this.vi = percentToVelocity(vi);
+		this.vp = percentToVelocity(vp);
+		this.vf = percentToVelocity(vf);
 		
 		startTime = RobotController.getFPGATime();
 		
@@ -61,9 +61,9 @@ public class PathVelocity {
 		double ytwo = sTwo.getPosition().y();
 		
 		distance = dist(xone, yone, xtwo, ytwo);
-		this.vi = vi;
-		this.vp = vp;
-		this.vf = vf;
+		this.vi = percentToVelocity(vi);
+		this.vp = percentToVelocity(vp);
+		this.vf = percentToVelocity(vf);
 		
 		startTime = RobotController.getFPGATime();
 		
@@ -74,6 +74,15 @@ public class PathVelocity {
 		compareSpeeds();
 		calculateRuntime();
 		calculateBehaviorChanges();
+	}
+	
+	public double percentToVelocity(double value) {
+		return value * 132;
+	}
+	
+
+	public double velocityToPercent(double value) {
+		return value / 132;
 	}
 	
 	public void compareSpeeds() {
@@ -224,44 +233,44 @@ public class PathVelocity {
 		case BOTH_GREATER:
 			if (hasStagnantSegment) {
 				if (showtime <= changeOne) {
-					return vi - (maxAccel * showtime);
+					return velocityToPercent(vi - (maxAccel * showtime));
 				} else if (showtime <= changeTwo) {
-					return vp;
+					return velocityToPercent(vp);
 				} else {
-					return vp + (maxAccel * (showtime - changeTwo));
+					return velocityToPercent(vp + (maxAccel * (showtime - changeTwo)));
 				}
 			} else {
 				if (showtime <= changeOne) {
-					return vi - (maxAccel * showtime);
+					return velocityToPercent(vi - (maxAccel * showtime));
 				} else {
-					return (vi - (maxAccel * changeOne))
-							+ (maxAccel * (showtime - changeOne));
+					return velocityToPercent((vi - (maxAccel * changeOne))
+							+ (maxAccel * (showtime - changeOne)));
 				}
 			}
 		case GREATER_THEN_LESSER:
 			if (hasStagnantSegment) {
 				if (showtime <= changeOne) {
-					return vi - (maxAccel * showtime);
+					return velocityToPercent(vi - (maxAccel * showtime));
 				} else if (showtime <= changeTwo) {
-					return vp;
+					return velocityToPercent(vp);
 				} else {
-					return vp - (maxAccel * (showtime - changeTwo));
+					return velocityToPercent(vp - (maxAccel * (showtime - changeTwo)));
 				}
 			} else {
-				return vi - (maxAccel * showtime);
+				return velocityToPercent(vi - (maxAccel * showtime));
 			}
 		case LESSER_THEN_GREATER:
 			if (hasStagnantSegment) {
 				if (showtime <= changeOne) {
-					return vi + (maxAccel * showtime);
+					return velocityToPercent(vi + (maxAccel * showtime));
 				} else if (showtime <= changeTwo) {
-					return vp;
+					return velocityToPercent(vp);
 				} else {
-					return vp + (maxAccel * (showtime - changeTwo));
+					return velocityToPercent(vp + (maxAccel * (showtime - changeTwo)));
 				}
 			} else {
 				if (showtime <= changeOne) {
-					return vi + (maxAccel * showtime);
+					return velocityToPercent(vi + (maxAccel * showtime));
 				} else {
 					throw new Error("Timeout. Please allot more time for operation to run.");
 				}
@@ -269,24 +278,24 @@ public class PathVelocity {
 		case BOTH_LESSER:
 			if (hasStagnantSegment) {
 				if (showtime <= changeOne) {
-					return vi + (maxAccel * showtime);
+					return velocityToPercent(vi + (maxAccel * showtime));
 				} else if (showtime <= changeTwo) {
-					return vp;
+					return velocityToPercent(vp);
 				} else {
-					return vp - (maxAccel * (showtime - changeTwo));
+					return velocityToPercent(vp - (maxAccel * (showtime - changeTwo)));
 				}
 			} else {
 				if (showtime <= changeOne) {
-					return vi + (maxAccel * showtime);
+					return velocityToPercent(vi + (maxAccel * showtime));
 				} else {
-					return (vi + (maxAccel * changeOne))
-							- (maxAccel * (showtime - changeOne));
+					return velocityToPercent((vi + (maxAccel * changeOne))
+							- (maxAccel * (showtime - changeOne)));
 				}
 			}
 		default:
 			Logger.error("Velocity case not found. Running without acceleration or deceleration.");
 			scenario = null;
-			return vp;
+			return velocityToPercent(vp);
 		}
 	}
 }
