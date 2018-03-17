@@ -10,6 +10,7 @@ import org.usfirst.frc2783.autonomous.actions.groups.DriveGyroTest;
 import org.usfirst.frc2783.autonomous.actions.groups.MethodTest;
 import org.usfirst.frc2783.autonomous.actions.groups.ScaleFromLeft;
 import org.usfirst.frc2783.autonomous.actions.groups.ScaleFromRight;
+import org.usfirst.frc2783.autonomous.actions.groups.StageRightWaypoint;
 import org.usfirst.frc2783.autonomous.actions.groups.SwitchFromCenter;
 import org.usfirst.frc2783.autonomous.actions.groups.SwitchFromLeft;
 import org.usfirst.frc2783.autonomous.actions.groups.SwitchFromRight;
@@ -278,6 +279,8 @@ public class Robot extends IterativeRobot {
 			autoScheduler.setGroup(new MethodTest());
 		case "TwoScaleFromLeft":
 			autoScheduler.setGroup(new TwoScaleFromLeft());
+		case "StageRightWaypoint":
+			autoScheduler.setGroup(new StageRightWaypoint());
 		default:
 
 		}
