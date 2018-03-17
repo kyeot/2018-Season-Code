@@ -63,7 +63,7 @@ public class Constants {
 	public static final double kTankPoseP = 0.01;
 	public static final double kTankPoseI = 0.0;
 	public static final double kTankPoseD = 0.011;
-	
+	  
 	//PID values for gyro adjusted drive
 	public static final double kGyroDriveP = 0.01;
 	public static final double kGyroDriveI = 0.001;
