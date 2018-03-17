@@ -9,7 +9,7 @@ public class StageRightWaypoint extends ActionGroup{
 	public StageRightWaypoint(){
 		super();
 		
-		addAction(new DriveWithGyroAndByDistance(0.5, 20, 20, 0));
+		addAction(new DriveWithGyroAndByDistance(0.5, 133, 133, 0));
 		
 	}
 	
