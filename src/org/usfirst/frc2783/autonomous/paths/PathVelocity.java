@@ -1,6 +1,7 @@
 package org.usfirst.frc2783.autonomous.paths;
 
 import org.usfirst.frc2783.autonomous.paths.PathBuilder.Setpoint;
+import org.usfirst.frc2783.util.Logger;
 import org.usfirst.frc2783.util.Scenarios;
 
 public class PathVelocity {
@@ -11,6 +12,9 @@ public class PathVelocity {
 	
 	double vivpint;
 	double vpvfint;
+	
+	double spareDist;
+	double potentialvp;
 	
 	double changeOne;
 	double changeTwo;
@@ -79,9 +83,31 @@ public class PathVelocity {
 		return hasStagnantSegment;
 	}
 	
-//	public double maxSpeed() {
-//		return
-//	}
+	public void maxSpeed() {
+		switch(scenario) {
+		case BOTH_GREATER:
+			if(Math.abs((square(vf) - square(vi)) / (2 * maxAccel)) < distance) {
+				spareDist = distance - Math.abs((square(vf) - square(vi)) / (2 * maxAccel));
+				if(vi < vf) {
+					potentialvp = Math.sqrt(square(vi) - (maxAccel * spareDist));
+				} else {
+					potentialvp = Math.sqrt(square(vf) - (maxAccel * spareDist));
+				}
+				vp = potentialvp > vp ? potentialvp : vp;
+				runtime = ((vi - vp) / maxAccel) + ((vf - vp) / maxAccel);
+			} else if(Math.abs((square(vf) - square(vi)) / (2 * maxAccel)) == distance) {
+				runtime = Math.abs((vf - vi) / maxAccel);
+			} else {
+				Logger.error("Cannot achieve desired velocity. Accelerating as much as possible.");
+				if (vf > vi) {
+					vf = Math.sqrt(square(vi) + (2 * maxAccel * distance));
+				} else {
+					vf = Math.sqrt(square(vi) - (2 * maxAccel * distance));
+				}
+				runtime = Math.abs((vf - vi)) / maxAccel;
+			}
+		}
+	}
 	
 	
 	//General Functions
