@@ -4,6 +4,7 @@ import org.usfirst.frc2783.autonomous.paths.PathBuilder.Setpoint;
 import org.usfirst.frc2783.util.Logger;
 import org.usfirst.frc2783.util.Scenarios;
 
+import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.RobotController;
 
 public class PathVelocity {
@@ -37,7 +38,8 @@ public class PathVelocity {
 		
 		startTime = RobotController.getFPGATime();
 		
-		compareSpeeds();
+		init();
+//		PIDController test = new PIDController(5, 6, 7, 8);
 	}
 	
 	public PathVelocity(double xone, double yone, double xtwo, double ytwo, double vi, double vp, double vf) {
@@ -49,14 +51,14 @@ public class PathVelocity {
 		
 		startTime = RobotController.getFPGATime();
 		
-		compareSpeeds();
+		init();
 	}
 	
-	public PathVelocity(Setpoint sone, Setpoint stwo, double vi, double vp, double vf) {
-		double xone = sone.getPosition().x();
-		double yone = sone.getPosition().y();
-		double xtwo = stwo.getPosition().x();
-		double ytwo = stwo.getPosition().y();
+	public PathVelocity(Setpoint sOne, Setpoint sTwo, double vi, double vp, double vf) {
+		double xone = sOne.getPosition().x();
+		double yone = sOne.getPosition().y();
+		double xtwo = sTwo.getPosition().x();
+		double ytwo = sTwo.getPosition().y();
 		
 		distance = dist(xone, yone, xtwo, ytwo);
 		this.vi = vi;
@@ -65,7 +67,13 @@ public class PathVelocity {
 		
 		startTime = RobotController.getFPGATime();
 		
+		init();
+	}
+	
+	public void init() {
 		compareSpeeds();
+		calculateRuntime();
+		calculateBehaviorChanges();
 	}
 	
 	public void compareSpeeds() {
@@ -206,7 +214,7 @@ public class PathVelocity {
 		}
 	}
 	
-	public double seconds(double ms) {
+	public static double seconds(double ms) {
 		return ms / 1000000;
 	}
 	
