@@ -38,6 +38,7 @@ import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.SPI;
@@ -200,6 +201,8 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void disabledInit() {
+		OI.driver.setRumble(RumbleType.kLeftRumble, 0);
+		OI.driver.setRumble(RumbleType.kRightRumble, 0);
 	}
 
 	public void disabledPeriodic() {
@@ -291,6 +294,15 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 
+		if(Math.abs(NavSensor.getInstance().getRoll()) > 10 || Math.abs(NavSensor.getInstance().getPitch()) > 10){
+			OI.driver.setRumble(RumbleType.kLeftRumble, 1);
+			OI.driver.setRumble(RumbleType.kRightRumble, 1);
+		}
+		else{
+			OI.driver.setRumble(RumbleType.kLeftRumble, 0);
+			OI.driver.setRumble(RumbleType.kRightRumble, 0);
+		}
+		
 		try {
 			if (isSwitchesLeft()) {
 				SmartDashboard.putString("DB/String 0", "OUR SWITCH: LEFT");
@@ -308,8 +320,8 @@ public class Robot extends IterativeRobot {
 		} catch (NullPointerException n) {
 		}
 
-		SmartDashboard.putString("DB/String 5", "" + Robot.elEncCounter.getRotations());
-		SmartDashboard.putString("DB/String 6", "" + Robot.elevatorAbsEnc.getValue());
+		SmartDashboard.putString("DB/String 5", "" + Robot.leftAbsEnc.getValue());
+		SmartDashboard.putString("DB/String 6", "" + Robot.rightAbsEnc.getValue());
 		SmartDashboard.putString("DB/String 9", "robot angle: " + Math.floor(NavSensor.getInstance().getAngle(false)));
 
 	}

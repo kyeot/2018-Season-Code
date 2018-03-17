@@ -50,6 +50,14 @@ public class NavSensor {
 		return navSensor.getAngle();
 	}
 	
+	public double getPitch(){
+		return navSensor.getPitch();
+	}
+	
+	public double getRoll(){
+		return navSensor.getRoll();
+	}
+	
 	public void resetGyroNorth(double angle, double north) {
     	navSensor.reset();
     	offset = angle - north;
