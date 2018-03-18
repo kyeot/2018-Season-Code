@@ -28,8 +28,6 @@ public class OI {
 	
 	public static JoystickButton elevatorUpSimple = new JoystickButton(manipulator, 4);
 	
-//	public static JoystickButton skrtLeft = new JoystickButton(driver, 3);
-//	public static JoystickButton skrtRight = new JoystickButton(driver, 2);
 
 	public static JoystickButton faceDriverStation = new JoystickButton(driver, Constants.kFaceDriverStation);
 	public static JoystickButton faceDownField = new JoystickButton(driver, Constants.kFaceDownField);
