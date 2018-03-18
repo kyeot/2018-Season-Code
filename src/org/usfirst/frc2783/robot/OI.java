@@ -21,6 +21,7 @@ public class OI {
 	public static Joystick driver = new Joystick(Constants.kDriverControllerId);
 //	public static Joystick driver1 = new Joystick(Constants.kDriverControllerId);
 //	public static Joystick driver2 = new Joystick(Constants.kDriverControllerId);
+	
 	public static Joystick manipulator = new Joystick(Constants.kManipulatorControllerId);
 	
 	public static JoystickButton elevatorShift = new JoystickButton(manipulator, Constants.kElevatorGearShiftID);
@@ -28,12 +29,12 @@ public class OI {
 	
 	public static JoystickButton elevatorUpSimple = new JoystickButton(manipulator, 4);
 	
-
 	public static JoystickButton faceDriverStation = new JoystickButton(driver, Constants.kFaceDriverStation);
 	public static JoystickButton faceDownField = new JoystickButton(driver, Constants.kFaceDownField);
 	public static JoystickButton faceRight = new JoystickButton(driver, Constants.kFaceRight);
 	public static JoystickButton faceLeft = new JoystickButton(driver, Constants.kFaceLeft);
-	//	public static JoystickButton elevatorToGround = new JoystickButton(manipulator, Constants.kElevatorToGroundID);
+	
+//	public static JoystickButton elevatorToGround = new JoystickButton(manipulator, Constants.kElevatorToGroundID);
 //	public static JoystickButton elevatorToSwitch = new JoystickButton(manipulator, Constants.kElevatorToSwitchID);
 //	public static JoystickButton elevatorToScale = new JoystickButton(manipulator, Constants.kElevatorToScaleID);
 
@@ -48,7 +49,8 @@ public class OI {
     	faceDownField.whileHeld(new FaceDriverStation());
     	faceRight.whileHeld(new FaceRight());
     	faceLeft.whileHeld(new FaceLeft());
-    	//    	elevatorToGround.whenPressed(new GoToElevatorPosition(Robot.groundPos.getRotations(), Robot.groundPos.getDegrees()));
+    	
+//    	elevatorToGround.whenPressed(new GoToElevatorPosition(Robot.groundPos.getRotations(), Robot.groundPos.getDegrees()));
 //    	elevatorToSwitch.whenPressed(new GoToElevatorPosition(Robot.switchPos.getRotations(), Robot.switchPos.getDegrees()));
 //    	elevatorToScale.whenPressed(new GoToElevatorPosition(Robot.scalePos.getRotations(), Robot.scalePos.getDegrees()));
     	
