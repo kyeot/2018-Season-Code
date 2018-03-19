@@ -46,16 +46,13 @@ public class Constants {
 	//Button IDs for driver
 	public static final int kSlowModeID = 5;
 	public static final int kFastModeID = 6;
-	
-	//Driver Preset Rotating Buttons
 
-	public static final int kFaceDriverStation =1;
+	public static final int kFaceDriverStation =7;
 	public static final int kFaceRight = 2;
 	public static final int kFaceLeft = 3;
 	public static final int kFaceDownField = 4;
 		
-	public static final int kVisionTestID = 7;
-	
+//	public static final int kVisionTestID = 7;
 	public static final int kGyroResetID = 8;
 	
 	//PID values for tank rotation to angle
