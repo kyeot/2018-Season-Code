@@ -6,36 +6,28 @@ import org.usfirst.frc2783.robot.Robot;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.wpilibj.RobotController;
 
-public class AccelLinear extends Action {
+public class AccelCurve extends Action {
 	PathVelocity robotSpeed;
 	double rightSpeed;
 	double leftSpeed;
 
 	double maxAcceleration = .5;
 	
-	/**
-	 * Constructs a line of an x, y positions and an s speed
-	 * and calculates the acceleration on the line of travel
-	 * 
-	 * @param initX
-	 * @param initY
-	 * @param initS
-	 * @param finX
-	 * @param finY
-	 * @param finS
-	 */
-	public AccelLinear(double initX,
+	
+	public AccelCurve(double initX,
 					   double initY,
 					   double initS,
 					   double finX,
 					   double finY,
-					   double finS) {
-		super("AccelLinear");
+					   double finS,
+					   double lambda) {
+		super("AccelCurve");
 		robotSpeed = new PathVelocity(initX, initY, finX, finY, initS, 1, finS);
 	}
 	
-	public AccelLinear(Setpoint sOne, Setpoint sTwo, double vi, double vp, double vf) {
-		super("AccelLinear");
+	public AccelCurve(Setpoint sOne, Setpoint sTwo, Setpoint sThree, double vi, double vp, double vf, double lambda) {
+		super("AccelCurve");
+		
 		robotSpeed = new PathVelocity(sOne, sTwo, vi, vp, vf);
 	}
 	
@@ -52,14 +44,15 @@ public class AccelLinear extends Action {
 	 * @param finY
 	 * @param finS
 	 */
-	public AccelLinear(double initX,
+	public AccelCurve(double initX,
 					   double initY,
 					   double initS,
 					   double midS,
 					   double finX,
 					   double finY,
-					   double finS) {
-		super("AccelLinear");
+					   double finS,
+					   double lambda) {
+		super("AccelCurve");
 		
 		if (midS == 0) {
 			throw new Error("Please enter nonzero value for middle speed");
@@ -67,7 +60,23 @@ public class AccelLinear extends Action {
 		
 		robotSpeed = new PathVelocity(initX, initY, finX, finY, initS, midS, finS);
 	}
+	
+	public double arcLength(Setpoint sOne, Setpoint sTwo, Setpoint sThree, double limda) {
+		
+	}
 
+	public double linDistance(double xOne, double yOne, double xTwo, double yTwo) {
+		return Math.sqrt(square(xTwo - xOne) + square(yTwo - yOne));
+	}
+	
+	public double linDistance(Setpoint sOne, Setpoint sTwo) {
+		return Math.sqrt(square(sTwo.getPosition().x() - sOne.getPosition().x()) + square(sTwo.getPosition().y() - sOne.getPosition().y()));
+	}
+	
+	public double square(double value) {
+		return value * value;
+	}
+	
 	@Override
 	public void start() {
 	}

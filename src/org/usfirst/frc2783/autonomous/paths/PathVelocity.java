@@ -4,7 +4,6 @@ import org.usfirst.frc2783.autonomous.paths.PathBuilder.Setpoint;
 import org.usfirst.frc2783.util.Logger;
 import org.usfirst.frc2783.util.Scenarios;
 
-import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.RobotController;
 
 public class PathVelocity {
