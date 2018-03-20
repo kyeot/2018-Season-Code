@@ -25,11 +25,11 @@ public class GoToElevatorPosition extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
 
-   		if(Robot.elevatorBase.elevator1Mot.getMotorOutputPercent() > 0.1){
-       		Robot.isUp = true;
-       	}
-   		else if(Robot.elevatorBase.elevator1Mot.getMotorOutputPercent() < -0.1){
+   		if(Robot.elEncCounter.getRotations() > wantedRot){
        		Robot.isUp = false;
+       	}
+   		else if(Robot.elEncCounter.getRotations() < wantedRot){
+       		Robot.isUp = true;
        	}
    		else{
    			if(Robot.elevatorAbsEnc.getValue() > wantedDeg){

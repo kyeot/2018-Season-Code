@@ -110,8 +110,14 @@ public class ElevatorBase extends Subsystem {
 			elevator2Mot.set(ControlMode.PercentOutput, speed);
 		}
 		else if(!isUp){
-			elevator1Mot.set(ControlMode.PercentOutput, speed/1.3);
-			elevator2Mot.set(ControlMode.PercentOutput, speed/1.3);
+			if(Robot.isClimb){
+				elevator1Mot.set(ControlMode.PercentOutput, speed);
+				elevator2Mot.set(ControlMode.PercentOutput, speed);
+			}
+			else{
+				elevator1Mot.set(ControlMode.PercentOutput, speed/1.3);
+				elevator2Mot.set(ControlMode.PercentOutput, speed/1.3);	
+			}
 		}
 				
 	}
