@@ -2,7 +2,6 @@
 
 import org.usfirst.frc2783.autonomous.paths.PathVelocity;
 import org.usfirst.frc2783.autonomous.paths.PathBuilder.Setpoint;
-import org.usfirst.frc2783.autonomous.paths.PathSegment;
 import org.usfirst.frc2783.robot.Robot;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.wpilibj.RobotController;
@@ -67,12 +66,6 @@ public class AccelLinear extends Action {
 		}
 		
 		robotSpeed = new PathVelocity(initX, initY, finX, finY, initS, midS, finS);
-	}
-	
-	public AccelLinear(PathSegment linearSegment) {
-		super("AccelLinear");
-		
-		//robotSpeed = new PathVelocity(linearSegment.getStart(), linearSegment.getEnd(), )
 	}
 
 	@Override

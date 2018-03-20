@@ -90,13 +90,6 @@ public class ActionScheduler {
 		}
 	}
 	
-	public void setGroup(ArrayList<Action> group) {
-		//Queues every action of the set action group, in order
-		for(Action a : group) {
-			queue(a);
-		}
-	}
-	
 	public void queue(Action action) {
 		queue.add(action);
 	}

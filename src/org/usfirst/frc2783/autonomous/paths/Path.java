@@ -43,24 +43,7 @@ public class Path {
     public void addSegment(PathSegment segment) {
         segments.add(segment);
     }
-    
-    public List<PathSegment> getSegments() {
-    	return segments;
-    }
-    
-    /**
-     * Counts amount of pathSegments left
-     * 
-     * @return amount of path segments left
-     */
-    public int countSegments() {
-    	int amount = 0;
-    	for (PathSegment p : segments) {
-    		amount++;
-    	}
-    	return amount;
-    }
-    
+
     /**
      * @return the last MotionState in the path
      */
