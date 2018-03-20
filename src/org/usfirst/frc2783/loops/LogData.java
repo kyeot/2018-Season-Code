@@ -13,6 +13,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class LogData implements Loop{
 	
+	
+	EventLogger batteryHandler = new EventLogger("Reset GYRO", "WARN") {
+		@Override
+		public boolean event() {
+			return RobotController.isBrownedOut();
+		}
+	};
+	
 	EventLogger batteryHandler = new EventLogger("Battery Browned Out!", "WARN") {
 		@Override
 		public boolean event() {
