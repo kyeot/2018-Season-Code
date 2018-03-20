@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class LogData implements Loop{
 	
 	
-	EventLogger batteryHandler = new EventLogger("Reset GYRO", "WARN") {
+	EventLogger gyroHandler = new EventLogger("Reset GYRO", "WARN") {
 		@Override
 		public boolean event() {
 			return RobotController.isBrownedOut();
