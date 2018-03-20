@@ -131,7 +131,11 @@ public class PathSegment {
         speedController = MotionProfileGenerator.generateProfile(motionConstraints, goal_state, start_state);
         // System.out.println(speedController);
     }
-
+    
+    public boolean isLine() {
+    	return isLine;
+    }
+    
     /**
      * @return starting point of the segment
      */

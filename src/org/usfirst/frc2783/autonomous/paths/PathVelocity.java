@@ -1,6 +1,7 @@
 package org.usfirst.frc2783.autonomous.paths;
 
 import org.usfirst.frc2783.autonomous.paths.PathBuilder.Setpoint;
+import org.usfirst.frc2783.calculation.Translation2d;
 import org.usfirst.frc2783.util.Logger;
 import org.usfirst.frc2783.util.Scenarios;
 
@@ -69,6 +70,22 @@ public class PathVelocity {
 		init();
 	}
 	
+	public PathVelocity(Translation2d sOne, Translation2d sTwo, double vi, double vp, double vf) {
+		double xone = sOne.x();
+		double yone = sOne.y();
+		double xtwo = sTwo.x();
+		double ytwo = sTwo.y();
+		
+		distance = dist(xone, yone, xtwo, ytwo);
+		this.vi = percentToVelocity(vi);
+		this.vp = percentToVelocity(vp);
+		this.vf = percentToVelocity(vf);
+		
+		startTime = RobotController.getFPGATime();
+		
+		init();
+	}
+	
 	public void init() {
 		compareSpeeds();
 		calculateRuntime();
@@ -81,7 +98,7 @@ public class PathVelocity {
 	
 
 	public double velocityToPercent(double value) {
-		return value / 132;
+		return value / 132.0;
 	}
 	
 	public void compareSpeeds() {
