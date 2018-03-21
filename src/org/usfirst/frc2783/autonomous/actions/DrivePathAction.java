@@ -39,6 +39,7 @@ public class DrivePathAction extends Action {
     public void start() {
         mDrive.setWantDrivePath(mPath, mPathContainer.isReversed());
         //SmartDashboard.putString("DB/String 1", "sawdfghj,k");
+//        TankDriveBase.leftV = 0;
     }
     
 }

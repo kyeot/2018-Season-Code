@@ -1,6 +1,7 @@
 package org.usfirst.frc2783.subsystems;
 
 import org.usfirst.frc2783.autonomous.StaticSetpoints;
+import org.usfirst.frc2783.autonomous.actions.CountPosition;
 import org.usfirst.frc2783.autonomous.paths.Lookahead;
 import org.usfirst.frc2783.autonomous.paths.Path;
 import org.usfirst.frc2783.autonomous.paths.PathFollower;
@@ -453,6 +454,7 @@ public class TankDriveBase extends Subsystem {
         //This command is that command that takes a path
         Twist2d command = mPathFollower.update(timestamp, robot_pose,
                 RobotState.getInstance().getDistanceDriven(), RobotState.getInstance().getPredictedVelocity().dx);
+        
         if (!mPathFollower.isFinished()) {
             Kinematics.DriveVelocity setpoint = Kinematics.inverseKinematics(command);
             updateVelocitySetpoint(setpoint.left, setpoint.right);
@@ -468,8 +470,14 @@ public class TankDriveBase extends Subsystem {
      * @param left_inches_per_sec
      * @param right_inches_per_sec
      */
+    
+    CountPosition leftDrive;
+    CountPosition rightDrive;
+    
 	private synchronized void updateVelocitySetpoint(double left_inches_per_sec, double right_inches_per_sec) {
 		if (usesTalonVelocityControl(mDriveControlState)) {
+			
+			
 			final double max_desired = Math.max(Math.abs(left_inches_per_sec), Math.abs(right_inches_per_sec));
 			final double scale = max_desired > Constants.kDriveHighGearMaxSetpoint
 					? Constants.kDriveHighGearMaxSetpoint / max_desired : 1.0;
@@ -477,6 +485,9 @@ public class TankDriveBase extends Subsystem {
 			//rightMaster.set(ControlMode.Velocity, inchesPerSecondToRpm(right_inches_per_sec * scale));
 			//rightMaster.set(ControlMode.PercentOutput, -5);
 			//Robot.tankDrive.isExisting();
+			leftDrive.update(right_inches_per_sec * scale);
+			rightDrive.update(right_inches_per_sec * scale);
+			
 			iterator7++;
 			SmartDashboard.putString("DB/String 9", "" + left_inches_per_sec);
 		} else {
