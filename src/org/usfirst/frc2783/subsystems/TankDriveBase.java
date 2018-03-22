@@ -1,6 +1,5 @@
 package org.usfirst.frc2783.subsystems;
 
-import org.usfirst.frc2783.autonomous.StaticSetpoints;
 import org.usfirst.frc2783.autonomous.paths.Lookahead;
 import org.usfirst.frc2783.autonomous.paths.Path;
 import org.usfirst.frc2783.autonomous.paths.PathFollower;
@@ -8,7 +7,6 @@ import org.usfirst.frc2783.calculation.RigidTransform2d;
 import org.usfirst.frc2783.calculation.Rotation2d;
 import org.usfirst.frc2783.calculation.Twist2d;
 import org.usfirst.frc2783.commands.TankDrive;
-import org.usfirst.frc2783.loops.CountPosition;
 import org.usfirst.frc2783.loops.Loop;
 import org.usfirst.frc2783.robot.Constants;
 import org.usfirst.frc2783.robot.Kinematics;
@@ -303,7 +301,7 @@ public class TankDriveBase extends Subsystem {
 	 */
 	public void setLeftPose(double angle) {
 		leftSideController.setSetpoint(angle);
-		rightSideController.enable();
+		leftSideController.enable();
 
 		setLeftSide(leftOut);
 
@@ -428,19 +426,15 @@ public class TankDriveBase extends Subsystem {
                             			  Constants.kPathFollowingGoalPosTolerance,
                             			  Constants.kPathFollowingGoalVelTolerance, 
                             			  Constants.kPathStopSteeringDistance));
-            if (mPathFollower != null) {
-            	//SmartDashboard.putString("DB/String 1", "Hsdfggr");
-        	}
+            
             mDriveControlState = DriveControlState.PATH_FOLLOWING;
             mCurrentPath = path;
-
-            //SmartDashboard.putString("DB/String 1", "Hsdfggr");
         } else {
             setVelocitySetpoint(0, 0); //This method takes the movements and sends them to encoders
-            //SmartDashboard.putString("DB/String 1", "Firetdty");
+            
         }
         if (mDriveControlState == DriveControlState.PATH_FOLLOWING) {
-        	SmartDashboard.putString("DB/String 6", "dfgb");
+        	
     	}
     }
     
