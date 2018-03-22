@@ -47,19 +47,28 @@ public class Constants {
 	public static final int kSlowModeID = 5;
 	public static final int kFastModeID = 6;
 
-	public static final int kFaceSouth= 4;
+	// Rotator ID's	
+	public static final int kFaceDriverStation= 4;
+	public static final int kFaceRight = 2;
+	public static final int kFaceLeft = 3;
+	public static final int kFaceDownField = 7;
+	
+	public static final int kFaceSouth = 4;
 	public static final int kFaceEast = 2;
 	public static final int kFaceWest = 3;
 	public static final int kFaceNorth = 7;
-		
-//	public static final int kVisionTestID = 7;
-	public static final int kGyroResetID = 8;
 	
+	//public static final int kVisionTestID = 7;
+	public static final int kGyroResetID = 8;
+	//public static final int kGyroResetID = 4;
+	
+	 // Owen's Trash PID's
 	//PID values for tank rotation to angle
 	public static final double kTankPoseP = 0.007;
 	public static final double kTankPoseI = 0.0;
 	public static final double kTankPoseD = 0.008;
-	
+
+	// Liam's perfectly tuned PID's
 //	public static final double kTankPoseP = 0.01;
 //	public static final double kTankPoseI = 0.0;
 //	public static final double kTankPoseD = 0.011;
