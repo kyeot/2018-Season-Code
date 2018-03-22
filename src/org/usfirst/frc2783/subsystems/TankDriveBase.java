@@ -1,7 +1,6 @@
 package org.usfirst.frc2783.subsystems;
 
 import org.usfirst.frc2783.autonomous.StaticSetpoints;
-import org.usfirst.frc2783.autonomous.actions.CountPosition;
 import org.usfirst.frc2783.autonomous.paths.Lookahead;
 import org.usfirst.frc2783.autonomous.paths.Path;
 import org.usfirst.frc2783.autonomous.paths.PathFollower;
@@ -9,6 +8,7 @@ import org.usfirst.frc2783.calculation.RigidTransform2d;
 import org.usfirst.frc2783.calculation.Rotation2d;
 import org.usfirst.frc2783.calculation.Twist2d;
 import org.usfirst.frc2783.commands.TankDrive;
+import org.usfirst.frc2783.loops.CountPosition;
 import org.usfirst.frc2783.loops.Loop;
 import org.usfirst.frc2783.robot.Constants;
 import org.usfirst.frc2783.robot.Kinematics;
@@ -470,30 +470,27 @@ public class TankDriveBase extends Subsystem {
      * @param left_inches_per_sec
      * @param right_inches_per_sec
      */
-    
-    CountPosition leftDrive;
-    CountPosition rightDrive;
-    
-	private synchronized void updateVelocitySetpoint(double left_inches_per_sec, double right_inches_per_sec) {
+    private synchronized void updateVelocitySetpoint(double left_inches_per_sec, double right_inches_per_sec) {
 		if (usesTalonVelocityControl(mDriveControlState)) {
-			
 			
 			final double max_desired = Math.max(Math.abs(left_inches_per_sec), Math.abs(right_inches_per_sec));
 			final double scale = max_desired > Constants.kDriveHighGearMaxSetpoint
 					? Constants.kDriveHighGearMaxSetpoint / max_desired : 1.0;
-			Robot.tankDrive.tankDrive(left_inches_per_sec, right_inches_per_sec);
+//			Robot.tankDrive.tankDrive(left_inches_per_sec, right_inches_per_sec);
 			//rightMaster.set(ControlMode.Velocity, inchesPerSecondToRpm(right_inches_per_sec * scale));
 			//rightMaster.set(ControlMode.PercentOutput, -5);
 			//Robot.tankDrive.isExisting();
-			leftDrive.update(right_inches_per_sec * scale);
-			rightDrive.update(right_inches_per_sec * scale);
+			Robot.leftPos.update(right_inches_per_sec * scale);
+			Robot.rightPos.update(right_inches_per_sec * scale);
 			
 			iterator7++;
 			SmartDashboard.putString("DB/String 9", "" + left_inches_per_sec);
 		} else {
 			System.out.println("Hit a bad velocity control state");
-			leftMaster.set(ControlMode.Velocity, 0);
-			rightMaster.set(ControlMode.Velocity, 0);
+//			leftMaster.set(ControlMode.Velocity, 0);
+//			rightMaster.set(ControlMode.Velocity, 0);
+			Robot.leftPos.update(0);
+			Robot.rightPos.update(0);
 		}
 	}
 

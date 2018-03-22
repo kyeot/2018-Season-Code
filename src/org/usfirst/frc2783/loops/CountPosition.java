@@ -1,4 +1,4 @@
-package org.usfirst.frc2783.autonomous.actions;
+package org.usfirst.frc2783.loops;
 
 import org.usfirst.frc2783.loops.Loop;
 
@@ -27,12 +27,11 @@ public class CountPosition implements Loop{
 
 	@Override
 	public void onLoop(double timestamp) {
-//		position += 4096 * ((v / 200) / (6 * Math.PI));
+		
 	}
 
 	@Override
 	public void onLoop() {
-		// TODO Auto-generated method stub
-		
+		position += 4096 * ((v / 200) / (6 * Math.PI));
 	}
 }
