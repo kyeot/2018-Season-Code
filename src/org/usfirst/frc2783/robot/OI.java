@@ -2,7 +2,18 @@ package org.usfirst.frc2783.robot;
 
 import org.usfirst.frc2783.commands.ElevatorLockShift;
 import org.usfirst.frc2783.commands.ElevatorServoShift;
+import org.usfirst.frc2783.commands.FaceDownField;
+import org.usfirst.frc2783.commands.FaceDriverStation;
+import org.usfirst.frc2783.commands.FaceEast;
+import org.usfirst.frc2783.commands.FaceLeft;
 import org.usfirst.frc2783.commands.FaceNorth;
+import org.usfirst.frc2783.commands.FaceNorthEast;
+import org.usfirst.frc2783.commands.FaceNorthWest;
+import org.usfirst.frc2783.commands.FaceRight;
+import org.usfirst.frc2783.commands.FaceSouth;
+import org.usfirst.frc2783.commands.FaceSouthEast;
+import org.usfirst.frc2783.commands.FaceSouthWest;
+import org.usfirst.frc2783.commands.FaceWest;
 import org.usfirst.frc2783.commands.GoToTopSimple;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -27,12 +38,12 @@ public class OI {
 	
 	public static JoystickButton elevatorUpSimple = new JoystickButton(manipulator, 4);
 	
-	public static JoystickButton faceSouth = new JoystickButton(driver, Constants.kFaceSouth);
-	//public static JoystickButton faceNorth = new JoystickButton(driver, Constants.kFaceNorth);
-	//public static JoystickButton faceEast = new JoystickButton(driver, Constants.kFaceEast);
-	//public static JoystickButton faceWest = new JoystickButton(driver, Constants.kFaceWest);
+	public static JoystickButton faceDriverStation = new JoystickButton(driver, Constants.kFaceDriverStation);
+	public static JoystickButton faceDownField = new JoystickButton(driver, Constants.kFaceDownField);
+	public static JoystickButton faceLeft = new JoystickButton(driver, Constants.kFaceLeft);
+	public static JoystickButton faceRight = new JoystickButton(driver, Constants.kFaceRight);
 	
-	public static Joystick dpad = new Joystick(3);
+/*	public static Joystick dpad = new Joystick(3);
 	public static Button button1 = new JoystickButton(dpad, 1),
 						button2 = new JoystickButton(dpad, 2),
 						button3 = new JoystickButton(dpad, 3),
@@ -42,7 +53,8 @@ public class OI {
 						button7 = new JoystickButton(dpad, 7),
 						button8 = new JoystickButton(dpad, 8);
 	
-	
+*/	
+
 
 //	public static JoystickButton elevatorToGround = new JoystickButton(manipulator, Constants.kElevatorToGroundID);
 //	public static JoystickButton elevatorToSwitch = new JoystickButton(manipulator, Constants.kElevatorToSwitchID);
@@ -55,20 +67,20 @@ public class OI {
     	
     	elevatorUpSimple.whenPressed(new GoToTopSimple());
     	
-//    	faceNorth.whileHeld(new FaceNorth());
-//    	faceSouth.whileHeld(new FaceSouth());
-//    	faceEast.whileHeld(new FaceEast());
-//    	faceWest.whileHeld(new FaceWest());
+    	faceDownField.whileHeld(new FaceDownField());
+    	faceDriverStation.whileHeld(new FaceDriverStation());
+    	faceLeft.whileHeld(new FaceLeft());
+    	faceRight.whileHeld(new FaceRight());
    
-    	button1.whileHeld(new FaceNorth());
-		button2.whileHeld(new 2());
+/*    	button1.whileHeld(new FaceNorth());
+		button2.whileHeld(new FaceNorthEast());
 		button3.whileHeld(new FaceEast());
-		button4.whileHeld(new 3());
+		button4.whileHeld(new FaceSouthEast());
 		button5.whileHeld(new FaceSouth());
-		button6.whileHeld(new 4());
+		button6.whileHeld(new FaceSouthWest());
 		button7.whileHeld(new FaceWest());
-		button8.whileHeld(new 5());
-	
+		button8.whileHeld(new FaceNorthWest());
+*/	
     	
 //    	elevatorToGround.whenPressed(new GoToElevatorPosition(Robot.groundPos.getRotations(), Robot.groundPos.getDegrees()));
 //    	elevatorToSwitch.whenPressed(new GoToElevatorPosition(Robot.switchPos.getRotations(), Robot.switchPos.getDegrees()));
