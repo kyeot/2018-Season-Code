@@ -23,16 +23,16 @@ public class SwitchFromRight extends ActionGroup {
 		try{
 			if(Robot.switchAutoIsFront){
 				if(!Robot.isSwitchesLeft()){
-					addAction(new AutoElevator(-0.5, 0.25)); //Lower elevator
+					addAction(new AutoElevator(-0.5, 0.5)); //Lower elevator
 					addAction(new DriveWithGyroAndByDistance(0.5, 12.5*12, 12.5*12, 0)); // Drive foward at 0.5 speed
 					addAction(new RotateTankAction(new Bearing(90), 1)); 
 					addAction(new AutoIntake(-0.5, 0.5));
-					addAction(new AutoElevator(1, 1.5)); 
+					addAction(new AutoElevator(-1, 1.5)); 
 					addAction(new AutoDrive(0.25, 0.25, 0.5));
 					addAction(new AutoIntake(1, 1));
 				}
 				else{
-					addAction(new AutoElevator(-0.5, 0.25));
+					addAction(new AutoElevator(-0.5, 0.5));
 					addAction(new DriveWithGyroAndByDistance(0.5, 4.8*12, 4.8*12, 0));
 					addAction(new RotateTankAction(new Bearing(95), 1));
 					addAction(new DriveWithGyroAndByDistance(0.5, 21*12, 21*12, 270));
@@ -44,7 +44,7 @@ public class SwitchFromRight extends ActionGroup {
 			}
 			else{
 				if(!Robot.isSwitchesLeft()){		
-					addAction(new AutoElevator(0.5, 0.25));
+					addAction(new AutoElevator(0.5, 0.5));
 					addAction(new DriveWithGyroAndByDistance(0.5, 12.5*12, 12.5*12, 0));
 					addAction(new RotateTankAction(new Bearing(90), 1));
 					addAction(new AutoIntake(-0.5, 0.5));
@@ -53,7 +53,7 @@ public class SwitchFromRight extends ActionGroup {
 					addAction(new AutoIntake(1, 1));
 				}
 				else{
-					addAction(new AutoElevator(0.5, 0.25));
+					addAction(new AutoElevator(0.5, 0.5));
 					addAction(new DriveWithGyroAndByDistance(0.5, 18.8*12, 18.8*12, 0));
 					addAction(new RotateTankAction(new Bearing(89), 1));
 					addAction(new DriveWithGyroAndByDistance(0.5, 38.5*12, 38.5*12, 271));

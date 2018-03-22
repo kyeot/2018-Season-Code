@@ -182,6 +182,52 @@ public class TankDriveBase extends Subsystem {
 		}
 	}
 
+	class LeftAbsoluteAngleSource implements PIDSource {
+		PIDSourceType sourceType;
+
+		public LeftAbsoluteAngleSource() {
+			setPIDSourceType(PIDSourceType.kDisplacement);
+		}
+
+		@Override
+		public void setPIDSourceType(PIDSourceType pidSource) {
+			sourceType = pidSource;
+		}
+
+		@Override
+		public PIDSourceType getPIDSourceType() {
+			return sourceType;
+		}
+
+		@Override
+		public double pidGet() {
+			return (Robot.leftCounter.getRotations() * 4096) + Robot.leftAbsEnc.getValue();
+		}		
+	}
+	
+	class RightAbsoluteAngleSource implements PIDSource {
+		PIDSourceType sourceType;
+
+		public RightAbsoluteAngleSource() {
+			setPIDSourceType(PIDSourceType.kDisplacement);
+		}
+
+		@Override
+		public void setPIDSourceType(PIDSourceType pidSource) {
+			sourceType = pidSource;
+		}
+
+		@Override
+		public PIDSourceType getPIDSourceType() {
+			return sourceType;
+		}
+
+		@Override
+		public double pidGet() {
+			return (Robot.leftCounter.getRotations() * 4096) + Robot.leftAbsEnc.getValue();
+		}		
+	}
+	
 	// PID Output Class for the left side of the Tank Drive
 	class LeftTankSideOut implements PIDOutput {
 		@Override
@@ -273,6 +319,7 @@ public class TankDriveBase extends Subsystem {
 				leftPidSource, leftSideOut);
 		leftSideController.setInputRange(0, 360);
 		leftSideController.setContinuous(false);
+		
 
 		// Creates the right side PID controller
 		rightPidSource = new RightTankSideSource();

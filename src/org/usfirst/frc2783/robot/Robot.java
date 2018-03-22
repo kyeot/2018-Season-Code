@@ -328,10 +328,8 @@ public class Robot extends IterativeRobot {
 		} catch (NullPointerException n) {
 		}
 		
-		SmartDashboard.putString("DB/String 5", "" + Robot.leftCounter.getRotations());
-		SmartDashboard.putString("DB/String 6", "" + Robot.rightCounter.getRotations());
-		SmartDashboard.putString("DB/String 7", "" + Robot.leftAbsEnc.getValue());
-		SmartDashboard.putString("DB/String 8", "" + Robot.rightAbsEnc.getValue());
+		SmartDashboard.putString("DB/String 7", "" + Robot.elEncCounter.getRotations());
+		SmartDashboard.putString("DB/String 8", "" + Robot.elevatorAbsEnc.getValue());
 		SmartDashboard.putString("DB/String 9", "robot angle: " + Math.floor(NavSensor.getInstance().getAngle(false)));
 
 	}
