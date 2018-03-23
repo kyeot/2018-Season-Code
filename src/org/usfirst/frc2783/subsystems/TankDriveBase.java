@@ -200,7 +200,7 @@ public class TankDriveBase extends Subsystem {
 
 		@Override
 		public double pidGet() {
-			return (Robot.leftCounter.getRotations() * 4096) + Robot.leftAbsEnc.getValue();
+			return ((Robot.leftCounter.getRotations() * 4096) + Robot.leftAbsEnc.getValue()) - Robot.initLeftEnc;
 		}		
 	}
 	
@@ -223,7 +223,7 @@ public class TankDriveBase extends Subsystem {
 
 		@Override
 		public double pidGet() {
-			return (Robot.leftCounter.getRotations() * 4096) + Robot.leftAbsEnc.getValue();
+			return ((Robot.rightCounter.getRotations() * 4096) + Robot.rightAbsEnc.getValue()) - Robot.initRightEnc;
 		}		
 	}
 	

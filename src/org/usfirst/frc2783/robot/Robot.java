@@ -139,6 +139,9 @@ public class Robot extends IterativeRobot {
 	// Creates Instances of Vision Classes for Communicating with the phone
 	public static FieldTransform fieldTransform = FieldTransform.getInstance();
 	VisionServer mVisionServer = VisionServer.getInstance();
+	
+	public static double initLeftEnc = (Robot.leftCounter.getRotations() * 4096) + Robot.leftAbsEnc.getValue();;
+	public static double initRightEnc = (Robot.rightCounter.getRotations() * 4096) + Robot.rightAbsEnc.getValue();;
 
 	public void robotInit() {
 		oi = new OI();
