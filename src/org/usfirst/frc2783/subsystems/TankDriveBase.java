@@ -181,6 +181,66 @@ public class TankDriveBase extends Subsystem {
 		}
 	}
 
+	class LeftAbsoluteAngleSource implements PIDSource {
+		PIDSourceType sourceType;
+
+		public LeftAbsoluteAngleSource() {
+			setPIDSourceType(PIDSourceType.kDisplacement);
+		}
+
+		@Override
+		public void setPIDSourceType(PIDSourceType pidSource) {
+			sourceType = pidSource;
+		}
+
+		@Override
+		public PIDSourceType getPIDSourceType() {
+			return sourceType;
+		}
+
+		@Override
+		public double pidGet() {
+			return (Robot.leftCounter.getRotations() * 4096) + Robot.leftAbsEnc.getValue();
+		}		
+	}
+	
+	class RightAbsoluteAngleSource implements PIDSource {
+		PIDSourceType sourceType;
+
+		public RightAbsoluteAngleSource() {
+			setPIDSourceType(PIDSourceType.kDisplacement);
+		}
+
+		@Override
+		public void setPIDSourceType(PIDSourceType pidSource) {
+			sourceType = pidSource;
+		}
+
+		@Override
+		public PIDSourceType getPIDSourceType() {
+			return sourceType;
+		}
+
+		@Override
+		public double pidGet() {
+			return (Robot.leftCounter.getRotations() * 4096) + Robot.leftAbsEnc.getValue();
+		}		
+	}
+	
+	class LeftAbsoluteSideOut implements PIDOutput {
+		@Override
+		public void pidWrite(double output) {
+			leftOutput = output;
+		}
+	}
+	
+	class RightAbsoluteSideOut implements PIDOutput {
+		@Override
+		public void pidWrite(double output) {
+			rightOutput = output;
+		}
+	}
+	
 	// PID Output Class for the left side of the Tank Drive
 	class LeftTankSideOut implements PIDOutput {
 		@Override
@@ -225,6 +285,9 @@ public class TankDriveBase extends Subsystem {
 
 	double leftOut;
 	double rightOut;
+	
+	double leftOutput;
+	double rightOutput;
 
 	DriveControlState mDriveControlState;
 
@@ -238,10 +301,16 @@ public class TankDriveBase extends Subsystem {
 	// Creates Outputs and Sources for the left and right side PIDs
 	LeftTankSideSource leftPidSource;
 	RightTankSideSource rightPidSource;
+	public LeftAbsoluteAngleSource leftMPSource;
+	public RightAbsoluteAngleSource rightMPSource;
 	LeftTankSideOut leftSideOut;
 	RightTankSideOut rightSideOut;
+	public LeftAbsoluteSideOut leftMPOut;
+	public RightAbsoluteSideOut rightMPOut;
 	PIDController leftSideController;
 	PIDController rightSideController;
+	public PIDController leftMPController;
+	public PIDController rightMPController;
 
 	// Constructor to construct the TankDriveBase
 	public TankDriveBase() {
@@ -283,6 +352,30 @@ public class TankDriveBase extends Subsystem {
 				rightPidSource, rightSideOut);
 		rightSideController.setInputRange(0, 360);
 		rightSideController.setContinuous(false);
+		
+		leftMPSource = new LeftAbsoluteAngleSource();
+		leftMPOut = new LeftAbsoluteSideOut();
+		leftMPController = new PIDController(Constants.kTankSideP, Constants.kTankSideI, Constants.kTankSideD,
+				leftMPSource, leftMPOut);
+		leftMPController.setInputRange(-10000000, 10000000);
+		rightSideController.setContinuous(false);
+		
+		rightMPSource = new RightAbsoluteAngleSource();
+		rightMPOut = new RightAbsoluteSideOut();
+		rightMPController = new PIDController(Constants.kTankSideP, Constants.kTankSideI, Constants.kTankSideD,
+				rightMPSource, rightMPOut);
+		rightMPController.setInputRange(-10000000, 10000000);
+		rightSideController.setContinuous(false);
+	}
+	
+	public void setLeftMPPose(double value) {
+		leftMPController.setSetpoint(value);
+		setLeftSide(leftOutput);
+	}
+	
+	public void setRightMPPose(double value) {
+		rightMPController.setSetpoint(value);
+		setRightSide(rightOutput);
 	}
 
 	/**

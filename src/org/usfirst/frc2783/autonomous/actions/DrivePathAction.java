@@ -27,7 +27,8 @@ public class DrivePathAction extends Action {
 
     @Override
     public void perform() {
-        // Nothing done here, controller updates in mEnabedLooper in robot
+        Robot.tankDrive.setLeftMPPose(Robot.leftPos.position);
+        Robot.tankDrive.setRightMPPose(Robot.rightPos.position);
     }
 
     @Override
@@ -37,6 +38,8 @@ public class DrivePathAction extends Action {
 
     @Override
     public void start() {
+    	Robot.tankDrive.leftMPController.enable();
+    	Robot.tankDrive.rightMPController.enable();
         mDrive.setWantDrivePath(mPath, mPathContainer.isReversed());
         //SmartDashboard.putString("DB/String 1", "sawdfghj,k");
 //        TankDriveBase.leftV = 0;
