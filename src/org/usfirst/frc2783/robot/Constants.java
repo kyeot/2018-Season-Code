@@ -90,7 +90,7 @@ public class Constants {
 	public static final double kAutoPeriod = 200;
 	
 	//Need to adjust these for our purposes
-	public static double kTrackWidthInches = 26.655;
+	public static double kTrackWidthInches = 24.5;
     public static double kTrackScrubFactor = 0.924;
 	
 	public static final double kTurretStowedAngle = 0;
