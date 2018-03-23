@@ -29,9 +29,9 @@ public class SwitchFromLeft extends ActionGroup{
 				
 				else{
 					addAction(new AutoElevator(-0.5, 0.5));
-					addAction(new DriveWithGyroAndByDistance(0.5, 18.8*12, 18.8*12, 0));
+					addAction(new DriveWithGyroAndByDistance(0.5, 19*12, 19*12, 0));
 					addAction(new RotateTankAction(new Bearing(271), 1));
-					addAction(new DriveWithGyroAndByDistance(0.5, 38.5*12, 38.5*12, 271));
+					addAction(new DriveWithGyroAndByDistance(0.5, 38.7*12, 38.7*12, 271));
 					addAction(new RotateTankAction(new Bearing(180), 1));
 					addAction(new AutoDrive(0.5, 0.5, 1));
 					addAction(new RotateTankAction(new Bearing(90), 1));
