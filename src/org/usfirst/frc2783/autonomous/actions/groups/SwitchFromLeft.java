@@ -1,10 +1,15 @@
 package org.usfirst.frc2783.autonomous.actions.groups;
 
+import java.util.Arrays;
+import java.util.List;
+
+import org.usfirst.frc2783.autonomous.actions.Action;
 import org.usfirst.frc2783.autonomous.actions.ActionGroup;
 import org.usfirst.frc2783.autonomous.actions.AutoDrive;
 import org.usfirst.frc2783.autonomous.actions.AutoElevator;
 import org.usfirst.frc2783.autonomous.actions.AutoIntake;
 import org.usfirst.frc2783.autonomous.actions.DriveWithGyroAndByDistance;
+import org.usfirst.frc2783.autonomous.actions.ParallelAction;
 import org.usfirst.frc2783.autonomous.actions.RotateTankAction;
 import org.usfirst.frc2783.robot.Robot;
 import org.usfirst.frc2783.util.Bearing;
@@ -22,20 +27,25 @@ public class SwitchFromLeft extends ActionGroup{
 					addAction(new DriveWithGyroAndByDistance(0.5, 12.5*12, 12.5*12, 0));
 					addAction(new RotateTankAction(new Bearing(270), 1));
 					addAction(new AutoIntake(-0.5, 0.5));
-					addAction(new AutoElevator(-1, 1.5)); 
-					addAction(new AutoDrive(0.25, 0.25, 0.5));
+					addAction(new AutoElevator(-1, 1)); 
+					addAction(new AutoDrive(0.25, 0.25, 1));
 					addAction(new AutoIntake(1, 1));
 				}
 				
 				else{
 					addAction(new AutoElevator(-0.5, 0.5));
-					addAction(new DriveWithGyroAndByDistance(0.5, 19*12, 19*12, 0));
-					addAction(new RotateTankAction(new Bearing(271), 1));
-					addAction(new DriveWithGyroAndByDistance(0.5, 38.7*12, 38.7*12, 271));
+					addAction(new DriveWithGyroAndByDistance(0.5, 18.8*12, 18.8*12, 0));
+					addAction(new RotateTankAction(new Bearing(275), 1));
+					addAction(new DriveWithGyroAndByDistance(0.5, 38.6*12, 38.6*12, 275));
 					addAction(new RotateTankAction(new Bearing(180), 1));
 					addAction(new AutoDrive(0.5, 0.5, 1));
 					addAction(new RotateTankAction(new Bearing(90), 1));
-					addAction(new AutoElevator(-1, 1.5)); 
+					addAction(new ParallelAction(Arrays.asList(new Action[]  {
+						new AutoElevator(-1, 1),
+						new AutoDrive(0.4, 0.3, 1),
+					})));
+//					addAction(new AutoElevator(-1, 1)); 
+//					addAction(new AutoDrive(0.4, 0.3, 1));
 					addAction(new AutoIntake(1, 1));
 				}
 			}
@@ -45,8 +55,8 @@ public class SwitchFromLeft extends ActionGroup{
 					addAction(new DriveWithGyroAndByDistance(0.5, 12.5*12, 12.5*12, 0));
 					addAction(new RotateTankAction(new Bearing(270), 1));
 					addAction(new AutoIntake(-0.5, 0.5));
-					addAction(new AutoElevator(-1, 1.5)); 
-					addAction(new AutoDrive(0.25, 0.25, 0.5));
+					addAction(new AutoElevator(-1, 1)); 
+					addAction(new AutoDrive(0.25, 0.25, 1));
 					addAction(new AutoIntake(1, 1));
 				}
 				else{

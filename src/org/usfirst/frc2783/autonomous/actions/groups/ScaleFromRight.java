@@ -31,8 +31,8 @@ public class ScaleFromRight extends ActionGroup{
 			else{
 				addAction(new AutoElevator(-0.5, 0.5));
 				addAction(new DriveWithGyroAndByDistance(0.5, 18.8*12, 18.8*12, 0));
-				addAction(new RotateTankAction(new Bearing(89), 1));
-				addAction(new DriveWithGyroAndByDistance(0.5, 36.5*12, 36.5*12, 270));
+				addAction(new RotateTankAction(new Bearing(85), 1));
+				addAction(new DriveWithGyroAndByDistance(0.5, 36.5*12, 36.5*12, 85));
 				addAction(new RotateTankAction(new Bearing(0), 1));
 				addAction(new GoToTopAction());
 				addAction(new AutoDrive(0.5, 0.35, 1.5));

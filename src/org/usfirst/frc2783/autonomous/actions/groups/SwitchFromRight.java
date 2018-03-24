@@ -1,6 +1,7 @@
 package org.usfirst.frc2783.autonomous.actions.groups;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.usfirst.frc2783.autonomous.actions.Action;
@@ -27,8 +28,8 @@ public class SwitchFromRight extends ActionGroup {
 					addAction(new DriveWithGyroAndByDistance(0.5, 12.5*12, 12.5*12, 0)); // Drive foward at 0.5 speed
 					addAction(new RotateTankAction(new Bearing(90), 1)); 
 					addAction(new AutoIntake(-0.5, 0.5));
-					addAction(new AutoElevator(-1, 1.5)); 
-					addAction(new AutoDrive(0.25, 0.25, 0.5));
+					addAction(new AutoElevator(-1, 1)); 
+					addAction(new AutoDrive(0.25, 0.25, 1));
 					addAction(new AutoIntake(1, 1));
 				}
 				else{
@@ -48,19 +49,22 @@ public class SwitchFromRight extends ActionGroup {
 					addAction(new DriveWithGyroAndByDistance(0.5, 12.5*12, 12.5*12, 0));
 					addAction(new RotateTankAction(new Bearing(90), 1));
 					addAction(new AutoIntake(-0.5, 0.5));
-					addAction(new AutoElevator(-1, 1.5)); 
-					addAction(new AutoDrive(0.25, 0.25, 0.5));
+					addAction(new AutoElevator(-1, 1)); 
+					addAction(new AutoDrive(0.25, 0.25, 1));
 					addAction(new AutoIntake(1, 1));
 				}
 				else{
 					addAction(new AutoElevator(0.5, 0.5));
-					addAction(new DriveWithGyroAndByDistance(0.5, 19*12, 19*12, 0));
-					addAction(new RotateTankAction(new Bearing(89), 1));
-					addAction(new DriveWithGyroAndByDistance(0.5, 38.7*12, 38.7*12, 271));
+					addAction(new DriveWithGyroAndByDistance(0.5, 18.8*12, 18.8*12, 0));
+					addAction(new RotateTankAction(new Bearing(85), 1));
+					addAction(new DriveWithGyroAndByDistance(0.5, 38.6*12, 38.6*12, 85));
 					addAction(new RotateTankAction(new Bearing(180), 1));
 					addAction(new AutoDrive(0.5, 0.5, 1));
 					addAction(new RotateTankAction(new Bearing(270), 1));
-					addAction(new AutoElevator(-1, 1.5)); 
+					addAction(new ParallelAction(Arrays.asList(new Action[]  {
+						new AutoElevator(-1, 1.5),
+						new AutoDrive(0.4, 0.3, 1),
+					})));
 					addAction(new AutoIntake(1, 1));}
 			}
 			
