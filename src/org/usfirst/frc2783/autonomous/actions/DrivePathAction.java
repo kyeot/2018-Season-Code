@@ -1,33 +1,47 @@
 package org.usfirst.frc2783.autonomous.actions;
 
+import java.util.ArrayList;
+
 import org.usfirst.frc2783.autonomous.paths.Path;
 import org.usfirst.frc2783.autonomous.paths.PathContainer;
-import org.usfirst.frc2783.robot.Robot;
-import org.usfirst.frc2783.subsystems.TankDriveBase;
-
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.usfirst.frc2783.autonomous.paths.PathSegment;
 
 public class DrivePathAction extends Action {
 	
-	private PathContainer mPathContainer;
+	private PathContainer mPathContainer; //It is important to remember that a path container is a set of waypoints
     private Path mPath;
-    private TankDriveBase mDrive = Robot.tankDrive;
+    private PathSegment currentSeg;
+    private ActionScheduler driveScheduler;
+    private ArrayList<Action> driveActions = new ArrayList<Action>();
 
     public DrivePathAction(PathContainer p, String name) {
         super(name);
     	
     	mPathContainer = p;
         mPath = mPathContainer.buildPath();
+        
+        
+        //converts path to an array of drive actions to be performed in perform 
+        for (int i = 0; i < mPath.countSegments(); i++) {
+        	currentSeg = mPath.getSegments().get(i);
+        	Action segAction;
+        	if (currentSeg.isLine()) {
+        		segAction = new AccelLinear(currentSeg);
+        		driveActions.add(segAction);
+        	} else {
+        		//AccelCurve
+        	}
+        }
     }
 
     @Override
     public boolean done() {
-        return mDrive.isDoneWithPath();
+    	return true;
     }
 
     @Override
     public void perform() {
-        // Nothing done here, controller updates in mEnabedLooper in robot
+    	driveScheduler.setGroup(driveActions); //Schedules all the drive actions. Performs the action in AccelLinear and AccelCurve
     }
 
     @Override
@@ -37,7 +51,7 @@ public class DrivePathAction extends Action {
 
     @Override
     public void start() {
-        mDrive.setWantDrivePath(mPath, mPathContainer.isReversed());
+        //mDrive.setWantDrivePath(mPath, mPathContainer.isReversed());
         //SmartDashboard.putString("DB/String 1", "sawdfghj,k");
     }
     
