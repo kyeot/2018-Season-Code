@@ -12,7 +12,7 @@ public class WaypointTest extends ActionGroup {
 	public WaypointTest() {
 		super();
 		PathContainer testPath = new LeftScaleToLeftStage();
-		addAction(new DrivePathAction(testPath, "Test"));
+		addAction(new DrivePathAction(testPath));
 	}
 	
 }

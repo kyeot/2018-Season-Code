@@ -14,5 +14,6 @@ public interface PathContainer {
 
     boolean isReversed();
     
+    @Override
     String toString();
 }

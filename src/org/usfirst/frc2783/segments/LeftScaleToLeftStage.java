@@ -10,7 +10,7 @@ import org.usfirst.frc2783.autonomous.paths.PathContainer;
 import org.usfirst.frc2783.calculation.RigidTransform2d;
 import org.usfirst.frc2783.calculation.Rotation2d;
 
-public class LeftScaleToLeftStage implements PathContainer{
+public class LeftScaleToLeftStage implements PathContainer {
 	@Override
 	public Path buildPath() {
 		ArrayList<Waypoint> sWaypoints = new ArrayList<Waypoint>();
@@ -31,5 +31,9 @@ public class LeftScaleToLeftStage implements PathContainer{
 	public boolean isReversed() {
 		return true;
 	}
-
+	
+	@Override
+	public String toString() {
+		return "Left Scale to Left Stage";
+	}
 }

@@ -11,7 +11,7 @@ import org.usfirst.frc2783.robot.Robot;
 import org.usfirst.frc2783.util.Bearing;
 import org.usfirst.frc2783.util.Logger;
 
-public class TwoScaleFromLeft extends ActionGroup{
+public class TwoScaleFromLeft extends ActionGroup {
 
 	public TwoScaleFromLeft(){
 		super();
