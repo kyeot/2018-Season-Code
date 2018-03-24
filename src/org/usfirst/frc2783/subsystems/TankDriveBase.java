@@ -1,6 +1,5 @@
 package org.usfirst.frc2783.subsystems;
 
-import org.usfirst.frc2783.autonomous.StaticSetpoints;
 import org.usfirst.frc2783.autonomous.paths.Lookahead;
 import org.usfirst.frc2783.autonomous.paths.Path;
 import org.usfirst.frc2783.autonomous.paths.PathFollower;
@@ -182,6 +181,66 @@ public class TankDriveBase extends Subsystem {
 		}
 	}
 
+	class LeftAbsoluteAngleSource implements PIDSource {
+		PIDSourceType sourceType;
+
+		public LeftAbsoluteAngleSource() {
+			setPIDSourceType(PIDSourceType.kDisplacement);
+		}
+
+		@Override
+		public void setPIDSourceType(PIDSourceType pidSource) {
+			sourceType = pidSource;
+		}
+
+		@Override
+		public PIDSourceType getPIDSourceType() {
+			return sourceType;
+		}
+
+		@Override
+		public double pidGet() {
+			return ((Robot.leftCounter.getRotations() * 4096) + Robot.leftAbsEnc.getValue()) - Robot.initLeftEnc;
+		}		
+	}
+	
+	class RightAbsoluteAngleSource implements PIDSource {
+		PIDSourceType sourceType;
+
+		public RightAbsoluteAngleSource() {
+			setPIDSourceType(PIDSourceType.kDisplacement);
+		}
+
+		@Override
+		public void setPIDSourceType(PIDSourceType pidSource) {
+			sourceType = pidSource;
+		}
+
+		@Override
+		public PIDSourceType getPIDSourceType() {
+			return sourceType;
+		}
+
+		@Override
+		public double pidGet() {
+			return ((Robot.rightCounter.getRotations() * 4096) + Robot.rightAbsEnc.getValue()) - Robot.initRightEnc;
+		}		
+	}
+	
+	class LeftAbsoluteSideOut implements PIDOutput {
+		@Override
+		public void pidWrite(double output) {
+			leftOutput = output;
+		}
+	}
+	
+	class RightAbsoluteSideOut implements PIDOutput {
+		@Override
+		public void pidWrite(double output) {
+			rightOutput = output;
+		}
+	}
+	
 	// PID Output Class for the left side of the Tank Drive
 	class LeftTankSideOut implements PIDOutput {
 		@Override
@@ -226,6 +285,9 @@ public class TankDriveBase extends Subsystem {
 
 	double leftOut;
 	double rightOut;
+	
+	double leftOutput;
+	double rightOutput;
 
 	DriveControlState mDriveControlState;
 
@@ -239,10 +301,16 @@ public class TankDriveBase extends Subsystem {
 	// Creates Outputs and Sources for the left and right side PIDs
 	LeftTankSideSource leftPidSource;
 	RightTankSideSource rightPidSource;
+	public LeftAbsoluteAngleSource leftMPSource;
+	public RightAbsoluteAngleSource rightMPSource;
 	LeftTankSideOut leftSideOut;
 	RightTankSideOut rightSideOut;
+	public LeftAbsoluteSideOut leftMPOut;
+	public RightAbsoluteSideOut rightMPOut;
 	PIDController leftSideController;
 	PIDController rightSideController;
+	public PIDController leftMPController;
+	public PIDController rightMPController;
 
 	// Constructor to construct the TankDriveBase
 	public TankDriveBase() {
@@ -284,6 +352,30 @@ public class TankDriveBase extends Subsystem {
 				rightPidSource, rightSideOut);
 		rightSideController.setInputRange(0, 360);
 		rightSideController.setContinuous(false);
+		
+		leftMPSource = new LeftAbsoluteAngleSource();
+		leftMPOut = new LeftAbsoluteSideOut();
+		leftMPController = new PIDController(Constants.kTankSideP, Constants.kTankSideI, Constants.kTankSideD,
+				leftMPSource, leftMPOut);
+		leftMPController.setInputRange(-10000000, 10000000);
+		rightSideController.setContinuous(false);
+		
+		rightMPSource = new RightAbsoluteAngleSource();
+		rightMPOut = new RightAbsoluteSideOut();
+		rightMPController = new PIDController(Constants.kTankSideP, Constants.kTankSideI, Constants.kTankSideD,
+				rightMPSource, rightMPOut);
+		rightMPController.setInputRange(-10000000, 10000000);
+		rightSideController.setContinuous(false);
+	}
+	
+	public void setLeftMPPose(double value) {
+		leftMPController.setSetpoint(value);
+		setLeftSide(leftOutput);
+	}
+	
+	public void setRightMPPose(double value) {
+		rightMPController.setSetpoint(value);
+		setRightSide(rightOutput);
 	}
 
 	/**
@@ -302,7 +394,7 @@ public class TankDriveBase extends Subsystem {
 	 */
 	public void setLeftPose(double angle) {
 		leftSideController.setSetpoint(angle);
-		rightSideController.enable();
+		leftSideController.enable();
 
 		setLeftSide(leftOut);
 
@@ -427,19 +519,15 @@ public class TankDriveBase extends Subsystem {
                             			  Constants.kPathFollowingGoalPosTolerance,
                             			  Constants.kPathFollowingGoalVelTolerance, 
                             			  Constants.kPathStopSteeringDistance));
-            if (mPathFollower != null) {
-            	//SmartDashboard.putString("DB/String 1", "Hsdfggr");
-        	}
+            
             mDriveControlState = DriveControlState.PATH_FOLLOWING;
             mCurrentPath = path;
-
-            //SmartDashboard.putString("DB/String 1", "Hsdfggr");
         } else {
             setVelocitySetpoint(0, 0); //This method takes the movements and sends them to encoders
-            //SmartDashboard.putString("DB/String 1", "Firetdty");
+            
         }
         if (mDriveControlState == DriveControlState.PATH_FOLLOWING) {
-        	SmartDashboard.putString("DB/String 6", "dfgb");
+        	
     	}
     }
     
@@ -453,6 +541,7 @@ public class TankDriveBase extends Subsystem {
         //This command is that command that takes a path
         Twist2d command = mPathFollower.update(timestamp, robot_pose,
                 RobotState.getInstance().getDistanceDriven(), RobotState.getInstance().getPredictedVelocity().dx);
+        
         if (!mPathFollower.isFinished()) {
             Kinematics.DriveVelocity setpoint = Kinematics.inverseKinematics(command);
             updateVelocitySetpoint(setpoint.left, setpoint.right);
@@ -468,21 +557,27 @@ public class TankDriveBase extends Subsystem {
      * @param left_inches_per_sec
      * @param right_inches_per_sec
      */
-	private synchronized void updateVelocitySetpoint(double left_inches_per_sec, double right_inches_per_sec) {
+    private synchronized void updateVelocitySetpoint(double left_inches_per_sec, double right_inches_per_sec) {
 		if (usesTalonVelocityControl(mDriveControlState)) {
+			
 			final double max_desired = Math.max(Math.abs(left_inches_per_sec), Math.abs(right_inches_per_sec));
 			final double scale = max_desired > Constants.kDriveHighGearMaxSetpoint
 					? Constants.kDriveHighGearMaxSetpoint / max_desired : 1.0;
-			Robot.tankDrive.tankDrive(left_inches_per_sec, right_inches_per_sec);
+//			Robot.tankDrive.tankDrive(left_inches_per_sec, right_inches_per_sec);
 			//rightMaster.set(ControlMode.Velocity, inchesPerSecondToRpm(right_inches_per_sec * scale));
 			//rightMaster.set(ControlMode.PercentOutput, -5);
 			//Robot.tankDrive.isExisting();
+			Robot.leftPos.update(right_inches_per_sec * scale);
+			Robot.rightPos.update(right_inches_per_sec * scale);
+			
 			iterator7++;
 			SmartDashboard.putString("DB/String 9", "" + left_inches_per_sec);
 		} else {
 			System.out.println("Hit a bad velocity control state");
-			leftMaster.set(ControlMode.Velocity, 0);
-			rightMaster.set(ControlMode.Velocity, 0);
+//			leftMaster.set(ControlMode.Velocity, 0);
+//			rightMaster.set(ControlMode.Velocity, 0);
+			Robot.leftPos.update(0);
+			Robot.rightPos.update(0);
 		}
 	}
 

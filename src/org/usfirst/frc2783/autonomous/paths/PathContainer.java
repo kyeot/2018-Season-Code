@@ -13,4 +13,6 @@ public interface PathContainer {
     RigidTransform2d getStartPose();
 
     boolean isReversed();
+    
+    String toString();
 }

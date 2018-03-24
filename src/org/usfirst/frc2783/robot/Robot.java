@@ -16,6 +16,7 @@ import org.usfirst.frc2783.autonomous.actions.groups.SwitchFromRight;
 import org.usfirst.frc2783.autonomous.actions.groups.TestAuto;
 import org.usfirst.frc2783.autonomous.actions.groups.TwoScaleFromLeft;
 import org.usfirst.frc2783.autonomous.actions.groups.WaypointTest;
+import org.usfirst.frc2783.loops.CountPosition;
 import org.usfirst.frc2783.loops.ElevatorEncoderCounter;
 import org.usfirst.frc2783.loops.LeftEncoderCounter;
 import org.usfirst.frc2783.loops.LogData;
@@ -120,6 +121,10 @@ public class Robot extends IterativeRobot {
 	public static LeftEncoderCounter leftCounter = new LeftEncoderCounter();
 	public static RightEncoderCounter rightCounter = new RightEncoderCounter();
 	public static ElevatorEncoderCounter elEncCounter = new ElevatorEncoderCounter();
+	
+	//Creates loops for autonomous encoder desired positions
+	public static CountPosition leftPos = new CountPosition();
+	public static CountPosition rightPos = new CountPosition();
 
 	// Creates Elevator Encoder set Position Variables
 	public static EncoderPosition groundPos = new EncoderPosition(1, elEncCounter.getEncoderStartPos());
@@ -134,6 +139,9 @@ public class Robot extends IterativeRobot {
 	// Creates Instances of Vision Classes for Communicating with the phone
 	public static FieldTransform fieldTransform = FieldTransform.getInstance();
 	VisionServer mVisionServer = VisionServer.getInstance();
+	
+	public static double initLeftEnc = (Robot.leftCounter.getRotations() * 4096) + Robot.leftAbsEnc.getValue();;
+	public static double initRightEnc = (Robot.rightCounter.getRotations() * 4096) + Robot.rightAbsEnc.getValue();;
 
 	public void robotInit() {
 		oi = new OI();
@@ -162,6 +170,8 @@ public class Robot extends IterativeRobot {
 		looper.addLoop(leftCounter);
 		looper.addLoop(rightCounter);
 		looper.addLoop(elEncCounter);
+		looper.addLoop(leftPos);
+		looper.addLoop(rightPos);
 		looper.addLoop(tankDrive.registerEnabledLoops());
 		Logger.info("Starting Loops");
 		// Starts the main looper
