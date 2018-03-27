@@ -45,7 +45,7 @@ public class SwitchFromRight extends ActionGroup {
 			}
 			else{
 				if(!Robot.isSwitchesLeft()){		
-					addAction(new AutoElevator(0.5, 0.5));
+					addAction(new AutoElevator(-0.5, 0.5));
 					addAction(new DriveWithGyroAndByDistance(0.5, 12.5*12, 12.5*12, 0));
 					addAction(new RotateTankAction(new Bearing(90), 1));
 					addAction(new AutoIntake(-0.5, 0.5));
@@ -54,15 +54,15 @@ public class SwitchFromRight extends ActionGroup {
 					addAction(new AutoIntake(1, 1));
 				}
 				else{
-					addAction(new AutoElevator(0.5, 0.5));
+					addAction(new AutoElevator(-0.75, 0.5));
 					addAction(new DriveWithGyroAndByDistance(0.5, 18.8*12, 18.8*12, 0));
-					addAction(new RotateTankAction(new Bearing(85), 1));
-					addAction(new DriveWithGyroAndByDistance(0.5, 38.6*12, 38.6*12, 85));
+					addAction(new RotateTankAction(new Bearing(86), 1));
+					addAction(new DriveWithGyroAndByDistance(0.55, 38.5*12, 38.5*12, 86));
 					addAction(new RotateTankAction(new Bearing(180), 1));
 					addAction(new AutoDrive(0.5, 0.5, 1));
 					addAction(new RotateTankAction(new Bearing(270), 1));
 					addAction(new ParallelAction(Arrays.asList(new Action[]  {
-						new AutoElevator(-1, 1.5),
+						new AutoElevator(-1, 1),
 						new AutoDrive(0.4, 0.3, 1),
 					})));
 					addAction(new AutoIntake(1, 1));}

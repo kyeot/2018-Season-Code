@@ -19,24 +19,26 @@ public class ScaleFromLeft extends ActionGroup{
 		
 		try{
 			if(Robot.isScaleLeft()){
-				addAction(new AutoElevator(-0.5, 0.5));
+				addAction(new AutoElevator(-0.8, 0.5));
 				addAction(new DriveWithGyroAndByDistance(0.65, 25*12, 25*12, 0));
 				addAction(new RotateTankAction(new Bearing(270), 1));
-				addAction(new AutoElevator(-0.5, 0.5));
+				addAction(new AutoElevator(-0.8, 0.5));
 				addAction(new AutoDrive(-0.25, -0.25, 1.2));
 				addAction(new GoToTopAction());
 				addAction(new AutoDrive(0.25, 0.25, 1.6));
-				addAction(new AutoIntake(0.75, 1));
+				addAction(new AutoIntake(0.5, 1));
+				addAction(new AutoDrive(-0.2, -0.2, 1.2));
 			}
 			else{
 				addAction(new AutoElevator(-0.5, 0.5));
 				addAction(new DriveWithGyroAndByDistance(0.5, 18.8*12, 18.8*12, 0));
-				addAction(new RotateTankAction(new Bearing(275), 1));
-				addAction(new DriveWithGyroAndByDistance(0.5, 36.5*12, 36.5*12, 275));
-				addAction(new RotateTankAction(new Bearing(0), 1));
+				addAction(new RotateTankAction(new Bearing(274), 1));
+				addAction(new DriveWithGyroAndByDistance(0.5, 36*12, 36*12, 274));
+				addAction(new RotateTankAction(new Bearing(5), 1));
 				addAction(new GoToTopAction());
-				addAction(new AutoDrive(0.35, 0.5, 1.5));
+				addAction(new AutoDrive(0.35, 0.57, 1));
 				addAction(new AutoIntake(0.75, 1));
+				addAction(new AutoDrive(-0.2, -0.2, 1.2));
 			}
 			
 		}
