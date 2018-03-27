@@ -29,22 +29,22 @@ public class SwitchFromLeft extends ActionGroup{
 					addAction(new AutoIntake(-0.5, 0.5));
 					addAction(new AutoElevator(-1, 1)); 
 					addAction(new AutoDrive(0.25, 0.25, 1));
-					addAction(new AutoIntake(1, 1));
+					addAction(new AutoIntake(0.75, 1));
 				}
 				
 				else{
 					addAction(new AutoElevator(-0.75, 0.5));
-					addAction(new DriveWithGyroAndByDistance(0.5, 18.8*12, 18.8*12, 0));
+					addAction(new DriveWithGyroAndByDistance(0.5, 18.78*12, 18.78*12, 0));
 					addAction(new RotateTankAction(new Bearing(274), 1));
 					addAction(new DriveWithGyroAndByDistance(0.55, 38.5*12, 38.5*12, 274));
 					addAction(new RotateTankAction(new Bearing(180), 1));
 					addAction(new AutoDrive(0.5, 0.5, 1));
-					addAction(new RotateTankAction(new Bearing(90), 1));
+					addAction(new RotateTankAction(new Bearing(80), 1));
 					addAction(new ParallelAction(Arrays.asList(new Action[]  {
 						new AutoElevator(-1, 1),
 						new AutoDrive(0.4, 0.3, 1),
 					})));
-					addAction(new AutoIntake(1, 1));
+					addAction(new AutoIntake(0.75, 1));
 				}
 			}
 			else{
@@ -55,7 +55,7 @@ public class SwitchFromLeft extends ActionGroup{
 					addAction(new AutoIntake(-0.5, 0.5));
 					addAction(new AutoElevator(-1, 1)); 
 					addAction(new AutoDrive(0.25, 0.25, 1));
-					addAction(new AutoIntake(1, 1));
+					addAction(new AutoIntake(0.75, 1));
 				}
 				else{
 					addAction(new AutoElevator(-0.5, 0.5));

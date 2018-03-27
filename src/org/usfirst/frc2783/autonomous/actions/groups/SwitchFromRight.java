@@ -30,7 +30,7 @@ public class SwitchFromRight extends ActionGroup {
 					addAction(new AutoIntake(-0.5, 0.5));
 					addAction(new AutoElevator(-1, 1)); 
 					addAction(new AutoDrive(0.25, 0.25, 1));
-					addAction(new AutoIntake(1, 1));
+					addAction(new AutoIntake(0.75, 1));
 				}
 				else{
 					addAction(new AutoElevator(-0.5, 0.5));
@@ -51,7 +51,7 @@ public class SwitchFromRight extends ActionGroup {
 					addAction(new AutoIntake(-0.5, 0.5));
 					addAction(new AutoElevator(-1, 1)); 
 					addAction(new AutoDrive(0.25, 0.25, 1));
-					addAction(new AutoIntake(1, 1));
+					addAction(new AutoIntake(0.75, 1));
 				}
 				else{
 					addAction(new AutoElevator(-0.75, 0.5));
@@ -60,12 +60,12 @@ public class SwitchFromRight extends ActionGroup {
 					addAction(new DriveWithGyroAndByDistance(0.55, 38.5*12, 38.5*12, 86));
 					addAction(new RotateTankAction(new Bearing(180), 1));
 					addAction(new AutoDrive(0.5, 0.5, 1));
-					addAction(new RotateTankAction(new Bearing(270), 1));
+					addAction(new RotateTankAction(new Bearing(280), 1));
 					addAction(new ParallelAction(Arrays.asList(new Action[]  {
 						new AutoElevator(-1, 1),
 						new AutoDrive(0.4, 0.3, 1),
 					})));
-					addAction(new AutoIntake(1, 1));}
+					addAction(new AutoIntake(0.75, 1));}
 			}
 			
 		}
