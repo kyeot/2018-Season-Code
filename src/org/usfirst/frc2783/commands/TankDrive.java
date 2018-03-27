@@ -163,10 +163,10 @@ public class TankDrive extends Command {
 //		} 
 		
 		
-		if(OI.driver.getRawButton(1) == true && lastButton1State == false) {
+		if(OI.driver.getRawButton(10) == true && lastButton1State == false) {
 			reverseButton1Toggle = toggleInput(reverseButton1Toggle);
 			lastButton1State = true;
-		} else if (OI.driver.getRawButton(1) == false) {
+		} else if (OI.driver.getRawButton(10) == false) {
 			lastButton1State = false;
 		}
 		

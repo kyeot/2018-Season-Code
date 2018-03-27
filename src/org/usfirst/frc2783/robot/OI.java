@@ -19,6 +19,8 @@ import org.usfirst.frc2783.commands.GoToTopSimple;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.buttons.Trigger;
+import edu.wpi.first.wpilibj.command.Command;
 
 /**
  * 
@@ -43,22 +45,15 @@ public class OI {
 	public static JoystickButton faceLeft = new JoystickButton(driver, Constants.kFaceLeft);
 	public static JoystickButton faceRight = new JoystickButton(driver, Constants.kFaceRight);
 	
-/*	public static Joystick dpad = new Joystick(3);
-	public static Button button1 = new JoystickButton(dpad, 1),
-						button2 = new JoystickButton(dpad, 2),
-						button3 = new JoystickButton(dpad, 3),
-						button4 = new JoystickButton(dpad, 4),
-						button5 = new JoystickButton(dpad, 5),
-						button6 = new JoystickButton(dpad, 6),
-						button7 = new JoystickButton(dpad, 7),
-						button8 = new JoystickButton(dpad, 8);
-	
-*/	
-
+//	public static JoystickButton faceNorth = new JoystickButton(driver, Constants.POVup);
+//	public static JoystickButton faceSouth = new JoystickButton(driver, Constants.POVdown);
+//	public static JoystickButton faceWest = new JoystickButton(driver, Constants.POVleft);
+//	public static JoystickButton faceEast = new JoystickButton(driver, Constants.POVright);
 
 //	public static JoystickButton elevatorToGround = new JoystickButton(manipulator, Constants.kElevatorToGroundID);
 //	public static JoystickButton elevatorToSwitch = new JoystickButton(manipulator, Constants.kElevatorToSwitchID);
 //	public static JoystickButton elevatorToScale = new JoystickButton(manipulator, Constants.kElevatorToScaleID);
+	
 
     public OI() {
     	
@@ -67,20 +62,28 @@ public class OI {
     	
     	elevatorUpSimple.whenPressed(new GoToTopSimple());
     	
+  /*   if(driver.getPOV() == 0) {
+      Trigger.FaceNorth().start();
+    	} 
+   	
+    	else if(driver.getPOV() == 180) {
+    		new FaceSouth().start();;
+    	} 
+    	
+    	else if(driver.getPOV() == 270) {
+    		new FaceEast().start();;
+    	} 
+    	
+    	else if(driver.getPOV() == 90) {
+    		new FaceWest().start();;
+    	}
+       
+   	*/
     	faceDownField.whileHeld(new FaceDownField());
     	faceDriverStation.whileHeld(new FaceDriverStation());
     	faceLeft.whileHeld(new FaceLeft());
     	faceRight.whileHeld(new FaceRight());
-   
-/*    	button1.whileHeld(new FaceNorth());
-		button2.whileHeld(new FaceNorthEast());
-		button3.whileHeld(new FaceEast());
-		button4.whileHeld(new FaceSouthEast());
-		button5.whileHeld(new FaceSouth());
-		button6.whileHeld(new FaceSouthWest());
-		button7.whileHeld(new FaceWest());
-		button8.whileHeld(new FaceNorthWest());
-*/	
+
     	
 //    	elevatorToGround.whenPressed(new GoToElevatorPosition(Robot.groundPos.getRotations(), Robot.groundPos.getDegrees()));
 //    	elevatorToSwitch.whenPressed(new GoToElevatorPosition(Robot.switchPos.getRotations(), Robot.switchPos.getDegrees()));
@@ -88,5 +91,9 @@ public class OI {
 
     	
     }
+
+	public static Command FaceNorth() {
+		return null;
+	}
 
 }
