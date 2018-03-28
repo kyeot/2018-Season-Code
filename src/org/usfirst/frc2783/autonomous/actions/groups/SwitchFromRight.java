@@ -55,17 +55,16 @@ public class SwitchFromRight extends ActionGroup {
 				}
 				else{
 					addAction(new AutoElevator(-0.75, 0.5));
-					addAction(new DriveWithGyroAndByDistance(0.5, 18.8*12, 18.8*12, 0));
-					addAction(new RotateTankAction(new Bearing(86), 1));
-					addAction(new DriveWithGyroAndByDistance(0.55, 38.5*12, 38.5*12, 86));
-					addAction(new RotateTankAction(new Bearing(180), 1));
+					addAction(new DriveWithGyroAndByDistance(0.5, 18.75*12, 18.75*12, 0));
+					addAction(new RotateTankAction(new Bearing(90), 1));
+					addAction(new DriveWithGyroAndByDistance(0.55, 37.5*12, 37.5*12, 84));
+					addAction(new RotateTankAction(new Bearing(185), 1));
 					addAction(new AutoDrive(0.5, 0.5, 1));
 					addAction(new RotateTankAction(new Bearing(280), 1));
-					addAction(new ParallelAction(Arrays.asList(new Action[]  {
-						new AutoElevator(-1, 1),
-						new AutoDrive(0.4, 0.3, 1),
-					})));
-					addAction(new AutoIntake(0.75, 1));}
+					addAction(new AutoElevator(-1, 0.75));
+					addAction(new AutoDrive(0.3, 0.4, 1));
+					addAction(new AutoIntake(0.75, 1));
+					}
 			}
 			
 		}
