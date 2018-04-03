@@ -47,12 +47,12 @@ public class LogData implements Loop{
 	};
 
 	@Override
-	public void onStart() {
+	public void onStart(double timestamp) {
 		
 	}
 
 	@Override
-	public void onLoop() {
+	public void onLoop(double timestamp) {
 		batteryHandler.handleEvent();
 		dcHandler.handleEvent();
 		recHandler.handleEvent();
@@ -60,13 +60,7 @@ public class LogData implements Loop{
 	}
 
 	@Override
-	public void onStop() {
-		
-	}
-
-	@Override
-	public void onLoop(double timestamp) {
-		// TODO Auto-generated method stub
+	public void onStop(double timestamp) {
 		
 	}
 

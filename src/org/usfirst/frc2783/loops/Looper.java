@@ -25,7 +25,7 @@ public class Looper {
 		@Override
 		public void runCrashTracked() {
 			for(Loop l : loops) {
-				l.onLoop();
+				//l.onLoop()
 				l.onLoop(200);
 			}
 		}
@@ -47,7 +47,8 @@ public class Looper {
 	
 	public void startLoops() {
 		for(Loop l : loops) {
-			l.onStart();
+			//l.onStart();
+			l.onStart(200);
 		}
 		notifier.startPeriodic(period);
 		
@@ -60,7 +61,8 @@ public class Looper {
 	public void stopLoops() {
 		notifier.stop();
 		for(Loop l : loops) {
-			l.onStop();
+			//l.onStop();
+			l.onStop(200);
 		}
 	}
 	

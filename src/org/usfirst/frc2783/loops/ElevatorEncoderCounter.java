@@ -22,7 +22,7 @@ public class ElevatorEncoderCounter implements Loop{
 	boolean wasForward;
 	
 	@Override
-	public void onStart() {
+	public void onStart(double timestamp) {
 		
 		wasForward = true;
 		
@@ -40,7 +40,7 @@ public class ElevatorEncoderCounter implements Loop{
 	}
 
 	@Override
-	public void onLoop() {
+	public void onLoop(double timestamp) {
 
     	if(ElevatorBase.elevator1Mot.getMotorOutputPercent() > 0){
     		Robot.isElevatorForward = true;
@@ -75,13 +75,7 @@ public class ElevatorEncoderCounter implements Loop{
 	}
 
 	@Override
-	public void onStop() {
-	}
-
-	@Override
-	public void onLoop(double timestamp) {
-		// TODO Auto-generated method stub
-		
+	public void onStop(double timestamp) {
 	}
 	
 	public double getRotations(){

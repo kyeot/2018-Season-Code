@@ -28,11 +28,11 @@ public class VisionProcessor implements Loop, VisionUpdateReceiver {
     }
 
     @Override
-    public void onStart() {
+    public void onStart(double timestamp) {
     }
 
     @Override
-    public void onLoop() {
+    public void onLoop(double timestamp) {
         VisionUpdate update;
         synchronized (this) {
             if (update_ == null) {
@@ -54,7 +54,7 @@ public class VisionProcessor implements Loop, VisionUpdateReceiver {
     }
 
     @Override
-    public void onStop() {
+    public void onStop(double timestamp) {
         // no-op
     }
 
@@ -62,11 +62,5 @@ public class VisionProcessor implements Loop, VisionUpdateReceiver {
     public synchronized void gotUpdate(VisionUpdate update) {
         update_ = update;
     }
-
-	@Override
-	public void onLoop(double timestamp) {
-		// TODO Auto-generated method stub
-		
-	}
 
 }

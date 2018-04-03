@@ -23,7 +23,7 @@ public class Constants {
 	
 	//Servo IDs (plugged into PWM ports)
 	public static final int kElevatorShifterID = 0;
-
+	
 	//Joystick IDs
 	public static final int kDriverControllerId = 0;
 	public static final int kManipulatorControllerId = 1;
@@ -50,6 +50,8 @@ public class Constants {
 	public static final int kVisionTestID = 1;
 	
 	public static final int kGyroResetID = 4;
+	
+	public static final double kMaxSpeed = 129.0;
 	
 	//PID values for tank rotation to angle
 	public static final double kTankPoseP = 0.007;

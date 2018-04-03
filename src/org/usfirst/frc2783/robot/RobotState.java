@@ -1,17 +1,13 @@
 package org.usfirst.frc2783.robot;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-
 import org.usfirst.frc2783.calculation.RigidTransform2d;
 import org.usfirst.frc2783.calculation.Rotation2d;
 import org.usfirst.frc2783.calculation.Translation2d;
 import org.usfirst.frc2783.calculation.Twist2d;
 import org.usfirst.frc2783.util.InterpolatingDouble;
 import org.usfirst.frc2783.util.InterpolatingTreeMap;
-import org.usfirst.frc2783.vision.TargetInfo;
+import org.usfirst.frc2783.robot.Kinematics;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -54,6 +50,12 @@ public class RobotState {
             new Translation2d(Constants.kCameraXOffset, Constants.kCameraYOffset), new Rotation2d());
 
     // FPGATimestamp -> RigidTransform2d or Rotation2d
+    /*
+     * This is the variable that stores a time (InterpolatingDouble) with a location (RigidTransform2d).
+     * This allows to store data of the robot movement. This is possibly used for feedback, for the robot
+     * knows its location and where it wants to go. This InterpolatingTreeMap here is then compared to
+     * the wanted state of the robot and thus the robot adjusts itself accordingly.
+     */
     private InterpolatingTreeMap<InterpolatingDouble, RigidTransform2d> field_to_vehicle_;
     private Twist2d vehicle_velocity_predicted_;
     private Twist2d vehicle_velocity_measured_;
@@ -106,13 +108,12 @@ public class RobotState {
         field_to_vehicle_.put(new InterpolatingDouble(timestamp), observation);
     }
 
-    public synchronized void addObservations(double timestamp, Twist2d measured_velocity,
-            Twist2d predicted_velocity) {
-        addFieldToVehicleObservation(timestamp,
-                Kinematics.integrateForwardKinematics(getLatestFieldToVehicle().getValue(), measured_velocity));
+    public synchronized void addObservations(double timestamp, Twist2d measured_velocity, Twist2d predicted_velocity) {
+    	addFieldToVehicleObservation(timestamp, Kinematics.integrateForwardKinematics(getLatestFieldToVehicle().getValue(), measured_velocity));
         vehicle_velocity_measured_ = measured_velocity;
         vehicle_velocity_predicted_ = predicted_velocity;
     }
+    
     public synchronized Twist2d generateOdometryFromSensors(double left_encoder_delta_distance,
     														double right_encoder_delta_distance,
     														Rotation2d current_gyro_angle) {

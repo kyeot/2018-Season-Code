@@ -1,6 +1,7 @@
 package org.usfirst.frc2783.loops;
 
 import org.usfirst.frc2783.robot.Robot;
+import org.usfirst.frc2783.util.Conversion;
 
 public class LeftEncoderCounter implements Loop{
 	
@@ -19,7 +20,8 @@ public class LeftEncoderCounter implements Loop{
 	boolean wasForward;
 	
 	@Override
-	public void onStart() {
+	public void onStart(double timestamp) {
+		
 		
 		wasForward = true;
 		
@@ -36,8 +38,8 @@ public class LeftEncoderCounter implements Loop{
 	}
 
 	@Override
-	public void onLoop() {
-
+	public void onLoop(double timestamp) {
+		
     	if(Robot.tankDrive.leftMaster.getMotorOutputPercent() > 0.1){
     		Robot.isLeftForward = false;
     	}
@@ -52,12 +54,14 @@ public class LeftEncoderCounter implements Loop{
 			if(Robot.isLeftForward){
 				if(leftEncVal < leftEncoderLastVal){
 					leftRotationCounter--;
+					leftRotationCounter -= ((leftEncVal / 4096.0) * 100);
 				}
 			}
 		
 			else{
 				if(leftEncVal > leftEncoderLastVal){
 					leftRotationCounter++;
+					leftRotationCounter += ((leftEncVal / 4096.0) * 100);
 				}
 			}
 		}
@@ -75,17 +79,17 @@ public class LeftEncoderCounter implements Loop{
 	}
 
 	@Override
-	public void onStop() {
-	}
-
-	@Override
-	public void onLoop(double timestamp) {
-		// TODO Auto-generated method stub
+	public void onStop(double timestamp) {
 		
 	}
 	
 	public double getRotations(){
 		return leftRotationCounter;
+	}
+	
+	public double getInchPerSec() {
+		double outputPercent = Robot.tankDrive.leftMaster.getMotorOutputPercent();
+		return Conversion.outputPercentToVelocity(outputPercent);
 	}
 
 }

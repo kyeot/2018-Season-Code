@@ -16,22 +16,16 @@ public class CountPosition implements Loop{
 	}
 
 	@Override
-	public void onStart() {
+	public void onStart(double timestamp) {
 		
 	}
 
 	@Override
-	public void onStop() {
+	public void onStop(double timestamp) {
 	
 	}
-
 	@Override
 	public void onLoop(double timestamp) {
-		
-	}
-
-	@Override
-	public void onLoop() {
 		position += 4096 * ((v / 200) / (6 * Math.PI));
 	}
 }

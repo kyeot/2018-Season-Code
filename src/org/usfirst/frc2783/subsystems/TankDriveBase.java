@@ -13,6 +13,7 @@ import org.usfirst.frc2783.robot.Kinematics;
 import org.usfirst.frc2783.robot.Robot;
 import org.usfirst.frc2783.robot.RobotState;
 import org.usfirst.frc2783.util.Bearing;
+import org.usfirst.frc2783.util.Conversion;
 import org.usfirst.frc2783.util.GyroSource;
 import org.usfirst.frc2783.util.NavSensor;
 
@@ -60,10 +61,10 @@ public class TankDriveBase extends Subsystem {
 		return false;
 	}
 
-	private final Loop mLoop = new Loop() {
+	private final Loop motionProfilingLoop = new Loop() {
 
 		@Override
-		public void onStart() {
+		public void onStart(double timestamp) {
 			synchronized (TankDriveBase.this) {
 
 				setBrakeMode(true);
@@ -73,17 +74,17 @@ public class TankDriveBase extends Subsystem {
 		}
 
 
-		int iteration = 0;
-		int iteration1 = 0;
-		int iteration2 = 0;
-		int iteration3 = 0;
-		int iteration4 = 0;
-		int iteration5 = 0;
-		int iteration6 = 0;
+		//int iteration = 0;
+		//int iteration1 = 0;
+		//int iteration2 = 0;
+		//int iteration3 = 0;
+		//int iteration4 = 0;
+		//int iteration5 = 0;
+		//int iteration6 = 0;
 
 		@Override
 		public void onLoop(double timestamp) {
-			iteration++;
+			//iteration++;
 
 			//isExisting();
 			// SmartDashboard.putString("DB/String 1", "sewfsgdtrdt");
@@ -91,25 +92,25 @@ public class TankDriveBase extends Subsystem {
 				//iteration++;
 				switch (mDriveControlState) {
 				case OPEN_LOOP:
-					iteration1++;
+					//iteration1++;
 					return;
 				case VELOCITY_SETPOINT:
-					iteration2++;
+					//iteration2++;
 					return;
 				case PATH_FOLLOWING:
-					iteration3++;
+					///iteration3++;
 					//isExisting();
 					if (mPathFollower != null) {
 						updatePathFollower(timestamp);
-						iteration4++;
+						//iteration4++;
 						}
 					return;
 				// fallthrough intended
 				case TURN_TO_HEADING:
-					iteration5++;
+					//iteration5++;
 					return;
 				default:
-					iteration6++;
+					//iteration6++;
 					break;
 				}
 			}
@@ -118,19 +119,14 @@ public class TankDriveBase extends Subsystem {
 
 			//SmartDashboard.putString("DB/String 1", "sewfsgdtrdt");
 		@Override
-		public void onStop() {
-			// TODO Auto-generated method stub
+		public void onStop(double timestamp) {
+			
 
-		}
-
-		@Override
-		public void onLoop() {
-			iteration6++;
 		}
 	};
 
 	public Loop registerEnabledLoops() {
-		return mLoop;
+		return motionProfilingLoop;
 	}
 
 	// PID Source Class for the right side of the Tank Drive
@@ -485,6 +481,13 @@ public class TankDriveBase extends Subsystem {
 	 */
 	int iterator7;
 	
+	public double getLeftDistanceInches() {
+        return Conversion.rotationsToInches(Robot.leftCounter.getRotations());
+    }
+
+    public double getRightDistanceInches() {
+        return Conversion.rotationsToInches(Robot.rightCounter.getRotations());
+    }
 
 	/**
 
@@ -561,15 +564,9 @@ public class TankDriveBase extends Subsystem {
 		if (usesTalonVelocityControl(mDriveControlState)) {
 			
 			final double max_desired = Math.max(Math.abs(left_inches_per_sec), Math.abs(right_inches_per_sec));
-			final double scale = max_desired > Constants.kDriveHighGearMaxSetpoint
-					? Constants.kDriveHighGearMaxSetpoint / max_desired : 1.0;
-//			Robot.tankDrive.tankDrive(left_inches_per_sec, right_inches_per_sec);
-			//rightMaster.set(ControlMode.Velocity, inchesPerSecondToRpm(right_inches_per_sec * scale));
-			//rightMaster.set(ControlMode.PercentOutput, -5);
-			//Robot.tankDrive.isExisting();
-			Robot.leftPos.update(right_inches_per_sec * scale);
-			Robot.rightPos.update(right_inches_per_sec * scale);
-			
+			final double scale = max_desired > Constants.kDriveHighGearMaxSetpoint ? Constants.kDriveHighGearMaxSetpoint / max_desired : 1.0;
+			leftMaster.set(ControlMode.PercentOutput, velocityToPercentOutput(right_inches_per_sec * scale));
+			rightMaster.set(ControlMode.PercentOutput, velocityToPercentOutput(right_inches_per_sec * scale));
 			iterator7++;
 			SmartDashboard.putString("DB/String 9", "" + left_inches_per_sec);
 		} else {
@@ -591,23 +588,15 @@ public class TankDriveBase extends Subsystem {
 	@SuppressWarnings("unused")
 	private synchronized void updatePositionSetpoint(double left_position_inches, double right_position_inches) {
 		if (usesTalonPositionControl(mDriveControlState)) {
-			leftMaster.set(ControlMode.Position, inchesToRotations(left_position_inches));
-			rightMaster.set(ControlMode.Position, inchesToRotations(right_position_inches));
+			leftMaster.set(ControlMode.Position, Conversion.inchesToRotations(left_position_inches));
+			rightMaster.set(ControlMode.Position, Conversion.inchesToRotations(right_position_inches));
 		} else {
 			System.out.println("Hit a bad position control state");
 			leftMaster.set(ControlMode.Position, 0);
 			rightMaster.set(ControlMode.Position, 0);
 		}
 	}
-
-	private static double inchesPerSecondToRpm(double inches_per_second) {
-		return inchesToRotations(inches_per_second) * 60;
-	}
-
-	private static double inchesToRotations(double inches) {
-		return inches / (Constants.kWheelDiameterByInches * Math.PI);
-	}
-
+    
 	/**
 	 * Sets Brake Mode based on Boolean you pass in, true = brake
 	 */
@@ -626,7 +615,11 @@ public class TankDriveBase extends Subsystem {
 			leftSlave.setNeutralMode(NeutralMode.Coast);
 		}
 	}
-
+	
+	public double velocityToPercentOutput(double velocityInInchesPerSecond) {
+		return velocityInInchesPerSecond / Constants.kMaxSpeed;
+	}
+	
 	public synchronized boolean hasPassedMarker(String marker) {
 		if (mDriveControlState == DriveControlState.PATH_FOLLOWING && mPathFollower != null) {
 			return mPathFollower.hasPassedMarker(marker);

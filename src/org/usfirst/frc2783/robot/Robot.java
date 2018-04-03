@@ -23,6 +23,7 @@ import org.usfirst.frc2783.loops.LogData;
 import org.usfirst.frc2783.loops.Loop;
 import org.usfirst.frc2783.loops.Looper;
 import org.usfirst.frc2783.loops.RightEncoderCounter;
+import org.usfirst.frc2783.loops.RobotStateEstimator;
 import org.usfirst.frc2783.loops.VisionProcessor;
 import org.usfirst.frc2783.subsystems.ElevatorBase;
 import org.usfirst.frc2783.subsystems.IntakeBase;
@@ -37,7 +38,6 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.CameraServer;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -95,20 +95,16 @@ public class Robot extends IterativeRobot {
 	// Creates the simple loop used to log at a slow rate
 	private Loop slowLoopLogger = new Loop() {
 		@Override
-		public void onStart() {
-		}
-
-		@Override
-		public void onLoop() {
-			Logger.info("Your voltage is: " + RobotController.getInputVoltage());
-		}
-
-		@Override
-		public void onStop() {
+		public void onStart(double timestamp) {
 		}
 
 		@Override
 		public void onLoop(double timestamp) {
+			Logger.info("Your voltage is: " + RobotController.getInputVoltage());
+		}
+
+		@Override
+		public void onStop(double timestamp) {
 		}
 	};
 
@@ -135,7 +131,10 @@ public class Robot extends IterativeRobot {
 	public static String gameData;
 	public static String switchesVal;
 	public static String scaleVal;
-
+	
+	//Tracks location of robot
+	public static RobotStateEstimator rsEstimate = RobotStateEstimator.getInstance();
+	
 	// Creates Instances of Vision Classes for Communicating with the phone
 	public static FieldTransform fieldTransform = FieldTransform.getInstance();
 	VisionServer mVisionServer = VisionServer.getInstance();
@@ -172,6 +171,7 @@ public class Robot extends IterativeRobot {
 		looper.addLoop(elEncCounter);
 		looper.addLoop(leftPos);
 		looper.addLoop(rightPos);
+		looper.addLoop(rsEstimate);
 		looper.addLoop(tankDrive.registerEnabledLoops());
 		Logger.info("Starting Loops");
 		// Starts the main looper

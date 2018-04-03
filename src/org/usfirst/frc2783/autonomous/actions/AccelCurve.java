@@ -62,7 +62,7 @@ public class AccelCurve extends Action {
 	}
 	
 	public double arcLength(Setpoint sOne, Setpoint sTwo, Setpoint sThree, double limda) {
-		
+		return -1;
 	}
 
 	public double linDistance(double xOne, double yOne, double xTwo, double yTwo) {

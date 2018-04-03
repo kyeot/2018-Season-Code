@@ -9,7 +9,7 @@ import org.usfirst.frc2783.util.Timer;
  * you will need to override the "done" method and manually have it return true.
  *
  */
-public class Action {
+public abstract class Action {
 	
 	String id;
 	

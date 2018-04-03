@@ -31,6 +31,8 @@ public class ParallelAction extends Action {
         for (Action action : actions) {
             if (!action.done()) {
                 all_finished = false;
+            } else {
+            	action.finish();
             }
         }
         return all_finished;

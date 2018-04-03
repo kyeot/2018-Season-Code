@@ -8,11 +8,9 @@ package org.usfirst.frc2783.loops;
 
 public interface Loop {
 	
-	public void onStart();
+	public void onStart(double timestamp);
 	
-	public void onLoop();
-	
-	public void onStop();
+	public void onStop(double timestamp);
 
 	public void onLoop(double timestamp);
 
