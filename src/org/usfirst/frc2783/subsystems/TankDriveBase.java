@@ -74,17 +74,18 @@ public class TankDriveBase extends Subsystem {
 		}
 
 
-		//int iteration = 0;
-		//int iteration1 = 0;
-		//int iteration2 = 0;
-		//int iteration3 = 0;
-		//int iteration4 = 0;
-		//int iteration5 = 0;
-		//int iteration6 = 0;
+//		@SuppressWarnings("unused")
+//		int iteration = 0;@SuppressWarnings("unused")
+//		int iteration1 = 0;@SuppressWarnings("unused")
+//		int iteration2 = 0;@SuppressWarnings("unused")
+//		int iteration3 = 0;@SuppressWarnings("unused")
+//		int iteration4 = 0;@SuppressWarnings("unused")
+//		int iteration5 = 0;@SuppressWarnings("unused")
+//		int iteration6 = 0;
 
 		@Override
 		public void onLoop(double timestamp) {
-			//iteration++;
+//			iteration++;
 
 			//isExisting();
 			// SmartDashboard.putString("DB/String 1", "sewfsgdtrdt");
@@ -92,25 +93,24 @@ public class TankDriveBase extends Subsystem {
 				//iteration++;
 				switch (mDriveControlState) {
 				case OPEN_LOOP:
-					//iteration1++;
+//					iteration1++;
 					return;
 				case VELOCITY_SETPOINT:
-					//iteration2++;
+//					iteration2++;
 					return;
 				case PATH_FOLLOWING:
-					///iteration3++;
+//					iteration3++;
 					//isExisting();
 					if (mPathFollower != null) {
 						updatePathFollower(timestamp);
-						//iteration4++;
 						}
 					return;
 				// fallthrough intended
 				case TURN_TO_HEADING:
-					//iteration5++;
+//					iteration5++;
 					return;
 				default:
-					//iteration6++;
+//					iteration6++;
 					break;
 				}
 			}
@@ -275,7 +275,7 @@ public class TankDriveBase extends Subsystem {
 	// Instantiates gyro as an instance of NavSensor
 	NavSensor gyro = NavSensor.getInstance();
 
-	RobotState mRobotState;
+	RobotState mRobotState = RobotState.getInstance();
 
 	double rot;
 
@@ -463,17 +463,7 @@ public class TankDriveBase extends Subsystem {
 		//if (mPathFollower != null) {
 			//SmartDashboard.putString("DB/String 8", mPathFollower.toString());
 		//}
-	public boolean isExisting() {
-		
-		if (mPathFollower != null) {
-			SmartDashboard.putString("DB/String 8", "It exists here!");
-			return true;
-		} else {
-			SmartDashboard.putString("DB/String 8", "It doesn't exists here!");
-			return false;
-		}
-		
-	}
+
 	/**
 	 * Called periodically when the robot is in path following mode. Updates the
 	 * path follower with the robots latest pose, distance driven, and velocity,
@@ -529,9 +519,6 @@ public class TankDriveBase extends Subsystem {
             setVelocitySetpoint(0, 0); //This method takes the movements and sends them to encoders
             
         }
-        if (mDriveControlState == DriveControlState.PATH_FOLLOWING) {
-        	
-    	}
     }
     
     /**

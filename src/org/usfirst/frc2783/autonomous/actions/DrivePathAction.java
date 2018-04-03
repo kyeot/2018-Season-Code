@@ -8,6 +8,8 @@ import org.usfirst.frc2783.autonomous.paths.PathSegment;
 import org.usfirst.frc2783.robot.Robot;
 import org.usfirst.frc2783.subsystems.TankDriveBase;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class DrivePathAction extends Action {
 	
 	private PathContainer mPathContainer; //It is important to remember that a path container is a set of waypoints

@@ -90,12 +90,7 @@ public class RobotState {
 
     public synchronized Map.Entry<InterpolatingDouble, RigidTransform2d> getLatestFieldToVehicle() {
     	//Robot.tankDrive.isExisting();
-    	SmartDashboard.putString("DB/String 9", field_to_vehicle_.lastEntry().toString());
-    	if (field_to_vehicle_.lastEntry().getKey().toString() == null) {
-    		SmartDashboard.putString("DB/String 9", "Nothing is here");
-    	}
     	return field_to_vehicle_.lastEntry();
-        
     }
 
     public synchronized RigidTransform2d getPredictedFieldToVehicle(double lookahead_time) {
