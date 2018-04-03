@@ -22,7 +22,6 @@ public class ScaleFromRight extends ActionGroup{
 				addAction(new AutoElevator(-0.8, 0.5));
 				addAction(new DriveWithGyroAndByDistance(0.65, 25*12, 25*12, 0));
 				addAction(new RotateTankAction(new Bearing(90), 1));
-				addAction(new AutoElevator(-0.8, 0.5));
 				addAction(new AutoDrive(-0.25, -0.25, 1.2));
 				addAction(new GoToTopAction());
 				addAction(new AutoDrive(0.25, 0.25, 1.6));
@@ -37,12 +36,12 @@ public class ScaleFromRight extends ActionGroup{
 				addAction(new RotateTankAction(new Bearing(355), 1));
 				addAction(new GoToTopAction());
 				addAction(new AutoDrive(0.62, 0.32, 1));
-				addAction(new AutoIntake(0.5, 1));
+				addAction(new AutoIntake(0.6, 1));
 				addAction(new AutoDrive(-0.2, -0.2, 1.2));
 			}
 			
 		}
-		catch(NullPointerException n){
+		catch(Exception n){
 			Logger.error("Game Data Not Recieved, Crossing Baseline");
         	
 			addAction(new AutoDrive(0.5, 0.5, 5));

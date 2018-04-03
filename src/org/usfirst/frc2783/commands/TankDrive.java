@@ -89,7 +89,7 @@ public class TankDrive extends Command {
 	}	
 	
 	public void checkStationaryRotation(double scale) {
-		if (scale == .7) {
+		if (scale == .75) {
 			scale = .5;
 		}
 		if (/*Math.abs(OI.driver.getRawAxis(0)) > .25 &&*/ OI.driver.getRawAxis(3) < .15 && OI.driver.getRawAxis(2) < .15) {
@@ -126,8 +126,8 @@ public class TankDrive extends Command {
 		} 
 		
 		else {
-			//Default speed of .7
-			scale = .7;
+			//Default speed of .75
+			scale = .75;
 		}
 		
 		//Rotation in place supersedes regular driving but has a higher deadband
@@ -163,10 +163,10 @@ public class TankDrive extends Command {
 //		} 
 		
 		
-		if(OI.driver.getRawButton(10) == true && lastButton1State == false) {
+		if(OI.driver.getRawButton(1) == true && lastButton1State == false) {
 			reverseButton1Toggle = toggleInput(reverseButton1Toggle);
 			lastButton1State = true;
-		} else if (OI.driver.getRawButton(10) == false) {
+		} else if (OI.driver.getRawButton(1) == false) {
 			lastButton1State = false;
 		}
 		

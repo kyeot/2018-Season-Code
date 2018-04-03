@@ -48,6 +48,7 @@ public class Constants {
 	public static final int kFastModeID = 6;
 
 	// Rotator ID's	
+<<<<<<< HEAD
 	public static final int kFaceDriverStation= 1;
 //	public static final int kFaceRight = 2;
 //	public static final int kFaceLeft = 3;
@@ -56,6 +57,8 @@ public class Constants {
 	public static final int kFaceSouth = 1;
 //	public static final int kFaceEast = 2;
 //	public static final int kFaceWest = 3;
+	
+	public static final int kFaceSouth = 10;
 	public static final int kFaceNorth = 4;
 	
 //	static public final int POVup = 0;

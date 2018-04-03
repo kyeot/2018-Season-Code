@@ -45,7 +45,12 @@ public class Elevator extends Command {
 				}
 				
 			}
-			Robot.elevatorBase.elevator(-speed);
+			if(OI.manipulator.getRawButton(6)){
+				Robot.elevatorBase.elevator(-speed*0.75);		
+			}
+			else{
+				Robot.elevatorBase.elevator(-speed);		
+			}
 		}
 		
 	}
