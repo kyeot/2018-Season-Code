@@ -30,6 +30,8 @@ import edu.wpi.first.wpilibj.command.Command;
 public class OI {
 	
 	public static Joystick driver = new Joystick(Constants.kDriverControllerId);
+
+	 //Joystick Controls 
 //	public static Joystick driver1 = new Joystick(Constants.kDriverControllerId);
 //	public static Joystick driver2 = new Joystick(Constants.kDriverControllerId);
 	
@@ -40,11 +42,13 @@ public class OI {
 	
 	public static JoystickButton elevatorUpSimple = new JoystickButton(manipulator, 4);
 	
+	 //Driver Rotation Controls
 	public static JoystickButton faceDriverStation = new JoystickButton(driver, Constants.kFaceDriverStation);
 	public static JoystickButton faceDownField = new JoystickButton(driver, Constants.kFaceDownField);
 //	public static JoystickButton faceLeft = new JoystickButton(driver, Constants.kFaceLeft);
 //	public static JoystickButton faceRight = new JoystickButton(driver, Constants.kFaceRight);
 	
+	 //Dpad Rotation Controls
 //	public static JoystickButton faceNorth = new JoystickButton(driver, Constants.POVup);
 //	public static JoystickButton faceSouth = new JoystickButton(driver, Constants.POVdown);
 //	public static JoystickButton faceWest = new JoystickButton(driver, Constants.POVleft);
@@ -62,7 +66,8 @@ public class OI {
     	
     	elevatorUpSimple.whenPressed(new GoToTopSimple());
     	
-  /*   if(driver.getPOV() == 0) {
+    		//Dpad Command Branch
+    	/*   if(driver.getPOV() == 0) {
       Trigger.FaceNorth().start();
     	} 
    	
@@ -79,6 +84,8 @@ public class OI {
     	}
        
    	*/
+   
+    	 //Rotation Commands
     	faceDownField.whileHeld(new FaceDownField());
     	faceDriverStation.whileHeld(new FaceDriverStation());
 //    	faceLeft.whileHeld(new FaceLeft());
