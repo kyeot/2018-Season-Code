@@ -42,8 +42,8 @@ public class OI {
 	
 	public static JoystickButton faceDriverStation = new JoystickButton(driver, Constants.kFaceDriverStation);
 	public static JoystickButton faceDownField = new JoystickButton(driver, Constants.kFaceDownField);
-	public static JoystickButton faceLeft = new JoystickButton(driver, Constants.kFaceLeft);
-	public static JoystickButton faceRight = new JoystickButton(driver, Constants.kFaceRight);
+//	public static JoystickButton faceLeft = new JoystickButton(driver, Constants.kFaceLeft);
+//	public static JoystickButton faceRight = new JoystickButton(driver, Constants.kFaceRight);
 	
 //	public static JoystickButton faceNorth = new JoystickButton(driver, Constants.POVup);
 //	public static JoystickButton faceSouth = new JoystickButton(driver, Constants.POVdown);
@@ -81,8 +81,8 @@ public class OI {
    	*/
     	faceDownField.whileHeld(new FaceDownField());
     	faceDriverStation.whileHeld(new FaceDriverStation());
-    	faceLeft.whileHeld(new FaceLeft());
-    	faceRight.whileHeld(new FaceRight());
+//    	faceLeft.whileHeld(new FaceLeft());
+ //   	faceRight.whileHeld(new FaceRight());
 
     	
 //    	elevatorToGround.whenPressed(new GoToElevatorPosition(Robot.groundPos.getRotations(), Robot.groundPos.getDegrees()));
