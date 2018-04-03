@@ -542,8 +542,9 @@ public class TankDriveBase extends Subsystem {
 		RigidTransform2d robot_pose = mRobotState.getLatestFieldToVehicle().getValue();
         
         //This command is that command that takes a path
-        Twist2d command = mPathFollower.update(timestamp, robot_pose,
-                RobotState.getInstance().getDistanceDriven(), RobotState.getInstance().getPredictedVelocity().dx);
+		//Takes the current robot position and generates a new command
+		//based on that position every 200 seconds
+        Twist2d command = mPathFollower.update(timestamp, robot_pose, RobotState.getInstance().getDistanceDriven(), RobotState.getInstance().getPredictedVelocity().dx);
         
         if (!mPathFollower.isFinished()) {
             Kinematics.DriveVelocity setpoint = Kinematics.inverseKinematics(command);
@@ -565,8 +566,8 @@ public class TankDriveBase extends Subsystem {
 			
 			final double max_desired = Math.max(Math.abs(left_inches_per_sec), Math.abs(right_inches_per_sec));
 			final double scale = max_desired > Constants.kDriveHighGearMaxSetpoint ? Constants.kDriveHighGearMaxSetpoint / max_desired : 1.0;
-			leftMaster.set(ControlMode.PercentOutput, velocityToPercentOutput(right_inches_per_sec * scale));
-			rightMaster.set(ControlMode.PercentOutput, velocityToPercentOutput(right_inches_per_sec * scale));
+			leftMaster.set(ControlMode.PercentOutput, Conversion.velocityToOutputPercent(right_inches_per_sec * scale));
+			rightMaster.set(ControlMode.PercentOutput, Conversion.velocityToOutputPercent(left_inches_per_sec * scale));
 			iterator7++;
 			SmartDashboard.putString("DB/String 9", "" + left_inches_per_sec);
 		} else {
@@ -614,10 +615,6 @@ public class TankDriveBase extends Subsystem {
 			leftMaster.setNeutralMode(NeutralMode.Coast);
 			leftSlave.setNeutralMode(NeutralMode.Coast);
 		}
-	}
-	
-	public double velocityToPercentOutput(double velocityInInchesPerSecond) {
-		return velocityInInchesPerSecond / Constants.kMaxSpeed;
 	}
 	
 	public synchronized boolean hasPassedMarker(String marker) {

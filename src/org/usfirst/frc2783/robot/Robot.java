@@ -183,10 +183,21 @@ public class Robot extends IterativeRobot {
 		slowLoop.startLoops();
 
 		// Creates a List of selectable autonomous groups
-		String[] autonomousList = {"BaselineCross", "SwitchFromCenter", "ScaleFromLeft",
-				"SwitchFromLeftClose", "SwitchFromLeftFar", "ScaleFromRight", "SwitchFromRightClose",
-				"SwitchFromRightFar", "WaypointTest", "Tests", "Test", "DriveGyroTest", "StageRightWaypoint",
-				"StageLeftWaypoint", "TwoScaleFromLeft" };
+		String[] autonomousList = {"BaselineCross",
+								   "SwitchFromCenter",
+								   "ScaleFromLeft",
+								   "SwitchFromLeftClose",
+								   "SwitchFromLeftFar",
+								   "ScaleFromRight",
+								   "SwitchFromRightClose",
+								   "SwitchFromRightFar",
+								   "WaypointTest",
+								   "Tests",
+								   "Test",
+								   "DriveGyroTest",
+								   "StageRightWaypoint",
+								   "StageLeftWaypoint",
+								   "TwoScaleFromLeft"};
 
 		// Puts the autonomous groups list into the dashboard
 		SmartDashboard.putStringArray("Auto List", autonomousList);

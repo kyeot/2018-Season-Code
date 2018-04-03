@@ -9,6 +9,7 @@ import org.usfirst.frc2783.util.Logger;
 import org.usfirst.frc2783.loops.Loop;
 
 import edu.wpi.first.wpilibj.Notifier;
+import edu.wpi.first.wpilibj.Timer;
 
 /**
  * Manages a List of loops, starting and stopping them under a
@@ -19,14 +20,18 @@ import edu.wpi.first.wpilibj.Notifier;
 public class Looper {
 	
 	double period;
+	double timestamp;
 	private final Object taskRunningLock_ = new Object();
 	
 	CrashTrackingRunnable runnable = new CrashTrackingRunnable() {
 		@Override
 		public void runCrashTracked() {
+			
+			double now = Timer.getFPGATimestamp();
+			
 			for(Loop l : loops) {
 				//l.onLoop()
-				l.onLoop(200);
+				l.onLoop(now);
 			}
 		}
 		
@@ -46,9 +51,10 @@ public class Looper {
 	}
 	
 	public void startLoops() {
+		timestamp = Timer.getFPGATimestamp();
 		for(Loop l : loops) {
 			//l.onStart();
-			l.onStart(200);
+			l.onStart(timestamp);
 		}
 		notifier.startPeriodic(period);
 		
@@ -60,9 +66,10 @@ public class Looper {
 	
 	public void stopLoops() {
 		notifier.stop();
+		timestamp = Timer.getFPGATimestamp();
 		for(Loop l : loops) {
 			//l.onStop();
-			l.onStop(200);
+			l.onStop(timestamp);
 		}
 	}
 	

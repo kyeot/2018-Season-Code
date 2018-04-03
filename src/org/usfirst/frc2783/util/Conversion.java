@@ -25,4 +25,8 @@ public class Conversion {
     public static double outputPercentToVelocity(double outputPercent) {
     	return outputPercent * Constants.kMaxSpeed;
     }
+    
+    public static double velocityToOutputPercent(double velocityInInchesPerSecond) {
+    	return velocityInInchesPerSecond / Constants.kMaxSpeed;
+    }
 }
