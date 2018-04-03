@@ -12,25 +12,25 @@ import org.usfirst.frc2783.robot.Robot;
 import org.usfirst.frc2783.segments.LeftScaleToLeftStage;
 import org.usfirst.frc2783.segments.LeftStageToLeftScale;
 import org.usfirst.frc2783.segments.LeftStageToLeftSwitch;
-import org.usfirst.frc2783.segments.LeftStartToLeftScale;
-import org.usfirst.frc2783.segments.LeftStartToRightScale;
 import org.usfirst.frc2783.segments.LeftSwitchToLeftStage;
 import org.usfirst.frc2783.segments.RightScaleToRightStage;
 import org.usfirst.frc2783.segments.RightStageToRightScale;
 import org.usfirst.frc2783.segments.RightStageToRightSwitch;
+import org.usfirst.frc2783.segments.RightStartToLeftScale;
+import org.usfirst.frc2783.segments.RightStartToRightScale;
 import org.usfirst.frc2783.segments.RightSwitchToRightStage;
-import org.usfirst.frc2783.segments.StageLeft;
+import org.usfirst.frc2783.segments.StageRight;
 import org.usfirst.frc2783.util.Logger;
 
-public class TwoScaleFromLeft extends ActionGroup {
+public class TwoScaleFromRight extends ActionGroup {
 
-	public TwoScaleFromLeft(){
+	public TwoScaleFromRight(){
 		super();
 		
 		try{
 			if(Robot.isScaleLeft()) {
 				addAction(new ParallelAction(Arrays.asList(new Action[] {
-						new DrivePathAction(new LeftStartToLeftScale()),
+						new DrivePathAction(new RightStartToLeftScale()),
 		                new AutoElevator(-1, 1)
 		        })));
 				addAction(new AutoIntake(1,1));
@@ -54,7 +54,7 @@ public class TwoScaleFromLeft extends ActionGroup {
 				addAction(new AutoIntake(1,1));
 			} else {
 				addAction(new ParallelAction(Arrays.asList(new Action[] {
-						new DrivePathAction(new LeftStartToRightScale()),
+						new DrivePathAction(new RightStartToRightScale()),
 		                new AutoElevator(-1, 1)
 		        })));
 				addAction(new AutoIntake(1,1));
@@ -83,7 +83,7 @@ public class TwoScaleFromLeft extends ActionGroup {
 		catch(NullPointerException n) {
 			Logger.error("Game Data Not Recieved, Crossing Baseline");
         	
-			addAction(new DrivePathAction(new StageLeft()));
+			addAction(new DrivePathAction(new StageRight()));
 			
 		}
 		
