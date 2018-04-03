@@ -79,8 +79,6 @@ public class Robot extends IterativeRobot {
 	public static boolean switchAutoIsFront = true;
 
 	public static double angle = 0;
-
-	Alliance team;
 	
 	public double leftTotalAngle = 0;
 	public double rightTotalAngle = 0;
@@ -218,8 +216,6 @@ public class Robot extends IterativeRobot {
 
 	public void autonomousInit() {
 		
-		team = DriverStation.getInstance().getAlliance();
-		
 		Logger.info("Starting Autonomous");
 
 		// Creates the String based on which autonomous group was selected on
@@ -328,6 +324,9 @@ public class Robot extends IterativeRobot {
 		} catch (NullPointerException n) {
 		}
 		
+
+		SmartDashboard.putString("DB/String 5", "" + Robot.rightCounter.getRotations());
+		SmartDashboard.putString("DB/String 6", "" + Robot.rightAbsEnc.getValue());
 		SmartDashboard.putString("DB/String 7", "" + Robot.elEncCounter.getRotations());
 		SmartDashboard.putString("DB/String 8", "" + Robot.elevatorAbsEnc.getValue());
 		SmartDashboard.putString("DB/String 9", "robot angle: " + Math.floor(NavSensor.getInstance().getAngle(false)));

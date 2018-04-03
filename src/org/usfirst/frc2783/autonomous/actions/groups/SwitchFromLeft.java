@@ -68,7 +68,7 @@ public class SwitchFromLeft extends ActionGroup{
 			}
 			
 		}
-		catch(NullPointerException n) {
+		catch(Exception n) {
         	Logger.error("Game Data Not Recieved, Crossing Baseline");
         	
 			addAction(new AutoDrive(0.5, 0.5, 5));
