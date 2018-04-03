@@ -48,29 +48,28 @@ public class Constants {
 	public static final int kFastModeID = 6;
 
 	// Rotator ID's	
-<<<<<<< HEAD
-	public static final int kFaceDriverStation= 1;
+
+
 //	public static final int kFaceRight = 2;
 //	public static final int kFaceLeft = 3;
 	public static final int kFaceDownField = 4;
-	
-	public static final int kFaceSouth = 1;
+	public static final int kFaceDriverStation= 1;
+
 //	public static final int kFaceEast = 2;
 //	public static final int kFaceWest = 3;
-	
 	public static final int kFaceSouth = 10;
 	public static final int kFaceNorth = 4;
 	
 //	static public final int POVup = 0;
-//	static public final int POVright = 90;
-//	static public final int POVdown = 180;
-//	static public final int POVleft = 270;
+//	static public final int POVright = 2;
+//	static public final int POVdown = 4;
+//	static public final int POVleft = 6;
 	
-	//public static final int kVisionTestID = 7;
+//	public static final int kVisionTestID = 7;
 	public static final int kGyroResetID = 8;
-	//public static final int kGyroResetID = 4;
+
 	
-	 // Owen's Trash PID's
+	  // Owen's Trash PID's
 	//PID values for tank rotation to angle
 	public static final double kTankPoseP = 0.007;
 	public static final double kTankPoseI = 0.0;
