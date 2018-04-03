@@ -317,15 +317,8 @@ public class TankDriveBase extends Subsystem {
 
 		// Sets all drive motors to be in brake mode
 		setBrakeMode(true);
-
-		// Creates the tank rotation PID controller
-
 		
-		//Sets all drive motors to be in brake mode
-		setBrakeMode(true);
 		
-		//Creates the tank rotation PID controller
-
 		posePidOut = new TankPoseOut();
 		posePidSource = new GyroSource();
 		posePid = new PIDController(Constants.kTankPoseP, Constants.kTankPoseI, Constants.kTankPoseD, posePidSource,
