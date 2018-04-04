@@ -71,14 +71,14 @@ public class Constants {
 	
 	  // Owen's Trash PID's
 	//PID values for tank rotation to angle
-	public static final double kTankPoseP = 0.007;
-	public static final double kTankPoseI = 0.0;
-	public static final double kTankPoseD = 0.008;
+//	public static final double kTankPoseP = 0.007;
+//	public static final double kTankPoseI = 0.0;
+//	public static final double kTankPoseD = 0.008;
 
 	// Liam's perfectly tuned PID's
-//	public static final double kTankPoseP = 0.01;
-//	public static final double kTankPoseI = 0.0;
-//	public static final double kTankPoseD = 0.011;
+	public static final double kTankPoseP = 0.01;
+	public static final double kTankPoseI = 0.0;
+	public static final double kTankPoseD = 0.011;
 	  
 	//PID values for gyro adjusted drive
 	public static final double kGyroDriveP = 0.01;

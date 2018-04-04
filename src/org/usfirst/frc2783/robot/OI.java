@@ -40,10 +40,10 @@ public class OI {
 	
 	public static Trigger dPadNorth = new Dpad(0);
 	public static Trigger dPadSouth = new Dpad(180);
-	public static Trigger dPadEast = new Dpad(270);
-	public static Trigger dPadWest = new Dpad(90); 
-	public static Trigger dpadNorthWest = new Dpad(45);
-	public static Trigger dPadNorthEast = new Dpad(315);
+	public static Trigger dPadEast = new Dpad(90);
+	public static Trigger dPadWest = new Dpad(270); 
+	public static Trigger dpadNorthWest = new Dpad(315);
+	public static Trigger dPadNorthEast = new Dpad(45);
 	public static Trigger dPadSouthWest = new Dpad(135);
 	public static Trigger dPadSouthEast = new Dpad(225);
 	
