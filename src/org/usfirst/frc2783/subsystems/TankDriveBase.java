@@ -547,7 +547,7 @@ public class TankDriveBase extends Subsystem {
 			final double max_desired = Math.max(Math.abs(left_inches_per_sec), Math.abs(right_inches_per_sec));
 			final double scale = max_desired > Constants.kDriveHighGearMaxSetpoint ? Constants.kDriveHighGearMaxSetpoint / max_desired : 1.0;
 			leftMaster.set(ControlMode.PercentOutput, Conversion.velocityToOutputPercent(right_inches_per_sec * scale));
-			rightMaster.set(ControlMode.PercentOutput, Conversion.velocityToOutputPercent(left_inches_per_sec * scale));
+			rightMaster.set(ControlMode.PercentOutput, -Conversion.velocityToOutputPercent(left_inches_per_sec * scale));
 			iterator7++;
 			SmartDashboard.putString("DB/String 9", "" + left_inches_per_sec);
 		} else {
