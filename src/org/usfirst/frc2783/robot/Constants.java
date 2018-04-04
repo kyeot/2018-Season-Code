@@ -85,11 +85,11 @@ public class Constants {
 	
 	
 	//Time between each loop in a loop in hertz
-	public static final double kPeriod = 200; 
+	public static final double kPeriod = 250;
 	public static final double kSlowLooperPeriod = 1;
 	
 	//Time between each loop in autonomous actions in hertz
-	public static final double kAutoPeriod = 200;
+	public static final double kAutoPeriod = 250;
 	
 	//Need to adjust these for our purposes
 	public static double kTrackWidthInches = 24.5;

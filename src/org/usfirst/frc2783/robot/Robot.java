@@ -210,7 +210,9 @@ public class Robot extends IterativeRobot {
 
 		// Puts the autonomous groups list into the dashboard
 		SmartDashboard.putStringArray("Auto List", autonomousList);
-
+		
+		robotState.outputToSmartDashboard(); 
+		
 		// Updates the history of NavSensor angles
 		NavSensor.getInstance().updateHistory();
 
@@ -242,12 +244,12 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit() {
 
 		Logger.info("Starting Autonomous");
+		
+		robotState.outputToSmartDashboard();
 
 		// Creates the String based on which autonomous group was selected on
 		// the dashboard
 		String autoSelected = SmartDashboard.getString("Auto Selector", "None");
-		
-		boolean startCenter = SmartDashboard.getBoolean("DB/Button 1", false);
 
 		// Makes the field element sides corrospond to actual sides which
 		// information from the driver station (or a randomizer in test mode)
