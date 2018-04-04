@@ -47,32 +47,45 @@ public class Constants {
 	public static final int kSlowModeID = 5;
 	public static final int kFastModeID = 6;
 
+<<<<<<< HEAD
 	public static final int kFaceDriverStation = 1;
 	public static final int kFaceDownField = 4;
 	
 //	public static final int kFaceEast = 2;
 //	public static final int kFaceWest = 3;
+=======
+	// Rotator ID's	
+//	public static final int kFaceRight = 2;
+//	public static final int kFaceLeft = 3;
+//	public static final int kFaceDownField = 4;
+//	public static final int kFaceDriverStation= 1;
+
+//	public static final int kFaceEast = 2;
+//	public static final int kFaceWest = 3;
+//	public static final int kFaceSouth = 10;
+//	public static final int kFaceNorth = 4;
+>>>>>>> dd2da9688d480285567f57716aeabb49dedaa988
 	
 //	static public final int POVup = 0;
-//	static public final int POVright = 90;
-//	static public final int POVdown = 180;
-//	static public final int POVleft = 270;
+//	static public final int POVright = 2;
+//	static public final int POVdown = 4;
+//	static public final int POVleft = 6;
 	
-	//public static final int kVisionTestID = 7;
+//	public static final int kVisionTestID = 7;
 	public static final int kGyroResetID = 8;
-	//public static final int kGyroResetID = 4;
+
+	public static final int kBackwardsDrive = 1; 
 	
-	 // Owen's Trash PID's
-	//PID values for tank rotation to angle
+	//New, work in progress
 	public static final double kTankPoseP = 0.005;
 	public static final double kTankPoseI = 0.00009;
 	public static final double kTankPoseD = 0.002;
-
-	// Liam's perfectly tuned PID's
-//	public static final double kTankPoseP = 0.01;
+	
+	//Old Semi Working
+//	public static final double kTankPoseP = 0.007;
 //	public static final double kTankPoseI = 0.0;
-//	public static final double kTankPoseD = 0.011;
-	  
+//	public static final double kTankPoseD = 0.008;
+
 	//PID values for gyro adjusted drive
 	public static final double kGyroDriveP = 0.01;
 	public static final double kGyroDriveI = 0.001;

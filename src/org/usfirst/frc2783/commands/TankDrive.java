@@ -116,18 +116,17 @@ public class TankDrive extends Command {
 		
 		if (OI.driver.getRawButton(Constants.kFastModeID)) {
 			//Quarter speed
-			scale = .25;
-		
+			scale = 0.25;
 		} 
 		
 		else if (OI.driver.getRawButton(Constants.kSlowModeID)) {
 			//Full speed
 			scale = 1;
-		} 
+		}
 		
 		else {
 			//Default speed of .75
-			scale = .75;
+			scale = 0.75;
 		}
 		
 		//Rotation in place supersedes regular driving but has a higher deadband
@@ -156,15 +155,12 @@ public class TankDrive extends Command {
 //					
 //			}
 //		}
-		
-		if (OI.driver.getRawButton(3)) {
-			 Robot.tankDrive.setRobotPose(new Bearing(0));
-		} 
-		
-		if(OI.driver.getRawButton(1) == true && lastButton1State == false) {
+
+		//Backwards Driver Drive
+		if(OI.driver.getRawButton(Constants.kBackwardsDrive) == true && lastButton1State == false) {
 			reverseButton1Toggle = toggleInput(reverseButton1Toggle);
 			lastButton1State = true;
-		} else if (OI.driver.getRawButton(1) == false) {
+		} else if (OI.driver.getRawButton(Constants.kBackwardsDrive) == false) {
 			lastButton1State = false;
 		}
 		
