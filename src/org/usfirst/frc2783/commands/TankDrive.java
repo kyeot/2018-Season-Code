@@ -153,15 +153,13 @@ public class TankDrive extends Command {
 //				startAngle = new Bearing(fieldTransform.targetHistory.getSmoothTarget().dir().getTheta());
 //				endAngle = startAngle.rotate(new Bearing(180));
 //				SmartDashboard.putString("DB/String 0", "" + endAngle.getTheta());
-//				
+//					
 //			}
 //		}
-//
-//		if (OI.driver.getRawButton(3)) {
-//			// Robot.tankDrive.setRobotPose(new Bearing(0));
-//			Robot.tankDrive.setRobotPose(endAngle);
-//		} 
 		
+		if (OI.driver.getRawButton(3)) {
+			 Robot.tankDrive.setRobotPose(new Bearing(0));
+		} 
 		
 		if(OI.driver.getRawButton(1) == true && lastButton1State == false) {
 			reverseButton1Toggle = toggleInput(reverseButton1Toggle);
