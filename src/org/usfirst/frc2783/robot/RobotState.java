@@ -138,12 +138,12 @@ public class RobotState {
     public synchronized Twist2d getMeasuredVelocity() {
         return vehicle_velocity_measured_;
     }
+    
     public void outputToSmartDashboard() {
     	RigidTransform2d odometry = getLatestFieldToVehicle().getValue();
         SmartDashboard.putString("DB/String 0", "Location: " + odometry.getTranslation().x() + ", " + odometry.getTranslation().y());
         SmartDashboard.putString("DB/String 1", "Angle: " + odometry.getRotation().getDegrees());
         SmartDashboard.putString("DB/String 2", "Current Velocity: " + vehicle_velocity_measured_.dx);
     }
-	    
-
+	
 }

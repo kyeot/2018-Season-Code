@@ -130,6 +130,8 @@ public class Robot extends IterativeRobot {
 	public static EncoderPosition groundPos = new EncoderPosition(1, elEncCounter.getEncoderStartPos());
 	public static EncoderPosition switchPos = new EncoderPosition(6, elEncCounter.getEncoderStartPos());
 	public static EncoderPosition scalePos = new EncoderPosition(13, elEncCounter.getEncoderStartPos());
+	
+	public static RobotState robotState = RobotState.getInstance();
 
 	// Creates Variables for storing which sides of the field elements are which
 	public static String gameData;
@@ -312,7 +314,9 @@ public class Robot extends IterativeRobot {
 
 	public void autonomousPeriodic() {
 		SmartDashboard.putString("DB/String 7", "robot angle: " + Math.floor(NavSensor.getInstance().getAngle(false)));
-
+		
+		robotState.outputToSmartDashboard();
+		
 		Scheduler.getInstance().run();
 	}
 
