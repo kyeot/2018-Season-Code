@@ -210,8 +210,7 @@ public class PathFollower {
     }
 
     public boolean isFinished() {
-        return (mSteeringController.isFinished() && mVelocityController.isFinishedProfile()
-                && mVelocityController.onTarget()) || overrideFinished;
+        return (mSteeringController.isFinished() && mVelocityController.isFinishedProfile() && mVelocityController.onTarget()) || overrideFinished;
     }
 
     public void forceFinish() {

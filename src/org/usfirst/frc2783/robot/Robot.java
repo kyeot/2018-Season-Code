@@ -78,6 +78,10 @@ public class Robot extends IterativeRobot {
 	public static boolean isLimit = false;
 
 	public static boolean switchAutoIsFront = true;
+	
+	public static boolean startLeft;
+	public static boolean startRight;
+	public static boolean startCenter;
 
 	public static double angle = 0;
 
@@ -197,7 +201,10 @@ public class Robot extends IterativeRobot {
 								   "DriveGyroTest",
 								   "StageRightWaypoint",
 								   "StageLeftWaypoint",
-								   "TwoScaleFromLeft"};
+								   "TwoScaleFromLeft",
+								   "Start Left",
+								   "Start Right",
+								   "Start Center"};
 
 		// Puts the autonomous groups list into the dashboard
 		SmartDashboard.putStringArray("Auto List", autonomousList);
@@ -237,6 +244,8 @@ public class Robot extends IterativeRobot {
 		// Creates the String based on which autonomous group was selected on
 		// the dashboard
 		String autoSelected = SmartDashboard.getString("Auto Selector", "None");
+		
+		boolean startCenter = SmartDashboard.getBoolean("DB/Button 1", false);
 
 		// Makes the field element sides corrospond to actual sides which
 		// information from the driver station (or a randomizer in test mode)
@@ -289,8 +298,10 @@ public class Robot extends IterativeRobot {
 			break;
 		case "Tests":
 			autoScheduler.setGroup(new MethodTest());
+			break;
 		case "TwoScaleFromLeft":
 			autoScheduler.setGroup(new TwoScaleFromLeft());
+			break;
 		default:
 
 		}
@@ -392,7 +403,11 @@ public class Robot extends IterativeRobot {
 		}
 
 	}
-
+	
+	public static boolean startLeft() {
+		return startLeft;
+	}
+	
 	/**
 	 * @return Whether or not your side of the switch is the left side
 	 */

@@ -1,16 +1,19 @@
 package org.usfirst.frc2783.robot;
 
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+
 import org.usfirst.frc2783.calculation.RigidTransform2d;
 import org.usfirst.frc2783.calculation.Rotation2d;
 import org.usfirst.frc2783.calculation.Translation2d;
 import org.usfirst.frc2783.calculation.Twist2d;
 import org.usfirst.frc2783.util.InterpolatingDouble;
 import org.usfirst.frc2783.util.InterpolatingTreeMap;
-import org.usfirst.frc2783.robot.Kinematics;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import org.usfirst.frc2783.robot.Kinematics;
 /**
  * RobotState keeps track of the poses of various coordinate frames throughout the match. A coordinate frame is simply a
  * point and direction in space that defines an (x,y) coordinate system. Transforms (or poses) keep track of the spatial
@@ -135,5 +138,12 @@ public class RobotState {
     public synchronized Twist2d getMeasuredVelocity() {
         return vehicle_velocity_measured_;
     }
+    public void outputToSmartDashboard() {
+    	RigidTransform2d odometry = getLatestFieldToVehicle().getValue();
+        SmartDashboard.putString("DB/String 0", "Location: " + odometry.getTranslation().x() + ", " + odometry.getTranslation().y());
+        SmartDashboard.putString("DB/String 1", "Angle: " + odometry.getRotation().getDegrees());
+        SmartDashboard.putString("DB/String 2", "Current Velocity: " + vehicle_velocity_measured_.dx);
+    }
+	    
 
 }
