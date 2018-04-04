@@ -29,10 +29,11 @@ public class TwoScaleFromLeft extends ActionGroup {
 		
 		try{
 			if(Robot.isScaleLeft()) {
-				addAction(new ParallelAction(Arrays.asList(new Action[] {
-						new DrivePathAction(new LeftStartToLeftScale()),
-		                new AutoElevator(-1, 1)
-		        })));
+				addAction(new DrivePathAction(new LeftStartToLeftScale()));
+//				addAction(new ParallelAction(Arrays.asList(new Action[] {
+//						new DrivePathAction(new LeftStartToLeftScale()),
+//		                new AutoElevator(-1, 1)
+//		        })));
 				addAction(new AutoIntake(1,1));
 				addAction(new ParallelAction(Arrays.asList(new Action[] {
 						new DrivePathAction(new LeftScaleToLeftStage()),
@@ -53,29 +54,30 @@ public class TwoScaleFromLeft extends ActionGroup {
 		        })));
 				addAction(new AutoIntake(1,1));
 			} else {
-				addAction(new ParallelAction(Arrays.asList(new Action[] {
-						new DrivePathAction(new LeftStartToRightScale()),
-		                new AutoElevator(-1, 1)
-		        })));
-				addAction(new AutoIntake(1,1));
-				addAction(new ParallelAction(Arrays.asList(new Action[] {
-						new DrivePathAction(new RightScaleToRightStage()),
-		                new AutoElevator(1, 1)
-		        })));
-				addAction(new ParallelAction(Arrays.asList(new Action[] {
-						new DrivePathAction(new RightStageToRightSwitch()),
-						new AutoIntake(-1,1)
-		        })));
-				addAction(new ParallelAction(Arrays.asList(new Action[] {
-						new DrivePathAction(new RightSwitchToRightStage()),
-		                new AutoElevator(.5, 1),
-		                new AutoIntake(1,1)
-		        })));
-				addAction(new ParallelAction(Arrays.asList(new Action[] {
-						new DrivePathAction(new RightStageToRightScale()),
-		                new AutoElevator(1, 1)
-		        })));
-				addAction(new AutoIntake(1,1));
+				addAction(new DrivePathAction(new LeftStartToRightScale()));
+//				addAction(new ParallelAction(Arrays.asList(new Action[] {
+//						new DrivePathAction(new LeftStartToRightScale()),
+//		                new AutoElevator(-1, 1)
+//		        })));
+//				addAction(new AutoIntake(1,1));
+//				addAction(new ParallelAction(Arrays.asList(new Action[] {
+//						new DrivePathAction(new RightScaleToRightStage()),
+//		                new AutoElevator(1, 1)
+//		        })));
+//				addAction(new ParallelAction(Arrays.asList(new Action[] {
+//						new DrivePathAction(new RightStageToRightSwitch()),
+//						new AutoIntake(-1,1)
+//		        })));
+//				addAction(new ParallelAction(Arrays.asList(new Action[] {
+//						new DrivePathAction(new RightSwitchToRightStage()),
+//		                new AutoElevator(.5, 1),
+//		                new AutoIntake(1,1)
+//		        })));
+//				addAction(new ParallelAction(Arrays.asList(new Action[] {
+//						new DrivePathAction(new RightStageToRightScale()),
+//		                new AutoElevator(1, 1)
+//		        })));
+//				addAction(new AutoIntake(1,1));
 			}
 			
 		}

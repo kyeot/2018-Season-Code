@@ -29,10 +29,11 @@ public class TwoScaleFromRight extends ActionGroup {
 		
 		try{
 			if(Robot.isScaleLeft()) {
-				addAction(new ParallelAction(Arrays.asList(new Action[] {
-						new DrivePathAction(new RightStartToLeftScale()),
-		                new AutoElevator(-1, 1)
-		        })));
+				addAction(new DrivePathAction(new RightStartToLeftScale()));
+//				addAction(new ParallelAction(Arrays.asList(new Action[] {
+//						new DrivePathAction(new RightStartToLeftScale()),
+//		                new AutoElevator(-1, 1)
+//		        })));
 				addAction(new AutoIntake(1,1));
 				addAction(new ParallelAction(Arrays.asList(new Action[] {
 						new DrivePathAction(new LeftScaleToLeftStage()),
