@@ -44,8 +44,8 @@ public class Constants {
 	public static final int kElevatorGearShiftID = 10;
 	
 	//Button IDs for driver
-	public static final int kSlowModeID = 5;
-	public static final int kFastModeID = 6;
+	public static final int kSlowModeID = 6;
+	public static final int kFastModeID = 5;
 
 	public static final int kFaceDriverStation = 1;
 	public static final int kFaceDownField = 4;
