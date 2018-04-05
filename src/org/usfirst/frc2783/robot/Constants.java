@@ -84,7 +84,7 @@ public class Constants {
 //	public static final double kTankPoseD = 0.008;
 
 	//PID values for gyro adjusted drive
-	public static final double kGyroDriveP = 0.01;
+	public static final double kGyroDriveP = 0.0105;
 	public static final double kGyroDriveI = 0.001;
 	public static final double kGyroDriveD = 0.09;
 	
@@ -107,7 +107,6 @@ public class Constants {
 	public static final double kCameraYawOffset = 0.0;
 	
 	public static final double kGoalHeight = 6;	    // height to center of target in inches
-	
 	
 	//Time between each loop in a loop in hertz
 	public static final double kPeriod = 200; 
