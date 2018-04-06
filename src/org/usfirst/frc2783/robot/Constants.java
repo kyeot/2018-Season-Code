@@ -73,20 +73,19 @@ public class Constants {
 
 	public static final int kBackwardsDrive = 1; 
 	
-	//New, work in progress
-	public static final double kTankPoseP = 0.005;
-	public static final double kTankPoseI = 0.00009;
-	public static final double kTankPoseD = 0.002;
+	//Perfection
+	public static final double kTankPoseP = 0.015;
+	public static final double kTankPoseI = 0.00001;
+	public static final double kTankPoseD = 0.049;
 	
-	//Old Semi Working
-//	public static final double kTankPoseP = 0.007;
-//	public static final double kTankPoseI = 0.0;
-//	public static final double kTankPoseD = 0.008;
-
 	//PID values for gyro adjusted drive
-	public static final double kGyroDriveP = 0.0105;
-	public static final double kGyroDriveI = 0.001;
-	public static final double kGyroDriveD = 0.09;
+//	public static final double kGyroDriveP = 0.015;
+//	public static final double kGyroDriveI = 0.001;
+//	public static final double kGyroDriveD = 0.09;
+	
+	public static final double kGyroDriveP = 0.015;
+	public static final double kGyroDriveI = 0.0;
+	public static final double kGyroDriveD = 0.0;
 	
 	//PID values for tank wheel angle adjusters
 	public static final double kTankSideP = 0.0075;

@@ -6,6 +6,7 @@ import java.util.Random;
 
 import org.usfirst.frc2783.autonomous.actions.ActionScheduler;
 import org.usfirst.frc2783.autonomous.actions.groups.BaselineCross;
+import org.usfirst.frc2783.autonomous.actions.groups.DoubleScaleFromLeft;
 import org.usfirst.frc2783.autonomous.actions.groups.DriveGyroTest;
 import org.usfirst.frc2783.autonomous.actions.groups.MethodTest;
 import org.usfirst.frc2783.autonomous.actions.groups.ScaleFromLeft;
@@ -176,7 +177,7 @@ public class Robot extends IterativeRobot {
 		slowLoop.startLoops();
 
 		// Creates a List of selectable autonomous groups
-		String[] autonomousList = {"BaselineCross", "SwitchFromCenter", "ScaleFromLeft",
+		String[] autonomousList = {"BaselineCross", "SwitchFromCenter", "ScaleFromLeft", "DoubleScaleFromLeft",
 				"SwitchFromLeftClose", "SwitchFromLeftFar", "ScaleFromRight", "SwitchFromRightClose",
 				"SwitchFromRightFar", "WaypointTest", "Tests", "Test", "DriveGyroTest", "StageRightWaypoint",
 				"StageLeftWaypoint", "TwoScaleFromLeft" };
@@ -277,6 +278,9 @@ public class Robot extends IterativeRobot {
 			autoScheduler.setGroup(new TwoScaleFromLeft());
 		case "StageRightWaypoint":
 			autoScheduler.setGroup(new StageRightWaypoint());
+		case "DoubleScaleFromLeft":
+			autoScheduler.setGroup(new DoubleScaleFromLeft());
+			break;
 		default:
 
 		}

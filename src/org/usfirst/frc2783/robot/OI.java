@@ -47,8 +47,6 @@ public class OI {
 	public static Trigger dPadSouthWest = new Dpad(135);
 	public static Trigger dPadSouthEast = new Dpad(225);
 	
-	
-	
 	 //Driver Rotation Controls
 //	public static JoystickButton faceDriverStation = new JoystickButton(driver, Constants.kFaceDriverStation);
 //	public static JoystickButton faceDownField = new JoystickButton(driver, Constants.kFaceDownField);
@@ -65,7 +63,6 @@ public class OI {
 //	public static JoystickButton elevatorToSwitch = new JoystickButton(manipulator, Constants.kElevatorToSwitchID);
 //	public static JoystickButton elevatorToScale = new JoystickButton(manipulator, Constants.kElevatorToScaleID);
 	
-
     public OI() {
     	
     	elevatorShift.whileHeld(new ElevatorServoShift());
@@ -81,17 +78,16 @@ public class OI {
     	dpadNorthWest.whileActive(new FaceNorthWest());
     	dPadSouthEast.whileActive(new FaceSouthEast());
    	    dPadSouthWest.whileActive(new FaceSouthWest());
+   	    
    	    //Rotation Commands
- //   	faceDownField.whileHeld(new FaceDownField());
+//   	faceDownField.whileHeld(new FaceDownField());
 //    	faceDriverStation.whileHeld(new FaceDriverStation());
 //    	faceLeft.whileHeld(new FaceLeft());
- //   	faceRight.whileHeld(new FaceRight());
-
-    	
+//   	faceRight.whileHeld(new FaceRight());
+	
 //    	elevatorToGround.whenPressed(new GoToElevatorPosition(Robot.groundPos.getRotations(), Robot.groundPos.getDegrees()));
 //    	elevatorToSwitch.whenPressed(new GoToElevatorPosition(Robot.switchPos.getRotations(), Robot.switchPos.getDegrees()));
 //    	elevatorToScale.whenPressed(new GoToElevatorPosition(Robot.scalePos.getRotations(), Robot.scalePos.getDegrees()));
-
     	
     }
 
