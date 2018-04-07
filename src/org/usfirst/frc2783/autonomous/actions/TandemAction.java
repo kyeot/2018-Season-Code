@@ -146,4 +146,12 @@ public class TandemAction {
 		public void runTandem() {
 			actionCount++;
 		}
+		
+		public double getCurCount() {
+			return lastCount;
+		}
+		
+		public double getSetCount() {
+			return actionCount;
+		}
 }
