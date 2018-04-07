@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.Random;
 
 import org.usfirst.frc2783.autonomous.actions.ActionScheduler;
+import org.usfirst.frc2783.autonomous.actions.TandemAction;
 import org.usfirst.frc2783.autonomous.actions.groups.BaselineCross;
 import org.usfirst.frc2783.autonomous.actions.groups.DoubleScaleFromLeft;
 import org.usfirst.frc2783.autonomous.actions.groups.DriveGyroTest;
@@ -63,6 +64,7 @@ public class Robot extends IterativeRobot {
 	// Creates Scheduler for running the correct actions at the correct times
 	// during auto
 	public static ActionScheduler autoScheduler = new ActionScheduler();
+	public static TandemAction tandemAction = new TandemAction();
 
 	// Creates externally used and called variables
 	public static boolean isLeftForward = true;
@@ -287,6 +289,7 @@ public class Robot extends IterativeRobot {
 
 		// Starts the selected autonomous group with the scheduler
 		autoScheduler.start();
+		tandemAction.start();
 	}
 
 	public void autonomousPeriodic() {
@@ -302,6 +305,7 @@ public class Robot extends IterativeRobot {
 		Logger.info("Starting Teleop");
 		
 		autoScheduler.stop();
+		tandemAction.stop();
 		
 	}
 

@@ -83,9 +83,9 @@ public class Constants {
 //	public static final double kGyroDriveI = 0.001;
 //	public static final double kGyroDriveD = 0.09;
 	
-	public static final double kGyroDriveP = 0.015;
-	public static final double kGyroDriveI = 0.0;
-	public static final double kGyroDriveD = 0.0;
+	public static final double kGyroDriveP = 0.0165;
+	public static final double kGyroDriveI = 0.001;
+	public static final double kGyroDriveD = 0.1;
 	
 	//PID values for tank wheel angle adjusters
 	public static final double kTankSideP = 0.0075;

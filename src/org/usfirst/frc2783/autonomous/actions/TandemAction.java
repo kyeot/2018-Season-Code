@@ -15,7 +15,7 @@ public class TandemAction {
 		Notifier thread;
 		Action action;
 		
-		static double actionCount = 0;
+		double actionCount = 0;
 		double lastCount = 0;
 		
 		boolean active = false;
@@ -41,16 +41,17 @@ public class TandemAction {
 						if(action.done()) {
 							//Ends the current action if "done" returns true
 							action.finish();
+							lastCount++;
 							Logger.info("Action " + action.getId() + " has finished and quit");
 							
 							//Runs the next action in queue if there is one, if not, ends the scheduler
 							if(!queue.isEmpty()) {
-								if(actionCount != lastCount) {
-									setAuto(queue.get(0));
-									queue.get(0).start();
-									queue.remove(0);
-									lastCount = actionCount;
+								while(lastCount == actionCount) {
+									
 								}
+								setAuto(queue.get(0));
+								queue.get(0).start();
+								queue.remove(0);
 							} else {
 								stop();
 							}
@@ -119,6 +120,9 @@ public class TandemAction {
 			if(action != null) {
 				action.start();
 				thread.startPeriodic(1/Constants.kAutoPeriod);
+				while(actionCount == lastCount) {
+					
+				}
 				active = true;
 			}
 			//If the queue was empty or the action was null, logs a warning
@@ -141,4 +145,7 @@ public class TandemAction {
 			return active;
 		}
 	
+		public void runTandem() {
+			actionCount++;
+		}
 }
