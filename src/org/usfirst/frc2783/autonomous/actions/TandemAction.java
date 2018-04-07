@@ -47,7 +47,6 @@ public class TandemAction {
 							//Runs the next action in queue if there is one, if not, ends the scheduler
 							if(!queue.isEmpty()) {
 								while(lastCount == actionCount) {
-									
 								}
 								setAuto(queue.get(0));
 								queue.get(0).start();
@@ -118,11 +117,10 @@ public class TandemAction {
 			}
 			//Makes sure the action isn't null, starts it
 			if(action != null) {
+				while(actionCount == lastCount) {
+				}
 				action.start();
 				thread.startPeriodic(1/Constants.kAutoPeriod);
-				while(actionCount == lastCount) {
-					
-				}
 				active = true;
 			}
 			//If the queue was empty or the action was null, logs a warning
