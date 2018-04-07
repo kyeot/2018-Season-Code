@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Random;
 
+import org.usfirst.frc2783.autonomous.actions.ActionGroup;
 import org.usfirst.frc2783.autonomous.actions.ActionScheduler;
 import org.usfirst.frc2783.autonomous.actions.TandemAction;
 import org.usfirst.frc2783.autonomous.actions.groups.BaselineCross;
@@ -65,6 +66,11 @@ public class Robot extends IterativeRobot {
 	// during auto
 	public static ActionScheduler autoScheduler = new ActionScheduler();
 	public static TandemAction tandemAction = new TandemAction();
+	
+	public void setGroup(ActionGroup group) {
+		autoScheduler.setGroup(group);
+		tandemAction.setGroup(group);
+	}
 
 	// Creates externally used and called variables
 	public static boolean isLeftForward = true;
@@ -235,53 +241,53 @@ public class Robot extends IterativeRobot {
 		// selected position and switch/scale sides
 		switch (autoSelected) {
 		case "Test":
-			autoScheduler.setGroup(new TestAuto());
+			setGroup(new TestAuto());
 			break;
 		case "DriveGyroTest":
-			autoScheduler.setGroup(new DriveGyroTest());
+			setGroup(new DriveGyroTest());
 			break;
 		case "ScaleFromLeft":
-			autoScheduler.setGroup(new ScaleFromLeft());
+			setGroup(new ScaleFromLeft());
 			break;
 		case "ScaleFromRight":
-			autoScheduler.setGroup(new ScaleFromRight());
+			setGroup(new ScaleFromRight());
 			break;
 		case "SwitchFromLeftClose":
 			Robot.switchAutoIsFront = true;
-			autoScheduler.setGroup(new SwitchFromLeft());
+			setGroup(new SwitchFromLeft());
 			break;
 		case "SwitchFromRightClose":
 			Robot.switchAutoIsFront = true;
-			autoScheduler.setGroup(new SwitchFromRight());
+			setGroup(new SwitchFromRight());
 			break;
 		case "SwitchFromLeftFar":
 			Robot.switchAutoIsFront = false;
-			autoScheduler.setGroup(new SwitchFromLeft());
+			setGroup(new SwitchFromLeft());
 			break;
 		case "SwitchFromRightFar":
 			Robot.switchAutoIsFront = false;
-			autoScheduler.setGroup(new SwitchFromRight());
+			setGroup(new SwitchFromRight());
 			break;
 		case "SwitchFromCenter":
-			autoScheduler.setGroup(new SwitchFromCenter());
+			setGroup(new SwitchFromCenter());
 			break;
 		case "BaselineCross":
-			autoScheduler.setGroup(new BaselineCross());
+			setGroup(new BaselineCross());
 			break;
 		case "WaypointTest":
-			autoScheduler.setGroup(new WaypointTest());
+			setGroup(new WaypointTest());
 			// SmartDashboard.putString("DB/String 9",
 			// TankDriveBase.mPathFollower.toString());
 			// SmartDashboard.putString("DB/String 1", "Hi");
 			break;
 		case "Tests":
-			autoScheduler.setGroup(new MethodTest());
+			setGroup(new MethodTest());
 		case "TwoScaleFromLeft":
-			autoScheduler.setGroup(new TwoScaleFromLeft());
+			setGroup(new TwoScaleFromLeft());
 		case "StageRightWaypoint":
-			autoScheduler.setGroup(new StageRightWaypoint());
+			setGroup(new StageRightWaypoint());
 		case "DoubleScaleFromLeft":
-			autoScheduler.setGroup(new DoubleScaleFromLeft());
+			setGroup(new DoubleScaleFromLeft());
 			break;
 		default:
 
