@@ -6,7 +6,9 @@ public class TandemIdentifier extends Action{
 
 	public TandemIdentifier() {
 		super("TandemIdentifier");
-		Robot.tandemAction.runTandem();
 	}
 
+	public void perform() {
+		Robot.tandemAction.runTandem();
+	}
 }
