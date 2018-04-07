@@ -15,6 +15,9 @@ public class WaitForEndTandem extends Action{
 	 */
 	public WaitForEndTandem(boolean waitForAll) {
 		super("WaitForEndTandem");
+		
+		this.waitForAll = waitForAll;
+		
 	}
 
 	@Override
