@@ -8,7 +8,13 @@ public class TandemIdentifier extends Action{
 		super("TandemIdentifier");
 	}
 
+	@Override
 	public void perform() {
 		Robot.tandemAction.runTandem();
+	}
+	
+	@Override
+	public boolean done(){
+		return true;
 	}
 }
