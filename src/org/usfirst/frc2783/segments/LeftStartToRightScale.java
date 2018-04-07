@@ -16,11 +16,11 @@ public class LeftStartToRightScale implements PathContainer{
 	public Path buildPath() {
 		ArrayList<Waypoint> sWaypoints = new ArrayList<Waypoint>();
 		sWaypoints.add(new Waypoint(StaticSetpoints.leftCornerStart, 0, 0));
-		sWaypoints.add(new Waypoint(StaticSetpoints.leftOfSwitch, 0, 60));
-		sWaypoints.add(new Waypoint(StaticSetpoints.platformLeft, 10, 60));
-		sWaypoints.add(new Waypoint(StaticSetpoints.platformRight, 10, 60));
-		sWaypoints.add(new Waypoint(StaticSetpoints.preScaleRight, 10, 60));
-		sWaypoints.add(new Waypoint(StaticSetpoints.scaleRight, 0, 60));
+		sWaypoints.add(new Waypoint(StaticSetpoints.leftOfSwitch, 0, 40));
+		sWaypoints.add(new Waypoint(StaticSetpoints.platformLeft, 10, 40));
+		sWaypoints.add(new Waypoint(StaticSetpoints.platformRight, 10, 40));
+		sWaypoints.add(new Waypoint(StaticSetpoints.preScaleRight, 10, 40));
+		sWaypoints.add(new Waypoint(StaticSetpoints.scaleRight, 0, 40));
 		
 		return PathBuilder.buildPathFromWaypoints(sWaypoints);
 	}

@@ -13,6 +13,7 @@ import org.usfirst.frc2783.segments.LeftScaleToLeftStage;
 import org.usfirst.frc2783.segments.LeftStageToLeftScale;
 import org.usfirst.frc2783.segments.LeftStageToLeftSwitch;
 import org.usfirst.frc2783.segments.LeftStartToLeftScale;
+import org.usfirst.frc2783.segments.LeftStartToLeftSwitch;
 import org.usfirst.frc2783.segments.LeftStartToRightScale;
 import org.usfirst.frc2783.segments.LeftSwitchToLeftStage;
 import org.usfirst.frc2783.segments.RightScaleToRightStage;

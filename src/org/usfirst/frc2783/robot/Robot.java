@@ -315,6 +315,9 @@ public class Robot extends IterativeRobot {
 	public void autonomousPeriodic() {
 		SmartDashboard.putString("DB/String 7", "robot angle: " + Math.floor(NavSensor.getInstance().getAngle(false)));
 		
+		SmartDashboard.putString("DB/String 5", "" + Robot.leftCounter.getRotations());
+		SmartDashboard.putString("DB/String 6", "" + Robot.rightCounter.getRotations());
+		
 		robotState.outputToSmartDashboard();
 		
 		Scheduler.getInstance().run();
