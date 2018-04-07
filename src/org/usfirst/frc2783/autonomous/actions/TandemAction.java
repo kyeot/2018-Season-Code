@@ -7,6 +7,7 @@ import org.usfirst.frc2783.util.CrashTrackingRunnable;
 import org.usfirst.frc2783.util.Logger;
 
 import edu.wpi.first.wpilibj.Notifier;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class TandemAction {
 	
@@ -19,6 +20,7 @@ public class TandemAction {
 		double lastCount = 0;
 		
 		boolean active = false;
+		boolean hasRun = false;
 		
 		ArrayList<Action> queue;
 		
@@ -34,6 +36,12 @@ public class TandemAction {
 				public void runCrashTracked() {
 					
 					if(isActive() && actionCount != lastCount) {
+						if(!hasRun) {
+							queue.get(0).start();
+							queue.remove(0);
+							hasRun = true;
+						}
+						
 						//Loops current action
 						action.perform();
 
@@ -42,13 +50,13 @@ public class TandemAction {
 							//Ends the current action if "done" returns true
 							action.finish();
 							lastCount++;
+							SmartDashboard.putString("DB/String 1", "" + lastCount);
 							Logger.info("Action " + action.getId() + " has finished and quit");
 							
 							//Runs the next action in queue if there is one, if not, ends the scheduler
 							if(!queue.isEmpty()) {
 								setAuto(queue.get(0));
-								queue.get(0).start();
-								queue.remove(0);
+								hasRun = false;
 							} else {
 								stop();
 							}
@@ -115,7 +123,6 @@ public class TandemAction {
 			}
 			//Makes sure the action isn't null, starts it
 			if(action != null) {
-				actionCount++;
 				action.start();
 				thread.startPeriodic(1/Constants.kAutoPeriod);
 				active = true;
@@ -142,6 +149,7 @@ public class TandemAction {
 	
 		public void runTandem() {
 			actionCount++;
+			SmartDashboard.putString("DB/String 0", "" + actionCount);
 		}
 		
 		public double getCurCount() {
