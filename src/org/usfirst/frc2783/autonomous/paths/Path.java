@@ -75,7 +75,17 @@ public class Path {
         PathSegment currentSegment = segments.get(0);
         return currentSegment.getLength();
     }
-
+    
+    /**
+     * All this class does is create a data set for the next point in line
+     * to reach. It looks for data like the location, the distance from
+     * the current robot location, the speed of the point, the next point afterward,
+     * the max speed of the whole path, the next point afterward's speed,
+     * the remaining distance of segment, and the remaining path distance
+     * as a whole
+     * 
+     * @author Adam Ma
+     */
     public static class TargetPointReport {
         public Translation2d closest_point;
         public double closest_point_distance;
@@ -95,13 +105,15 @@ public class Path {
      * 
      * @param robot
      *            Translation of the current robot pose.
+     * @param lookahead
+     * 			  The desired point to reach.
      * @return report containing everything we might want to know about the target point.
      */
     public TargetPointReport getTargetPoint(Translation2d robot, Lookahead lookahead) {
-        TargetPointReport rv = new TargetPointReport();
-        PathSegment currentSegment = segments.get(0);
-        rv.closest_point = currentSegment.getClosestPoint(robot);
-        rv.closest_point_distance = new Translation2d(robot, rv.closest_point).norm();
+        TargetPointReport rv = new TargetPointReport(); //Creates new TargetPoint dataset
+        PathSegment currentSegment = segments.get(0); //Makes the current segment the segment on the top of the ArrayList
+        rv.closest_point = currentSegment.getClosestPoint(robot); //Makes closest point TargetPoint
+        rv.closest_point_distance = new Translation2d(robot, rv.closest_point).norm(); //Gets hyp of translation thus setting the distance
         /*
          * if (segments.size() > 1) { // Check next segment to see if it is closer. final Translation2d
          * next_segment_closest_point = segments.get(1).getClosestPoint(robot); final double
@@ -110,13 +122,12 @@ public class Path {
          * next_segment_closest_point; rv.closest_point_distance = next_segment_closest_point_distance;
          * removeCurrentSegment(); currentSegment = segments.get(0); } }
          */
-        rv.remaining_segment_distance = currentSegment.getRemainingDistance(rv.closest_point);
-        rv.remaining_path_distance = rv.remaining_segment_distance;
+        rv.remaining_segment_distance = currentSegment.getRemainingDistance(rv.closest_point); // Gets remaining distance of segment
+        rv.remaining_path_distance = rv.remaining_segment_distance; //Makes remaining path distance equal to remaining path segment
         for (int i = 1; i < segments.size(); ++i) {
-            rv.remaining_path_distance += segments.get(i).getLength();
+            rv.remaining_path_distance += segments.get(i).getLength(); //Then adds all the other remaining segments to the total path distance
         }
-        rv.closest_point_speed = currentSegment
-                .getSpeedByDistance(currentSegment.getLength() - rv.remaining_segment_distance);
+        rv.closest_point_speed = currentSegment.getSpeedByDistance(currentSegment.getLength() - rv.remaining_segment_distance); //Sets the speed of the closest point
         double lookahead_distance = lookahead.getLookaheadForSpeed(rv.closest_point_speed) + rv.closest_point_distance;
         if (rv.remaining_segment_distance < lookahead_distance && segments.size() > 1) {
             lookahead_distance -= rv.remaining_segment_distance;

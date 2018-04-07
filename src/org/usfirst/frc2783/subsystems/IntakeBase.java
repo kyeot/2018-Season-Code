@@ -8,6 +8,7 @@ import org.usfirst.frc2783.commands.Intake;
 import org.usfirst.frc2783.robot.Constants;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.RobotController;
@@ -17,7 +18,17 @@ public class IntakeBase extends Subsystem {
 	
 	//Creates 2 Victor objects
 	VictorSPX right = new VictorSPX(Constants.kIntakeRight);
-	VictorSPX left = new VictorSPX(Constants.kIntakeLeft);
+	VictorSPX left;
+	
+	public IntakeBase(){
+		
+		left = new VictorSPX(Constants.kIntakeLeft);
+		right = new VictorSPX(Constants.kIntakeRight);
+		
+		left.setNeutralMode(NeutralMode.Brake);
+		right.setNeutralMode(NeutralMode.Brake);
+		
+	}
 	
 	//Method to use intake base
 	public void intake(double speed) {
@@ -26,9 +37,9 @@ public class IntakeBase extends Subsystem {
 		
 	}
 	
-	public void spinAdjust(){
-		left.set(ControlMode.PercentOutput, 1);
-		right.set(ControlMode.PercentOutput, 1);
+	public void spinAdjust(double speed){
+		left.set(ControlMode.PercentOutput, -.8*speed);
+		right.set(ControlMode.PercentOutput, speed);
 	}
 	
 	@Override

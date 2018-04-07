@@ -1,5 +1,6 @@
 package org.usfirst.frc2783.commands;
 
+import org.usfirst.frc2783.robot.Constants;
 import org.usfirst.frc2783.robot.FieldTransform;
 import org.usfirst.frc2783.robot.OI;
 import org.usfirst.frc2783.robot.Robot;
@@ -7,6 +8,7 @@ import org.usfirst.frc2783.util.Bearing;
 import org.usfirst.frc2783.util.NavSensor;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -18,7 +20,8 @@ public class TankDrive extends Command {
 	double lastLeftSpeed;
 	double lastRightSpeed;
 
-	double angle;
+	Bearing startAngle;
+	Bearing endAngle;
 
 	NavSensor navSensor = NavSensor.getInstance();
 
@@ -33,7 +36,7 @@ public class TankDrive extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	public double averageWheelOutput(double lTrigger, double rTrigger) {
-		return rTrigger - lTrigger;
+		return -(rTrigger - lTrigger);
 	}
 	
 	public boolean isNegative(double value) {
@@ -44,6 +47,7 @@ public class TankDrive extends Command {
 	boolean goingForward;
 	
 	public double scaleSide(char side, double initialOutput, double angularValue) {
+		angularValue = -angularValue;
 		biggerRight = isNegative(angularValue);
 		goingForward = isNegative(initialOutput);
 		if (goingForward) {
@@ -62,13 +66,13 @@ public class TankDrive extends Command {
 			}
 		} else {
 			if (biggerRight) {
-				if (side == 'r') {
+				if (side == 'l') {
 					return initialOutput;
 				} else {
 					return (initialOutput - initialOutput*angularValue);
 				}
 			} else {
-				if (side == 'r') {
+				if (side == 'l') {
 					return initialOutput + initialOutput*angularValue;
 				} else {
 					return initialOutput;
@@ -80,30 +84,53 @@ public class TankDrive extends Command {
 	public void setSpeeds(double scale) {
 		leftSpeed = scale*scaleSide('l', averageWheelOutput(OI.driver.getRawAxis(2), OI.driver.getRawAxis(3)), OI.driver.getRawAxis(0));
 		rightSpeed = scale*scaleSide('r', averageWheelOutput(OI.driver.getRawAxis(2), OI.driver.getRawAxis(3)), OI.driver.getRawAxis(0));
-	}
-	 
-	double leftSpeed;
-	double rightSpeed;
+	}	
 	
-	protected void execute() {
-		leftSpeed = OI.driver.getRawAxis(1)/2;
-		rightSpeed = OI.driver.getRawAxis(5)/2;
-		double scale;
-		
-		if (OI.driver.getRawButton(5)) {
-			scale = .25;
-		} 
-		
-		else if (OI.driver.getRawButton(6)) {
-			scale = 1;
-		} 
-		
-		else {
+	public void checkStationaryRotation(double scale) {
+		if (scale == .75) {
 			scale = .5;
 		}
+		if (/*Math.abs(OI.driver.getRawAxis(0)) > .25 &&*/ OI.driver.getRawAxis(3) < .15 && OI.driver.getRawAxis(2) < .15) {
+			leftSpeed = scale*OI.driver.getRawAxis(1);
+			rightSpeed = scale*OI.driver.getRawAxis(5);
+			if (Math.abs(OI.driver.getRawAxis(5)) < .25 && Math.abs(OI.driver.getRawAxis(1)) < .4 && Math.abs(OI.driver.getRawAxis(0)) > .25) {
+				leftSpeed = -scale*OI.driver.getRawAxis(0);
+				rightSpeed = scale*OI.driver.getRawAxis(0);
+			}
+		}
+	}
+	
+	double leftSpeed;
+	double rightSpeed;
+	boolean lastButton1State = false;
+	boolean reverseButton1Toggle = false;
+	
+	public boolean toggleInput(boolean value) {
+		return value ? false : true;
+	}
+	
+	protected void execute() {
+		double scale;
 		
+		if (OI.driver.getRawButton(Constants.kFastModeID)) {
+			//Quarter speed
+			scale = 0.25;
+		} 
+		
+		else if (OI.driver.getRawButton(Constants.kSlowModeID)) {
+			//Full speed
+			scale = 1;
+		}
+		
+		else {
+			//Default speed of .75
+			scale = 0.75;
+		}
+		
+		//Rotation in place supersedes regular driving but has a higher deadband
 		setSpeeds(scale);
-		
+		checkStationaryRotation(scale);
+			
 		if (Math.abs(leftSpeed) < 0.15) {
 			leftSpeed = 0;
 		}
@@ -112,20 +139,31 @@ public class TankDrive extends Command {
 			rightSpeed = 0;
 		}
 
-		if (OI.driver.getRawButton(4)) {
+		if (OI.driver.getRawButton(Constants.kGyroResetID)) {
 			navSensor.resetGyroNorth(0, 0);
 		}
 
-		if (OI.driver.getRawButton(2)) {
-			if (fieldTransform.targetHistory.getLatestTarget() != null) {
-				angle = fieldTransform.targetHistory.getSmoothTarget().dir().getTheta();
-			}
-		}
+//		if (OI.driver.getRawButton(2)) {
+//			if (fieldTransform.targetHistory.getLatestTarget() != null) {
+//				startAngle = new Bearing(fieldTransform.targetHistory.getSmoothTarget().dir().getTheta());
+//				endAngle = startAngle.rotate(new Bearing(180));
+//				SmartDashboard.putString("DB/String 0", "" + endAngle.getTheta());
+//					
+//			}
+//		}
 
-		if (OI.driver.getRawButton(1)) {
-			// Robot.tankDrive.setRobotPose(new Bearing(0));
-			Robot.tankDrive.setRobotPose(new Bearing(angle));
-		} else {
+		//Backwards Driver Drive
+		if(OI.driver.getRawButton(Constants.kBackwardsDrive) == true && lastButton1State == false) {
+			reverseButton1Toggle = toggleInput(reverseButton1Toggle);
+			lastButton1State = true;
+		} else if (OI.driver.getRawButton(Constants.kBackwardsDrive) == false) {
+			lastButton1State = false;
+		}
+		
+		if(reverseButton1Toggle) {
+			Robot.tankDrive.tankDrive(-rightSpeed, -leftSpeed);
+		}
+		else{
 			Robot.tankDrive.tankDrive(leftSpeed, rightSpeed);
 		}
 	}
@@ -139,8 +177,7 @@ public class TankDrive extends Command {
 	protected void end() {
 	}
 
-	// Called when another command which requires one or more of the same\
-	
+	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	protected void interrupted() {
 	}

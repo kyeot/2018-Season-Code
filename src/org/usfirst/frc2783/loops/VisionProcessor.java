@@ -20,8 +20,6 @@ public class VisionProcessor implements Loop, VisionUpdateReceiver {
     VisionUpdate update_ = null;
     FieldTransform fieldTransform = FieldTransform.getInstance();
     
-	double d = 0;
-
     public static VisionProcessor getInstance() {
         return instance_;
     }
@@ -31,6 +29,7 @@ public class VisionProcessor implements Loop, VisionUpdateReceiver {
 
     @Override
     public void onStart() {
+    	throw new Error("no, stop, just stop");
     }
 
     @Override
@@ -48,14 +47,10 @@ public class VisionProcessor implements Loop, VisionUpdateReceiver {
         
         fieldTransform.addVisionTargets(update.getTargets(), update.getCapturedAtTimestamp());
 		
-    	d++;
-    	
-    	SmartDashboard.putString("DB/String 0", "" + d);
-		
         fieldTransform.trackLatestTarget();
         
 		if(fieldTransform.targetHistory.getLatestTarget() != null){
-			SmartDashboard.putString("DB/String 8", "" + fieldTransform.targetHistory.getSmoothTarget().dir().getTheta());
+			SmartDashboard.putString("DB/String 4", "" + fieldTransform.targetHistory.getSmoothTarget().dir().getTheta());
 		}
     }
 
@@ -68,5 +63,11 @@ public class VisionProcessor implements Loop, VisionUpdateReceiver {
     public synchronized void gotUpdate(VisionUpdate update) {
         update_ = update;
     }
+
+	@Override
+	public void onLoop(double timestamp) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

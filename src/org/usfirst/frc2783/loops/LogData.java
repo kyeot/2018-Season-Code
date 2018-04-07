@@ -13,7 +13,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class LogData implements Loop{
 	
-	double d = 0;
+	
+	EventLogger gyroHandler = new EventLogger("Reset GYRO", "WARN") {
+		@Override
+		public boolean event() {
+			return RobotController.isBrownedOut();
+		}
+	};
 	
 	EventLogger batteryHandler = new EventLogger("Battery Browned Out!", "WARN") {
 		@Override
@@ -59,14 +65,16 @@ public class LogData implements Loop{
 		dcHandler.handleEvent();
 		recHandler.handleEvent();
 		
-    	d++;
-    	
-    	SmartDashboard.putString("DB/String 4", "" + d);
-		
 	}
 
 	@Override
 	public void onStop() {
+		
+	}
+
+	@Override
+	public void onLoop(double timestamp) {
+		// TODO Auto-generated method stub
 		
 	}
 

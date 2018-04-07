@@ -5,6 +5,10 @@ import org.usfirst.frc2783.calculation.Twist2d;
 import org.usfirst.frc2783.motion.MotionProfileConstraints;
 import org.usfirst.frc2783.motion.MotionProfileGoal;
 import org.usfirst.frc2783.motion.MotionProfileGoal.CompletionBehavior;
+import org.usfirst.frc2783.subsystems.TankDriveBase;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import org.usfirst.frc2783.motion.MotionState;
 import org.usfirst.frc2783.motion.ProfileFollower;
 
@@ -52,10 +56,19 @@ public class PathFollower {
         public final double goal_vel_tolerance;
         public final double stop_steering_distance;
 
-        public Parameters(Lookahead lookahead, double inertia_gain, double profile_kp, double profile_ki,
-                double profile_kv, double profile_kffv, double profile_kffa, double profile_max_abs_vel,
-                double profile_max_abs_acc, double goal_pos_tolerance, double goal_vel_tolerance,
-                double stop_steering_distance) {
+        public Parameters(Lookahead lookahead,
+        				  double inertia_gain,
+        				  double profile_kp,
+        				  double profile_ki,
+        				  double profile_kv,
+        				  double profile_kffv,
+        				  double profile_kffa,
+        				  double profile_max_abs_vel,
+        				  double profile_max_abs_acc,
+        				  double goal_pos_tolerance,
+        				  double goal_vel_tolerance,
+        				  double stop_steering_distance) {
+        	
             this.lookahead = lookahead;
             this.inertia_gain = inertia_gain;
             this.profile_kp = profile_kp;
@@ -68,11 +81,15 @@ public class PathFollower {
             this.goal_pos_tolerance = goal_pos_tolerance;
             this.goal_vel_tolerance = goal_vel_tolerance;
             this.stop_steering_distance = stop_steering_distance;
+            
         }
     }
-
+    
+    //Steers Direction of robot
     AdaptivePurePursuitController mSteeringController;
     Twist2d mLastSteeringDelta;
+    
+    //Controls Velocity of robot
     ProfileFollower mVelocityController;
     final double mInertiaGain;
     boolean overrideFinished = false;
@@ -91,10 +108,15 @@ public class PathFollower {
      * Create a new PathFollower for a given path.
      */
     public PathFollower(Path path, boolean reversed, Parameters parameters) {
+    	
+    	//Steering controller control direction
         mSteeringController = new AdaptivePurePursuitController(path, reversed, parameters.lookahead);
         mLastSteeringDelta = Twist2d.identity();
-        mVelocityController = new ProfileFollower(parameters.profile_kp, parameters.profile_ki, parameters.profile_kv,
-                parameters.profile_kffv, parameters.profile_kffa);
+        mVelocityController = new ProfileFollower(parameters.profile_kp,
+        										  parameters.profile_ki,
+        										  parameters.profile_kv,
+        										  parameters.profile_kffv,
+        										  parameters.profile_kffa);
         mVelocityController.setConstraints(
                 new MotionProfileConstraints(parameters.profile_max_abs_vel, parameters.profile_max_abs_acc));
         mMaxProfileVel = parameters.profile_max_abs_vel;
@@ -103,6 +125,7 @@ public class PathFollower {
         mGoalVelTolerance = parameters.goal_vel_tolerance;
         mInertiaGain = parameters.inertia_gain;
         mStopSteeringDistance = parameters.stop_steering_distance;
+        //SmartDashboard.putString("DB/String 9", "f");
     }
 
     /**
@@ -129,13 +152,15 @@ public class PathFollower {
             mDebugOutput.steering_command_dtheta = steering_command.delta.dtheta;
             mCrossTrackError = steering_command.cross_track_error;
             mLastSteeringDelta = steering_command.delta;
-            mVelocityController.setGoalAndConstraints(
+            mVelocityController.setGoalAndConstraints( //Give a goal to reach and the limits it cannot pass to reach goal
                     new MotionProfileGoal(displacement + steering_command.delta.dx,
-                            Math.abs(steering_command.end_velocity), CompletionBehavior.VIOLATE_MAX_ACCEL,
-                            mGoalPosTolerance, mGoalVelTolerance),
+                            			  Math.abs(steering_command.end_velocity),
+                            			  CompletionBehavior.VIOLATE_MAX_ACCEL,
+                            			  mGoalPosTolerance,
+                            			  mGoalVelTolerance),
                     new MotionProfileConstraints(Math.min(mMaxProfileVel, steering_command.max_velocity),
-                            mMaxProfileAcc));
-
+                            					 mMaxProfileAcc));
+            SmartDashboard.putString("DB/String 7", "Reached Update Method");
             if (steering_command.remaining_path_length < mStopSteeringDistance) {
                 doneSteering = true;
             }
@@ -154,6 +179,7 @@ public class PathFollower {
         final Twist2d rv = new Twist2d(mLastSteeringDelta.dx * scale, 0.0, dtheta * scale);
 
         // Fill out debug.
+        //All this does is output info
         mDebugOutput.t = t;
         mDebugOutput.pose_x = pose.getTranslation().x();
         mDebugOutput.pose_y = pose.getTranslation().y();

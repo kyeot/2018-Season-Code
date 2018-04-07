@@ -23,12 +23,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true" />
 
-    <coledev.kyeot.tensorflow.RecognitionScoreView
-        android:id="@+id/results"
-        android:layout_width="match_parent"
-        android:layout_height="112dp"
-        android:layout_alignParentTop="true" />
-
     <coledev.kyeot.tensorflow.OverlayView
         android:id="@+id/debug_overlay"
         android:layout_width="match_parent"

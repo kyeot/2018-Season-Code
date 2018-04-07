@@ -1,11 +1,14 @@
 package org.usfirst.frc2783.autonomous.actions;
 
+import org.usfirst.frc2783.loops.LeftEncoderCounter;
+import org.usfirst.frc2783.loops.RightEncoderCounter;
 import org.usfirst.frc2783.robot.Constants;
 import org.usfirst.frc2783.robot.Robot;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
-@SuppressWarnings("static-access")
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class DriveByDistance extends Action {
 
 	public static double leftDistanceInDegrees;
@@ -36,6 +39,8 @@ public class DriveByDistance extends Action {
 	double leftSpeedOnStart;
 	double rightSpeedOnStart;
 	
+	boolean isRight = true;
+	
 	boolean isLeftRotationsDone = false;
 	boolean isLeftDegreesDone = false;
 	boolean isRightRotationsDone = false;
@@ -57,16 +62,18 @@ public class DriveByDistance extends Action {
     	wantedLeftTotalDegrees = leftAngleOnStart + leftDistanceInDegrees;
     	wantedRightTotalDegrees = rightAngleOnStart + rightDistanceInDegrees;
     	
-    	leftRotationOnStart = Robot.leftCounter.leftRotationCounter;
-    	rightRotationOnStart = Robot.rightCounter.rightRotationCounter;
+    	leftRotationOnStart = Robot.leftCounter.getRotations();
+    	rightRotationOnStart = Robot.rightCounter.getRotations();
     	
     	if(leftDistanceInDegrees > rightDistanceInDegrees){
     		rightSpeed = rightDistanceInDegrees/leftDistanceInDegrees*speedScaler;
     		leftSpeed = speedScaler;
+    		isRight = true;
     	}
     	else if(rightDistanceInDegrees > leftDistanceInDegrees){
     		leftSpeed = leftDistanceInDegrees/rightDistanceInDegrees*speedScaler;
     		rightSpeed = speedScaler;
+    		isRight = false;
     	}
     	else{
     		rightSpeed = speedScaler;
@@ -90,12 +97,12 @@ public class DriveByDistance extends Action {
 	}
 	
 	@Override
-	public void perform(){                                                                                 
-    	if(Robot.leftCounter.leftRotationCounter >= (leftRotationOnStart + wantedLeftRotations)){
+	public void perform(){                
+    	if(Robot.leftCounter.getRotations() >= (leftRotationOnStart + wantedLeftRotations)){
     		isLeftRotationsDone = true;
     	}
     	
-    	if(Robot.rightCounter.rightRotationCounter >= (rightRotationOnStart + wantedRightRotations)){
+    	if(Robot.rightCounter.getRotations() >= (rightRotationOnStart + wantedRightRotations)){
     		isRightRotationsDone = true;
     	}
     	
@@ -121,13 +128,18 @@ public class DriveByDistance extends Action {
     		rightSpeed = 0;
     	}
     	
-    	Robot.tankDrive.tankDrive(leftSpeed, rightSpeed);
+    	Robot.tankDrive.tankDrive(-leftSpeed, -rightSpeed);
 		
 	}
 	
 	@Override
 	public boolean done(){
-		return isLeftDegreesDone || isRightDegreesDone;
+		if(isRight){
+			return isRightDegreesDone;
+		}
+		else{
+			return isLeftDegreesDone;
+		}
 	}
 
 	public void finish() {

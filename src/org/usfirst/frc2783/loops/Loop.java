@@ -14,4 +14,6 @@ public interface Loop {
 	
 	public void onStop();
 
+	public void onLoop(double timestamp);
+
 }

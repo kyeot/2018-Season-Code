@@ -24,7 +24,7 @@ public class OnScreenOffReceiver extends BroadcastReceiver {
         }
 
         // create a new wake lock...
-        wakeLock.acquire();
+        wakeLock.acquire(10*60*1000L /*10 minutes*/);
 
         // ... and release again
         wakeLock.release();
@@ -32,6 +32,6 @@ public class OnScreenOffReceiver extends BroadcastReceiver {
 
     private boolean shouldStayAwake() {
         //if in debug mode, do not keep device awake
-        return !DetectorActivity.isDebug();
+        return CameraActivity.isCompetition;
     }
 }

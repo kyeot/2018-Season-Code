@@ -17,7 +17,9 @@ package coledev.kyeot.tensorflow;
 
 import android.graphics.Bitmap;
 import android.graphics.RectF;
+
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Generic interface for interacting with different recognition engines.
@@ -26,7 +28,7 @@ public interface Classifier {
   /**
    * An immutable result returned by a Classifier describing what was recognized.
    */
-  public class Recognition {
+  class Recognition {
     /**
      * A unique identifier for what has been recognized. Specific to the class, not the instance of
      * the object.
@@ -102,7 +104,7 @@ public interface Classifier {
       }
 
       if (confidence != null) {
-        resultString += String.format("(%.1f%%) ", confidence * 100.0f);
+        resultString += String.format(Locale.US,"(%.1f%%) ", confidence * 100.0f);
       }
 
       if (location != null) {

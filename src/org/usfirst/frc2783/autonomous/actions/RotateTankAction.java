@@ -18,6 +18,5 @@ public class RotateTankAction extends Action{
 		Robot.tankDrive.setRobotPose(b);
 		
 	}
-	
 
 }

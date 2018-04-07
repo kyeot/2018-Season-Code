@@ -1,11 +1,11 @@
 package org.usfirst.frc2783.autonomous.actions;
 
+import org.usfirst.frc2783.loops.LeftEncoderCounter;
+import org.usfirst.frc2783.loops.RightEncoderCounter;
 import org.usfirst.frc2783.robot.Constants;
 import org.usfirst.frc2783.robot.Robot;
 import org.usfirst.frc2783.util.GyroSource;
-import org.usfirst.frc2783.util.LeftEncoderCounter;
 import org.usfirst.frc2783.util.NavSensor;
-import org.usfirst.frc2783.util.RightEncoderCounter;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
@@ -72,6 +72,9 @@ public class DriveWithGyroAndByDistance extends Action {
 	boolean isLeftDegreesDone = false;
 	boolean isRightRotationsDone = false;
 	boolean isRightDegreesDone = false;
+	
+	double angle;
+	
 	/**
 	 * 
 	 * Drives the tank drive forward with automatic gyroscope adjustment based on the left and right distances you give it
@@ -81,11 +84,9 @@ public class DriveWithGyroAndByDistance extends Action {
 	 * @param LeftDistance
 	 * @param RightDistance
 	 */
-	public DriveWithGyroAndByDistance(double speedScaler, double leftDistance, double rightDistance) {
+	public DriveWithGyroAndByDistance(double speedScaler, double leftDistance, double rightDistance, double angle) {
 		super("DriveByDistance");
 
-		Robot.angle = gyro.getAngle(false);
-		
 		//Creates the PID controller for gyro adjustment
 		gyroDriveOut = new GyroDriveOut();
 		gyroSource = new GyroSource();
@@ -98,6 +99,8 @@ public class DriveWithGyroAndByDistance extends Action {
     	this.speedScaler = speedScaler;
     	this.leftDistance = leftDistance;
     	this.rightDistance = rightDistance;
+    	 
+    	this.angle = angle;
     	
     	//Makes the angle on start equal the angle, on start
     	leftAngleOnStart = Robot.leftAbsEnc.getValue();
@@ -112,8 +115,8 @@ public class DriveWithGyroAndByDistance extends Action {
     	wantedRightTotalDegrees = rightAngleOnStart + rightDistanceInDegrees;
     	
     	//Makes the rotations on start equal the rotations, on start
-    	leftRotationOnStart = LeftEncoderCounter.leftRotationCounter;
-    	rightRotationOnStart = RightEncoderCounter.rightRotationCounter;
+    	leftRotationOnStart = Robot.leftCounter.getRotations();
+    	rightRotationOnStart = Robot.rightCounter.getRotations();
     	
     	//Scales the left and right speeds scale based on which needs to go more distance
     	if(leftDistanceInDegrees > rightDistanceInDegrees){
@@ -150,10 +153,10 @@ public class DriveWithGyroAndByDistance extends Action {
 	@Override
 	public void perform(){                         
 		//Detects when the rotations are done and sets the booleans correspondingly
-    	if(LeftEncoderCounter.leftRotationCounter >= (leftRotationOnStart + wantedLeftRotations)){
+    	if(Robot.leftCounter.getRotations() >= (leftRotationOnStart + wantedLeftRotations)){
     		isLeftRotationsDone = true;
     	}
-    	if(RightEncoderCounter.rightRotationCounter >= (rightRotationOnStart + wantedRightRotations)){
+    	if(Robot.rightCounter.getRotations() >= (rightRotationOnStart + wantedRightRotations)){
     		isRightRotationsDone = true;
     	}
     	
@@ -192,7 +195,7 @@ public class DriveWithGyroAndByDistance extends Action {
 	 * @param speed
 	 */
 	public void gyroDrive(double speed){
-		gyroDrivePid.setSetpoint(Robot.angle);
+		gyroDrivePid.setSetpoint(angle);
 		gyroDrivePid.enable();
 
 		Robot.tankDrive.tankDrive(-speed, -speed+rot);
@@ -200,7 +203,7 @@ public class DriveWithGyroAndByDistance extends Action {
 	
 	@Override
 	public boolean done(){
-		return isLeftDegreesDone && isRightDegreesDone;
+		return isLeftDegreesDone || isRightDegreesDone;
 	}
 
 	@Override

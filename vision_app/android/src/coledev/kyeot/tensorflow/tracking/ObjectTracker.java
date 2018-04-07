@@ -22,13 +22,16 @@ import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.RectF;
 import android.graphics.Typeface;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
+
 import javax.microedition.khronos.opengles.GL10;
+
 import coledev.kyeot.tensorflow.env.Logger;
 import coledev.kyeot.tensorflow.env.Size;
 
@@ -49,6 +52,7 @@ import coledev.kyeot.tensorflow.env.Size;
  */
 public class ObjectTracker {
   private static final Logger LOGGER = new Logger();
+  private static final String TAG = "ObjectTracker";
 
   private static boolean libraryFound = false;
 

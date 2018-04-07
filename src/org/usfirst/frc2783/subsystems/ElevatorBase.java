@@ -8,7 +8,10 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
-import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -18,10 +21,34 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * @version 1/20/2017
  */
 public class ElevatorBase extends Subsystem {
-
-    // Put methods for controlling this subsystem
-    // here. Call these from Commands.
 	
+	class ElevatorEncSource implements PIDSource {
+		PIDSourceType sourceType;
+		public ElevatorEncSource() {
+			setPIDSourceType(PIDSourceType.kDisplacement);
+		}
+		@Override
+		public void setPIDSourceType(PIDSourceType pidSource) {
+			sourceType = pidSource;
+		}
+		@Override
+		public PIDSourceType getPIDSourceType() {
+			return sourceType;
+		}
+		@Override
+		public double pidGet() {
+			return Robot.elevatorAbsEnc.getValue()/11.3777777777777777778;
+		}	
+	}
+
+    //PID Output Class for the elevator
+	class ElevatorOut implements PIDOutput {
+		@Override
+		public void pidWrite(double output){
+			out = -output;
+		}
+	}
+
 	// adds Victor
 	public static VictorSPX elevator1Mot;
 	public static VictorSPX elevator2Mot;
@@ -29,9 +56,13 @@ public class ElevatorBase extends Subsystem {
 	long timeOnStart;
 	double time;
 	
-	Servo shifter;
-	Servo climber1;
-	Servo climber2;
+	double out;
+	
+	public Servo shifter;
+	
+	ElevatorEncSource elevatorEncSource;
+	ElevatorOut elevatorOut;
+	PIDController elevatorEncController;
 	
 	boolean isUp = true;
 	
@@ -39,12 +70,25 @@ public class ElevatorBase extends Subsystem {
 		elevator1Mot = new VictorSPX(Constants.kElevator1);
 		elevator2Mot = new VictorSPX(Constants.kElevator2);
 		
-		shifter = new Servo(0);
-		climber1 = new Servo(1);
-		climber2 = new Servo(2);
+		shifter = new Servo(Constants.kElevatorShifterID);
 		
 		elevator1Mot.setNeutralMode(NeutralMode.Brake);
 		elevator2Mot.setNeutralMode(NeutralMode.Brake);
+		
+		elevatorEncSource = new ElevatorEncSource();
+		elevatorOut = new ElevatorOut();
+		elevatorEncController = new PIDController(Constants.kElevatorP, Constants.kElevatorI, Constants.kElevatorD,
+												  elevatorEncSource, elevatorOut);
+		elevatorEncController.setInputRange(0, 360);
+		elevatorEncController.setContinuous(false);
+		
+	}
+	
+	public void elevatorPid(double angle){
+		elevatorEncController.setSetpoint(angle);
+		elevatorEncController.enable();
+		
+		elevator(out);
 		
 	}
 	
@@ -66,8 +110,14 @@ public class ElevatorBase extends Subsystem {
 			elevator2Mot.set(ControlMode.PercentOutput, speed);
 		}
 		else if(!isUp){
-			elevator1Mot.set(ControlMode.PercentOutput, speed/3);
-			elevator2Mot.set(ControlMode.PercentOutput, speed/3);
+			if(Robot.isClimb){
+				elevator1Mot.set(ControlMode.PercentOutput, speed);
+				elevator2Mot.set(ControlMode.PercentOutput, speed);
+			}
+			else{
+				elevator1Mot.set(ControlMode.PercentOutput, speed/1.3);
+				elevator2Mot.set(ControlMode.PercentOutput, speed/1.3);	
+			}
 		}
 				
 	}
@@ -81,17 +131,6 @@ public class ElevatorBase extends Subsystem {
 		shifter.set(1);
 		
 	}
-	
-	public void climberIn(){
-		climber1.set(0);
-		climber2.set(0);
-	}
-	
-	public void climberOut(){
-		climber1.set(1);
-		climber2.set(1);
-	}
-	
 
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.

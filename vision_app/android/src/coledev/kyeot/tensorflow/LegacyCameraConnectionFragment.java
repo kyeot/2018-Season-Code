@@ -30,8 +30,10 @@ import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
+
 import java.io.IOException;
 import java.util.List;
+
 import coledev.kyeot.tensorflow.env.ImageUtils;
 import coledev.kyeot.tensorflow.env.Logger;
 
@@ -53,6 +55,8 @@ public class LegacyCameraConnectionFragment extends Fragment {
     this.layout = layout;
     this.desiredSize = desiredSize;
   }
+
+  public LegacyCameraConnectionFragment(){}
 
   /**
    * Conversion from screen rotation to JPEG orientation.
@@ -143,7 +147,7 @@ public class LegacyCameraConnectionFragment extends Fragment {
 
   @Override
   public void onViewCreated(final View view, final Bundle savedInstanceState) {
-    textureView = (AutoFitTextureView) view.findViewById(R.id.texture);
+    textureView = view.findViewById(R.id.texture);
   }
 
   @Override

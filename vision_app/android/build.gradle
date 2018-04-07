@@ -94,8 +94,8 @@ android {
 
             minSdkVersion 21
             targetSdkVersion 27
-            versionCode 8
-            versionName "1.8"
+            versionCode 14
+            versionName "2.0.2"
             ndk {
                 abiFilters "${cpuType}"
             }

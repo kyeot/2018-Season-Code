@@ -14,10 +14,19 @@
  limitations under the License.
 -->
 <resources>
+    <string name="app_name">2783 Vision</string>
+    <string name="activity_name_detection">2783 Vision</string>
+
     <string name="description_info">Info</string>
     <string name="request_permission">This sample needs camera permission.</string>
     <string name="camera_error">This device doesn\'t support Camera2 API.</string>\
     <string name="device_admin_label">2783 Vision</string>
     <string name="device_admin_description">Enable device administration capabilities for safe UI during matches.</string>
+    <string name="battery_error">BATTERY LOW</string>
+    <string name="disconnect_error">ROBOT DISCONNECTED</string>
+    <string name="robot_connected">Robot Connected</string>
+    <string name="robot_disconnected">Robot Disconnected</string>
+    <string name="practice_mode">Practice Mode</string>
+    <string name="competition_mode">Competition Mode</string>
 
 </resources>
