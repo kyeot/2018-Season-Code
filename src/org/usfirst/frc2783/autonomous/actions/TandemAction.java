@@ -33,7 +33,7 @@ public class TandemAction {
 				@Override
 				public void runCrashTracked() {
 					
-					if(isActive()) {
+					if(isActive() && actionCount != lastCount) {
 						//Loops current action
 						action.perform();
 
@@ -46,8 +46,6 @@ public class TandemAction {
 							
 							//Runs the next action in queue if there is one, if not, ends the scheduler
 							if(!queue.isEmpty()) {
-								while(lastCount == actionCount) {
-								}
 								setAuto(queue.get(0));
 								queue.get(0).start();
 								queue.remove(0);
@@ -117,8 +115,7 @@ public class TandemAction {
 			}
 			//Makes sure the action isn't null, starts it
 			if(action != null) {
-				while(actionCount == lastCount) {
-				}
+				actionCount++;
 				action.start();
 				thread.startPeriodic(1/Constants.kAutoPeriod);
 				active = true;
