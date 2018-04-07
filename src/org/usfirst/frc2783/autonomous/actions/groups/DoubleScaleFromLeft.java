@@ -25,11 +25,13 @@ public class DoubleScaleFromLeft extends ActionGroup{
 			if(Robot.isScaleLeft()){
 				addAction(new AutoElevator(-0.5, 0.5));
 				addAction(new DriveWithGyroAndByDistance(0.8, 19*12, 19*12, 0));
-				addAction(new RotateTankAction(new Bearing(295), 1));
+				addAction(new RotateTankAction(new Bearing(300), 1));
+				addTandemAction(new GoToTopAction());
 				addAction(new AutoDrive(-0.4, -0.4, 0.25));
-				addAction(new GoToTopAction());
-				addAction(new AutoDrive(0.3, 0.3, 0.5));
+//				addAction(new GoToTopAction());
+				addAction(new AutoDrive(0.3, 0.3, 1));
 				addAction(new AutoIntake(1, 1));
+				addAction(new AutoDrive(-0.3, -0.3, 0.25));
 				addAction(new AutoElevator(1, 1.5));
 				addAction(new RotateTankAction(new Bearing(205), 1));
 				addAction(new ParallelAction(Arrays.asList(new Action[] {
@@ -41,9 +43,9 @@ public class DoubleScaleFromLeft extends ActionGroup{
 					new AutoDrive(-0.5, -0.5, 1),	
 					new AutoElevator(-1, 1)
 				})));
-				addAction(new RotateTankAction(new Bearing(330), 1));
+				addAction(new RotateTankAction(new Bearing(320), 1));
 				addAction(new AutoElevator(-1, 1));
-				addAction(new AutoDrive(0.25, 0.25, 1));
+				addAction(new AutoDrive(0.25, 0.25, 1.5));
 				addAction(new AutoIntake(0.75, 1));
 			}
 			else{
