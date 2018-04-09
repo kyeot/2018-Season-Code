@@ -7,7 +7,7 @@ public class WaitForEndTandem extends Action{
 	double initCount;
 	boolean waitForAll;
 	
-	/* 
+	/**
 	 * An action exclusively for ActionScheduler that waits for the completion of one or multiple TandemAction(s)
 	 * 
 	 * @param waitForAll 

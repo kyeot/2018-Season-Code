@@ -9,7 +9,7 @@ public class TandemIdentifier extends Action{
 	}
 
 	@Override
-	public void perform() {
+	public void start() {
 		Robot.tandemAction.runTandem();
 	}
 	
