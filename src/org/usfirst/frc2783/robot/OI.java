@@ -5,15 +5,19 @@ import org.usfirst.frc2783.commands.ElevatorServoShift;
 import org.usfirst.frc2783.commands.FaceDownField;
 import org.usfirst.frc2783.commands.FaceDriverStation;
 import org.usfirst.frc2783.commands.FaceEast;
+import org.usfirst.frc2783.commands.FaceLeft;
+import org.usfirst.frc2783.commands.FaceNorth;
 import org.usfirst.frc2783.commands.FaceNorthEast;
 import org.usfirst.frc2783.commands.FaceNorthWest;
+import org.usfirst.frc2783.commands.FaceRight;
+import org.usfirst.frc2783.commands.FaceSouth;
 import org.usfirst.frc2783.commands.FaceSouthEast;
 import org.usfirst.frc2783.commands.FaceSouthWest;
 import org.usfirst.frc2783.commands.FaceWest;
 import org.usfirst.frc2783.commands.GoToTopSimple;
-import org.usfirst.frc2783.subsystems.Dpad;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.Trigger;
 import edu.wpi.first.wpilibj.command.Command;
@@ -26,8 +30,6 @@ import edu.wpi.first.wpilibj.command.Command;
 public class OI {
 	
 	public static Joystick driver = new Joystick(Constants.kDriverControllerId);
-
-	 //Joystick Controls 
 //	public static Joystick driver1 = new Joystick(Constants.kDriverControllerId);
 //	public static Joystick driver2 = new Joystick(Constants.kDriverControllerId);
 	
@@ -38,17 +40,12 @@ public class OI {
 	
 	public static JoystickButton elevatorUpSimple = new JoystickButton(manipulator, 4);
 	
-	//Driver Rotation Controls
-//	public static JoystickButton faceDriverStation = new JoystickButton(driver, Constants.kFaceDriverStation);
-//	public static JoystickButton faceDownField = new JoystickButton(driver, Constants.kFaceDownField);
-//	public static JoystickButton faceLeft = new JoystickButton(driver, Constants.kFaceLeft);
-//	public static JoystickButton faceRight = new JoystickButton(driver, Constants.kFaceRight);
-
 	public static JoystickButton faceDriverStation = new JoystickButton(driver, Constants.kFaceDriverStation);
 	public static JoystickButton faceDownField = new JoystickButton(driver, Constants.kFaceDownField);
+	public static JoystickButton faceLeft = new JoystickButton(driver, Constants.kFaceLeft);
+	public static JoystickButton faceRight = new JoystickButton(driver, Constants.kFaceRight);
 	
-	 //Dpad Rotation Controls
-//	public static JoystickButton faceNorth = new JoystickButton(driver, Constants.);
+//	public static JoystickButton faceNorth = new JoystickButton(driver, Constants.POVup);
 //	public static JoystickButton faceSouth = new JoystickButton(driver, Constants.POVdown);
 //	public static JoystickButton faceWest = new JoystickButton(driver, Constants.POVleft);
 //	public static JoystickButton faceEast = new JoystickButton(driver, Constants.POVright);
@@ -57,19 +54,14 @@ public class OI {
 //	public static JoystickButton elevatorToSwitch = new JoystickButton(manipulator, Constants.kElevatorToSwitchID);
 //	public static JoystickButton elevatorToScale = new JoystickButton(manipulator, Constants.kElevatorToScaleID);
 	
+
     public OI() {
     	
     	elevatorShift.whileHeld(new ElevatorServoShift());
     	elevatorLockShift.whenPressed(new ElevatorLockShift());
     	
     	elevatorUpSimple.whenPressed(new GoToTopSimple());
-
-    	//Rotation Commands
-//   	faceDownField.whileHeld(new FaceDownField());
-//    	faceDriverStation.whileHeld(new FaceDriverStation());
-//    	faceLeft.whileHeld(new FaceLeft());
-//   	faceRight.whileHeld(new FaceRight());
-	
+    	
   /*   if(driver.getPOV() == 0) {
       Trigger.FaceNorth().start();
     	} 
@@ -89,10 +81,14 @@ public class OI {
    	*/
     	faceDownField.whileHeld(new FaceDownField());
     	faceDriverStation.whileHeld(new FaceDriverStation());
+    	faceLeft.whileHeld(new FaceLeft());
+    	faceRight.whileHeld(new FaceRight());
 
+    	
 //    	elevatorToGround.whenPressed(new GoToElevatorPosition(Robot.groundPos.getRotations(), Robot.groundPos.getDegrees()));
 //    	elevatorToSwitch.whenPressed(new GoToElevatorPosition(Robot.switchPos.getRotations(), Robot.switchPos.getDegrees()));
 //    	elevatorToScale.whenPressed(new GoToElevatorPosition(Robot.scalePos.getRotations(), Robot.scalePos.getDegrees()));
+
     	
     }
 

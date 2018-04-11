@@ -4,11 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Random;
 
-import org.usfirst.frc2783.autonomous.actions.ActionGroup;
 import org.usfirst.frc2783.autonomous.actions.ActionScheduler;
-import org.usfirst.frc2783.autonomous.actions.TandemAction;
 import org.usfirst.frc2783.autonomous.actions.groups.BaselineCross;
-import org.usfirst.frc2783.autonomous.actions.groups.DoubleScaleFromLeft;
 import org.usfirst.frc2783.autonomous.actions.groups.DriveGyroTest;
 import org.usfirst.frc2783.autonomous.actions.groups.MethodTest;
 import org.usfirst.frc2783.autonomous.actions.groups.ScaleFromLeft;
@@ -65,12 +62,6 @@ public class Robot extends IterativeRobot {
 	// Creates Scheduler for running the correct actions at the correct times
 	// during auto
 	public static ActionScheduler autoScheduler = new ActionScheduler();
-	public static TandemAction tandemAction = new TandemAction();
-	
-	public void setGroup(ActionGroup group) {
-		autoScheduler.setGroup(group);
-		tandemAction.setGroup(group);
-	}
 
 	// Creates externally used and called variables
 	public static boolean isLeftForward = true;
@@ -185,7 +176,7 @@ public class Robot extends IterativeRobot {
 		slowLoop.startLoops();
 
 		// Creates a List of selectable autonomous groups
-		String[] autonomousList = {"BaselineCross", "SwitchFromCenter", "ScaleFromLeft", "DoubleScaleFromLeft",
+		String[] autonomousList = {"BaselineCross", "SwitchFromCenter", "ScaleFromLeft",
 				"SwitchFromLeftClose", "SwitchFromLeftFar", "ScaleFromRight", "SwitchFromRightClose",
 				"SwitchFromRightFar", "WaypointTest", "Tests", "Test", "DriveGyroTest", "StageRightWaypoint",
 				"StageLeftWaypoint", "TwoScaleFromLeft" };
@@ -241,61 +232,58 @@ public class Robot extends IterativeRobot {
 		// selected position and switch/scale sides
 		switch (autoSelected) {
 		case "Test":
-			setGroup(new TestAuto());
+			autoScheduler.setGroup(new TestAuto());
 			break;
 		case "DriveGyroTest":
-			setGroup(new DriveGyroTest());
+			autoScheduler.setGroup(new DriveGyroTest());
 			break;
 		case "ScaleFromLeft":
-			setGroup(new ScaleFromLeft());
+			autoScheduler.setGroup(new ScaleFromLeft());
 			break;
 		case "ScaleFromRight":
-			setGroup(new ScaleFromRight());
+			autoScheduler.setGroup(new ScaleFromRight());
 			break;
 		case "SwitchFromLeftClose":
 			Robot.switchAutoIsFront = true;
-			setGroup(new SwitchFromLeft());
+			autoScheduler.setGroup(new SwitchFromLeft());
 			break;
 		case "SwitchFromRightClose":
 			Robot.switchAutoIsFront = true;
-			setGroup(new SwitchFromRight());
+			autoScheduler.setGroup(new SwitchFromRight());
 			break;
 		case "SwitchFromLeftFar":
 			Robot.switchAutoIsFront = false;
-			setGroup(new SwitchFromLeft());
+			autoScheduler.setGroup(new SwitchFromLeft());
 			break;
 		case "SwitchFromRightFar":
 			Robot.switchAutoIsFront = false;
-			setGroup(new SwitchFromRight());
+			autoScheduler.setGroup(new SwitchFromRight());
 			break;
 		case "SwitchFromCenter":
-			setGroup(new SwitchFromCenter());
+			autoScheduler.setGroup(new SwitchFromCenter());
 			break;
 		case "BaselineCross":
-			setGroup(new BaselineCross());
+			autoScheduler.setGroup(new BaselineCross());
 			break;
 		case "WaypointTest":
-			setGroup(new WaypointTest());
+			autoScheduler.setGroup(new WaypointTest());
 			// SmartDashboard.putString("DB/String 9",
 			// TankDriveBase.mPathFollower.toString());
 			// SmartDashboard.putString("DB/String 1", "Hi");
 			break;
 		case "Tests":
-			setGroup(new MethodTest());
+			autoScheduler.setGroup(new MethodTest());
 		case "TwoScaleFromLeft":
-			setGroup(new TwoScaleFromLeft());
+			autoScheduler.setGroup(new TwoScaleFromLeft());
 		case "StageRightWaypoint":
-			setGroup(new StageRightWaypoint());
-		case "DoubleScaleFromLeft":
-			setGroup(new DoubleScaleFromLeft());
-			break;
+			autoScheduler.setGroup(new StageRightWaypoint());
 		default:
+			autoScheduler.setGroup(new BaselineCross());
 
 		}
 
 		// Starts the selected autonomous group with the scheduler
 		autoScheduler.start();
-		tandemAction.start();
 	}
 
 	public void autonomousPeriodic() {
@@ -311,7 +299,6 @@ public class Robot extends IterativeRobot {
 		Logger.info("Starting Teleop");
 		
 		autoScheduler.stop();
-		tandemAction.stop();
 		
 	}
 

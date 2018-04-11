@@ -81,6 +81,8 @@ public class TankDrive extends Command {
 		}
 	}
 	
+	
+	
 	public void setSpeeds(double scale) {
 		leftSpeed = scale*scaleSide('l', averageWheelOutput(OI.driver.getRawAxis(2), OI.driver.getRawAxis(3)), OI.driver.getRawAxis(0));
 		rightSpeed = scale*scaleSide('r', averageWheelOutput(OI.driver.getRawAxis(2), OI.driver.getRawAxis(3)), OI.driver.getRawAxis(0));
@@ -97,7 +99,7 @@ public class TankDrive extends Command {
 				leftSpeed = -scale*OI.driver.getRawAxis(0);
 				rightSpeed = scale*OI.driver.getRawAxis(0);
 			}
-		}
+		}	
 	}
 	
 	double leftSpeed;
@@ -114,23 +116,26 @@ public class TankDrive extends Command {
 		
 		if (OI.driver.getRawButton(Constants.kFastModeID)) {
 			//Quarter speed
-			scale = 0.25;
+			scale = .25;
+		
 		} 
 		
 		else if (OI.driver.getRawButton(Constants.kSlowModeID)) {
 			//Full speed
 			scale = 1;
-		}
+		} 
 		
 		else {
 			//Default speed of .75
-			scale = 0.75;
+			scale = .75;
 		}
 		
 		//Rotation in place supersedes regular driving but has a higher deadband
 		setSpeeds(scale);
 		checkStationaryRotation(scale);
-			
+		
+		
+		
 		if (Math.abs(leftSpeed) < 0.15) {
 			leftSpeed = 0;
 		}
@@ -148,15 +153,20 @@ public class TankDrive extends Command {
 //				startAngle = new Bearing(fieldTransform.targetHistory.getSmoothTarget().dir().getTheta());
 //				endAngle = startAngle.rotate(new Bearing(180));
 //				SmartDashboard.putString("DB/String 0", "" + endAngle.getTheta());
-//					
+//				
 //			}
 //		}
-
-		//Backwards Driver Drive
-		if(OI.driver.getRawButton(Constants.kBackwardsDrive) == true && lastButton1State == false) {
+//
+//		if (OI.driver.getRawButton(3)) {
+//			// Robot.tankDrive.setRobotPose(new Bearing(0));
+//			Robot.tankDrive.setRobotPose(endAngle);
+//		} 
+		
+		
+		if(OI.driver.getRawButton(1) == true && lastButton1State == false) {
 			reverseButton1Toggle = toggleInput(reverseButton1Toggle);
 			lastButton1State = true;
-		} else if (OI.driver.getRawButton(Constants.kBackwardsDrive) == false) {
+		} else if (OI.driver.getRawButton(1) == false) {
 			lastButton1State = false;
 		}
 		
@@ -177,7 +187,8 @@ public class TankDrive extends Command {
 	protected void end() {
 	}
 
-	// Called when another command which requires one or more of the same
+	// Called when another command which requires one or more of the same\
+	
 	// subsystems is scheduled to run
 	protected void interrupted() {
 	}

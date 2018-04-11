@@ -44,38 +44,44 @@ public class Constants {
 	public static final int kElevatorGearShiftID = 10;
 	
 	//Button IDs for driver
-	public static final int kSlowModeID = 6;
-	public static final int kFastModeID = 5;
+	public static final int kSlowModeID = 5;
+	public static final int kFastModeID = 6;
 
-	public static final int kFaceDriverStation = 1;
+	// Rotator ID's	
+	public static final int kFaceDriverStation= 10;
+	public static final int kFaceRight = 2;
+	public static final int kFaceLeft = 3;
 	public static final int kFaceDownField = 4;
 	
-//	public static final int kFaceRight = 2;
-//	public static final int kFaceLeft = 3;
+	public static final int kFaceSouth = 10;
+	public static final int kFaceEast = 2;
+	public static final int kFaceWest = 3;
+	public static final int kFaceNorth = 4;
 	
 //	static public final int POVup = 0;
-//	static public final int POVright = 2;
-//	static public final int POVdown = 4;
-//	static public final int POVleft = 6;
+//	static public final int POVright = 90;
+//	static public final int POVdown = 180;
+//	static public final int POVleft = 270;
 	
-//	public static final int kVisionTestID = 7;
+	//public static final int kVisionTestID = 7;
 	public static final int kGyroResetID = 8;
+	//public static final int kGyroResetID = 4;
+	
+	 // Owen's Trash PID's
+	//PID values for tank rotation to angle
+	public static final double kTankPoseP = 0.007;
+	public static final double kTankPoseI = 0.0;
+	public static final double kTankPoseD = 0.008;
 
-	public static final int kBackwardsDrive = 1; 
-	
-	//Perfection
-	public static final double kTankPoseP = 0.015;
-	public static final double kTankPoseI = 0.00001;
-	public static final double kTankPoseD = 0.049;
-	
+	// Liam's perfectly tuned PID's
+//	public static final double kTankPoseP = 0.01;
+//	public static final double kTankPoseI = 0.0;
+//	public static final double kTankPoseD = 0.011;
+	  
 	//PID values for gyro adjusted drive
-//	public static final double kGyroDriveP = 0.015;
-//	public static final double kGyroDriveI = 0.001;
-//	public static final double kGyroDriveD = 0.09;
-	
-	public static final double kGyroDriveP = 0.0165;
+	public static final double kGyroDriveP = 0.01;
 	public static final double kGyroDriveI = 0.001;
-	public static final double kGyroDriveD = 0.1;
+	public static final double kGyroDriveD = 0.09;
 	
 	//PID values for tank wheel angle adjusters
 	public static final double kTankSideP = 0.0075;
@@ -96,6 +102,7 @@ public class Constants {
 	public static final double kCameraYawOffset = 0.0;
 	
 	public static final double kGoalHeight = 6;	    // height to center of target in inches
+	
 	
 	//Time between each loop in a loop in hertz
 	public static final double kPeriod = 200; 

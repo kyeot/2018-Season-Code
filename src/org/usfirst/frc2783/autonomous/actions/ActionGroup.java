@@ -19,8 +19,7 @@ public class ActionGroup {
 		//SmartDashboard.putString("DB/String 1", "Hiki");
 	}
 	
-	protected void addTandemAction(Action action) {
-		actions.add(new TandemIdentifier());
+	protected void addSecondaryAction(Action action) {
 		actions2.add(action);
 	}
 	
@@ -28,7 +27,4 @@ public class ActionGroup {
 		return actions;
 	}
 	
-	public ArrayList<Action> getTandemActions() {
-		return actions2;
-	}
 }
