@@ -24,28 +24,52 @@ public class DoubleScaleFromLeft extends ActionGroup{
 		
 		try{
 			if(Robot.isScaleLeft()){
-				addTandemAction(new AutoElevator(-0.5, 0.5));
-//				addAction(new WaitForEndTandem(true));
+				
+				addAction(new AutoElevator(-0.5, 0.5));
 				addAction(new DriveWithGyroAndByDistance(0.8, 19*12, 19*12, 0));
-				addTandemAction(new AutoIntake(-.25, 1));
-				addAction(new RotateTankAction(new Bearing(300), 1));
-				addTandemAction(new GoToTopAction());
-				addAction(new AutoDrive(-0.4, -0.4, 0.25));
-//				addAction(new GoToTopAction());
-				addAction(new AutoDrive(0.3, 0.3, 1));
+				addAction(new RotateTankAction(new Bearing(305), 1));
+				addAction(new GoToTopAction());
+				addAction(new AutoDrive(0.3, 0.3, 0.5));
 				addAction(new AutoIntake(1, 1));
-				addTandemAction(new AutoElevator(1, 1.5));
-				addAction(new AutoDrive(-0.3, -0.3, 0.25));
-				addAction(new RotateTankAction(new Bearing(205), 1));
-				addTandemAction(new AutoIntake(-1, 2.5));
-				addAction(new AutoDrive(0.35, 0.35, 2.5));
-				addAction(new AutoDrive(-0.5, -0.5, 0.5));
-				addTandemAction(new AutoElevator(-.5, 2));
-				addAction(new AutoDrive(-0.5, -0.5, 1));
-				addAction(new RotateTankAction(new Bearing(320), 1));
-				addTandemAction(new AutoElevator(-1, 1));
-				addAction(new AutoDrive(0.25, 0.25, 1.5));
+				addAction(new AutoDrive(-0.3, -0.3, 0.5));
+				addAction(new AutoElevator(1, 1.5));
+				addAction(new RotateTankAction(new Bearing(215), 1));
+				addAction(new ParallelAction(Arrays.asList(new Action[] {
+					new AutoDrive(0.4, 0.35, 2.5),	
+					new AutoIntake(-1, 2.5)
+				})));
+				addAction(new AutoDrive(-0.5, -0.5, 0.5));	
+				addAction(new ParallelAction(Arrays.asList(new Action[] {
+					new AutoDrive(-0.5, -0.5, 0.25),	
+					new AutoElevator(-1, 0.25)
+				})));
+				addAction(new RotateTankAction(new Bearing(350), 1));
+				addAction(new AutoElevator(-1, 1.5));
+				addAction(new AutoDrive(0.3, 0.2, 1.5));
 				addAction(new AutoIntake(0.75, 1));
+				
+//				addTandemAction(new AutoElevator(-0.5, 0.5));
+////				addAction(new WaitForEndTandem(true));
+//				addAction(new DriveWithGyroAndByDistance(0.8, 19*12, 19*12, 0));
+//				addTandemAction(new AutoIntake(-.25, 1));
+//				addAction(new RotateTankAction(new Bearing(300), 1));
+//				addTandemAction(new GoToTopAction());
+//				addAction(new AutoDrive(-0.4, -0.4, 0.25));
+////				addAction(new GoToTopAction());
+//				addAction(new AutoDrive(0.3, 0.3, 1));
+//				addAction(new AutoIntake(1, 1));
+//				addTandemAction(new AutoElevator(1, 1.5));
+//				addAction(new AutoDrive(-0.3, -0.3, 0.25));
+//				addAction(new RotateTankAction(new Bearing(205), 1));
+//				addTandemAction(new AutoIntake(-1, 2.5));
+//				addAction(new AutoDrive(0.35, 0.35, 2.5));
+//				addAction(new AutoDrive(-0.5, -0.5, 0.5));
+//				addTandemAction(new AutoElevator(-.5, 2));
+//				addAction(new AutoDrive(-0.5, -0.5, 1));
+//				addAction(new RotateTankAction(new Bearing(320), 1));
+//				addTandemAction(new AutoElevator(-1, 1));
+//				addAction(new AutoDrive(0.25, 0.25, 1.5));
+//				addAction(new AutoIntake(0.75, 1));
 			}
 			else{
 				
