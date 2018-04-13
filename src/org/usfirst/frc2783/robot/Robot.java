@@ -13,6 +13,7 @@ import org.usfirst.frc2783.autonomous.actions.groups.DriveGyroTest;
 import org.usfirst.frc2783.autonomous.actions.groups.MethodTest;
 import org.usfirst.frc2783.autonomous.actions.groups.ScaleFromLeft;
 import org.usfirst.frc2783.autonomous.actions.groups.ScaleFromRight;
+import org.usfirst.frc2783.autonomous.actions.groups.ScaleSwitchFromLeft;
 import org.usfirst.frc2783.autonomous.actions.groups.StageRightWaypoint;
 import org.usfirst.frc2783.autonomous.actions.groups.SwitchFromCenter;
 import org.usfirst.frc2783.autonomous.actions.groups.SwitchFromLeft;
@@ -41,7 +42,6 @@ import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.SPI;
@@ -185,7 +185,7 @@ public class Robot extends IterativeRobot {
 		slowLoop.startLoops();
 
 		// Creates a List of selectable autonomous groups
-		String[] autonomousList = {"BaselineCross", "SwitchFromCenter", "ScaleFromLeft", "DoubleScaleFromLeft",
+		String[] autonomousList = {"BaselineCross", "SwitchFromCenter", "ScaleFromLeft", "DoubleScaleFromLeft", "ScaleSwitchFromLeft",
 				"SwitchFromLeftClose", "SwitchFromLeftFar", "ScaleFromRight", "SwitchFromRightClose",
 				"SwitchFromRightFar", "WaypointTest", "Tests", "Test", "DriveGyroTest", "StageRightWaypoint",
 				"StageLeftWaypoint", "TwoScaleFromLeft" };
@@ -288,6 +288,9 @@ public class Robot extends IterativeRobot {
 			setGroup(new StageRightWaypoint());
 		case "DoubleScaleFromLeft":
 			setGroup(new DoubleScaleFromLeft());
+			break;
+		case "ScaleSwitchFromLeft":
+			setGroup(new ScaleSwitchFromLeft());
 			break;
 		default:
 
