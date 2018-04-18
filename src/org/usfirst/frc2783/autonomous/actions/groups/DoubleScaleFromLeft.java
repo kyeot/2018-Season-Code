@@ -42,10 +42,10 @@ public class DoubleScaleFromLeft extends ActionGroup{
 					new AutoDrive(-0.5, -0.5, 0.5),
 				})));
 				addAction(new ParallelAction(Arrays.asList(new Action[] {
-					new RotateTankAction(new Bearing(340), 1),
+					new RotateTankAction(new Bearing(344), 1),
 					new AutoIntake(-0.2, 1)
 				})));
-				addAction(new AutoElevator(-1, 1.5));
+				addAction(new AutoElevator(-1, 1.75));
 				addAction(new AutoDrive(0.4, 0.37, 1.5));
 				addAction(new AutoIntake(0.75, 1));
 				

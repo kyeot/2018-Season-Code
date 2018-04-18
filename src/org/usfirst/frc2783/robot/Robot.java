@@ -125,8 +125,7 @@ public class Robot extends IterativeRobot {
 
 	// Creates Encoders with Respective IDs
 	public static AnalogInput leftAbsEnc = new AnalogInput(0);
-	public static AnalogInput rightAbsEnc = new AnalogInput(1);
-	public static AnalogInput elevatorAbsEnc = new AnalogInput(2);
+	public static AnalogInput rightAbsEnc = new AnalogInput(1);	public static AnalogInput elevatorAbsEnc = new AnalogInput(2);
 
 	// Creates Encoder Counters for measuring Loops on each Encoder
 	public static LeftEncoderCounter leftCounter = new LeftEncoderCounter();
@@ -342,6 +341,8 @@ public class Robot extends IterativeRobot {
 		}
 		
 
+		SmartDashboard.putString("DB/String 3", "" + Robot.elEncCounter.getRotations());
+		SmartDashboard.putString("DB/String 4", "" + Robot.elevatorAbsEnc.getValue());
 		SmartDashboard.putString("DB/String 5", "" + Robot.rightCounter.getRotations());
 		SmartDashboard.putString("DB/String 6", "" + Robot.rightAbsEnc.getValue());
 		SmartDashboard.putString("DB/String 7", "" + Robot.elEncCounter.getRotations());
