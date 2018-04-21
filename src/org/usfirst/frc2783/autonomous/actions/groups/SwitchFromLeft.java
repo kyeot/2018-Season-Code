@@ -1,7 +1,6 @@
 package org.usfirst.frc2783.autonomous.actions.groups;
 
 import java.util.Arrays;
-import java.util.List;
 
 import org.usfirst.frc2783.autonomous.actions.Action;
 import org.usfirst.frc2783.autonomous.actions.ActionGroup;
@@ -25,22 +24,30 @@ public class SwitchFromLeft extends ActionGroup{
 				if(Robot.isSwitchesLeft()){		
 					addAction(new AutoElevator(-0.5, 0.5));
 					addAction(new DriveWithGyroAndByDistance(0.5, 12.5*12, 12.5*12, 0));
-					addAction(new RotateTankAction(new Bearing(270), 1));
-					addAction(new AutoIntake(-0.5, 0.5));
+					addAction(new ParallelAction(Arrays.asList(new Action[] {
+						new RotateTankAction(new Bearing(270), 1),
+						new AutoIntake(-0.2, 1)
+					})));
+						
 					addAction(new AutoElevator(-1, 1)); 
-					addAction(new AutoDrive(0.25, 0.25, 1));
-					addAction(new AutoIntake(0.75, 1));
+					addAction(new AutoDrive(0.3, 0.3, 1));
+					addAction(new AutoIntake(1, 1));
 				}
 				
 				else{
 					addAction(new AutoElevator(-0.75, 0.5));
-					addAction(new DriveWithGyroAndByDistance(0.5, 18.73*12, 18.73*12, 0));
-					addAction(new RotateTankAction(new Bearing(270), 1));
-					addAction(new DriveWithGyroAndByDistance(0.55, 37.5*12, 37.5*12, 276));
-					addAction(new RotateTankAction(new Bearing(175), 1));
+					addAction(new DriveWithGyroAndByDistance(0.5, 18.8*12, 18.8*12, 0));
+					addAction(new RotateTankAction(new Bearing(272), 1));
+					addAction(new DriveWithGyroAndByDistance(0.55, 37.5*12, 37.5*12, 272));
+					addAction(new RotateTankAction(new Bearing(180), 1));
 					addAction(new AutoDrive(0.5, 0.5, 1));
-					addAction(new RotateTankAction(new Bearing(80), 1));
-					addAction(new AutoElevator(-1, 0.75));
+					addAction(new AutoElevator(-0.75, 0.5));
+					
+					addAction(new ParallelAction(Arrays.asList(new Action[] {
+						new RotateTankAction(new Bearing(90), 1),
+						new AutoIntake(-0.2, 1)
+					})));
+					
 					addAction(new AutoDrive(0.4, 0.3, 1));
 					addAction(new AutoIntake(0.75, 1));
 				}

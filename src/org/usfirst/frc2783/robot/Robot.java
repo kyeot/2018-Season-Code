@@ -339,7 +339,6 @@ public class Robot extends IterativeRobot {
 			}
 		} catch (NullPointerException n) {
 		}
-		
 
 		SmartDashboard.putString("DB/String 3", "" + Robot.elEncCounter.getRotations());
 		SmartDashboard.putString("DB/String 4", "" + Robot.elevatorAbsEnc.getValue());
