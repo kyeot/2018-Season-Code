@@ -7,12 +7,10 @@ import org.usfirst.frc2783.autonomous.actions.ActionGroup;
 import org.usfirst.frc2783.autonomous.actions.AutoDrive;
 import org.usfirst.frc2783.autonomous.actions.AutoElevator;
 import org.usfirst.frc2783.autonomous.actions.AutoIntake;
-import org.usfirst.frc2783.autonomous.actions.DriveWithGyro;
 import org.usfirst.frc2783.autonomous.actions.DriveWithGyroAndByDistance;
 import org.usfirst.frc2783.autonomous.actions.GoToTopAction;
 import org.usfirst.frc2783.autonomous.actions.ParallelAction;
 import org.usfirst.frc2783.autonomous.actions.RotateTankAction;
-import org.usfirst.frc2783.autonomous.actions.WaitForEndTandem;
 import org.usfirst.frc2783.robot.Robot;
 import org.usfirst.frc2783.util.Bearing;
 import org.usfirst.frc2783.util.Logger;
@@ -49,56 +47,32 @@ public class DoubleScaleFromLeft extends ActionGroup{
 				addAction(new AutoElevator(-1, 1.65));
 				addAction(new AutoDrive(0.4, 0.37, 1.5));
 				
-				addAction(new ParallelAction(Arrays.asList(new Action[] {
-					new AutoElevator(0.5, 0.5),
-					new AutoIntake(-0.5, 0.5)
-				})));
+				addAction(new AutoIntake(-1, 1));
+				addAction(new AutoDrive(-0.4, -0.4, 1.5));
 				
-				addAction(new ParallelAction(Arrays.asList(new Action[] {
-					new AutoElevator(-0.5, 0.5),
-					new AutoIntake(-0.5, 0.5)
-				})));
-				
-				addAction(new ParallelAction(Arrays.asList(new Action[] {
-					new AutoElevator(-0.5, 0.5),
-					new AutoIntake(-0.5, 0.5)
-				})));
-				
-				addAction(new ParallelAction(Arrays.asList(new Action[] {
-					new AutoElevator(-0.5, 0.5),
-					new AutoIntake(-0.5, 0.5)
-				})));
-				
-				
-				
-				
-//				addAction(new AutoIntake(0.75, 1));
-				
-//				addTandemAction(new AutoElevator(-0.5, 0.5));
-////				addAction(new WaitForEndTandem(true));
-//				addAction(new DriveWithGyroAndByDistance(0.8, 19*12, 19*12, 0));
-//				addTandemAction(new AutoIntake(-.25, 1));
-//				addAction(new RotateTankAction(new Bearing(300), 1));
-//				addTandemAction(new GoToTopAction());
-//				addAction(new AutoDrive(-0.4, -0.4, 0.25));
-////				addAction(new GoToTopAction());
-//				addAction(new AutoDrive(0.3, 0.3, 1));
-//				addAction(new AutoIntake(1, 1));
-//				addTandemAction(new AutoElevator(1, 1.5));
-//				addAction(new AutoDrive(-0.3, -0.3, 0.25));
-//				addAction(new RotateTankAction(new Bearing(205), 1));
-//				addTandemAction(new AutoIntake(-1, 2.5));
-//				addAction(new AutoDrive(0.35, 0.35, 2.5));
-//				addAction(new AutoDrive(-0.5, -0.5, 0.5));
-//				addTandemAction(new AutoElevator(-.5, 2));
-//				addAction(new AutoDrive(-0.5, -0.5, 1));
-//				addAction(new RotateTankAction(new Bearing(320), 1));
-//				addTandemAction(new AutoElevator(-1, 1));
-//				addAction(new AutoDrive(0.25, 0.25, 1.5));
-//				addAction(new AutoIntake(0.75, 1));
 			}
 			else{
-				
+				if(Robot.scaleAutoWillFar){
+					addAction(new AutoElevator(-0.75, 0.5));
+					addAction(new DriveWithGyroAndByDistance(0.5, 18.8*12, 18.8*12, 0));
+					addAction(new ParallelAction(Arrays.asList(new Action[] {
+						new RotateTankAction(new Bearing(272), 1),
+						new AutoIntake(-0.2, 1)
+					})));
+					addAction(new DriveWithGyroAndByDistance(0.5, 35*12, 35*12, 272));
+					addAction(new ParallelAction(Arrays.asList(new Action[] {
+						new RotateTankAction(new Bearing(0), 1),
+						new AutoIntake(-0.2, 1)
+					})));
+					addAction(new GoToTopAction());
+					addAction(new AutoDrive(0.45, 0.55, 1.2));
+					addAction(new AutoIntake(0.75, 1));
+					addAction(new AutoDrive(-0.2, -0.2, 1.2));
+				}
+				else{
+					addAction(new DriveWithGyroAndByDistance(0.5, 13*12, 13*12, 0));
+				}
+					
 			}
 			
 		}

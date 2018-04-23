@@ -9,18 +9,15 @@ import org.usfirst.frc2783.autonomous.actions.ActionScheduler;
 import org.usfirst.frc2783.autonomous.actions.TandemAction;
 import org.usfirst.frc2783.autonomous.actions.groups.BaselineCross;
 import org.usfirst.frc2783.autonomous.actions.groups.DoubleScaleFromLeft;
-import org.usfirst.frc2783.autonomous.actions.groups.DriveGyroTest;
-import org.usfirst.frc2783.autonomous.actions.groups.MethodTest;
+import org.usfirst.frc2783.autonomous.actions.groups.DoubleScaleFromRight;
 import org.usfirst.frc2783.autonomous.actions.groups.ScaleFromLeft;
 import org.usfirst.frc2783.autonomous.actions.groups.ScaleFromRight;
 import org.usfirst.frc2783.autonomous.actions.groups.ScaleSwitchFromLeft;
-import org.usfirst.frc2783.autonomous.actions.groups.StageRightWaypoint;
+import org.usfirst.frc2783.autonomous.actions.groups.ScaleSwitchFromRight;
 import org.usfirst.frc2783.autonomous.actions.groups.SwitchFromCenter;
 import org.usfirst.frc2783.autonomous.actions.groups.SwitchFromLeft;
 import org.usfirst.frc2783.autonomous.actions.groups.SwitchFromRight;
 import org.usfirst.frc2783.autonomous.actions.groups.TestAuto;
-import org.usfirst.frc2783.autonomous.actions.groups.TwoScaleFromLeft;
-import org.usfirst.frc2783.autonomous.actions.groups.WaypointTest;
 import org.usfirst.frc2783.loops.ElevatorEncoderCounter;
 import org.usfirst.frc2783.loops.LeftEncoderCounter;
 import org.usfirst.frc2783.loops.LogData;
@@ -86,7 +83,8 @@ public class Robot extends IterativeRobot {
 	public static boolean isLimit = false;
 
 	public static boolean switchAutoIsFront = true;
-
+	public static boolean scaleAutoWillFar = true;
+	
 	public static double angle = 0;
 	
 	public double leftTotalAngle = 0;
@@ -184,10 +182,19 @@ public class Robot extends IterativeRobot {
 		slowLoop.startLoops();
 
 		// Creates a List of selectable autonomous groups
-		String[] autonomousList = {"BaselineCross", "SwitchFromCenter", "ScaleFromLeft", "DoubleScaleFromLeft", "ScaleSwitchFromLeft",
-				"SwitchFromLeftClose", "SwitchFromLeftFar", "ScaleFromRight", "SwitchFromRightClose",
-				"SwitchFromRightFar", "WaypointTest", "Tests", "Test", "DriveGyroTest", "StageRightWaypoint",
-				"StageLeftWaypoint", "TwoScaleFromLeft" };
+		String[] autonomousList = {"BaselineCross",
+								   "Test",
+								   "SwitchFromCenter",
+								   "SwitchFromLeftFar",
+								   "SwitchFromRightFar",
+								   "ScaleFromLeft",
+								   "ScaleFromRight",
+								   "2ScaleFromLeft",
+								   "2ScaleFromRight",
+								   "ScaleFromLeftNoFarSide",
+								   "ScaleFromRightNoFarSide",
+								   "2ScaleFromLeftNoFarSide",
+								   "2ScaleFromRightNoFarSide"};
 
 		// Puts the autonomous groups list into the dashboard
 		SmartDashboard.putStringArray("Auto List", autonomousList);
@@ -242,13 +249,12 @@ public class Robot extends IterativeRobot {
 		case "Test":
 			setGroup(new TestAuto());
 			break;
-		case "DriveGyroTest":
-			setGroup(new DriveGyroTest());
-			break;
 		case "ScaleFromLeft":
+			Robot.scaleAutoWillFar = true;
 			setGroup(new ScaleFromLeft());
 			break;
 		case "ScaleFromRight":
+			Robot.scaleAutoWillFar = true;
 			setGroup(new ScaleFromRight());
 			break;
 		case "SwitchFromLeftClose":
@@ -273,26 +279,40 @@ public class Robot extends IterativeRobot {
 		case "BaselineCross":
 			setGroup(new BaselineCross());
 			break;
-		case "WaypointTest":
-			setGroup(new WaypointTest());
-			// SmartDashboard.putString("DB/String 9",
-			// TankDriveBase.mPathFollower.toString());
-			// SmartDashboard.putString("DB/String 1", "Hi");
-			break;
-		case "Tests":
-			setGroup(new MethodTest());
-		case "TwoScaleFromLeft":
-			setGroup(new TwoScaleFromLeft());
-		case "StageRightWaypoint":
-			setGroup(new StageRightWaypoint());
-		case "DoubleScaleFromLeft":
+		case "2ScaleFromLeft":
+			Robot.scaleAutoWillFar = true;
 			setGroup(new DoubleScaleFromLeft());
 			break;
 		case "ScaleSwitchFromLeft":
+			Robot.scaleAutoWillFar = true;
 			setGroup(new ScaleSwitchFromLeft());
 			break;
+		case "2ScaleFromRight":
+			Robot.scaleAutoWillFar = true;
+			setGroup(new DoubleScaleFromRight());
+			break;
+		case "ScaleSwitchFromRight":
+			Robot.scaleAutoWillFar = true;
+			setGroup(new ScaleSwitchFromRight());
+			break;
+		case "ScaleFromLeftNoFarSide":
+			Robot.scaleAutoWillFar = false;
+			setGroup(new ScaleFromLeft());
+			break;
+		case "ScaleFromRightNoFarSide":
+			Robot.scaleAutoWillFar = false;
+			setGroup(new ScaleFromRight());
+			break;
+		case "2ScaleFromLeftNoFarSide":
+			Robot.scaleAutoWillFar = false;
+			setGroup(new DoubleScaleFromLeft());
+			break;
+		case "2ScaleFromRightNoFarSide":
+			Robot.scaleAutoWillFar = false;
+			setGroup(new DoubleScaleFromRight());
+			break;
 		default:
-
+			setGroup(new BaselineCross());
 		}
 
 		// Starts the selected autonomous group with the scheduler
