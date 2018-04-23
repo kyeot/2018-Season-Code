@@ -321,7 +321,14 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void autonomousPeriodic() {
-		SmartDashboard.putString("DB/String 9", "robot angle: " + Math.floor(NavSensor.getInstance().getAngle(false)));
+
+		SmartDashboard.putString("DB/String 3", "ELEVATOR ROTATIONS: " + Robot.elEncCounter.getRotations());
+		SmartDashboard.putString("DB/String 4", "ELEVATOR VALUE: " + Robot.elevatorAbsEnc.getValue());
+		SmartDashboard.putString("DB/String 5", "LEFT ROTATIONS: " + Robot.leftCounter.getRotations());
+		SmartDashboard.putString("DB/String 6", "LEFT VALUE: " + Robot.leftAbsEnc.getValue());
+		SmartDashboard.putString("DB/String 7", "RIGHT ROTATIONS: " + Robot.rightCounter.getRotations());
+		SmartDashboard.putString("DB/String 8", "RIGHT VALUE: " + Robot.rightAbsEnc.getValue());
+		SmartDashboard.putString("DB/String 9", "GYRO ANGLE: " + Math.floor(NavSensor.getInstance().getAngle(false)));
 		
 		leftTotalAngle = ((Robot.leftCounter.getRotations())*(4096)) + Robot.leftAbsEnc.getValue();
 		rightTotalAngle = ((Robot.rightCounter.getRotations())*(4096)) + Robot.rightAbsEnc.getValue();
@@ -345,11 +352,9 @@ public class Robot extends IterativeRobot {
 		
 		try {
 			if (isSwitchesLeft()) {
-				SmartDashboard.putString("DB/String 0", "OUR SWITCH: LEFT");
-				SmartDashboard.putString("DB/String 2", "ENEMY SWITCH: LEFT");
+				SmartDashboard.putString("DB/String 0", "SWITCHES: LEFT");
 			} else {
-				SmartDashboard.putString("DB/String 0", "OUR SWITCH: RIGHT");
-				SmartDashboard.putString("DB/String 2", "ENEMY SWITCH: RIGHT");
+				SmartDashboard.putString("DB/String 1", "SWITCHES: RIGHT");
 			}
 
 			if (isScaleLeft()) {
@@ -360,13 +365,13 @@ public class Robot extends IterativeRobot {
 		} catch (NullPointerException n) {
 		}
 
-		SmartDashboard.putString("DB/String 3", "" + Robot.elEncCounter.getRotations());
-		SmartDashboard.putString("DB/String 4", "" + Robot.elevatorAbsEnc.getValue());
-		SmartDashboard.putString("DB/String 5", "" + Robot.rightCounter.getRotations());
-		SmartDashboard.putString("DB/String 6", "" + Robot.rightAbsEnc.getValue());
-		SmartDashboard.putString("DB/String 7", "" + Robot.elEncCounter.getRotations());
-		SmartDashboard.putString("DB/String 8", "" + Robot.elevatorAbsEnc.getValue());
-		SmartDashboard.putString("DB/String 9", "robot angle: " + Math.floor(NavSensor.getInstance().getAngle(false)));
+		SmartDashboard.putString("DB/String 3", "ELEVATOR ROTATIONS: " + Robot.elEncCounter.getRotations());
+		SmartDashboard.putString("DB/String 4", "ELEVATOR VALUE: " + Robot.elevatorAbsEnc.getValue());
+		SmartDashboard.putString("DB/String 5", "LEFT ROTATIONS: " + Robot.leftCounter.getRotations());
+		SmartDashboard.putString("DB/String 6", "LEFT VALUE: " + Robot.leftAbsEnc.getValue());
+		SmartDashboard.putString("DB/String 7", "RIGHT ROTATIONS: " + Robot.rightCounter.getRotations());
+		SmartDashboard.putString("DB/String 8", "RIGHT VALUE: " + Robot.rightAbsEnc.getValue());
+		SmartDashboard.putString("DB/String 9", "GYRO ANGLE: " + Math.floor(NavSensor.getInstance().getAngle(false)));
 
 	}
 
