@@ -88,9 +88,9 @@ public class Constants {
 	public static final double kGyroDriveD = 0.1;
 	
 	//PID values for tank wheel angle adjusters
-	public static final double kTankSideP = 0.0075;
-	public static final double kTankSideI = 0.0003;
-	public static final double kTankSideD = 0.005;
+	public static final double kTankSideP = 0.001;
+	public static final double kTankSideI = 0.0;
+	public static final double kTankSideD = 0.0;
 	
 	//PID values for elevator angle adjuster
 	public static final double kElevatorP = 0.0075;
@@ -126,7 +126,7 @@ public class Constants {
 	public static final int kAndroidAppTcpPort = 8254;
 
 	public static final double kWheelDiameterByInches = 6;
-	public static final double kWheelCircumferenceByInches = kWheelDiameterByInches * Math.PI;
+	public static final double kWheelCircumferenceByInches = kWheelDiameterByInches * Math.PI; //18.85
 	public static final double kInchPerDegree = kWheelCircumferenceByInches/4096;
 	
 	// Path following constants

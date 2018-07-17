@@ -2,6 +2,7 @@ package org.usfirst.frc2783.subsystems;
 
 import org.usfirst.frc2783.commands.Elevator;
 import org.usfirst.frc2783.robot.Constants;
+import org.usfirst.frc2783.robot.OI;
 import org.usfirst.frc2783.robot.Robot;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -106,20 +107,38 @@ public class ElevatorBase extends Subsystem {
 		}
 		
 		if(isUp){
-			elevator1Mot.set(ControlMode.PercentOutput, speed);
-			elevator2Mot.set(ControlMode.PercentOutput, speed);
-		}
-		else if(!isUp){
-			if(Robot.isClimb){
+			if(OI.manipulator.getRawButton(5)){
+				elevator1Mot.set(ControlMode.PercentOutput, 0.25*speed);
+				elevator2Mot.set(ControlMode.PercentOutput, 0.25*speed);
+			}
+			else{
 				elevator1Mot.set(ControlMode.PercentOutput, speed);
 				elevator2Mot.set(ControlMode.PercentOutput, speed);
 			}
+		}
+		else if(!isUp){
+			if(Robot.isClimb){
+				if(OI.manipulator.getRawButton(5)){
+					elevator1Mot.set(ControlMode.PercentOutput, 0.25*speed);
+					elevator2Mot.set(ControlMode.PercentOutput, 0.25*speed);
+				}
+				else{
+					elevator1Mot.set(ControlMode.PercentOutput, speed);
+					elevator2Mot.set(ControlMode.PercentOutput, speed);
+				}
+			}
+		else{
+			if(OI.manipulator.getRawButton(5)){
+				elevator1Mot.set(ControlMode.PercentOutput, (0.25*speed)/1.3);
+				elevator2Mot.set(ControlMode.PercentOutput, (0.25*speed)/1.3);
+			}
 			else{
-				elevator1Mot.set(ControlMode.PercentOutput, speed/1.3);
-				elevator2Mot.set(ControlMode.PercentOutput, speed/1.3);	
+				elevator1Mot.set(ControlMode.PercentOutput, (speed)/1.3);
+				elevator2Mot.set(ControlMode.PercentOutput, (speed)/1.3);
+				}
 			}
 		}
-				
+		
 	}
 	
 	public void lowGear(){

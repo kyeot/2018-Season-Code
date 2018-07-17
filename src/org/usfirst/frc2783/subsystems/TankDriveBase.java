@@ -110,7 +110,7 @@ public class TankDriveBase extends Subsystem {
 					iteration5++;
 					return;
 				default:
-					iteration6++;
+					iteration6++; 
 					break;
 				}
 			}
@@ -129,6 +129,7 @@ public class TankDriveBase extends Subsystem {
 			iteration6++;
 		}
 	};
+	
 
 	public Loop registerEnabledLoops() {
 		return mLoop;
@@ -154,7 +155,7 @@ public class TankDriveBase extends Subsystem {
 
 		@Override
 		public double pidGet() {
-			return Robot.rightAbsEnc.getValue() / 11.377777777777777778;
+			return Robot.rightAbsEnc.getValue();
 		}
 	}
 
@@ -178,7 +179,7 @@ public class TankDriveBase extends Subsystem {
 
 		@Override
 		public double pidGet() {
-			return Robot.leftAbsEnc.getValue() / 11.377777777777777778;
+			return Robot.leftAbsEnc.getValue();
 		}
 	}
 
@@ -232,7 +233,7 @@ public class TankDriveBase extends Subsystem {
 	class LeftTankSideOut implements PIDOutput {
 		@Override
 		public void pidWrite(double output) {
-			leftOut = -output;
+			leftOut = -0.25*output;
 		}
 	}
 
@@ -287,8 +288,8 @@ public class TankDriveBase extends Subsystem {
 	RightTankSideSource rightPidSource;
 	LeftTankSideOut leftSideOut;
 	RightTankSideOut rightSideOut;
-	PIDController leftSideController;
-	PIDController rightSideController;
+	public PIDController leftSideController;
+	public PIDController rightSideController;
 
 	// Constructor to construct the TankDriveBase
 	public TankDriveBase() {
@@ -317,15 +318,15 @@ public class TankDriveBase extends Subsystem {
 		leftSideOut = new LeftTankSideOut();
 		leftSideController = new PIDController(Constants.kTankSideP, Constants.kTankSideI, Constants.kTankSideD,
 				leftPidSource, leftSideOut);
-		leftSideController.setInputRange(0, 360);
-		leftSideController.setContinuous(false);
+		leftSideController.setInputRange(0, 4096);
+		leftSideController.setContinuous(true);
 		
 
 		// Creates the right side PID controller
 		rightPidSource = new RightTankSideSource();
 		rightSideOut = new RightTankSideOut();
 		rightSideController = new PIDController(Constants.kTankSideP, Constants.kTankSideI, Constants.kTankSideD,rightPidSource, rightSideOut);
-		rightSideController.setInputRange(0, 360);
+		rightSideController.setInputRange(0, 4096);
 		rightSideController.setContinuous(false);
 	}
 
@@ -345,7 +346,7 @@ public class TankDriveBase extends Subsystem {
 	 */
 	public void setLeftPose(double angle) {
 		leftSideController.setSetpoint(angle);
-		rightSideController.enable();
+		leftSideController.enable();
 
 		setLeftSide(leftOut);
 

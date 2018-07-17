@@ -47,7 +47,7 @@ public class DoubleScaleFromLeft extends ActionGroup{
 				addAction(new AutoElevator(-1, 1.65));
 				addAction(new AutoDrive(0.4, 0.37, 1.5));
 				
-				addAction(new AutoIntake(-1, 1));
+				addAction(new AutoIntake(1, 1));
 				addAction(new AutoDrive(-0.4, -0.4, 1.5));
 				
 			}
@@ -61,12 +61,12 @@ public class DoubleScaleFromLeft extends ActionGroup{
 					})));
 					addAction(new DriveWithGyroAndByDistance(0.5, 35*12, 35*12, 272));
 					addAction(new ParallelAction(Arrays.asList(new Action[] {
-						new RotateTankAction(new Bearing(0), 1),
+						new RotateTankAction(new Bearing(15), 1),
 						new AutoIntake(-0.2, 1)
 					})));
 					addAction(new GoToTopAction());
-					addAction(new AutoDrive(0.45, 0.55, 1.2));
-					addAction(new AutoIntake(0.75, 1));
+					addAction(new AutoDrive(0.45, 0.45, 1.2));
+					addAction(new AutoIntake(0.65, 1));
 					addAction(new AutoDrive(-0.2, -0.2, 1.2));
 				}
 				else{

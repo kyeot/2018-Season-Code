@@ -22,14 +22,13 @@ public class SwitchFromCenter extends ActionGroup{
 		
 		try{
 			if(Robot.isSwitchesLeft()){
-				addAction(new AutoElevator(-0.5, 0.5));
-				addAction(new DriveWithGyroAndByDistance(0.5, 3.5*12, 3.5*12, 0));
+				addAction(new DriveWithGyroAndByDistance(0.5, 3.6*12, 3.6*12, 0));
 				
 				addAction(new ParallelAction(Arrays.asList(new Action[] {
 					new RotateTankAction(new Bearing(90), 1),
 					new AutoIntake(-0.2, 1)
 				})));
-				
+					
 				addAction(new DriveWithGyroAndByDistance(0.5, 10*12, 10*12, 90));
 				
 				addAction(new ParallelAction(Arrays.asList(new Action[] {
@@ -37,33 +36,28 @@ public class SwitchFromCenter extends ActionGroup{
 					new AutoIntake(-0.2, 1)
 				})));
 				
-				addAction(new ParallelAction(Arrays.asList(new Action[] {
-					new AutoElevator(-0.6, 2),
-					new DriveWithGyro(0.5, 2)
-				})));
+				addAction(new AutoElevator(-0.6, 2.2));
+				addAction(new DriveWithGyro(0.5, 2.2));
 				
 				addAction(new AutoIntake(1, 1));
 		 	}
 			else{
-				addAction(new AutoElevator(-0.5, 0.5));
-				addAction(new DriveWithGyroAndByDistance(0.5, 3.5*12, 3.5*12, 0));
+				addAction(new DriveWithGyroAndByDistance(0.5, 3.6*12, 3.6*12, 0));
 				
 				addAction(new ParallelAction(Arrays.asList(new Action[] {
 					new RotateTankAction(new Bearing(270), 1),
 					new AutoIntake(-0.2, 1)
 				})));
 				
-				addAction(new DriveWithGyroAndByDistance(0.5, 9.2*12, 9.2*12, 270));
+				addAction(new DriveWithGyroAndByDistance(0.5, 9.3*12, 9.3*12, 270));
 				
 				addAction(new ParallelAction(Arrays.asList(new Action[] {
 					new RotateTankAction(new Bearing(0), 1),
 					new AutoIntake(-0.2, 1)
 				})));
-				
-				addAction(new ParallelAction(Arrays.asList(new Action[] {
-					new AutoElevator(-0.6, 2),
-					new DriveWithGyro(0.5, 2)
-				})));
+
+				addAction(new AutoElevator(-0.6, 2.2));
+				addAction(new DriveWithGyro(0.5, 2.2));
 				
 				addAction(new AutoIntake(1, 1));
 			}

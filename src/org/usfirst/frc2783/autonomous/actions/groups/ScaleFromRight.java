@@ -41,12 +41,12 @@ public class ScaleFromRight extends ActionGroup{
 					})));
 					addAction(new DriveWithGyroAndByDistance(0.5, 35*12, 35*12, 88));
 					addAction(new ParallelAction(Arrays.asList(new Action[] {
-						new RotateTankAction(new Bearing(0), 1),
+						new RotateTankAction(new Bearing(345), 1),
 						new AutoIntake(-0.2, 1)
 					})));
 					addAction(new GoToTopAction());
-					addAction(new AutoDrive(0.45, 0.55, 1.2));
-					addAction(new AutoIntake(0.75, 1));
+					addAction(new AutoDrive(0.5, 0.45, 1.2));
+					addAction(new AutoIntake(0.65, 1));
 					addAction(new AutoDrive(-0.2, -0.2, 1.2));
 				}
 				else{

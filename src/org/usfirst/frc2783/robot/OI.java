@@ -11,6 +11,7 @@ import org.usfirst.frc2783.commands.FaceSouthEast;
 import org.usfirst.frc2783.commands.FaceSouthWest;
 import org.usfirst.frc2783.commands.FaceWest;
 import org.usfirst.frc2783.commands.GoToTopSimple;
+import org.usfirst.frc2783.commands.PidTest;
 import org.usfirst.frc2783.subsystems.Dpad;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -37,6 +38,8 @@ public class OI {
 	public static JoystickButton elevatorLockShift = new JoystickButton(manipulator, Constants.kElevatorLockShiftID);
 	
 	public static JoystickButton elevatorUpSimple = new JoystickButton(manipulator, 4);
+	
+	public static JoystickButton yes = new JoystickButton(driver, 7);
 	
 	public static Trigger dPadNorth = new Dpad(0);
 	public static Trigger dPadSouth = new Dpad(180);
@@ -78,6 +81,9 @@ public class OI {
     	dpadNorthWest.whileActive(new FaceNorthWest());
     	dPadSouthEast.whileActive(new FaceSouthEast());
    	    dPadSouthWest.whileActive(new FaceSouthWest());
+   	    
+   	    
+   	    yes.whenPressed(new PidTest());
    	    
    	    //Rotation Commands
 //   	faceDownField.whileHeld(new FaceDownField());

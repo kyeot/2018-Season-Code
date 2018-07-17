@@ -11,7 +11,9 @@ import org.usfirst.frc2783.autonomous.actions.groups.BaselineCross;
 import org.usfirst.frc2783.autonomous.actions.groups.DoubleScaleFromLeft;
 import org.usfirst.frc2783.autonomous.actions.groups.DoubleScaleFromRight;
 import org.usfirst.frc2783.autonomous.actions.groups.ScaleFromLeft;
+import org.usfirst.frc2783.autonomous.actions.groups.ScaleFromLeftFarOut;
 import org.usfirst.frc2783.autonomous.actions.groups.ScaleFromRight;
+import org.usfirst.frc2783.autonomous.actions.groups.ScaleFromRightFarOut;
 import org.usfirst.frc2783.autonomous.actions.groups.ScaleSwitchFromLeft;
 import org.usfirst.frc2783.autonomous.actions.groups.ScaleSwitchFromRight;
 import org.usfirst.frc2783.autonomous.actions.groups.SwitchFromCenter;
@@ -194,7 +196,9 @@ public class Robot extends IterativeRobot {
 								   "ScaleFromLeftNoFarSide",
 								   "ScaleFromRightNoFarSide",
 								   "2ScaleFromLeftNoFarSide",
-								   "2ScaleFromRightNoFarSide"};
+								   "2ScaleFromRightNoFarSide",
+								   "ScaleFromLeftNullZone",
+								   "ScaleFromRightNullZone"};
 
 		// Puts the autonomous groups list into the dashboard
 		SmartDashboard.putStringArray("Auto List", autonomousList);
@@ -311,6 +315,12 @@ public class Robot extends IterativeRobot {
 			Robot.scaleAutoWillFar = false;
 			setGroup(new DoubleScaleFromRight());
 			break;
+		case "ScaleFromLeftNullZone":
+			setGroup(new ScaleFromLeftFarOut());
+			break;
+		case "ScaleFromRightNullZone":
+			setGroup(new ScaleFromRightFarOut());
+			break;
 		default:
 			setGroup(new BaselineCross());
 		}
@@ -321,12 +331,14 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void autonomousPeriodic() {
+		
+//		NavSensor.getInstance().resetGyroNorth(Math.floor((SmartDashboard.getNumber("DB/Slider 0", 0))*(72)), 0);
 
-		SmartDashboard.putString("DB/String 3", "ELEVATOR ROTATIONS: " + Robot.elEncCounter.getRotations());
+		SmartDashboard.putString("DB/String 3", "ELEVATOR ROT: " + Robot.elEncCounter.getRotations());
 		SmartDashboard.putString("DB/String 4", "ELEVATOR VALUE: " + Robot.elevatorAbsEnc.getValue());
-		SmartDashboard.putString("DB/String 5", "LEFT ROTATIONS: " + Robot.leftCounter.getRotations());
+		SmartDashboard.putString("DB/String 5", "LEFT ROT: " + Robot.leftCounter.getRotations());
 		SmartDashboard.putString("DB/String 6", "LEFT VALUE: " + Robot.leftAbsEnc.getValue());
-		SmartDashboard.putString("DB/String 7", "RIGHT ROTATIONS: " + Robot.rightCounter.getRotations());
+		SmartDashboard.putString("DB/String 7", "RIGHT ROT: " + Robot.rightCounter.getRotations());
 		SmartDashboard.putString("DB/String 8", "RIGHT VALUE: " + Robot.rightAbsEnc.getValue());
 		SmartDashboard.putString("DB/String 9", "GYRO ANGLE: " + Math.floor(NavSensor.getInstance().getAngle(false)));
 		
@@ -347,6 +359,8 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 
+//		NavSensor.getInstance().resetGyroNorth(Math.floor((SmartDashboard.getNumber("DB/Slider 0", 0))*(72)), 0);
+		
 		leftTotalAngle = ((Robot.leftCounter.getRotations())*(4096)) + Robot.leftAbsEnc.getValue();
 		rightTotalAngle = ((Robot.rightCounter.getRotations())*(4096)) + Robot.rightAbsEnc.getValue();
 		
@@ -365,11 +379,11 @@ public class Robot extends IterativeRobot {
 		} catch (NullPointerException n) {
 		}
 
-		SmartDashboard.putString("DB/String 3", "ELEVATOR ROTATIONS: " + Robot.elEncCounter.getRotations());
+		SmartDashboard.putString("DB/String 3", "ELEVATOR ROT: " + Robot.elEncCounter.getRotations());
 		SmartDashboard.putString("DB/String 4", "ELEVATOR VALUE: " + Robot.elevatorAbsEnc.getValue());
-		SmartDashboard.putString("DB/String 5", "LEFT ROTATIONS: " + Robot.leftCounter.getRotations());
-		SmartDashboard.putString("DB/String 6", "LEFT VALUE: " + Robot.leftAbsEnc.getValue());
-		SmartDashboard.putString("DB/String 7", "RIGHT ROTATIONS: " + Robot.rightCounter.getRotations());
+		SmartDashboard.putString("DB/String 5", "LEFT ROTAT: " + Robot.leftCounter.getRotations());
+		SmartDashboard.putString("DB/String 6", "LEFT VALUE: " + (4096 - Robot.leftAbsEnc.getValue()));
+		SmartDashboard.putString("DB/String 7", "RIGHT ROT: " + Robot.rightCounter.getRotations());
 		SmartDashboard.putString("DB/String 8", "RIGHT VALUE: " + Robot.rightAbsEnc.getValue());
 		SmartDashboard.putString("DB/String 9", "GYRO ANGLE: " + Math.floor(NavSensor.getInstance().getAngle(false)));
 
