@@ -337,9 +337,9 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putString("DB/String 3", "ELEVATOR ROT: " + Robot.elEncCounter.getRotations());
 		SmartDashboard.putString("DB/String 4", "ELEVATOR VALUE: " + Robot.elevatorAbsEnc.getValue());
 		SmartDashboard.putString("DB/String 5", "LEFT ROT: " + Robot.leftCounter.getRotations());
-		SmartDashboard.putString("DB/String 6", "LEFT VALUE: " + Robot.leftAbsEnc.getValue());
+		SmartDashboard.putString("DB/String 6", "LEFT VALUE: " + Robot.leftCounter.getValue());
 		SmartDashboard.putString("DB/String 7", "RIGHT ROT: " + Robot.rightCounter.getRotations());
-		SmartDashboard.putString("DB/String 8", "RIGHT VALUE: " + Robot.rightAbsEnc.getValue());
+		SmartDashboard.putString("DB/String 8", "RIGHT VALUE: " + Robot.rightCounter.getValue());
 		SmartDashboard.putString("DB/String 9", "GYRO ANGLE: " + Math.floor(NavSensor.getInstance().getAngle(false)));
 		
 		leftTotalAngle = ((Robot.leftCounter.getRotations())*(4096)) + Robot.leftAbsEnc.getValue();
@@ -382,9 +382,9 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putString("DB/String 3", "ELEVATOR ROT: " + Robot.elEncCounter.getRotations());
 		SmartDashboard.putString("DB/String 4", "ELEVATOR VALUE: " + Robot.elevatorAbsEnc.getValue());
 		SmartDashboard.putString("DB/String 5", "LEFT ROTAT: " + Robot.leftCounter.getRotations());
-		SmartDashboard.putString("DB/String 6", "LEFT VALUE: " + (4096 - Robot.leftAbsEnc.getValue()));
+		SmartDashboard.putString("DB/String 6", "LEFT VALUE: " + Robot.leftCounter.getValue());
 		SmartDashboard.putString("DB/String 7", "RIGHT ROT: " + Robot.rightCounter.getRotations());
-		SmartDashboard.putString("DB/String 8", "RIGHT VALUE: " + Robot.rightAbsEnc.getValue());
+		SmartDashboard.putString("DB/String 8", "RIGHT VALUE: " + Robot.rightCounter.getValue());
 		SmartDashboard.putString("DB/String 9", "GYRO ANGLE: " + Math.floor(NavSensor.getInstance().getAngle(false)));
 
 	}

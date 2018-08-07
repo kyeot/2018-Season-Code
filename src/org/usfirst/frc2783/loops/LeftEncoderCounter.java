@@ -23,14 +23,14 @@ public class LeftEncoderCounter implements Loop{
 		
 		wasForward = true;
 		
-		leftEncVal = Robot.leftAbsEnc.getValue();  
+		leftEncVal = 4096-(Robot.leftAbsEnc.getValue());  
 		
 		if(Robot.isLeftForward){
-			leftEncoderLastVal = leftEncVal-50;
+			leftEncoderLastVal = leftEncVal+50;
 		}
 		
 		else{
-			leftEncoderLastVal = leftEncVal+50;
+			leftEncoderLastVal = leftEncVal-50;
 		}
 		
 	}
@@ -46,28 +46,28 @@ public class LeftEncoderCounter implements Loop{
     		Robot.isLeftForward = true;
     	}
 		
-		leftEncVal = Robot.leftAbsEnc.getValue();  
+		leftEncVal = 4096-(Robot.leftAbsEnc.getValue());  
 		
 		if(wasForward == Robot.isLeftForward){
 			if(Robot.isLeftForward){
-				if(leftEncVal < leftEncoderLastVal){
+				if(leftEncVal > leftEncoderLastVal){
 					leftRotationCounter--;
 				}
 			}
 		
 			else{
-				if(leftEncVal > leftEncoderLastVal){
+				if(leftEncVal < leftEncoderLastVal){
 					leftRotationCounter++;
 				}
 			}
 		}
 			
 		if(Robot.isLeftForward){
-			leftEncoderLastVal = leftEncVal-50;
+			leftEncoderLastVal = leftEncVal+50;
 		}
 		
 		else{
-			leftEncoderLastVal = leftEncVal+50;
+			leftEncoderLastVal = leftEncVal-50;
 		}
 		
 		wasForward = Robot.isLeftForward;
@@ -86,6 +86,10 @@ public class LeftEncoderCounter implements Loop{
 	
 	public double getRotations(){
 		return leftRotationCounter;
+	}
+	
+	public double getValue(){
+		return leftEncVal;
 	}
 
 }

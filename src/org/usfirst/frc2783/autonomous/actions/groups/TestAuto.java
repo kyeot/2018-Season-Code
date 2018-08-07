@@ -10,8 +10,7 @@ public class TestAuto extends ActionGroup {
 	public TestAuto() {
 		super();
 		
-		addAction(new DriveWithGyroAndByDistance(0.5, 180, 180, 0));
-		addAction(new RotateTankAction(new Bearing(0), 2));
+		addAction(new DriveWithGyroAndByDistance(0.5, 120, 120, 0));
 		
 	}
 
