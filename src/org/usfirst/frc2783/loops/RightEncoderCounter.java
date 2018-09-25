@@ -84,9 +84,5 @@ public class RightEncoderCounter implements Loop{
 	public double getRotations(){
 		return rightRotationCounter;
 	}
-	
-	public double getValue(){
-		return rightEncVal;
-	}
 
 }

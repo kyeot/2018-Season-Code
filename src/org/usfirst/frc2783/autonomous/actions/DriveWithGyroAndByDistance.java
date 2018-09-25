@@ -7,11 +7,8 @@ import org.usfirst.frc2783.robot.Robot;
 import org.usfirst.frc2783.util.GyroSource;
 import org.usfirst.frc2783.util.NavSensor;
 
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveWithGyroAndByDistance extends Action {
 	
@@ -76,12 +73,6 @@ public class DriveWithGyroAndByDistance extends Action {
 	boolean isRightRotationsDone = false;
 	boolean isRightDegreesDone = false;
 	
-	boolean leftNo = false;
-	boolean rightNo = false;
-	
-	boolean bool = false;
-	boolean ean = false;
-	
 	double angle;
 	
 	/**
@@ -116,12 +107,12 @@ public class DriveWithGyroAndByDistance extends Action {
     	rightAngleOnStart = Robot.rightAbsEnc.getValue();
     	
     	//Makes the distances in degrees equal the distances given scaled from inches to degrees
-    	leftDistanceInDegrees = (leftDistance/Constants.kInchPerDegree);
-    	rightDistanceInDegrees = (rightDistance/Constants.kInchPerDegree);
+    	leftDistanceInDegrees = (leftDistance/Constants.kInchPerDegree)-leftAngleOnStart;
+    	rightDistanceInDegrees = (rightDistance/Constants.kInchPerDegree)-rightAngleOnStart;
     	
     	//Makes the wanted total angle equal the wanted additional degrees plus the starting angles
-    	wantedLeftTotalDegrees = leftDistanceInDegrees+leftAngleOnStart;
-    	wantedRightTotalDegrees = rightDistanceInDegrees+rightAngleOnStart;
+    	wantedLeftTotalDegrees = leftAngleOnStart + leftDistanceInDegrees;
+    	wantedRightTotalDegrees = rightAngleOnStart + rightDistanceInDegrees;
     	
     	//Makes the rotations on start equal the rotations, on start
     	leftRotationOnStart = Robot.leftCounter.getRotations();
@@ -148,14 +139,10 @@ public class DriveWithGyroAndByDistance extends Action {
     	//Makes wanted rotations equal the wanted total degrees divided by the degrees per rotation, 4096
     	wantedLeftRotations = Math.floor(wantedLeftTotalDegrees/4096);
     	wantedRightRotations = Math.floor(wantedRightTotalDegrees/4096);
-    	SmartDashboard.putString("DB/String 0", wantedLeftRotations + "");
     	
     	//Makes wanted additional degrees equal equal the total angle to go to modulo 4096 to get the remainder after rotations
-//    	wantedLeftAdditionalDegrees = wantedLeftTotalDegrees%4096;
-    	wantedLeftAdditionalDegrees = ((wantedLeftTotalDegrees/4096) - Math.floor(wantedLeftTotalDegrees/4096))*4096;
-//    	wantedRightAdditionalDegrees = wantedRightTotalDegrees%4096;
-    	wantedRightAdditionalDegrees = ((wantedRightTotalDegrees/4096) - Math.floor(wantedRightTotalDegrees/4096))*4096;
-    	SmartDashboard.putString("DB/String 1", wantedLeftAdditionalDegrees + "");
+    	wantedLeftAdditionalDegrees = wantedLeftTotalDegrees%4096;
+    	wantedRightAdditionalDegrees = wantedRightTotalDegrees%4096;
     	
 	}
 	
@@ -173,48 +160,32 @@ public class DriveWithGyroAndByDistance extends Action {
     		isRightRotationsDone = true;
     	}
     	
-    	if(Robot.leftCounter.getRotations() >= (leftRotationOnStart + wantedLeftRotations)-1){
-    		bool = true;
-    	}
-    	if(Robot.rightCounter.getRotations() >= (rightRotationOnStart + wantedRightRotations)-1){
-    		ean = true;
-    	}
-    	
-    	if(bool){
-    		leftSpeed = leftSpeedOnStart/2;
-    	}
-    	
-    	if(ean){
-    		rightSpeed = rightSpeedOnStart/2;
-    	}
-    	
     	//When the rotations are done halves the speeds and uses the side PID's to adjust to the additional degrees angle
     	if(isLeftRotationsDone){
-    		leftSpeed = leftSpeedOnStart/4;
+//    		leftSpeed = leftSpeedOnStart/2;
     		
-//    		Robot.tankDrive.setLeftPose(wantedLeftAdditionalDegrees);
+    		Robot.tankDrive.setLeftPose(wantedLeftAdditionalDegrees);
     		
-//    		if(Robot.tankDrive.leftSideController.getSetpoint() > wantedLeftAdditionalDegrees - 15 && Robot.tankDrive.leftSideController.getSetpoint() < wantedLeftAdditionalDegrees + 15){
-//    			isLeftDegreesDone = true;
-//    		}
+    		if(Robot.tankDrive.leftSideController.getSetpoint() > wantedLeftAdditionalDegrees - 15 && Robot.tankDrive.leftSideController.getSetpoint() < wantedLeftAdditionalDegrees + 15){
+    			isLeftDegreesDone = true;
+    		}
     		
-    		if(Robot.leftAbsEnc.getValue() < (wantedLeftAdditionalDegrees + 25) && Robot.leftAbsEnc.getValue() >= (wantedLeftAdditionalDegrees - 25)){
-        		isLeftDegreesDone = true;
-        	}
+//    		if(Robot.leftAbsEnc.getValue() < wantedLeftAdditionalDegrees + 25 && Robot.leftAbsEnc.getValue() >= wantedLeftAdditionalDegrees - 25){
+//        		isLeftDegreesDone = true;
+//        	}
     	}
-    	
     	if(isRightRotationsDone){
-    		rightSpeed = rightSpeedOnStart/4;
+//    		rightSpeed = rightSpeedOnStart/2;
     		
-//    		Robot.tankDrive.setRightPose(wantedRightAdditionalDegrees);
+    		Robot.tankDrive.setRightPose(wantedRightAdditionalDegrees);
     		
-//    		if(Robot.tankDrive.rightSideController.getSetpoint() > wantedRightAdditionalDegrees - 15 && Robot.tankDrive.rightSideController.getSetpoint() < wantedRightAdditionalDegrees + 15){
-//    			isRightDegreesDone = true;
-//    		}
+    		if(Robot.tankDrive.rightSideController.getSetpoint() > wantedRightAdditionalDegrees - 15 && Robot.tankDrive.rightSideController.getSetpoint() < wantedRightAdditionalDegrees + 15){
+    			isRightDegreesDone = true;
+    		}
     		
-    		if(Robot.rightAbsEnc.getValue() < (wantedRightAdditionalDegrees + 25) && Robot.rightAbsEnc.getValue() > (wantedRightAdditionalDegrees - 25)){
-        		isRightDegreesDone = true;
-        	}
+//    		if(Robot.rightAbsEnc.getValue() < wantedRightAdditionalDegrees + 25 && Robot.rightAbsEnc.getValue() > wantedRightAdditionalDegrees - 25){
+//        		isRightDegreesDone = true;
+//        	}
     	}
     	
     	//Sets the speeds to 0 when the degrees are done
@@ -227,7 +198,7 @@ public class DriveWithGyroAndByDistance extends Action {
     	}
     	
     	//Drives with the speed and gyro adjustment
-    	gyroDrive(leftSpeed, leftSpeed);
+    	gyroDrive(leftSpeed);
 		
 	}
 	
@@ -236,11 +207,11 @@ public class DriveWithGyroAndByDistance extends Action {
 	 * 
 	 * @param speed
 	 */
-	public void gyroDrive(double lSpeed, double rSpeed){
+	public void gyroDrive(double speed){
 		gyroDrivePid.setSetpoint(angle);
 		gyroDrivePid.enable();
 
-		Robot.tankDrive.tankDrive(-lSpeed, -rSpeed+rot);
+		Robot.tankDrive.tankDrive(-speed, -speed+rot);
 	}
 	
 	public void drive(double speed){
@@ -251,7 +222,7 @@ public class DriveWithGyroAndByDistance extends Action {
 	
 	@Override
 	public boolean done(){
-		return isLeftDegreesDone /* isRightDegreesDone */;
+		return isLeftDegreesDone && isRightDegreesDone;
 	}
 
 	@Override
