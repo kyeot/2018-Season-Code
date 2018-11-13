@@ -8,6 +8,7 @@ import org.usfirst.frc2783.autonomous.actions.ActionGroup;
 import org.usfirst.frc2783.autonomous.actions.ActionScheduler;
 import org.usfirst.frc2783.autonomous.actions.TandemAction;
 import org.usfirst.frc2783.autonomous.actions.groups.BaselineCross;
+import org.usfirst.frc2783.autonomous.actions.groups.DoTheThing2;
 import org.usfirst.frc2783.autonomous.actions.groups.DoubleScaleFromLeft;
 import org.usfirst.frc2783.autonomous.actions.groups.DoubleScaleFromRight;
 import org.usfirst.frc2783.autonomous.actions.groups.ScaleFromLeft;
@@ -184,7 +185,8 @@ public class Robot extends IterativeRobot {
 		slowLoop.startLoops();
 
 		// Creates a List of selectable autonomous groups
-		String[] autonomousList = {"BaselineCross",
+		String[] autonomousList = {"DoTheThing",
+								   "BaselineCross",
 								   "Test",
 								   "SwitchFromCenter",
 								   "SwitchFromLeftFar",
@@ -250,6 +252,9 @@ public class Robot extends IterativeRobot {
 		// Switch Statement to Run the Right Autonomous group Depending on the
 		// selected position and switch/scale sides
 		switch (autoSelected) {
+		case "DoTheThing":
+			setGroup(new DoTheThing2());
+			break;
 		case "Test":
 			setGroup(new TestAuto());
 			break;
